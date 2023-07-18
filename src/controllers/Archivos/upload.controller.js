@@ -73,7 +73,7 @@ export const submitFilesAulas = async (req, res, next) => {
 
 const storage2 = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'src/uploads')
+    cb(null, 'videos')
   },
   filename: function (req, file, cb) {
     cb(null, `${Date.now()}-${file.originalname}`)
@@ -99,7 +99,7 @@ export const submitVideos = async (req, res) => {
       res.send(req.file)
     }
     else {
-      const deleteFile = './src/uploads/' + req.file.filename
+      const deleteFile = './src/videos/' + req.file.filename
       fs.unlink(deleteFile, (err) => {
       })
       res.send(null)
@@ -113,7 +113,7 @@ export const submitVideos = async (req, res) => {
 export const eliminar = async (req, res) => {
   try {
     const {nombre} = req.body
-    const deleteFile = './src/uploads/'+nombre
+    const deleteFile = './videos/'+nombre
     fs.unlink(deleteFile, (err) => {
       if (err) {
       }
