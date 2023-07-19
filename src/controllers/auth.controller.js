@@ -44,7 +44,6 @@ async function inyectAuditoria(data, ip, nav){
         }
         await Auditoria.create(model) 
     } catch (error) {
-        
     }
 }
 //---------------------------------------------------------LOGIN ACCESS--------------------------
@@ -90,7 +89,8 @@ export const signin = async (req, res) => {
         for (let i = 0; i < roles.length; i++) {
             roll.push(roles[i].name);
         }
-        if(!roll.includes('Estudiante')) inyectAuditoria(userFound, req.body.ip, req.body.navegador);
+        var ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
+        if(!roll.includes('Estudiante')) inyectAuditoria(userFound, ip, req.body.navegador);
         const token = jwt.sign({
             id: userFound._id,
             role: roll,
@@ -101,6 +101,7 @@ export const signin = async (req, res) => {
         const isaccesos = {
             tokens: token,
             foto: userFound.foto,
+            ip:ip
         }
         res.status(200).json({
             isaccesos

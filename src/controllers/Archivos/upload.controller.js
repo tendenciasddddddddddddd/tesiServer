@@ -37,7 +37,7 @@ export const resizeImages = async (req, res, next) => {
 export const resizeImages2 = async (req, res, next) => {
 
   try {
-    const resultado = await cloudinary.v2.uploader.upload(req.file.path, { folder: 'tasks', height: 450 });
+    const resultado = await cloudinary.v2.uploader.upload(req.file.path, { folder: 'tasks', height: 350 });
     res.json(resultado.secure_url);
   } catch (error) {
     res.status(500).json("Los formatos aceptados son .png .jpg .jpeg");
@@ -77,14 +77,6 @@ const storage2 = multer.diskStorage({
   },
   filename: function (req, file, cb) {
     cb(null, `${Date.now()}-${file.originalname}`)
-    // if(!file) return 
-    // var ext = path.extname(file.originalname).toLowerCase();
-    // if(ext==='.mp4'){
-    //   cb(null, `${Date.now()}-${file.originalname}`)
-    //   console.log(ext)
-    // } else {
-    //   cb(null);
-    // }
   }
 })
 
@@ -99,7 +91,7 @@ export const submitVideos = async (req, res) => {
       res.send(req.file)
     }
     else {
-      const deleteFile = './src/videos/' + req.file.filename
+      const deleteFile = './videos/' + req.file.filename
       fs.unlink(deleteFile, (err) => {
       })
       res.send(null)
@@ -119,6 +111,39 @@ export const eliminar = async (req, res) => {
       }
     })
     res.send('req.file')
+  } catch (error) {
+    console.log(error);
+    res.status(500).json("Los formatos aceptados son .png .jpg .jpeg");
+  }
+};
+
+//================================SUBIR IMAGES =================================
+
+const storage3 = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'images')
+  },
+  filename: function (req, file, cb) {
+    cb(null, `${Date.now()}-${file.originalname}`)
+  }
+})
+
+const upload3 = multer({ storage: storage3 })
+
+exports.upload3 = upload3.single('myFile')
+
+export const submitImages = async (req, res) => {
+  try {
+    var ext = path.extname(req.file.filename).toLowerCase();
+    if (ext === '.png' || ext === '.jpg'|| ext === '.jpeg'|| ext === '.svg') {
+      res.send(req.file)
+    }
+    else {
+      const deleteFile = './images/' + req.file.filename
+      fs.unlink(deleteFile, (err) => {
+      })
+      res.send(null)
+    }
   } catch (error) {
     console.log(error);
     res.status(500).json("Los formatos aceptados son .png .jpg .jpeg");

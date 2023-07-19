@@ -4,6 +4,8 @@ import * as filesCtrl from "../../controllers/Archivos/upload.controller";
 
 router.post( '/videos', filesCtrl.upload2, filesCtrl.submitVideos)
 
+router.post( '/images', filesCtrl.upload3, filesCtrl.submitImages)
+
 router.post( '/aulas', filesCtrl.upload, filesCtrl.submitFilesAulas)
 
 router.post( '/planificacion', filesCtrl.upload, filesCtrl.submitFilesPlanificacion)

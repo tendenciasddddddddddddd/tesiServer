@@ -221,7 +221,7 @@ async function eliminarVideos(idCurso, id, nombre) {
         new: true,
       }
     );
-    const deleteFile = './src/uploads/'+nombre
+    const deleteFile = './videos/'+nombre
     fs.unlink(deleteFile, (err) => {
       if (err) {
       }
