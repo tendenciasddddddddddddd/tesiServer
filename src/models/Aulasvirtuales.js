@@ -21,7 +21,7 @@ const AulasSchema = new Schema(
                 estudiante: {}
             }
         ],
-        //-----------------------------------------------------TASK----------------
+        //-----------------------------------------------------LIBROS----------------
         libros: [{
             tipo: String,
             title: String,
@@ -35,7 +35,35 @@ const AulasSchema = new Schema(
             }],
             disponibilidad: String,
             fechOrden: String,
+            descripcion: String,
             parcial : {},
+        }],
+           //-----------------------------------------------------FOROS----------------
+           foros: [{
+            tipo: String,
+            title: String,
+            disponibilidad: String,
+            fechOrden: String,
+            start: String,
+            fechad: String,
+            descripcion: String,
+            parcial : {},
+            foro : [{
+                fkestudiante: String,
+                nombre: String,
+                foto: String,
+                context: String,
+                fecha: String,
+                like : [],
+                nolike : [],
+                subForo : [{
+                    fkestudiante: String,
+                    nombre: String,
+                    foto: String,
+                    context: String,
+                    fecha: String,
+                }]
+            }]
         }],
         videos: [{
             tipo: String,
@@ -75,6 +103,22 @@ const AulasSchema = new Schema(
             disponibilidad: String,
             fechOrden: String,
             parcial : {},
+            foro : [{
+                fkestudiante: String,
+                nombre: String,
+                foto: String,
+                context: String,
+                fecha: String,
+                like : [],
+                nolike : [],
+                subForo : [{
+                    fkestudiante: String,
+                    nombre: String,
+                    foto: String,
+                    context: String,
+                    fecha: String,
+                }]
+            }]
         }],
         lecturas: [{
             tipo: String,

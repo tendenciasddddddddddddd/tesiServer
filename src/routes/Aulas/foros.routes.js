@@ -4,6 +4,12 @@ const router = Router();
 import  Ctrl from "../../controllers/Aulas/foros.controller"
 import { authJwt } from "../../middlewares";
 
+router.put("/:id",[ authJwt.verifyToken], Ctrl.create);
+
+router.put("/editar/:paramId",[authJwt.verifyToken], Ctrl.update);
+
+//======================FOROS EN GENERAL =================
+
 router.put("/publishOne/:paramId",[authJwt.verifyToken], Ctrl.publishOne); 
 
 router.put("/publishTwo/:paramId",[authJwt.verifyToken], Ctrl.publishTwo); 
