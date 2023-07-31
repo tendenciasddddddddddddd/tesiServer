@@ -124,7 +124,7 @@ export const getDocentes = async (req, res) => {
     const skip = parseInt(req.query.page);
     const total = await User.countDocuments({ typo: { $in: ["DOCS"] } });
     const paginas = Math.ceil(total / limit);
-    const usuarios = await User.find({ typo: { $in: ["DOCS"] } }).skip((limit * skip) - limit).limit(limit).sort({ updatedAt: -1 });
+    const usuarios = await User.find({ typo: { $in: ["DOCS"] } }).skip((limit * skip) - limit).limit(limit).sort({ cratedAt: -1 });
     const coleccion = {
       usuarios: usuarios,
       pagina: skip,

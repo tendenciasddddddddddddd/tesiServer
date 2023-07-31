@@ -33,7 +33,7 @@ export const getEstudiantes = async (req, res) => {
     const skip = parseInt(req.query.page);
     const total = await User.countDocuments();
     const paginas = Math.ceil(total / limit);
-    const usuarios = await User.find().skip((limit * skip) - limit).limit(limit).sort({ updatedAt: -1 });
+    const usuarios = await User.find().skip((limit * skip) - limit).limit(limit).sort({ createdAt: -1 });
     const coleccion = {
       usuarios: usuarios,
       pagina: skip,

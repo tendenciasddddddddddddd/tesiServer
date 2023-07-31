@@ -81,6 +81,7 @@ export default {
     try {
       const matricula = req.body
       if (matricula.length > 0) {
+        console.log(matricula)
         const arrarMatriculas = []
         for (let i = 0; i < matricula.length; i++) {
           const element = matricula[i];
@@ -98,7 +99,7 @@ export default {
     try {
       const result = await Matriculas.find()
         .lean()
-        .select({ matriculas: 1, });
+        .select({ curso:1,paralelo:1, "matriculas.estudiante": 1,'matriculas._id': 1,});
       return res.json(result);
     } catch (error) {
       return res.status(500).json(error);
@@ -116,8 +117,7 @@ export default {
         console.log(error);
         return res.status(500).json(error);
       }
-    },
-        
+    },    
   //======================LISTAR SECUENCIA =================================
   getSecuencia: async (req, res) => {
     try {
