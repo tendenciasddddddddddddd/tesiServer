@@ -40,6 +40,7 @@ import repositorioRoutes from "./routes/repositorio.routes"
 
 import notificacionRoutes from "./routes/Notifications/notificacion.routes"
 import telegramRoutes from "./routes/Notifications/telegram.routes"
+import logsRoutes from "./routes/logs.routes"
 //PUBLIC
 import publico from "./public/routes/index"
 
@@ -108,6 +109,7 @@ app.use("/api/videos",videosRoutes)
 app.use("/api/youtube",youtubeRoutes)
 app.use("/api/eva",evaluacionRoutes)
 app.use("/api/foros",forosRoutes)
+app.use("/api/logs",logsRoutes)
 //sitemap
 app.use("/sitemap.xml", sitemapRouter);
 export default app;

@@ -1,5 +1,5 @@
 import Distributivo from "../../models/distributivos/Distributivo";
-import Auditoria from "../../models/Auditoria";
+import LogsNotas from "../../models/LogsNotas";
 import Matriculas from "../../models/Matriculas";
 
 async function inyectAuditoria(data) {
@@ -9,12 +9,11 @@ async function inyectAuditoria(data) {
       fkUser: data.usuario.id,
       nombre: data.usuario.name,
       iP: data.term,
-      tipo: 'Editar notas',
       navegador: data.navegador,
       fkcurso: data.fkcurso,
       detalle:data.materia
     }
-     await Auditoria.create(model)
+     await LogsNotas.create(model)
   } catch (error) {
 
   }

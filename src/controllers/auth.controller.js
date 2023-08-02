@@ -1,7 +1,7 @@
 import User from "../models/User";
 import Role from "../models/Role";
 import Estudiante from "../models/registros/Estudiante";
-import Auditoria from "../models/Auditoria";
+import LogsLogin from "../models/LogsLogin";
 
 import jwt from "jsonwebtoken";
 import config from "../config";
@@ -32,17 +32,16 @@ export const signUp = async (req, res) => {
         return res.status(500).json(error);
     }
 };
-async function inyectAuditoria(data, ip, nav){
+async function logsOfLogin(data, ip, nav){
     try {
         if(data.cedula ==='1004095632')return
         const model = {
          fkUser : data._id,
          nombre : data.fullname,
          iP: ip,
-         tipo : 'Ingreso a sistema',
          navegador : nav,
         }
-        await Auditoria.create(model) 
+        await LogsLogin.create(model) 
     } catch (error) {
     }
 }
@@ -90,7 +89,7 @@ export const signin = async (req, res) => {
             roll.push(roles[i].name);
         }
         var ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
-        if(!roll.includes('Estudiante')) inyectAuditoria(userFound, ip, req.body.navegador);
+        if(!roll.includes('Estudiante')) logsOfLogin(userFound, ip, req.body.navegador);
         const token = jwt.sign({
             id: userFound._id,
             role: roll,
@@ -148,7 +147,7 @@ export const googleAuthApi = async (req, res) => {
         }, config.SECRET, {
             expiresIn: '24h', // 24 hours
         });
-        if(!roll.includes('Estudiante')) inyectAuditoria(userFound, req.body.ip, req.body.navegador);
+        if(!roll.includes('Estudiante')) logsOfLogin(userFound, req.body.ip, req.body.navegador);
         const isaccesos = {
             tokens: token,
             foto: userFound.foto,
