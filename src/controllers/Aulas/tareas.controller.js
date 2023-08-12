@@ -292,7 +292,7 @@ export default {
         await Aulasvirtuales.updateOne(
           { _id: array[0] },
           {
-            $set: {
+            $set: {//ofIndex
               "tareas.$[perf].title": req.body.tareas.title,
               "tareas.$[perf].descripcion": req.body.tareas.descripcion,
               "tareas.$[perf].archivo": req.body.tareas.archivo,

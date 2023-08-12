@@ -144,7 +144,8 @@ const AulasSchema = new Schema(
             fechOrden: String,
             disponibilidad: String,
             fechad: String,
-            parcial : {},
+            parcial : String,
+            ofIndex : String,
             entrega: [
                 {
                     fkestudiante: String,
