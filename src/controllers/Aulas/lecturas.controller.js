@@ -45,7 +45,6 @@ export default {
               "lecturas.$[perf].content": req.body.lecturas.content,
               "lecturas.$[perf].disponibilidad": req.body.lecturas.disponibilidad,
               "lecturas.$[perf].fechad": req.body.lecturas.fechad,
-              "lecturas.$[perf].parcial": req.body.lecturas.parcial,
             }
           },
           {

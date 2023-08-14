@@ -176,6 +176,178 @@ async function showHiddenEvaluacion(id, idtarea, ctx) {
     console.log(e)
   }
 }
+async function showHiddenForo(id, idtarea, ctx) {
+  try {
+      await Aulasvirtuales.updateOne(
+        { _id: id },
+        {
+          $set: {
+            "foros.$[perf].disponibilidad": ctx,
+          }
+        },
+        {
+          arrayFilters: [{
+            "perf._id": { $eq: idtarea }
+          }],
+          new: true,
+        }
+      );
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+//=============================ORDENAME============================
+
+async function ordenTareas(id, idtarea, ctx) {
+  try {
+      await Aulasvirtuales.updateOne(
+        { _id: id },
+        {
+          $set: {
+            "tareas.$[perf].ofIndex": ctx.ofIndex,
+            "tareas.$[perf].parcial": ctx.parcial,
+          }
+        },
+        {
+          arrayFilters: [{
+            "perf._id": { $eq: idtarea }
+          }],
+          new: true,
+        }
+      );
+  } catch (e) {
+    console.log(e)
+  }
+}
+async function ordenLibros(id, idtarea, ctx) {
+  try {
+      await Aulasvirtuales.updateOne(
+        { _id: id },
+        {
+          $set: {
+            "libros.$[perf].ofIndex": ctx.ofIndex,
+            "libros.$[perf].parcial": ctx.parcial,
+          }
+        },
+        {
+          arrayFilters: [{
+            "perf._id": { $eq: idtarea }
+          }],
+          new: true,
+        }
+      );
+  } catch (e) {
+    console.log(e)
+  }
+}
+async function ordenLecturas(id, idtarea, ctx) {
+  try {
+      await Aulasvirtuales.updateOne(
+        { _id: id },
+        {
+          $set: {
+            "lecturas.$[perf].ofIndex": ctx.ofIndex,
+            "lecturas.$[perf].parcial": ctx.parcial,
+          }
+        },
+        {
+          arrayFilters: [{
+            "perf._id": { $eq: idtarea }
+          }],
+          new: true,
+        }
+      );
+  } catch (e) {
+    console.log(e)
+  }
+}
+async function ordenVideos(id, idtarea, ctx) {
+  try {
+      await Aulasvirtuales.updateOne(
+        { _id: id },
+        {
+          $set: {
+            "videos.$[perf].ofIndex": ctx.ofIndex,
+            "videos.$[perf].parcial": ctx.parcial,
+          }
+        },
+        {
+          arrayFilters: [{
+            "perf._id": { $eq: idtarea }
+          }],
+          new: true,
+        }
+      );
+  } catch (e) {
+    console.log(e)
+  }
+}
+async function ordenYouTube(id, idtarea, ctx) {
+  try {
+      await Aulasvirtuales.updateOne(
+        { _id: id },
+        {
+          $set: {
+            "youtube.$[perf].ofIndex": ctx.ofIndex,
+            "youtube.$[perf].parcial": ctx.parcial,
+          }
+        },
+        {
+          arrayFilters: [{
+            "perf._id": { $eq: idtarea }
+          }],
+          new: true,
+        }
+      );
+  } catch (e) {
+    console.log(e)
+  }
+}
+async function ordenEvaluacion(id, idtarea, ctx) {
+  try {
+      await Aulasvirtuales.updateOne(
+        { _id: id },
+        {
+          $set: {
+            "evaluacion.$[perf].ofIndex": ctx.ofIndex,
+            "evaluacion.$[perf].parcial": ctx.parcial,
+          }
+        },
+        {
+          arrayFilters: [{
+            "perf._id": { $eq: idtarea }
+          }],
+          new: true,
+        }
+      );
+  } catch (e) {
+    console.log(e)
+  }
+}
+async function ordenForos(id, idtarea, ctx) {
+  try {
+      await Aulasvirtuales.updateOne(
+        { _id: id },
+        {
+          $set: {
+            "foros.$[perf].ofIndex": ctx.ofIndex,
+            "foros.$[perf].parcial": ctx.parcial,
+          }
+        },
+        {
+          arrayFilters: [{
+            "perf._id": { $eq: idtarea }
+          }],
+          new: true,
+        }
+      );
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+
 async function eliminarTarea(idCurso, idTarea) {
   try {
     await Aulasvirtuales.updateOne(
@@ -253,6 +425,18 @@ async function eliminarEvaluacion(idCurso, id) {
   } catch (e) {
   }
 }
+async function eliminarForos(idCurso, id) {
+  try {
+    await Aulasvirtuales.updateOne(
+      { _id: idCurso },
+      { $pull: { foros: { _id: id} } },
+      {
+        new: true,
+      }
+    );
+  } catch (e) {
+  }
+}
 export default {
   create: async (req, res) => {
     try {
@@ -278,6 +462,7 @@ export default {
       if (tipo =='4')  eliminarVideos(req.params.paramId, id, name)
       if (tipo =='5')  eliminarYouTube(req.params.paramId, id)
       if (tipo =='6')  eliminarEvaluacion(req.params.paramId, id)
+      if (tipo =='7')  eliminarForos(req.params.paramId, id)
       res.status(200).json({});
     } catch (e) {
       res.status(500).json({ message: "No mat found" });
@@ -299,7 +484,6 @@ export default {
               "tareas.$[perf].start": req.body.tareas.start,
               "tareas.$[perf].disponibilidad": req.body.tareas.disponibilidad,
               "tareas.$[perf].fechad": req.body.tareas.fechad,
-              "tareas.$[perf].parcial": req.body.tareas.parcial,
             }
           },
           {
@@ -352,6 +536,22 @@ export default {
       if (req.body.tipo =='4') showHiddenVideos(req.params.paramId, req.body.id, disp)
       if (req.body.tipo =='5') showHiddenYouTube(req.params.paramId, req.body.id, disp)
       if (req.body.tipo =='6') showHiddenEvaluacion(req.params.paramId, req.body.id, disp)
+      if (req.body.tipo =='7') showHiddenForo(req.params.paramId, req.body.id, disp)
+      res.status(200).json("ok");
+    } catch (e) {
+      console.log(e);
+      res.status(500).json("error del servidor");
+    }
+  },
+  orderActividad: async (req, res) => {
+    try {
+      if (req.body.tipo =='1') ordenTareas(req.params.paramId, req.body.id, req.body)
+      if (req.body.tipo =='2') ordenLibros(req.params.paramId, req.body.id, req.body)
+      if (req.body.tipo =='3') ordenLecturas(req.params.paramId, req.body.id, req.body)
+      if (req.body.tipo =='4') ordenVideos(req.params.paramId, req.body.id, req.body)
+      if (req.body.tipo =='5') ordenYouTube(req.params.paramId, req.body.id, req.body)
+      if (req.body.tipo =='6') ordenEvaluacion(req.params.paramId, req.body.id, req.body)
+      if (req.body.tipo =='7') ordenForos(req.params.paramId, req.body.id, req.body)
       res.status(200).json("ok");
     } catch (e) {
       console.log(e);

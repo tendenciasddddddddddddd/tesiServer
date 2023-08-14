@@ -36,7 +36,8 @@ const AulasSchema = new Schema(
             disponibilidad: String,
             fechOrden: String,
             descripcion: String,
-            parcial : {},
+            parcial : String,
+            ofIndex : String,
         }],
            //-----------------------------------------------------FOROS----------------
            foros: [{
@@ -47,7 +48,8 @@ const AulasSchema = new Schema(
             start: String,
             fechad: String,
             descripcion: String,
-            parcial : {},
+            parcial : String,
+            ofIndex : String,
             foro : [{
                 fkestudiante: String,
                 nombre: String,
@@ -78,7 +80,8 @@ const AulasSchema = new Schema(
             }],
             disponibilidad: String,
             fechOrden: String,
-            parcial : {},
+            parcial : String,
+            ofIndex : String,
             foro : [{
                 fkestudiante: String,
                 nombre: String,
@@ -102,7 +105,8 @@ const AulasSchema = new Schema(
             link: String,
             disponibilidad: String,
             fechOrden: String,
-            parcial : {},
+            parcial : String,
+            ofIndex : String,
             foro : [{
                 fkestudiante: String,
                 nombre: String,
@@ -126,7 +130,8 @@ const AulasSchema = new Schema(
             content: String,
             disponibilidad: String,
             fechOrden: String,
-            parcial : {},
+            parcial : String,
+            ofIndex : String,
         }],
         tareas: [{
             tipo: String,
@@ -181,7 +186,8 @@ const AulasSchema = new Schema(
             fechOrden: String,
             tempo: {},
             disponibilidad: String,
-            parcial : {},
+            parcial : String,
+            ofIndex : String,
             fechad: String,
             intenAllowed: Number,
             revisar : String,

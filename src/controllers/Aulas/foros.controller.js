@@ -668,7 +668,6 @@ export default {
                             "foros.$[perf].fechad": req.body.foros.fechad,
                             "foros.$[perf].disponibilidad": req.body.foros.disponibilidad,
                             "foros.$[perf].descripcion": req.body.foros.descripcion,
-                            "foros.$[perf].parcial": req.body.foros.parcial,
                         }
                     },
                     {

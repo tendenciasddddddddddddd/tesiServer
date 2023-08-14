@@ -58,7 +58,6 @@ export default {
               "libros.$[perf].archivo": req.body.libros.archivo,
               "libros.$[perf].disponibilidad": req.body.libros.disponibilidad,
               "libros.$[perf].descripcion": req.body.libros.descripcion,
-              "libros.$[perf].parcial": req.body.libros.parcial,
             }
           },
           {

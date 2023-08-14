@@ -3,12 +3,13 @@ import { promedio } from "./helper/promedios";
 
 const { promedioInsumos, sumaParciales, sumaParciales80, examen20, totalPrimerQuim, finalAnual, finalSupletorios, ifDecimal } = promedio();
 
+
 async function primerIngresoNotas(idcurso, idmatricula, data) {
   try {
     const Dto = data.notas
     const Rto = data.resultados
     //PRIMER QUIMESTRE ENTRA A y B
-    const ppa = promedioInsumos(Dto.a1, Dto.a2, Dto.a3, Dto.a4, Dto.a5)
+    const ppa = await promedioInsumos(Dto.a1, Dto.a2, Dto.a3, Dto.a4, Dto.a5)
     const ppb = promedioInsumos(Dto.b1, Dto.b2, Dto.b3, Dto.b4, Dto.b5)
     const sumAB = sumaParciales(ppa, ppb)
     const sumAB80 = sumaParciales80(sumAB)
@@ -94,7 +95,6 @@ async function actualizarIngresoNotas(idcurso, idmatricula, fkmateria, data) {
     const ppa = promedioInsumos(Dto.a1, Dto.a2, Dto.a3, Dto.a4, Dto.a5)
     const ppb = promedioInsumos(Dto.b1, Dto.b2, Dto.b3, Dto.b4, Dto.b5)
     const sumAB = sumaParciales(ppa, ppb)
-    
     const sumAB80 = sumaParciales80(sumAB)
     const sumAB20 = examen20(Dto.exa1)
     const proAB = totalPrimerQuim(sumAB80, sumAB20)
@@ -108,7 +108,6 @@ async function actualizarIngresoNotas(idcurso, idmatricula, fkmateria, data) {
     const ppc = promedioInsumos(Dto.c1, Dto.c2, Dto.c3, Dto.c4, Dto.c5)
     const ppd = promedioInsumos(Dto.d1, Dto.d2, Dto.d3, Dto.d4, Dto.d5)
     const sumCD = sumaParciales(ppc, ppd)
-    
     const sumCD80 = sumaParciales80(sumCD)
     const sumCD20 = examen20(Dto.exa2)
     const proCD = totalPrimerQuim(sumCD80, sumCD20)

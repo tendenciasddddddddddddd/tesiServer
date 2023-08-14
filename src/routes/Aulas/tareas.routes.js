@@ -14,6 +14,8 @@ router.put("/calificar/:paramId",[authJwt.verifyToken], Ctrl.calificar);
 
 router.put("/show/:paramId",[authJwt.verifyToken], Ctrl.showHidens); 
 
+router.put("/orderAct/:paramId",[authJwt.verifyToken], Ctrl.orderActividad); 
+
 router.put("/removeFile/:paramsId",[authJwt.verifyToken], Ctrl.updateRemoveFile);
 
 

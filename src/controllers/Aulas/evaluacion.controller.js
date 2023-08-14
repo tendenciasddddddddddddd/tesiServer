@@ -32,7 +32,6 @@ export default {
                 "evaluacion.$[perf].end": req.body.evaluacion.end,
                 "evaluacion.$[perf].disponibilidad": req.body.evaluacion.disponibilidad,
                 "evaluacion.$[perf].fechad": req.body.evaluacion.fechad,
-                "evaluacion.$[perf].parcial": req.body.evaluacion.parcial,
                 "evaluacion.$[perf].publicar": req.body.evaluacion.publicar,
                 "evaluacion.$[perf].security": req.body.evaluacion.security,
                 "evaluacion.$[perf].revisar": req.body.evaluacion.revisar,
