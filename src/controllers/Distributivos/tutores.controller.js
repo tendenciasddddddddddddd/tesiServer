@@ -1,5 +1,6 @@
 import Tutores from "../../models/distributivos/Tutores";
-import Cursos from "../../models/registros/Cursos";
+import Matriculas from "../../models/Matriculas";
+import Distributivo from "../../models/distributivos/Distributivo";
 
 export default {
   create: async (req, res) => {
@@ -52,6 +53,21 @@ export default {
       const { id } = req.params;
       const result = await Tutores.find({fkdocente:id});
       res.status(200).json(result);
+    } catch (error) {
+      return res.status(500).json(error);
+    }
+  },
+  //=======================GET LISTA DE MATRICULAS Y DISTRIBUTIVO =================
+  getByIdReportes: async (req, res) => {
+    try {
+      let cadenaId = req.params.id;
+      const array = cadenaId.split(",");
+      const rowM = await Matriculas.findOne({fkcurso:array[0], paralelo: array[1]});
+      const rowD = await Distributivo.findOne({fkcurso:array[0], paralelo: array[1]});
+      res.status(200).json({
+        matricula: rowM,
+        distributivo : rowD
+      });
     } catch (error) {
       return res.status(500).json(error);
     }

@@ -16,6 +16,7 @@ async function insetFiles(id, model) {
       { new: true }
     )
   } catch (error) {
+    console.log(error);
     return res.status(500).json(error);
   }
 }
@@ -23,7 +24,7 @@ async function insetFiles(id, model) {
 async function updateFiles(modelo) {
   try {
     await Repositorio.updateOne(
-      { "entregas.fkdocente": modelo.usuario },
+      { "entregas._id": modelo.keyEntrega },
       { $push: {
           "entregas.$.repositorio": modelo.mod
         }
@@ -77,7 +78,7 @@ export default {
     try {
       const result = await Repositorio.find()
         .lean()
-        .select();
+        .select({ nombre:1,inicio:1,fin:1});
       return res.json(result);
     } catch (error) {
       return res.status(500).json(error);
@@ -94,6 +95,7 @@ export default {
   },
   updateById: async (req, res) => {
     try {
+      console.log(req.body)
       if(!req.body.confirma){
         await insetFiles(req.params.paramsId, req.body)
       } else {

@@ -8,6 +8,8 @@ router.get("/lista",[authJwt.verifyToken], Ctrl.getListas);
 
 router.get("/query",[authJwt.verifyToken], Ctrl.query);
 
+router.get("/rep/:id",[authJwt.verifyToken], Ctrl.getByIdReportes);
+
 router.get("/:id",[authJwt.verifyToken], Ctrl.getById);
 
 router.get("/",[authJwt.verifyToken], Ctrl.get);

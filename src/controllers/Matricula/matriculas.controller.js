@@ -81,7 +81,6 @@ export default {
     try {
       const matricula = req.body
       if (matricula.length > 0) {
-        console.log(matricula)
         const arrarMatriculas = []
         for (let i = 0; i < matricula.length; i++) {
           const element = matricula[i];
