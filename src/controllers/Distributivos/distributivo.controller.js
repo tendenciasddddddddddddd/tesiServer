@@ -117,8 +117,8 @@ export default {
           new: true,
         }
       );
-      const carga = req.body.carga;
-      if (carga.length > 0) editarOrden(result.fkcurso, result.paralelo, carga)
+     // const carga = req.body.carga;
+     // if (carga.length > 0) editarOrden(result.fkcurso, result.paralelo, carga)
       res.status(200).json(result);
     } catch (error) {
       return res.status(500).json(error);

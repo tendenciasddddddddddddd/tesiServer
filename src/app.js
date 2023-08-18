@@ -48,7 +48,7 @@ import publico from "./public/routes/index"
 import sitemapRouter from "./service/sitemap"
 
 import { createRoles, createAdmin, config, aplicaciones, apertura, iniciarSecuencia} from "./libs/initialSetup";
-import {singBot} from "./bot.js"
+import {migracionMatricula, temporalMatricula, deleteMatriculasMany } from "./libs/migrarDB";
 const app = express();
 //createRoles();
 //createAdmin();
@@ -56,7 +56,12 @@ const app = express();
 //config()
 //apertura()
 //iniciarSecuencia()
-//singBot()
+
+//===========0=PELIGRO =================================
+//migracionMatricula();
+//temporalMatricula();
+//deleteMatriculasMany();
+
 import cors from "cors";
 
 var corsOptions = {

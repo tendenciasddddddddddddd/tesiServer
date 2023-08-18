@@ -81,7 +81,6 @@ export default {
       if (reply) return res.json(JSON.parse(reply));
       const result = await Cursos.find().lean().select({ nombre: 1, num: 1 });
       await client.set('5001cursos', JSON.stringify(result), { EX: 36000});
-      console.log('se pasa')
       return res.json(result);
     } catch (error) {
       return res.status(500).json(error);

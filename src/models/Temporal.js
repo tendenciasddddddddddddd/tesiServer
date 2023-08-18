@@ -44,4 +44,4 @@ const esquema = new Schema(
   }
 );
   
-  export default model("Respaldo", esquema);
+  export default model("Temporal", esquema);

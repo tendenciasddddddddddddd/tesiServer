@@ -36,7 +36,6 @@ async function primerIngresoNotas(idcurso, idmatricula, data) {
     data.notas['proCD'] = proCD
     //RESUKTADOS FINALES DE NOTAS
     const notaFinal = finalAnual(proAB, proCD)
-    console.log(notaFinal)
     data.resultados.promedioFinal = notaFinal
     let notaAux = ''
     if (Rto.supletorio == '' && Rto.remedial == '' && Rto.gracia == '') {
@@ -47,7 +46,6 @@ async function primerIngresoNotas(idcurso, idmatricula, data) {
       notaAux = Rto.gracia
     }
     data.resultados.notaFinal = notaAux
-    console.log(data)
     await Matriculas.updateOne(
       { _id: idcurso },
       {
@@ -279,5 +277,21 @@ export default {
       console.log(e)
       res.status(500).json("error del servidor");
     }
+  },
+  ajustarPromedios: async (req, res) => {
+    const { id } = req.params;
+    const matriculas = await Matriculas.find({ fkcurso: id});
+    for (let i = 0; i < matriculas.length; i++) {
+      const element = matriculas[i].matriculas;
+      for (let j = 0; j < element.length; j++) {
+        const subelement = element[j].computo;
+        for (let k = 0; k < subelement.length; k++) {
+          const finelement = subelement[k];
+          await actualizarIngresoNotas(matriculas[i]._id, element[j]._id, subelement[k].fkmateria, finelement)
+        }
+      }
+    }
+    //console.log(matriculas);
+    res.status(200).json({});
   },
 }

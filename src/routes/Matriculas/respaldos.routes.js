@@ -6,4 +6,6 @@ import { authJwt } from "../../middlewares";
 
 router.get("/:id",[authJwt.verifyToken], Ctrl.getRespaldoById);
 
+router.get("/cambio/:id",[authJwt.verifyToken], Ctrl.getById);
+
 export default router;

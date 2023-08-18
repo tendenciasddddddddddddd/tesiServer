@@ -10,6 +10,8 @@ router.put("/cualitativo/:id",[ authJwt.verifyToken],Ctrl.createCualitativo);
 
 router.put("/supletorios/:id",[ authJwt.verifyToken],Ctrl.supletorios);
 
+router.put("/ajustar/:id",[ authJwt.verifyToken],Ctrl.ajustarPromedios);
+
 router.put("/:id",[ authJwt.verifyToken],Ctrl.create);
 
 export default router;
