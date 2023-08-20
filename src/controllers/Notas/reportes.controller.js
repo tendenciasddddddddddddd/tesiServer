@@ -7,7 +7,7 @@ const ejs = require("ejs");
 const pdf = require('html-pdf');
 var fs = require('fs');
 var options = { format: 'A4', border:'23px' };
-const { formatPromociones, formatMatricula,formatLibretas} = promedioReportes();
+const { formatPromociones, formatMatricula,formatLibretas,formatJuntas} = promedioReportes();
 async function autoridad () {
     try {
         const reply = await client.get("5001autoridades");
@@ -167,6 +167,35 @@ export default {
             const auth = await autoridad()
             const tema = await ejs.renderFile(__dirname + "/themes/libretas.ejs", { result: result,auth: auth[0], ops:ops });
             res.status(200).json(tema);
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json(error);
+        }
+    },
+    juntas: async (req, res) => {
+        try {
+            const arr = req.body.data
+            const ops = req.body.ops;
+            let idMatricula = '';
+            let idCurso = '';
+            let paralelo = '';
+            const estudiantes = [];
+            for (let i = 0; i < arr.length; i++) {
+                const element = arr[i];
+                idMatricula = element.key;
+                idCurso = element.curso?._id
+                paralelo = element.paralelo
+                estudiantes.push(element._id)
+            }
+            var result = [];
+            if (arr) {
+                const rowM = await Matriculas.findById(idMatricula)
+                const rowD = await Distributivo.findOne({ fkcurso: idCurso, paralelo: paralelo });
+                result = formatJuntas(rowM, rowD, estudiantes,ops.quimestre,paralelo)
+            }
+            const auth = await autoridad()
+            //const tema = await ejs.renderFile(__dirname + "/themes/libretas.ejs", { result: result,auth: auth[0], ops:ops });
+            res.status(200).json(result);
         } catch (error) {
             console.log(error);
             return res.status(500).json(error);
