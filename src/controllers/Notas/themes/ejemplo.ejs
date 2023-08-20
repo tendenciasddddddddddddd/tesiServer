@@ -1,0 +1,74 @@
+<div class="s-hojas" v-for="item in info" :key="item.id"
+style="margin-top: 0.5rem;color: #000; font-family: Arial, Helvetica, sans-serif;background: #fff;">
+<div style="text-align: center;padding: 1rem;">
+  <Headers :datos="settings" />
+  <hr>
+  <div style="text-align: right;margin-right: 3rem;">
+    <span> <b>{{ $store.state.fechaReporter }}{{ fechaA }}</b> </span>
+  </div> <br><br><br><br>
+  <span style="font-weight: 600;font-size: 20px;line-height: 1.375;">
+    CERTIFICADO DE MATRICULA</span>
+  <div c style="margin-top: 6rem;">
+    <table style="width: 100%;">
+      <tbody>
+        <tr>
+          <td style="width: 5%;"></td>
+          <td style="width: 45%;">
+            <div style="text-align: center;">
+              <div>Matrícula No. <b>{{ item.nmatricula }}</b> </div>
+            </div>
+          </td>
+          <td style="width: 45%;">
+            <div style="text-align: center;">
+              <div>Año Lectivo: <b>{{ item.periodo.nombre }}</b> </div>
+            </div>
+          </td>
+          <td style="width: 5%;"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div style="width: 85%; margin-right: auto; margin-left: auto;">
+    <div style="margin-top: 64px;">
+      <p style="text-align: justify ;font-size: 14px;line-height: 1.5;">
+        Certifico que el(a) Estudiante: <b> {{ item.fullname }}</b>
+        previo los requisitos legales, se matriculó en <b>{{ item.curso.nombre }}</b> de la
+        <b>{{ settings.unidadeducativa }}</b> en el Año Lectivo:
+        <b>{{ item.periodo.nombre }}</b>
+      </p>
+    </div>
+    <div style="margin-top: 16px;">
+      <p style="text-align: justify ; color:#000;font-size: 14px;">
+        Así consta en el Folio No. <b>{{ item.folio }}</b> del respectivo libro de matrícula con el
+        No.
+        <b>{{ item.nmatricula }} </b> y con esta
+        fecha, <b style="text-transform: lowercase;">{{ item.fecha }}</b>
+
+      </p>
+    </div>
+  </div>
+  <div style="margin-top: 80px;">
+    <table style="    width: 100%;">
+      <tbody>
+        <tr>
+          <td style="width: 5%;"></td>
+          <td style="width: 90%;">
+            <div style="text-align: center;">
+              <span>
+                <b>______________________________</b>
+              </span> <br>
+              <p style=" font-size: 14px;">
+                <b>{{ settings.rector }}</b><br>
+                <b>CI. 0400834073</b> <br>
+                RECTOR
+              </p>
+            </div>
+          </td>
+          <td style="width: 5%;"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div> <br> <br>
+</div>
+<div v-if="info.length > 1" style="page-break-before:always;"></div>
+</div>

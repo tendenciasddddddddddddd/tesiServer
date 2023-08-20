@@ -26,7 +26,7 @@ async function primerIngresoNotas(idcurso, idmatricula, data) {
     const ppd = promedioInsumos(Dto.d1, Dto.d2, Dto.d3, Dto.d4, Dto.d5)
     const sumCD = sumaParciales(ppc, ppd)
     const sumCD80 = sumaParciales80(sumCD)
-    const sumCD20 = examen20(Dto.exa1)
+    const sumCD20 = examen20(Dto.exa2)
     const proCD = totalPrimerQuim(sumCD80, sumCD20)
     data.notas['ppc'] = ppc
     data.notas['ppd'] = ppd

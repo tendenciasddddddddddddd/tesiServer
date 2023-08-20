@@ -21,6 +21,7 @@ import tutoresRoutes from './routes/Distributivos/tutores.routes'
 import matriculasRoutes from './routes/Matriculas/matriculas.routes';
 import respaldosRoutes from './routes/Matriculas/respaldos.routes';
 import notasRoutes from './routes/Notas/notas.routes';
+import reportesRoutes from './routes/Notas/reportes.routes';
 //---------------------HORARIOS--------------------
 import horariosRoutes from './routes/horarios.routes';
 import horaRoutes from './routes/hora.routes';
@@ -82,6 +83,7 @@ app.use(compression())
 //app.use('/uploads', express.static(__dirname +'../videos'));
 app.use('/uploads', express.static(path.join(__dirname, '..', 'videos')))
 app.use('/images', express.static(path.join(__dirname, '..', 'images')))
+app.use('/document', express.static(path.join(__dirname, '..', 'document')))
 app.use(express.static(__dirname + '/public/assets'));
 app.use('/', publico);
 
@@ -115,6 +117,7 @@ app.use("/api/youtube",youtubeRoutes)
 app.use("/api/eva",evaluacionRoutes)
 app.use("/api/foros",forosRoutes)
 app.use("/api/logs",logsRoutes)
+app.use("/api/reportes",reportesRoutes)
 //sitemap
 app.use("/sitemap.xml", sitemapRouter);
 export default app;

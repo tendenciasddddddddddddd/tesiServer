@@ -1,0 +1,149 @@
+<% result.forEach(function (item) { %>
+<div class="s-hojas" 
+    style="margin-top: 0.5rem;color: #000; font-family: Arial, Helvetica, sans-serif;background: #fff;">
+    <div style="text-align: center;padding: 1rem;">
+        <table style="width: 100%;">
+            <tbody>
+                <tr>
+                    <td style="width: 15%;">
+                        <img style="height: 60px" src="https://res.cloudinary.com/stebann/image/upload/v1683261123/escudoss_gtd5ou.jpg" alt="Logo" />
+                    </td>
+                    <td style="width: 70%;">
+                        <div style="text-align: center;">
+                            <span style="font-size: 12px;">COORDINACIÓN
+                                ZONAL</span><br>
+                            <span style="color:#000;font-weight: 600;font-size: 16px;line-height: 1.375;">
+                                <%= auth.unidadeducativa %>
+                            </span><br>
+                            <p style="margin-top:-1px;text-align: center;font-size: 12px;">
+                                CERTIFICADO ANUAL DE PROMOCIÓN <br>
+                                <span style="font-size: 12px;">AÑO LECTIVO <b> <%= item.periodo %>
+                                    </b></span>
+                            </p>
+                        </div>
+                    </td>
+                    <td style="width: 10%;text-align: center;">
+                        <img style="width: 60px;" src="<%=auth.logo%>" alt="Logo" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="flex: 0 0 auto; width: 91%;  margin-top: 13px;  margin-right: auto; margin-left: auto;">
+            <div style="width: 670px;margin-top: 28px;">
+                <p style="text-align: justify ;font-size: 14px;line-height: 1.5;">
+                    De conformidad con lo prescrito en el Art. 197 del Reglamento
+                    General a la
+                    Ley Orgánica de
+                    Educación Intercultural y demás normativas vigentes, certifica
+                    que el/la
+                    estudiante <b><%= item.nombre %> </b>
+                    del <b><%= item.curso %> <%= item.paralelo %></b> obtuvo
+                    las
+                    siguientes calificaciones
+                    durante el presente año lectivo: <b> <%= item.periodo %></b>
+                </p>
+            </div>
+            <div style="width: 670px;margin-top: 1.5rem;">
+                <table
+                    style=" border-color: #000;border-style: solid;border-width: 0px 1px 1px;max-width: 100%; width: 100%; border-spacing: 0; border-collapse: separate;">
+                    <thead>
+                        <tr style="border-width: 1px 0px 0px;">
+                            <th
+                                style="width: 28%; border-top: 1px solid #000;border-bottom: 1px solid #000;padding: 8px 10px;font-size: 10.4px;">
+                                ÁREAS
+                            </th>
+                            <th
+                                style="width: 44%;border-top: 1px solid #000;border-bottom: 1px solid #000;padding: 8px 10px;font-size: 10.4px;">
+                                ASIGNATURAS
+                            </th>
+                            <th
+                                style="width: 28%;border-top: 1px solid #000;border-bottom: 1px solid #000;padding: 8px 10px;font-size: 10.4px;">
+                                PROMEDIO (NUMEROS Y LETRAS)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% item.data.forEach(function (subItems) { %>
+                        <tr >
+                            <td
+                                style="border-bottom-width: 0px;text-align: left;border-right: 1px solid #000;border-bottom: 1px solid #000;border-right: 1px solid #000;font-size: 10.4px;padding: 3px 3px;">
+                                <%= subItems.area.slice(0, 25) %>    </td>
+                            <td
+                                style="border-bottom-width: 0px;text-align: left;border-right: 1px solid #000;border-bottom: 1px solid #000;font-size: 10.4px;padding: 3px 3px;">
+                                 
+                                 <%= subItems.materia %> 
+                            </td>
+                            <td
+                                style="border-bottom-width: 0px;text-align: left;border-bottom: 1px solid #000;font-size: 10.4px;padding: 3px 3px;">
+                                <div>
+                                    <%= subItems.promedio %>  
+                                    &nbsp;    <%= subItems.letras %> 
+                                </div>
+                            </td>
+                        </tr>
+                        <% }) %>
+                        <tr>
+                            <td style="padding: 1px 2px;font-size: 10.4px;padding: 3px 3px;margin-left: 1rem;">
+                            </td>
+                            <td
+                                style="text-align: left;padding: 1px 2px;font-size: 10.4px;padding: 3px 3px;margin-left: 1rem;">
+                                <b>PROMEDIO GENERAL</b>
+                            </td>
+                            <td
+                                style="text-align: left;padding: 1px 2px;font-size: 10.4px;padding: 3px 3px;margin-left: 1rem;">
+                                <b>
+                                    <%= item.pgeneral%>   <%=item.letrasFinal %>
+                                </b>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div style="width: 670px;margin-top: 1.5rem;">
+                <% if (nextCourse!= 'No Promoción') { %>
+                <p  style="text-align: justify ; color:#000;font-size: 14px;">
+                    Por lo tanto es promovido/a al <b> <%= nextCourse %>.</b> Para
+                    certificar
+                    suscriben
+                    en unidad de acto el Rector/a con el/ la Secretario/a General
+                    del Plantel.
+                </p>
+                <% } else {%>
+                <p  style="text-align: justify ; color:#000;font-size: 14px;">
+                    Por lo tanto cumple con todo el pensúm académico de <b>
+                        <%= item.curso %> .</b> Para
+                    certificar
+                    suscriben
+                    en unidad de acto el Rector/a con el/ la Secretario/a General
+                    del Plantel.
+                </p>
+                <% } %>
+            </div>
+        </div>
+        <div style="margin-top: 3rem;">
+            <table style="width: 100%;">
+                <tbody>
+                    <tr>
+                        <td style="width: 5%;"></td>
+                        <td style="width: 90%;">
+                            <div style="text-align: center;">
+                                <span>
+                                    <b>______________________________</b>
+                                </span> <br>
+                                <p style=" font-size: 14px;">
+                                    <b><%= auth.rector %></b><br>
+                                    RECTOR
+                                </p>
+                            </div>
+                        </td>
+                        <td style="width: 5%;"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div style="page-break-before:always;"></div>
+    <br>
+</div>
+<% }) %>

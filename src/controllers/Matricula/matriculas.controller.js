@@ -138,7 +138,7 @@ export default {
       return res.status(500).json(error);
     }
   },
-  //======================LISTAR MATRICULAS POR ID PARA PERIODOS  =================================
+  //======================LISTAR MATRICULAS PARA LOS REPORTES =================================
   getById: async (req, res) => {
     try {
       const { id } = req.params;
