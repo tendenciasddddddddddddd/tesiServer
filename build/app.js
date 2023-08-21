@@ -104,8 +104,8 @@ var corsOptions = {
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 
 };
-//app.use((0, _cors.default)(corsOptions));
-app.use((0, _morgan.default)("dev"));
+app.use((0, _cors.default)(corsOptions));
+//app.use((0, _morgan.default)("dev"));
 app.use(_express.default.json({
   limit: '50mb'
 }));

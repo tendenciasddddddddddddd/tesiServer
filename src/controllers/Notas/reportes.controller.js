@@ -4,7 +4,7 @@ import { promedioReportes } from "./helper/promReporte";
 import Configure from "../../models/Configure";
 import { client } from "../../middlewares/rediss";
 const ejs = require("ejs");
-const pdf = require('html-pdf');
+//const pdf = require('html-pdf');
 var fs = require('fs');
 var options = { format: 'A4', border:'23px' };
 const { formatPromociones, formatMatricula,formatLibretas,formatJuntas,formatInforme} = promedioReportes();
@@ -82,12 +82,13 @@ export default {
                 result = formatPromociones(rowM, rowD, estudiantes)
             }
             const auth = await autoridad()
-            const tema = await ejs.renderFile(__dirname + "/themes/promocion.ejs", { result: result,auth: auth[0],nextCourse:nextCourse });
+            //const tema = await ejs.renderFile(__dirname + "/themes/promocion.ejs", { result: result,auth: auth[0],nextCourse:nextCourse });
             var name = makeid(10)
-            pdf.create(tema, options).toFile('./document/'+name+'.pdf', function(err, data) {
-                if (err) return res.send(err);
-                res.send(name);
-            });
+            res.send(name);
+            // pdf.create(tema, options).toFile('./document/'+name+'.pdf', function(err, data) {
+            //     if (err) return res.send(err);
+            //     res.send(name);
+            // });
         } catch (error) {
             console.log(error);
             return res.status(500).json(error);
@@ -132,12 +133,13 @@ export default {
                 result = formatMatricula(rowM, estudiantes)
             }
             const auth = await autoridad()
-            const tema = await ejs.renderFile(__dirname + "/themes/matricula.ejs", { result: result,auth: auth[0] });
-            var name = makeid(10)
-            pdf.create(tema, options).toFile('./document/'+name+'.pdf', function(err, data) {
-                if (err) return res.send(err);
-                res.send(name);
-            });
+           //const tema = await ejs.renderFile(__dirname + "/themes/promocion.ejs", { result: result,auth: auth[0],nextCourse:nextCourse });
+           var name = makeid(10)
+           res.send(name);
+           // pdf.create(tema, options).toFile('./document/'+name+'.pdf', function(err, data) {
+           //     if (err) return res.send(err);
+           //     res.send(name);
+           // });
         } catch (error) {
             console.log(error);
             return res.status(500).json(error);
