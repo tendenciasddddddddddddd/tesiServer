@@ -10,6 +10,7 @@ export const promedioReportes = () => {
     const calcProm = (array) => {
         let contador = 0;
         let aux = 0
+        let result = 0;
         for (let i = 0; i < array.length; i++) {
             const element = array[i];
             if (element == '') continue;
@@ -17,11 +18,11 @@ export const promedioReportes = () => {
             contador = contador + parseFloat(element)
             aux += 1
         }
-        let sum = '';
-        if (contador != 0) sum = (contador / aux).toFixed(2)
-        return sum
+        let pro = contador / aux;
+        result = trunc(pro,2)
+        if (isNaN(result) || result =='') result= ''
+        return ifDecimal(result)
     }
-
     function formatPromociones(rowM, rowD, estudiantes) {
         try {
             const matriculas = rowM?.matriculas
@@ -182,7 +183,7 @@ export const promedioReportes = () => {
                     return 1;
                 return 0;
             });
-            for (let j = 0; j < distributivo.length; j++) {
+            for (let j = 0; j < distributivo?.length; j++) {
                 const aux = []
                 const materias = distributivo[j]
                 const proPPA = []; const proPPB = []; const promAB = []
@@ -195,17 +196,32 @@ export const promedioReportes = () => {
                         for (let i = 0; i < computo.length; i++) {
                             const element = computo[i];
                             if (element.fkmateria == materias.fkmaterias) {
-                                const ins = element.notas
-                                n1 = ins?.a1; n2 = ins?.a2; n3 = ins?.a3; n4 = ins?.a4; n5 = ins?.a5;
-                                n6 = ins?.b1; n7 = ins?.b2; n8 = ins?.b3; n9 = ins?.b4; n10 = ins?.b5;
-                                ppa = element.notas?.ppa
-                                ppb = element.notas?.ppb
-                                sumAB = element.notas?.sumAB
-                                sumAB80 = element.notas?.sumAB80
-                                exa1 = element.notas?.exa1
-                                sumAB20 = element.notas?.sumAB20
-                                proAB = element.notas?.proAB
-                                letras = promCuantitativoLetras(ins?.proCD);
+                                if (quim == 'PRIMER QUIMESTRE') {
+                                    const ins = element.notas
+                                    n1 = ins?.a1; n2 = ins?.a2; n3 = ins?.a3; n4 = ins?.a4; n5 = ins?.a5;
+                                    n6 = ins?.b1; n7 = ins?.b2; n8 = ins?.b3; n9 = ins?.b4; n10 = ins?.b5;
+                                    ppa = element.notas?.ppa
+                                    ppb = element.notas?.ppb
+                                    sumAB = element.notas?.sumAB
+                                    sumAB80 = element.notas?.sumAB80
+                                    exa1 = element.notas?.exa1
+                                    sumAB20 = element.notas?.sumAB20
+                                    proAB = element.notas?.proAB
+                                    letras = promCuantitativoLetras(ins?.proAB);
+                                }
+                                if (quim == 'SEGUNDO QUIMESTRE') {
+                                    const ins = element.notas
+                                    n1 = ins?.c1; n2 = ins?.c2; n3 = ins?.c3; n4 = ins?.c4; n5 = ins?.c5;
+                                    n6 = ins?.d1; n7 = ins?.d2; n8 = ins?.d3; n9 = ins?.d4; n10 = ins?.d5;
+                                    ppa = element.notas?.ppc
+                                    ppb = element.notas?.ppd
+                                    sumAB = element.notas?.sumCD
+                                    sumAB80 = element.notas?.sumCD80
+                                    exa1 = element.notas?.exa2
+                                    sumAB20 = element.notas?.sumCD20
+                                    proAB = element.notas?.proCD
+                                    letras = promCuantitativoLetras(ins?.proCD);
+                                }
                             }
                         }
                         proPPA.push(ppa)
@@ -245,15 +261,120 @@ export const promedioReportes = () => {
                     pPPA : pPPA, pPPB:pPPB, prAB : prAB
                 })
             }
-            //console.log(help)
+            //console.log('es',help)
             return help
         } catch (error) {
             console.log(error)
         }
     }
-    return { formatPromociones, formatMatricula, formatLibretas,formatJuntas }
+    function formatInforme(rowM, rowD, estudiantes) {
+        try {
+            const matriculas = rowM?.matriculas
+            const distributivo = rowD?.carga
+            const help = []
+            var fechaA = fechaActual()
+            for (let i = 0; i < matriculas?.length; i++) {
+                const element = matriculas[i];
+                const aux = []
+                if (estudiantes.includes(element.fkestudiante)) {
+                    const computo = matriculas[i].computo;
+                    const promPPA = []
+                    const promPPB = []
+                    const promAB = []
+                    const general = []
+                    const promPPC = []
+                    const promPPD = []
+                    const promCD = []
+                    const general2 = []
+                    const general3 = []
+                    for (let j = 0; j < distributivo?.length; j++) {
+                        const subelement = distributivo[j];
+                        let  ppa, ppb, sumAB, sumAB80, exa1, sumAB20, proAB , ppc, ppd, sumCD, sumCD80, exa2, sumCD20, proCD,suple,final= ''
+                        for (let m = 0; m < computo.length; m++) {
+                            const result = computo[m];
+                            if (subelement.fkmaterias == result.fkmateria) {
+                                const ins = result.notas
+                                const res = result.resultados
+                                ppa = ins?.ppa; ppb = ins?.ppb; sumAB = ins?.sumAB; sumAB80 = ins?.sumAB80;
+                                exa1 = ins?.exa1; sumAB20 = ins?.sumAB20; proAB = ins?.proAB;
+                                
+                                ppc = ins?.ppc; ppd = ins?.ppd; sumCD = ins?.sumCD; sumCD80 = ins?.sumCD80;
+                                exa2 = ins?.exa2; sumCD20 = ins?.sumCD20; proCD = ins?.proCD;
+
+                                suple = res?.supletorio,
+                                final = res?.notaFinal
+                            }
+                        }
+                        promPPA.push(ppa)
+                        promPPB.push(ppb)
+                        promAB.push(sumAB)
+                        general.push(proAB)
+                        promPPC.push(ppc)
+                        promPPD.push(ppd)
+                        promCD.push(sumCD)
+                        general2.push(proCD)
+                        general3.push(final)
+                        aux.push({
+                            materia: subelement.materia?.nombre,
+                            area: subelement.materia?.area,
+                            ppa: ppa, ppb: ppb, sumAB: sumAB, sumAB80: sumAB80, exa1: exa1, sumAB20: sumAB20, proAB: proAB,
+                            ppc: ppc, ppd: ppd, sumCD: sumCD, sumCD80: sumCD80, exa2: exa2, sumCD20: sumCD20, proCD: proCD,
+                            final: final, suple:suple
+                        })
+                    }
+                    const pPPA = calcProm(promPPA)
+                    const pPPB = calcProm(promPPB)
+                    const pAB = calcProm(promAB)
+                    const pgeneral = calcProm(general)
+                    const pPPC = calcProm(promPPC)
+                    const pPPD = calcProm(promPPD)
+                    const pCD = calcProm(promCD)
+                    const pgeneral2 = calcProm(general2)
+                    const pgeneral3 = calcProm(general3)
+                    help.push({
+                        nombre: element.estudiante?.fullname,
+                        curso: rowM.curso?.nombre,
+                        periodo: rowM.periodo?.nombre,
+                        paralelo: rowM.paralelo,
+                        data: aux, pgeneral3: pgeneral3,
+                        pPPA: pPPA,pPPB: pPPB, pAB:pAB,pgeneral: pgeneral,
+                        pPPC: pPPC,pPPD: pPPD, pCD:pCD,pgeneral2: pgeneral2,
+                        fechaA: fechaA, nmatricula: element.nmatricula,
+                    })
+                }
+            }
+            //console.log(help)
+            return help
+        } catch (error) {
+            console.log(error)
+            return []
+        }
+    }
+    return { formatPromociones, formatMatricula, formatLibretas,formatJuntas, formatInforme }
 };
 
+function trunc (x, posiciones = 0) {
+    var s = x.toString()
+    var decimalLength = s.indexOf('.') + 1
+    var numStr = s.substr(0, decimalLength + posiciones)
+    return Number(numStr)
+}
+const ifDecimal = (num) => {
+    if(num==0) return '0.00'
+    if (num != '') {
+      var partes = num.toString().split('.');
+      var re = /^-?[0-9]+$/;
+      if (re.test(num)) {
+        return num + ".00";
+      } else if (partes[1]?.length == 1) {
+        return num + "0";
+      } else  {
+        return trunc(num,2) 
+      }
+    } else {
+      return '';
+    }
+};
 function calcMedia (array){
   let a = 0; let b = 0; let c = 0; let d = 0;
   const reg = [];
@@ -267,31 +388,6 @@ function calcMedia (array){
   }
   reg.push(a, b, c, d)
   return reg
-}
-
-function contarMedia (array, num, parcial){
-    let soma = 0;
-    for (let i = 0; i < array.length; i++){
-        let  element = [];
-        if (parcial=='p1')  element = array[i].prom1;
-        if (parcial=='p2')  element = array[i].prom2;
-        if (parcial=='to')  element = array[i].promFinal;
-        if (parcial=='fi')  element = array[i].notaFinal;
-        const op = parseFloat(element)
-        if (num=='1') {
-             if (op <= 10 && op > 8.99) soma += 1;
-            }
-        if (num=='2')  {
-            if (op < 9 && op >= 7) soma += 1;
-        }
-        if (num=='3')  {
-            if (op < 7 && op >= 5) soma += 1;
-        } 
-        if (num=='4')  {
-            if (op < 5 && op >= 0) soma += 1;
-        }  
-    }
-    return soma
 }
 
 function promCuantitativoLetras(prom) {

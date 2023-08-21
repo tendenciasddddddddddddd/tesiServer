@@ -22,6 +22,7 @@ export const promedio = () => {
     };
     const ifDecimal3 = (num) => {
         try {
+          if (isNaN(num)) return ''
           if (num != '') {
             var partes = num.toString().split('.');
             var re = /^-?[0-9]+$/;
