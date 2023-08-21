@@ -77,10 +77,10 @@ export default {
 
   getListas: async (req, res) => {
     try {
-      const reply = await client.get("5001cursos");
+      const reply = await client.get("3000cursos");
       if (reply) return res.json(JSON.parse(reply));
       const result = await Cursos.find().lean().select({ nombre: 1, num: 1 });
-      await client.set('5001cursos', JSON.stringify(result), { EX: 36000});
+      await client.set('3000cursos', JSON.stringify(result), { EX: 36000});
       return res.json(result);
     } catch (error) {
       return res.status(500).json(error);
@@ -107,7 +107,7 @@ export default {
       editarTutores(req.params.paramsId, req.body)
       editarDistributivo(req.params.paramsId, req.body)
       editarMatricula(req.params.paramsId, req.body)
-      client.del('5001cursos');
+      client.del('3000cursos');
       res.status(200).json(result);
     } catch (error) {
       return res.status(500).json(error);
@@ -125,7 +125,7 @@ export default {
       eliminarTutores(array)
       eliminarDistributivo(array)
       eliminarMatricula(array)
-      client.del('5001cursos');
+      client.del('3000cursos');
       res.status(200).json();
     } catch (e) {
       return res.status(500).json();

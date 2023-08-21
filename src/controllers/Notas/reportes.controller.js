@@ -10,10 +10,10 @@ var options = { format: 'A4', border:'23px' };
 const { formatPromociones, formatMatricula,formatLibretas,formatJuntas,formatInforme} = promedioReportes();
 async function autoridad () {
     try {
-        const reply = await client.get("5001autoridades");
+        const reply = await client.get("3000autoridades");
         if (reply) return JSON.parse(reply);
         const result = await Configure.find().lean();
-        await client.set('5001autoridades',JSON.stringify(result), { EX: 36000});
+        await client.set('3000autoridades',JSON.stringify(result), { EX: 36000});
         return result
       } catch (error) {
         console.log(error);
