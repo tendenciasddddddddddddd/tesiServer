@@ -1,6 +1,6 @@
 module.exports = {
     apps : [{
-      name : "PCEITULCAN",
+      name : "UELSERVER",
       script    : "./build/index.js",
       watch: false,
       max_memory_restart: '1G',
