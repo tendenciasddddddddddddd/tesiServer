@@ -35,7 +35,11 @@ var {
   formatMatricula,
   formatLibretas,
   formatJuntas,
-  formatInforme
+  formatInforme,
+  formatFinal,
+  formatParcial,
+  formatQuimestral,
+  formatAnual
 } = (0, _promReporte.promedioReportes)();
 
 function autoridad() {
@@ -398,6 +402,206 @@ var _default = {
     }
 
     return informe;
+  }(),
+  final: function () {
+    var _final = _asyncToGenerator(function* (req, res) {
+      try {
+        var arr = req.body.data;
+        var idMatricula = '';
+        var idCurso = '';
+        var paralelo = '';
+        var estudiantes = [];
+
+        for (var i = 0; i < arr.length; i++) {
+          var _element$curso6;
+
+          var element = arr[i];
+          idMatricula = element.key;
+          idCurso = (_element$curso6 = element.curso) === null || _element$curso6 === void 0 ? void 0 : _element$curso6._id;
+          paralelo = element.paralelo;
+          estudiantes.push(element._id);
+        }
+
+        var result = [];
+
+        if (arr) {
+          var rowM = yield _Matriculas.default.findById(idMatricula);
+          var rowD = yield _Distributivo.default.findOne({
+            fkcurso: idCurso,
+            paralelo: paralelo
+          });
+          result = formatFinal(rowM, rowD, estudiantes);
+        }
+
+        var auth = yield autoridad();
+        var tema = yield ejs.renderFile(__dirname + "/themes/final.ejs", {
+          result: result,
+          auth: auth[0]
+        });
+        res.status(200).json(tema);
+      } catch (error) {
+        console.log(error);
+        return res.status(500).json(error);
+      }
+    });
+
+    function final(_x15, _x16) {
+      return _final.apply(this, arguments);
+    }
+
+    return final;
+  }(),
+  parcial: function () {
+    var _parcial = _asyncToGenerator(function* (req, res) {
+      try {
+        var arr = req.body.data;
+        var ops = req.body.ops;
+        var idMatricula = '';
+        var idCurso = '';
+        var paralelo = '';
+        var estudiantes = [];
+
+        for (var i = 0; i < arr.length; i++) {
+          var _element$curso7;
+
+          var element = arr[i];
+          idMatricula = element.key;
+          idCurso = (_element$curso7 = element.curso) === null || _element$curso7 === void 0 ? void 0 : _element$curso7._id;
+          paralelo = element.paralelo;
+          estudiantes.push(element._id);
+        }
+
+        var result = [];
+
+        if (arr) {
+          var rowM = yield _Matriculas.default.findById(idMatricula);
+          var rowD = yield _Distributivo.default.findOne({
+            fkcurso: idCurso,
+            paralelo: paralelo
+          });
+          result = formatParcial(rowM, rowD, estudiantes, ops);
+        }
+
+        var auth = yield autoridad();
+        var tema = yield ejs.renderFile(__dirname + "/themes/parcial.ejs", {
+          result: result,
+          auth: auth[0],
+          ops: ops,
+          paralelo: paralelo
+        });
+        res.status(200).json(tema);
+      } catch (error) {
+        console.log(error);
+        return res.status(500).json(error);
+      }
+    });
+
+    function parcial(_x17, _x18) {
+      return _parcial.apply(this, arguments);
+    }
+
+    return parcial;
+  }(),
+  quimestral: function () {
+    var _quimestral = _asyncToGenerator(function* (req, res) {
+      try {
+        var arr = req.body.data;
+        var ops = req.body.ops;
+        var idMatricula = '';
+        var idCurso = '';
+        var paralelo = '';
+        var estudiantes = [];
+
+        for (var i = 0; i < arr.length; i++) {
+          var _element$curso8;
+
+          var element = arr[i];
+          idMatricula = element.key;
+          idCurso = (_element$curso8 = element.curso) === null || _element$curso8 === void 0 ? void 0 : _element$curso8._id;
+          paralelo = element.paralelo;
+          estudiantes.push(element._id);
+        }
+
+        var result = [];
+
+        if (arr) {
+          var rowM = yield _Matriculas.default.findById(idMatricula);
+          var rowD = yield _Distributivo.default.findOne({
+            fkcurso: idCurso,
+            paralelo: paralelo
+          });
+          result = formatQuimestral(rowM, rowD, estudiantes, ops);
+        }
+
+        var auth = yield autoridad();
+        var tema = yield ejs.renderFile(__dirname + "/themes/quimestral.ejs", {
+          result: result,
+          auth: auth[0],
+          ops: ops,
+          paralelo: paralelo
+        });
+        res.status(200).json(tema);
+      } catch (error) {
+        console.log(error);
+        return res.status(500).json(error);
+      }
+    });
+
+    function quimestral(_x19, _x20) {
+      return _quimestral.apply(this, arguments);
+    }
+
+    return quimestral;
+  }(),
+  anual: function () {
+    var _anual = _asyncToGenerator(function* (req, res) {
+      try {
+        var arr = req.body.data;
+        var ops = req.body.ops;
+        var idMatricula = '';
+        var idCurso = '';
+        var paralelo = '';
+        var estudiantes = [];
+
+        for (var i = 0; i < arr.length; i++) {
+          var _element$curso9;
+
+          var element = arr[i];
+          idMatricula = element.key;
+          idCurso = (_element$curso9 = element.curso) === null || _element$curso9 === void 0 ? void 0 : _element$curso9._id;
+          paralelo = element.paralelo;
+          estudiantes.push(element._id);
+        }
+
+        var result = [];
+
+        if (arr) {
+          var rowM = yield _Matriculas.default.findById(idMatricula);
+          var rowD = yield _Distributivo.default.findOne({
+            fkcurso: idCurso,
+            paralelo: paralelo
+          });
+          result = formatAnual(rowM, rowD, estudiantes);
+        }
+
+        var auth = yield autoridad();
+        var tema = yield ejs.renderFile(__dirname + "/themes/anual.ejs", {
+          result: result,
+          auth: auth[0],
+          paralelo: paralelo
+        });
+        res.status(200).json(tema);
+      } catch (error) {
+        console.log(error);
+        return res.status(500).json(error);
+      }
+    });
+
+    function anual(_x21, _x22) {
+      return _anual.apply(this, arguments);
+    }
+
+    return anual;
   }()
 };
 exports.default = _default;

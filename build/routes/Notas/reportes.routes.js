@@ -21,5 +21,9 @@ router.post("/promocionPdf/", [_middlewares.authJwt.verifyToken], _reportes.defa
 router.post("/libretas/", [_middlewares.authJwt.verifyToken], _reportes.default.libretas);
 router.post("/juntas/", [_middlewares.authJwt.verifyToken], _reportes.default.juntas);
 router.post("/informe/", [_middlewares.authJwt.verifyToken], _reportes.default.informe);
+router.post("/final/", [_middlewares.authJwt.verifyToken], _reportes.default.final);
+router.post("/parcial/", [_middlewares.authJwt.verifyToken], _reportes.default.parcial);
+router.post("/quimestral/", [_middlewares.authJwt.verifyToken], _reportes.default.quimestral);
+router.post("/anual/", [_middlewares.authJwt.verifyToken], _reportes.default.anual);
 var _default = router;
 exports.default = _default;

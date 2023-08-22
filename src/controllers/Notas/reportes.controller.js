@@ -7,7 +7,8 @@ const ejs = require("ejs");
 //const pdf = require('html-pdf');
 var fs = require('fs');
 var options = { format: 'A4', border:'23px' };
-const { formatPromociones, formatMatricula,formatLibretas,formatJuntas,formatInforme} = promedioReportes();
+const { formatPromociones, formatMatricula,formatLibretas,formatJuntas,formatInforme,formatFinal,formatParcial,
+    formatQuimestral, formatAnual} = promedioReportes();
 async function autoridad () {
     try {
         const reply = await client.get("3000autoridades");
@@ -225,6 +226,121 @@ export default {
             }
             const auth = await autoridad()
             const tema = await ejs.renderFile(__dirname + "/themes/informe.ejs", { result: result,auth: auth[0] });
+            res.status(200).json(tema);
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json(error);
+        }
+    },
+    final: async (req, res) => {
+        try {
+            const arr = req.body.data
+            let idMatricula = '';
+            let idCurso = '';
+            let paralelo = '';
+            const estudiantes = [];
+            for (let i = 0; i < arr.length; i++) {
+                const element = arr[i];
+                idMatricula = element.key;
+                idCurso = element.curso?._id
+                paralelo = element.paralelo
+                estudiantes.push(element._id)
+            }
+            var result = [];
+            if (arr) {
+                const rowM = await Matriculas.findById(idMatricula)
+                const rowD = await Distributivo.findOne({ fkcurso: idCurso, paralelo: paralelo });
+                result = formatFinal(rowM, rowD, estudiantes,)
+            }
+            const auth = await autoridad()
+            const tema = await ejs.renderFile(__dirname + "/themes/final.ejs", { result: result,auth: auth[0] });
+            res.status(200).json(tema);
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json(error);
+        }
+    },
+    parcial: async (req, res) => {
+        try {
+            const arr = req.body.data
+            const ops = req.body.ops;
+            let idMatricula = '';
+            let idCurso = '';
+            let paralelo = '';
+            const estudiantes = [];
+            for (let i = 0; i < arr.length; i++) {
+                const element = arr[i];
+                idMatricula = element.key;
+                idCurso = element.curso?._id
+                paralelo = element.paralelo
+                estudiantes.push(element._id)
+            }
+            var result = [];
+            if (arr) {
+                const rowM = await Matriculas.findById(idMatricula)
+                const rowD = await Distributivo.findOne({ fkcurso: idCurso, paralelo: paralelo });
+                result = formatParcial(rowM, rowD, estudiantes,ops)
+            }
+            const auth = await autoridad()
+            const tema = await ejs.renderFile(__dirname + "/themes/parcial.ejs", { result: result,auth: auth[0], ops:ops , paralelo:paralelo});
+            res.status(200).json(tema);
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json(error);
+        }
+    },
+    quimestral: async (req, res) => {
+        try {
+            const arr = req.body.data
+            const ops = req.body.ops;
+            let idMatricula = '';
+            let idCurso = '';
+            let paralelo = '';
+            const estudiantes = [];
+            for (let i = 0; i < arr.length; i++) {
+                const element = arr[i];
+                idMatricula = element.key;
+                idCurso = element.curso?._id
+                paralelo = element.paralelo
+                estudiantes.push(element._id)
+            }
+            var result = [];
+            if (arr) {
+                const rowM = await Matriculas.findById(idMatricula)
+                const rowD = await Distributivo.findOne({ fkcurso: idCurso, paralelo: paralelo });
+                result = formatQuimestral(rowM, rowD, estudiantes,ops)
+            }
+            const auth = await autoridad()
+            const tema = await ejs.renderFile(__dirname + "/themes/quimestral.ejs", { result: result,auth: auth[0], ops:ops , paralelo:paralelo});
+            res.status(200).json(tema);
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json(error);
+        }
+    },
+    anual: async (req, res) => {
+        try {
+            const arr = req.body.data
+            const ops = req.body.ops;
+            let idMatricula = '';
+            let idCurso = '';
+            let paralelo = '';
+            const estudiantes = [];
+            for (let i = 0; i < arr.length; i++) {
+                const element = arr[i];
+                idMatricula = element.key;
+                idCurso = element.curso?._id
+                paralelo = element.paralelo
+                estudiantes.push(element._id)
+            }
+            var result = [];
+            if (arr) {
+                const rowM = await Matriculas.findById(idMatricula)
+                const rowD = await Distributivo.findOne({ fkcurso: idCurso, paralelo: paralelo });
+                result = formatAnual(rowM, rowD, estudiantes)
+            }
+            const auth = await autoridad()
+            const tema = await ejs.renderFile(__dirname + "/themes/anual.ejs", { result: result,auth: auth[0], paralelo:paralelo });
             res.status(200).json(tema);
         } catch (error) {
             console.log(error);

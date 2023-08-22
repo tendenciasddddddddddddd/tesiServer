@@ -18,4 +18,12 @@ router.post("/juntas/",[ authJwt.verifyToken], Ctrl.juntas);
 
 router.post("/informe/",[ authJwt.verifyToken], Ctrl.informe);
 
+router.post("/final/",[ authJwt.verifyToken], Ctrl.final);
+
+router.post("/parcial/",[ authJwt.verifyToken], Ctrl.parcial);
+
+router.post("/quimestral/",[ authJwt.verifyToken], Ctrl.quimestral);
+
+router.post("/anual/",[ authJwt.verifyToken], Ctrl.anual);
+
 export default router;

@@ -574,12 +574,385 @@ var promedioReportes = () => {
     }
   }
 
+  function formatFinal(rowM, rowD, estudiantes) {
+    try {
+      var matriculas = rowM === null || rowM === void 0 ? void 0 : rowM.matriculas;
+      var distributivo = rowD === null || rowD === void 0 ? void 0 : rowD.carga;
+      var help = [];
+      var fechaA = fechaActual();
+
+      for (var i = 0; i < (matriculas === null || matriculas === void 0 ? void 0 : matriculas.length); i++) {
+        var element = matriculas[i];
+        var aux = [];
+
+        if (estudiantes.includes(element.fkestudiante)) {
+          var _element$estudiante5, _rowM$curso5, _rowM$periodo5;
+
+          var computo = matriculas[i].computo;
+          var general3 = [];
+
+          for (var j = 0; j < (distributivo === null || distributivo === void 0 ? void 0 : distributivo.length); j++) {
+            var _subelement$materia7;
+
+            var subelement = distributivo[j];
+            var proAB = void 0,
+                proCD = void 0,
+                suple = void 0,
+                final = void 0,
+                promedioFinal = void 0,
+                remedial = void 0,
+                gracia = void 0,
+                _letras = '';
+
+            for (var m = 0; m < computo.length; m++) {
+              var result = computo[m];
+
+              if (subelement.fkmaterias == result.fkmateria) {
+                var ins = result.notas;
+                var res = result.resultados;
+                proAB = ins === null || ins === void 0 ? void 0 : ins.proAB;
+                proCD = ins === null || ins === void 0 ? void 0 : ins.proCD;
+                gracia = ins === null || ins === void 0 ? void 0 : ins.gracia;
+                suple = res === null || res === void 0 ? void 0 : res.supletorio;
+                remedial = res === null || res === void 0 ? void 0 : res.remedial;
+                final = res === null || res === void 0 ? void 0 : res.notaFinal;
+                promedioFinal = res === null || res === void 0 ? void 0 : res.promedioFinal;
+              }
+            }
+
+            _letras = promCuantitativoLetras2(final);
+            general3.push(final);
+            aux.push({
+              materia: (_subelement$materia7 = subelement.materia) === null || _subelement$materia7 === void 0 ? void 0 : _subelement$materia7.nombre,
+              proAB: proAB,
+              letras: _letras,
+              proCD: proCD,
+              remedial: remedial,
+              gracia: gracia,
+              final: final,
+              suple: suple,
+              promedioFinal: promedioFinal
+            });
+          }
+
+          var pgeneral3 = calcProm(general3);
+          var letras = trasformnumberToText(pgeneral3);
+          help.push({
+            nombre: (_element$estudiante5 = element.estudiante) === null || _element$estudiante5 === void 0 ? void 0 : _element$estudiante5.fullname,
+            curso: (_rowM$curso5 = rowM.curso) === null || _rowM$curso5 === void 0 ? void 0 : _rowM$curso5.nombre,
+            periodo: (_rowM$periodo5 = rowM.periodo) === null || _rowM$periodo5 === void 0 ? void 0 : _rowM$periodo5.nombre,
+            paralelo: rowM.paralelo,
+            data: aux,
+            pgeneral3: pgeneral3,
+            fechaA: fechaA,
+            nmatricula: element.nmatricula,
+            letras: letras
+          });
+        }
+      } //console.log(help)
+
+
+      return help;
+    } catch (error) {
+      console.log(error);
+      return [];
+    }
+  }
+
+  function formatParcial(rowM, rowD, estudiantes, quim, paralelo) {
+    try {
+      var _rowM$curso6, _rowM$periodo6;
+
+      var matriculas = rowM === null || rowM === void 0 ? void 0 : rowM.matriculas;
+      var distributivo = rowD === null || rowD === void 0 ? void 0 : rowD.carga;
+      var help = [];
+      matriculas.sort(function (a, b) {
+        var nameA = a.estudiante.fullname.toLowerCase(),
+            nameB = b.estudiante.fullname.toLowerCase();
+        if (nameA < nameB) return -1;
+        if (nameA > nameB) return 1;
+        return 0;
+      });
+
+      for (var i = 0; i < matriculas.length; i++) {
+        var _element$estudiante6;
+
+        var element = matriculas[i];
+        var computo = element.computo;
+        var notas = [];
+
+        if (estudiantes.includes(element.fkestudiante)) {
+          for (var h = 0; h < distributivo.length; h++) {
+            var subarray = distributivo[h];
+            var nota = '';
+
+            for (var k = 0; k < computo.length; k++) {
+              var reg = computo[k];
+
+              if (subarray.fkmaterias == reg.fkmateria) {
+                if (quim.quimestre == 'PRIMER QUIMESTRE') {
+                  if (quim.q1 == 'PRIMER PARCIAL') {
+                    var _reg$notas;
+
+                    nota = (_reg$notas = reg.notas) === null || _reg$notas === void 0 ? void 0 : _reg$notas.ppa;
+                  }
+
+                  if (quim.q1 == 'SEGUNDO PARCIAL') {
+                    var _reg$notas2;
+
+                    nota = (_reg$notas2 = reg.notas) === null || _reg$notas2 === void 0 ? void 0 : _reg$notas2.ppb;
+                  }
+
+                  if (quim.q1 == 'EXAMEN') {
+                    var _reg$notas3;
+
+                    nota = (_reg$notas3 = reg.notas) === null || _reg$notas3 === void 0 ? void 0 : _reg$notas3.exa1;
+                  }
+                }
+
+                if (quim.quimestre == 'SEGUNDO QUIMESTRE') {
+                  if (quim.q1 == 'PRIMER PARCIAL') {
+                    var _reg$notas4;
+
+                    nota = (_reg$notas4 = reg.notas) === null || _reg$notas4 === void 0 ? void 0 : _reg$notas4.ppc;
+                  }
+
+                  if (quim.q1 == 'SEGUNDO PARCIAL') {
+                    var _reg$notas5;
+
+                    nota = (_reg$notas5 = reg.notas) === null || _reg$notas5 === void 0 ? void 0 : _reg$notas5.ppd;
+                  }
+
+                  if (quim.q1 == 'EXAMEN') {
+                    var _reg$notas6;
+
+                    nota = (_reg$notas6 = reg.notas) === null || _reg$notas6 === void 0 ? void 0 : _reg$notas6.exa2;
+                  }
+                }
+              }
+            }
+
+            notas.push(nota);
+          }
+        }
+
+        var result = calcProm(notas);
+        help.push({
+          fullname: (_element$estudiante6 = element.estudiante) === null || _element$estudiante6 === void 0 ? void 0 : _element$estudiante6.fullname,
+          data: notas,
+          result: result
+        });
+      } //console.log('es',help)
+
+
+      var promedios = calcPromMatriz(help, distributivo);
+      return {
+        help: help,
+        distributivo: distributivo,
+        promedios: promedios,
+        curso: (_rowM$curso6 = rowM.curso) === null || _rowM$curso6 === void 0 ? void 0 : _rowM$curso6.nombre,
+        periodo: (_rowM$periodo6 = rowM.periodo) === null || _rowM$periodo6 === void 0 ? void 0 : _rowM$periodo6.nombre
+      };
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  function formatQuimestral(rowM, rowD, estudiantes, quim) {
+    try {
+      var _rowM$curso7, _rowM$periodo7;
+
+      var matriculas = rowM === null || rowM === void 0 ? void 0 : rowM.matriculas;
+      var distributivo = rowD === null || rowD === void 0 ? void 0 : rowD.carga;
+      var help = [];
+      matriculas.sort(function (a, b) {
+        var nameA = a.estudiante.fullname.toLowerCase(),
+            nameB = b.estudiante.fullname.toLowerCase();
+        if (nameA < nameB) return -1;
+        if (nameA > nameB) return 1;
+        return 0;
+      });
+
+      for (var i = 0; i < matriculas.length; i++) {
+        var _element$estudiante7;
+
+        var element = matriculas[i];
+        var computo = element.computo;
+        var notas = [];
+
+        if (estudiantes.includes(element.fkestudiante)) {
+          for (var h = 0; h < distributivo.length; h++) {
+            var subarray = distributivo[h];
+            var nota = '';
+
+            for (var k = 0; k < computo.length; k++) {
+              var reg = computo[k];
+
+              if (subarray.fkmaterias == reg.fkmateria) {
+                if (quim.quimestre == 'PRIMER QUIMESTRE') {
+                  var _reg$notas7;
+
+                  nota = (_reg$notas7 = reg.notas) === null || _reg$notas7 === void 0 ? void 0 : _reg$notas7.proAB;
+                }
+
+                if (quim.quimestre == 'SEGUNDO QUIMESTRE') {
+                  var _reg$notas8;
+
+                  nota = (_reg$notas8 = reg.notas) === null || _reg$notas8 === void 0 ? void 0 : _reg$notas8.proCD;
+                }
+              }
+            }
+
+            notas.push(nota);
+          }
+        }
+
+        var result = calcProm(notas);
+        help.push({
+          fullname: (_element$estudiante7 = element.estudiante) === null || _element$estudiante7 === void 0 ? void 0 : _element$estudiante7.fullname,
+          data: notas,
+          result: result
+        });
+      } //console.log('es',help)
+
+
+      var promedios = calcPromMatriz(help, distributivo);
+      return {
+        help: help,
+        distributivo: distributivo,
+        promedios: promedios,
+        curso: (_rowM$curso7 = rowM.curso) === null || _rowM$curso7 === void 0 ? void 0 : _rowM$curso7.nombre,
+        periodo: (_rowM$periodo7 = rowM.periodo) === null || _rowM$periodo7 === void 0 ? void 0 : _rowM$periodo7.nombre
+      };
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  function formatAnual(rowM, rowD, estudiantes) {
+    try {
+      var matriculas = rowM === null || rowM === void 0 ? void 0 : rowM.matriculas;
+      var distributivo = rowD === null || rowD === void 0 ? void 0 : rowD.carga;
+      var help = [];
+      var fechaA = fechaActual();
+      matriculas.sort(function (a, b) {
+        var nameA = a.estudiante.fullname.toLowerCase(),
+            nameB = b.estudiante.fullname.toLowerCase();
+        if (nameA < nameB) return -1;
+        if (nameA > nameB) return 1;
+        return 0;
+      });
+
+      for (var j = 0; j < (distributivo === null || distributivo === void 0 ? void 0 : distributivo.length); j++) {
+        var _materias$materia2, _materias$docente2;
+
+        var aux = [];
+        var materias = distributivo[j];
+        var proPPA = [];
+        var proPPB = [];
+        var promAB = [];
+
+        for (var k = 0; k < matriculas.length; k++) {
+          var res = matriculas[k];
+
+          if (estudiantes.includes(res.fkestudiante)) {
+            var _res$estudiante2;
+
+            var computo = matriculas[k].computo;
+            var ppa = void 0,
+                ppb = void 0,
+                sumAB = void 0,
+                sumAB80 = void 0,
+                exa1 = void 0,
+                sumAB20 = void 0,
+                proAB = void 0,
+                ppc = void 0,
+                ppd = void 0,
+                sumCD = void 0,
+                sumCD80 = void 0,
+                exa2 = void 0,
+                sumCD20 = void 0,
+                proCD = '';
+            var suple = '';
+            var final = '';
+
+            for (var i = 0; i < computo.length; i++) {
+              var element = computo[i];
+
+              if (element.fkmateria == materias.fkmaterias) {
+                var _element$notas15, _element$notas16, _element$notas17, _element$notas18, _element$notas19, _element$notas20, _element$notas21, _element$notas22, _element$notas23, _element$notas24, _element$notas25, _element$notas26, _element$notas27, _element$notas28, _element$resultados, _element$resultados2;
+
+                ppa = (_element$notas15 = element.notas) === null || _element$notas15 === void 0 ? void 0 : _element$notas15.ppa;
+                ppb = (_element$notas16 = element.notas) === null || _element$notas16 === void 0 ? void 0 : _element$notas16.ppb;
+                sumAB = (_element$notas17 = element.notas) === null || _element$notas17 === void 0 ? void 0 : _element$notas17.sumAB;
+                sumAB80 = (_element$notas18 = element.notas) === null || _element$notas18 === void 0 ? void 0 : _element$notas18.sumAB80;
+                exa1 = (_element$notas19 = element.notas) === null || _element$notas19 === void 0 ? void 0 : _element$notas19.exa1;
+                sumAB20 = (_element$notas20 = element.notas) === null || _element$notas20 === void 0 ? void 0 : _element$notas20.sumAB20;
+                proAB = (_element$notas21 = element.notas) === null || _element$notas21 === void 0 ? void 0 : _element$notas21.proAB;
+                ppc = (_element$notas22 = element.notas) === null || _element$notas22 === void 0 ? void 0 : _element$notas22.ppc;
+                ppd = (_element$notas23 = element.notas) === null || _element$notas23 === void 0 ? void 0 : _element$notas23.ppd;
+                sumCD = (_element$notas24 = element.notas) === null || _element$notas24 === void 0 ? void 0 : _element$notas24.sumCD;
+                sumCD80 = (_element$notas25 = element.notas) === null || _element$notas25 === void 0 ? void 0 : _element$notas25.sumCD80;
+                exa2 = (_element$notas26 = element.notas) === null || _element$notas26 === void 0 ? void 0 : _element$notas26.exa2;
+                sumCD20 = (_element$notas27 = element.notas) === null || _element$notas27 === void 0 ? void 0 : _element$notas27.sumCD20;
+                proCD = (_element$notas28 = element.notas) === null || _element$notas28 === void 0 ? void 0 : _element$notas28.proCD, suple = (_element$resultados = element.resultados) === null || _element$resultados === void 0 ? void 0 : _element$resultados.supletorio, final = (_element$resultados2 = element.resultados) === null || _element$resultados2 === void 0 ? void 0 : _element$resultados2.notaFinal;
+              }
+            }
+
+            proPPA.push(ppa);
+            proPPB.push(ppb);
+            promAB.push(proAB);
+            aux.push({
+              estudiante: (_res$estudiante2 = res.estudiante) === null || _res$estudiante2 === void 0 ? void 0 : _res$estudiante2.fullname,
+              ppa: ppa,
+              ppb: ppb,
+              sumAB: sumAB,
+              sumAB80: sumAB80,
+              exa1: exa1,
+              sumAB20: sumAB20,
+              proAB: proAB,
+              ppc: ppc,
+              ppd: ppd,
+              sumCD: sumCD,
+              sumCD80: sumCD80,
+              exa2: exa2,
+              sumCD20: sumCD20,
+              proCD: proCD,
+              suple: suple,
+              final: final
+            });
+          }
+        } //console.log(distributivo)
+
+
+        help.push({
+          materia: (_materias$materia2 = materias.materia) === null || _materias$materia2 === void 0 ? void 0 : _materias$materia2.nombre,
+          docente: (_materias$docente2 = materias.docente) === null || _materias$docente2 === void 0 ? void 0 : _materias$docente2.fullname,
+          curso: rowD === null || rowD === void 0 ? void 0 : rowD.curso.nombre,
+          paralelo: rowM === null || rowM === void 0 ? void 0 : rowM.paralelo,
+          data: aux,
+          fechaA: fechaA,
+          periodo: rowM === null || rowM === void 0 ? void 0 : rowM.periodo.nombre
+        });
+      } //console.log('es',help)
+
+
+      return help;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return {
     formatPromociones,
     formatMatricula,
     formatLibretas,
     formatJuntas,
-    formatInforme
+    formatInforme,
+    formatFinal,
+    formatParcial,
+    formatQuimestral,
+    formatAnual
   };
 };
 
@@ -614,6 +987,35 @@ var ifDecimal = num => {
   }
 };
 
+var calcPromMatriz = (arr, array) => {
+  var notas = [];
+
+  for (var j = 0; j < (array === null || array === void 0 ? void 0 : array.length); j++) {
+    var contador = 0;
+    var aux = 0;
+
+    for (var k = 0; k < (arr === null || arr === void 0 ? void 0 : arr.length); k++) {
+      var res = arr[k].data;
+
+      for (var m = 0; m < res.length; m++) {
+        var elemen = res[m];
+
+        if (m == j) {
+          if (elemen == '') continue;
+          contador = contador + parseFloat(elemen);
+          aux += 1;
+        }
+      }
+    }
+
+    var prom = 0;
+    if (aux != 0) prom = (contador / aux).toFixed(2);
+    notas.push(prom);
+  }
+
+  return notas;
+};
+
 function calcMedia(array) {
   var a = 0;
   var b = 0;
@@ -632,6 +1034,23 @@ function calcMedia(array) {
 
   reg.push(a, b, c, d);
   return reg;
+}
+
+function promCuantitativoLetras2(prom) {
+  var num = parseFloat(prom);
+  var result = '';
+
+  if (num >= 9 && num <= 10) {
+    result = 'Domina Aprendizaje';
+  } else if (num >= 7 && num <= 8.99) {
+    result = 'Alcanza Aprendizaje';
+  } else if (num >= 4.01 && num <= 6.99) {
+    result = 'Próximo Alcanzar';
+  } else {
+    result = 'No Alcanza';
+  }
+
+  return result;
 }
 
 function promCuantitativoLetras(prom) {
