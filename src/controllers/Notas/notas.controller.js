@@ -3,7 +3,6 @@ import { promedio } from "./helper/promedios";
 
 const { promedioInsumos, sumaParciales, sumaParciales80, examen20, totalPrimerQuim, finalAnual, finalSupletorios, ifDecimal } = promedio();
 
-
 async function primerIngresoNotas(idcurso, idmatricula, data) {
   try {
     const Dto = data.notas

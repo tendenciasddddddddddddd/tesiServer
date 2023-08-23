@@ -1,14 +1,36 @@
-<div class="s-hojas" v-for="item in help" :key="item.id"
-style="margin-top: 0.5rem;color: #000; font-family: Arial, Helvetica, sans-serif;background: #fff;">
+<% result.forEach(function (item) { %>
+<div class="s-hojas" style="margin-top: 0.5rem;color: #000; font-family: Arial, Helvetica, sans-serif;background: #fff;">
 <div style="text-align: center;padding: 1rem;">
-    <Headers :datos="encabezado" />
+    <table style="width: 100%;">
+        <tbody>
+            <tr>
+                <td style="width: 15%;">
+                    <img style="height: 60px" src="https://res.cloudinary.com/stebann/image/upload/v1681418309/logo-ministerio-educacion_fvcptq.png" alt="Logo" />
+                </td>
+                <td style="width: 70%;">
+                    <div style="text-align: center;">
+                        <span style="color:#000;font-weight: 700;font-size: 16px;line-height: 1.375;">
+                            <%= auth.unidadeducativa %>
+                        </span><br>
+                        <p style="margin-top:-1px;text-align: center;font-size: 12px;">
+                            Dirección:  <%= auth.direccion %>  Teléf: <%= auth.telefono %>  <br>
+                            <%= auth.ubicacion %> 
+                        </p>
+                    </div>
+                </td>
+                <td style="width: 15%;">
+                    <img style="width: 60px;" src="<%=auth.logo%>" alt="Logo" />
+                </td>
+            </tr>
+        </tbody>
+    </table>
     <hr>
     <table style="width: 100%;">
         <tbody>
             <tr>
                 <td style="width: 60%;font-size: 12px;text-align: left">
-                    <span>CURSO : <b>{{ item.curso.nombre }} {{ item.paralelo
-                    }}</b></span> <br>
+                    <span>CURSO : <b><%= item.curso.nombre %> <%= item.paralelo
+                    %></b></span> <br>
                     <table style="width: 100%;">
                         <tbody>
                             <tr>
@@ -22,9 +44,9 @@ style="margin-top: 0.5rem;color: #000; font-family: Arial, Helvetica, sans-serif
                 </td>
                 <td style="width: 40%;font-size: 12px;">
                     <div style="text-align: right;">
-                        <span>PERIODO: <b>{{ item.periodo.nombre }}</b></span><br>
-                        <span>FECHA: {{ $store.state.fechaReporter }}{{ fechaA
-                        }}</span>
+                        <span>PERIODO: <b><%= item.periodo?.nombre %></b></span><br>
+                        <span>FECHA: La Libertad <%= item?.fechaA
+                        %></span>
                     </div>
                 </td>
             </tr>
@@ -57,31 +79,34 @@ style="margin-top: 0.5rem;color: #000; font-family: Arial, Helvetica, sans-serif
             </tr>
         </thead>
         <tbody>
-            <tr v-for="(subItems, index) in item.lista" :key="subItems.id">
+            <% item.data.forEach(function (subItems, index) { %>
+            <tr >
                 <td
                     style="border-top: 1px solid #000;border-bottom-width: 0px; font-size: 10.4px;text-align: left;">
                     <table style="width: 100%;">
                         <tbody>
                             <tr style="font-size: 10.4px;">
                                 <td style="width: 10%;">
-                                    {{ index + 1 }}
+                                    <%= index + 1 %>
                                 </td>
                                 <td style="width: 15%;">
-                                    {{ subItems.nmatricula }}
+                                    <%= subItems.nmatricula %>
                                 </td>
                                 <td style="width: 15%;">
-                                    {{ subItems.cedula }}
+                                    <%= subItems.cedula %>
                                 </td>
                                 <td style="width: 60%;">
-                                    {{ subItems.fullname }}
+                                    <%= subItems.fullname %>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </td>
             </tr>
+            <% }) %>
         </tbody>
     </table>
 </div><br> <br>
 <div style="page-break-before:always;"></div>
 </div>
+<% }) %>

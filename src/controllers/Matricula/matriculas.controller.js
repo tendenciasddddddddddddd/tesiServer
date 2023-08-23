@@ -152,6 +152,24 @@ export default {
       return res.status(500).json(error);
     }
   },
+   //======================LISTAR MATRICULAS PARA LOS REPORTES =================================
+   getByIdReportes: async (req, res) => {
+    try {
+      const { id } = req.params;
+      const result = await Matriculas.find({
+        fkcurso: {
+          $in: [id],
+        },
+      }).lean()
+      .select({ curso:1,fkcurso:1,fkperiodo:1,paralelo:1,
+        "matriculas.estudiante": 1,"matriculas.fkestudiante": 1,
+        'matriculas._id': 1,});
+      res.status(200).json(result);
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json(error);
+    }
+  },
     //======================LISTAR MATRICULAS POR ID PARA PERIODOS fkperiodo  =================================
     getRespaldoById: async (req, res) => {
       try {

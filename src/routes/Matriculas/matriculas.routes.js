@@ -16,6 +16,8 @@ router.get("/mynota/:id",[authJwt.verifyToken], Ctrl.getByIdCalificaciones);
 
 router.get("/:id",[authJwt.verifyToken], Ctrl.getById);
 
+router.get("/reportes/:id",[authJwt.verifyToken], Ctrl.getByIdReportes);
+
 router.get("/respaldo/:id",[authJwt.verifyToken], Ctrl.getRespaldoById);
 
 router.post("/deleteMatricula",[ authJwt.verifyToken], Ctrl.deleteByIds);

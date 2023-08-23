@@ -16,6 +16,10 @@ router.post("/libretas/",[ authJwt.verifyToken], Ctrl.libretas);
 
 router.post("/juntas/",[ authJwt.verifyToken], Ctrl.juntas);
 
+router.post("/juntasIndividual/",[ authJwt.verifyToken], Ctrl.juntasIndividual);
+
+router.post("/juntasFinal/",[ authJwt.verifyToken], Ctrl.juntasFinal);
+
 router.post("/informe/",[ authJwt.verifyToken], Ctrl.informe);
 
 router.post("/final/",[ authJwt.verifyToken], Ctrl.final);
@@ -25,5 +29,9 @@ router.post("/parcial/",[ authJwt.verifyToken], Ctrl.parcial);
 router.post("/quimestral/",[ authJwt.verifyToken], Ctrl.quimestral);
 
 router.post("/anual/",[ authJwt.verifyToken], Ctrl.anual);
+
+router.get("/nomina",[authJwt.verifyToken], Ctrl.getNomina);
+
+router.get("/nominaDocentes",[authJwt.verifyToken], Ctrl.getNominaDocente);
 
 export default router;

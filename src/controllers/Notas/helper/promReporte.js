@@ -267,6 +267,181 @@ export const promedioReportes = () => {
             console.log(error)
         }
     }
+    function formatJuntasIndividual(rowM, rowD, estudiantes, quim, paralelo, keymateria) {
+        try {
+            const matriculas = rowM?.matriculas
+            const distributivo = rowD?.carga
+            const help = []
+            var fechaA = fechaActual()
+            matriculas.sort(function (a, b) {
+                var nameA = a.estudiante.fullname.toLowerCase(), nameB = b.estudiante.fullname.toLowerCase();
+                if (nameA < nameB)
+                    return -1;
+                if (nameA > nameB)
+                    return 1;
+                return 0;
+            });
+            for (let j = 0; j < distributivo?.length; j++) {
+                if (keymateria == distributivo[j].fkmaterias) {
+                    const aux = []
+                    const materias = distributivo[j]
+                    const proPPA = []; const proPPB = []; const promAB = []
+                    for (let k = 0; k < matriculas.length; k++) {
+                        const res = matriculas[k];
+                        if (estudiantes.includes(res.fkestudiante)) {
+                            const computo = matriculas[k].computo
+                            let n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, ppa, ppb, sumAB, sumAB80, exa1, sumAB20, proAB = ''
+                            let letras = '';
+                            for (let i = 0; i < computo.length; i++) {
+                                const element = computo[i];
+                                if (element.fkmateria == materias.fkmaterias) {
+                                    if (quim == 'PRIMER QUIMESTRE') {
+                                        const ins = element.notas
+                                        n1 = ins?.a1; n2 = ins?.a2; n3 = ins?.a3; n4 = ins?.a4; n5 = ins?.a5;
+                                        n6 = ins?.b1; n7 = ins?.b2; n8 = ins?.b3; n9 = ins?.b4; n10 = ins?.b5;
+                                        ppa = element.notas?.ppa
+                                        ppb = element.notas?.ppb
+                                        sumAB = element.notas?.sumAB
+                                        sumAB80 = element.notas?.sumAB80
+                                        exa1 = element.notas?.exa1
+                                        sumAB20 = element.notas?.sumAB20
+                                        proAB = element.notas?.proAB
+                                        letras = promCuantitativoLetras(ins?.proAB);
+                                    }
+                                    if (quim == 'SEGUNDO QUIMESTRE') {
+                                        const ins = element.notas
+                                        n1 = ins?.c1; n2 = ins?.c2; n3 = ins?.c3; n4 = ins?.c4; n5 = ins?.c5;
+                                        n6 = ins?.d1; n7 = ins?.d2; n8 = ins?.d3; n9 = ins?.d4; n10 = ins?.d5;
+                                        ppa = element.notas?.ppc
+                                        ppb = element.notas?.ppd
+                                        sumAB = element.notas?.sumCD
+                                        sumAB80 = element.notas?.sumCD80
+                                        exa1 = element.notas?.exa2
+                                        sumAB20 = element.notas?.sumCD20
+                                        proAB = element.notas?.proCD
+                                        letras = promCuantitativoLetras(ins?.proCD);
+                                    }
+                                }
+                            }
+                            proPPA.push(ppa)
+                            proPPB.push(ppb)
+                            promAB.push(proAB)
+                            aux.push({
+                                estudiante: res.estudiante?.fullname,
+                                n1: n1, n2: n2, n3: n3, n4: n4, n5: n5, n6: n6, n7: n7, n8: n8, n9: n9, n10: n10,
+                                ppa: ppa,
+                                ppb: ppb,
+                                sumAB: sumAB,
+                                sumAB80: sumAB80,
+                                exa1: exa1,
+                                sumAB20: sumAB20,
+                                proAB: proAB,
+                                letras: letras,
+                            })
+                        }
+                    }
+                    const medPPA = calcMedia(proPPA)
+                    const medPPB = calcMedia(proPPB)
+                    const medAB = calcMedia(promAB)
+                    const pPPA = calcProm(proPPA)
+                    const pPPB = calcProm(proPPB)
+                    const prAB = calcProm(promAB)
+                    //console.log(mediaPPA)
+                    //console.log(distributivo)
+                    help.push({
+                        materia: materias.materia?.nombre,
+                        docente: materias.docente?.fullname,
+                        curso: rowD?.curso.nombre,
+                        paralelo: paralelo,
+                        data: aux,
+                        fechaA: fechaA,
+                        medPPA: medPPA, medPPB: medPPB, medAB: medAB,
+                        periodo: rowM?.periodo.nombre,
+                        pPPA: pPPA, pPPB: pPPB, prAB: prAB
+                    })
+                }
+            }
+            //console.log('es',help)
+            return help
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    function formatJuntasFinal(rowM, rowD, estudiantes, quim, paralelo, keymateria) {
+        try {
+            const matriculas = rowM?.matriculas
+            const distributivo = rowD?.carga
+            const help = []
+            var fechaA = fechaActual()
+            matriculas.sort(function (a, b) {
+                var nameA = a.estudiante.fullname.toLowerCase(), nameB = b.estudiante.fullname.toLowerCase();
+                if (nameA < nameB)
+                    return -1;
+                if (nameA > nameB)
+                    return 1;
+                return 0;
+            });
+            for (let j = 0; j < distributivo?.length; j++) {
+                if (keymateria == distributivo[j].fkmaterias) {
+                    const aux = []
+                    const materias = distributivo[j]
+                    const promAB = []; const promCD = []; const promF = []
+                    for (let k = 0; k < matriculas.length; k++) {
+                        const res = matriculas[k];
+                        if (estudiantes.includes(res.fkestudiante)) {
+                            const computo = matriculas[k].computo
+                            let proAB, proCD, suple, final, promedioFinal, remedial, gracia = ''
+                            for (let i = 0; i < computo.length; i++) {
+                                const element = computo[i];
+                                if (element.fkmateria == materias.fkmaterias) {
+                                    const res = element.resultados
+                                    proAB = element.notas?.proAB
+                                    proCD = element.notas?.proCD
+                                    suple = res?.supletorio
+                                    final = res?.notaFinal
+                                    promedioFinal = res?.promedioFinal
+                                    remedial = res?.remedial;
+                                    gracia = res?.gracia;
+                                }
+                            }
+                            promAB.push(proAB)
+                            promCD.push(proCD)
+                            promF.push(final)
+                            aux.push({
+                                estudiante: res.estudiante?.fullname,
+                                proAB: proAB,proCD:proCD, suple : suple,
+                                final : final, promedioFinal : promedioFinal,
+                                remedial : remedial,gracia : gracia,
+                            })
+                        }
+                    }
+                    const medAB = calcMedia(promAB)
+                    const medCD = calcMedia(promCD)
+                    const medF = calcMedia(promF)
+                    const pPPA = calcProm(promAB)
+                    const pPPB = calcProm(promCD)
+                    const prAB = calcProm(promF)
+                    //console.log(mediaPPA)
+                    //console.log(distributivo)
+                    help.push({
+                        materia: materias.materia?.nombre,
+                        docente: materias.docente?.fullname,
+                        curso: rowD?.curso.nombre,
+                        paralelo: paralelo,
+                        data: aux,
+                        fechaA: fechaA,
+                        medF: medF, medCD: medCD, medAB: medAB,
+                        periodo: rowM?.periodo.nombre,
+                        pPPA: pPPA, pPPB: pPPB, prAB: prAB
+                    })
+                }
+            }
+            //console.log('es',help)
+            return help
+        } catch (error) {
+            console.log(error)
+        }
+    }
     function formatInforme(rowM, rowD, estudiantes) {
         try {
             const matriculas = rowM?.matriculas
@@ -465,9 +640,11 @@ export const promedioReportes = () => {
                 })
             }
             //console.log('es',help)
-            const promedios = calcPromMatriz(help,distributivo)
-            return { help: help, distributivo: distributivo, promedios: promedios,
-                curso: rowM.curso?.nombre, periodo: rowM.periodo?.nombre, }
+            const promedios = calcPromMatriz(help, distributivo)
+            return {
+                help: help, distributivo: distributivo, promedios: promedios,
+                curso: rowM.curso?.nombre, periodo: rowM.periodo?.nombre,
+            }
         } catch (error) {
             console.log(error)
         }
@@ -515,9 +692,11 @@ export const promedioReportes = () => {
                 })
             }
             //console.log('es',help)
-            const promedios = calcPromMatriz(help,distributivo)
-            return { help: help, distributivo: distributivo, promedios: promedios,
-                curso: rowM.curso?.nombre, periodo: rowM.periodo?.nombre, }
+            const promedios = calcPromMatriz(help, distributivo)
+            return {
+                help: help, distributivo: distributivo, promedios: promedios,
+                curso: rowM.curso?.nombre, periodo: rowM.periodo?.nombre,
+            }
         } catch (error) {
             console.log(error)
         }
@@ -544,26 +723,26 @@ export const promedioReportes = () => {
                     const res = matriculas[k];
                     if (estudiantes.includes(res.fkestudiante)) {
                         const computo = matriculas[k].computo
-                        let  ppa, ppb, sumAB, sumAB80, exa1, sumAB20, proAB, ppc, ppd, sumCD, sumCD80, exa2, sumCD20, proCD = ''
+                        let ppa, ppb, sumAB, sumAB80, exa1, sumAB20, proAB, ppc, ppd, sumCD, sumCD80, exa2, sumCD20, proCD = ''
                         let suple = ''; let final = '';
                         for (let i = 0; i < computo.length; i++) {
                             const element = computo[i];
                             if (element.fkmateria == materias.fkmaterias) {
-                                    ppa = element.notas?.ppa
-                                    ppb = element.notas?.ppb
-                                    sumAB = element.notas?.sumAB
-                                    sumAB80 = element.notas?.sumAB80
-                                    exa1 = element.notas?.exa1
-                                    sumAB20 = element.notas?.sumAB20
-                                    proAB = element.notas?.proAB
-                                   
-                                    ppc = element.notas?.ppc
-                                    ppd = element.notas?.ppd
-                                    sumCD = element.notas?.sumCD
-                                    sumCD80 = element.notas?.sumCD80
-                                    exa2 = element.notas?.exa2
-                                    sumCD20 = element.notas?.sumCD20
-                                    proCD = element.notas?.proCD,
+                                ppa = element.notas?.ppa
+                                ppb = element.notas?.ppb
+                                sumAB = element.notas?.sumAB
+                                sumAB80 = element.notas?.sumAB80
+                                exa1 = element.notas?.exa1
+                                sumAB20 = element.notas?.sumAB20
+                                proAB = element.notas?.proAB
+
+                                ppc = element.notas?.ppc
+                                ppd = element.notas?.ppd
+                                sumCD = element.notas?.sumCD
+                                sumCD80 = element.notas?.sumCD80
+                                exa2 = element.notas?.exa2
+                                sumCD20 = element.notas?.sumCD20
+                                proCD = element.notas?.proCD,
 
                                     suple = element.resultados?.supletorio,
                                     final = element.resultados?.notaFinal
@@ -576,13 +755,13 @@ export const promedioReportes = () => {
                             estudiante: res.estudiante?.fullname,
                             ppa: ppa, ppb: ppb,
                             sumAB: sumAB, sumAB80: sumAB80,
-                            exa1: exa1,sumAB20: sumAB20,
+                            exa1: exa1, sumAB20: sumAB20,
                             proAB: proAB,
                             ppc: ppc, ppd: ppd,
                             sumCD: sumCD, sumCD80: sumCD80,
-                            exa2: exa2,sumCD20: sumCD20,
+                            exa2: exa2, sumCD20: sumCD20,
                             proCD: proCD,
-                            suple : suple, final: final
+                            suple: suple, final: final
                         })
                     }
                 }
@@ -603,8 +782,54 @@ export const promedioReportes = () => {
             console.log(error)
         }
     }
-    return { formatPromociones, formatMatricula, formatLibretas, formatJuntas, formatInforme, formatFinal, formatParcial,
-        formatQuimestral,formatAnual }
+    const formarNomina = (array) => {
+        try {
+            const a = []
+            var fechaA = fechaActual()
+            for (let i = 0; i < array.length; i++) {
+                const element = array[i].matriculas;
+                if (element.length == 0) continue;
+                const paralelo = array[i].paralelo
+                const curso = array[i].curso
+                const periodo = array[i].periodo
+                const subdata = []
+                for (let j = 0; j < element.length; j++) {
+                    const element2 = element[j].estudiante;
+                    const data = {
+                        fullname: element2.fullname,
+                        cedula: element2.cedula,
+                        nmatricula: element[j].nmatricula,
+                    }
+                    subdata.push(data)
+                }
+                const ordenName = subdata.sort(function (a, b) {
+                    var nameA = a.fullname.toLowerCase(), nameB = b.fullname.toLowerCase();
+                    if (nameA < nameB)
+                        return -1;
+                    if (nameA > nameB)
+                        return 1;
+                    return 0;
+                });
+                const model = {
+                    curso: curso,
+                    periodo: periodo,
+                    paralelo: paralelo,
+                    data: ordenName,
+                    orden: curso.num,
+                    fechaA: fechaA
+                }
+                a.push(model)
+            }
+            const orden = a.sort((a, b) => parseFloat(a.orden) - parseFloat(b.orden));
+            return orden
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    return {
+        formatPromociones, formatMatricula, formatLibretas, formatJuntas, formatInforme, formatFinal, formatParcial,
+        formatQuimestral, formatAnual, formarNomina,formatJuntasIndividual, formatJuntasFinal
+    }
 };
 
 function trunc(x, posiciones = 0) {
