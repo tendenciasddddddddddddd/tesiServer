@@ -282,6 +282,39 @@ var _default = {
 
     return getById;
   }(),
+  //======================LISTAR MATRICULAS PARA LOS REPORTES =================================
+  getByIdReportes: function () {
+    var _getByIdReportes = _asyncToGenerator(function* (req, res) {
+      try {
+        var {
+          id
+        } = req.params;
+        var result = yield _Matriculas.default.find({
+          fkcurso: {
+            $in: [id]
+          }
+        }).lean().select({
+          curso: 1,
+          fkcurso: 1,
+          fkperiodo: 1,
+          paralelo: 1,
+          "matriculas.estudiante": 1,
+          "matriculas.fkestudiante": 1,
+          'matriculas._id': 1
+        });
+        res.status(200).json(result);
+      } catch (error) {
+        console.log(error);
+        return res.status(500).json(error);
+      }
+    });
+
+    function getByIdReportes(_x22, _x23) {
+      return _getByIdReportes.apply(this, arguments);
+    }
+
+    return getByIdReportes;
+  }(),
   //======================LISTAR MATRICULAS POR ID PARA PERIODOS fkperiodo  =================================
   getRespaldoById: function () {
     var _getRespaldoById = _asyncToGenerator(function* (req, res) {
@@ -300,7 +333,7 @@ var _default = {
       }
     });
 
-    function getRespaldoById(_x22, _x23) {
+    function getRespaldoById(_x24, _x25) {
       return _getRespaldoById.apply(this, arguments);
     }
 
@@ -323,7 +356,7 @@ var _default = {
       }
     });
 
-    function getByIdCalificaciones(_x24, _x25) {
+    function getByIdCalificaciones(_x26, _x27) {
       return _getByIdCalificaciones.apply(this, arguments);
     }
 

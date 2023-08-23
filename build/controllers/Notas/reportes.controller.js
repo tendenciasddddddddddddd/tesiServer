@@ -13,6 +13,8 @@ var _promReporte = require("./helper/promReporte");
 
 var _Configure = _interopRequireDefault(require("../../models/Configure"));
 
+var _User = _interopRequireDefault(require("../../models/User"));
+
 var _rediss = require("../../middlewares/rediss");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -39,7 +41,10 @@ var {
   formatFinal,
   formatParcial,
   formatQuimestral,
-  formatAnual
+  formatAnual,
+  formarNomina,
+  formatJuntasIndividual,
+  formatJuntasFinal
 } = (0, _promReporte.promedioReportes)();
 
 function autoridad() {
@@ -355,6 +360,110 @@ var _default = {
 
     return juntas;
   }(),
+  juntasIndividual: function () {
+    var _juntasIndividual = _asyncToGenerator(function* (req, res) {
+      try {
+        var arr = req.body.data;
+        var ops = req.body.ops;
+        var idMatricula = '';
+        var idCurso = '';
+        var paralelo = '';
+        var keymateria = '';
+        var estudiantes = [];
+
+        for (var i = 0; i < arr.length; i++) {
+          var _element$curso5;
+
+          var element = arr[i];
+          idMatricula = element.key;
+          idCurso = (_element$curso5 = element.curso) === null || _element$curso5 === void 0 ? void 0 : _element$curso5._id;
+          paralelo = element.paralelo;
+          estudiantes.push(element._id);
+          keymateria = element.keymateria;
+        }
+
+        var result = [];
+
+        if (arr.length > 0) {
+          var rowM = yield _Matriculas.default.findById(idMatricula);
+          var rowD = yield _Distributivo.default.findOne({
+            fkcurso: idCurso,
+            paralelo: paralelo
+          });
+          result = formatJuntasIndividual(rowM, rowD, estudiantes, ops.quimestre, paralelo, keymateria);
+        }
+
+        var auth = yield autoridad();
+        var tema = yield ejs.renderFile(__dirname + "/themes/juntas.ejs", {
+          result: result,
+          auth: auth[0],
+          ops: ops
+        });
+        res.status(200).json(tema);
+      } catch (error) {
+        console.log(error);
+        return res.status(500).json(error);
+      }
+    });
+
+    function juntasIndividual(_x13, _x14) {
+      return _juntasIndividual.apply(this, arguments);
+    }
+
+    return juntasIndividual;
+  }(),
+  juntasFinal: function () {
+    var _juntasFinal = _asyncToGenerator(function* (req, res) {
+      try {
+        var arr = req.body.data;
+        var ops = req.body.ops;
+        var idMatricula = '';
+        var idCurso = '';
+        var paralelo = '';
+        var keymateria = '';
+        var estudiantes = [];
+
+        for (var i = 0; i < arr.length; i++) {
+          var _element$curso6;
+
+          var element = arr[i];
+          idMatricula = element.key;
+          idCurso = (_element$curso6 = element.curso) === null || _element$curso6 === void 0 ? void 0 : _element$curso6._id;
+          paralelo = element.paralelo;
+          estudiantes.push(element._id);
+          keymateria = element.keymateria;
+        }
+
+        var result = [];
+
+        if (arr.length > 0) {
+          var rowM = yield _Matriculas.default.findById(idMatricula);
+          var rowD = yield _Distributivo.default.findOne({
+            fkcurso: idCurso,
+            paralelo: paralelo
+          });
+          result = formatJuntasFinal(rowM, rowD, estudiantes, ops.quimestre, paralelo, keymateria);
+        }
+
+        var auth = yield autoridad();
+        var tema = yield ejs.renderFile(__dirname + "/themes/juntasAnual.ejs", {
+          result: result,
+          auth: auth[0],
+          ops: ops
+        });
+        res.status(200).json(tema);
+      } catch (error) {
+        console.log(error);
+        return res.status(500).json(error);
+      }
+    });
+
+    function juntasFinal(_x15, _x16) {
+      return _juntasFinal.apply(this, arguments);
+    }
+
+    return juntasFinal;
+  }(),
   informe: function () {
     var _informe = _asyncToGenerator(function* (req, res) {
       try {
@@ -365,11 +474,11 @@ var _default = {
         var estudiantes = [];
 
         for (var i = 0; i < arr.length; i++) {
-          var _element$curso5;
+          var _element$curso7;
 
           var element = arr[i];
           idMatricula = element.key;
-          idCurso = (_element$curso5 = element.curso) === null || _element$curso5 === void 0 ? void 0 : _element$curso5._id;
+          idCurso = (_element$curso7 = element.curso) === null || _element$curso7 === void 0 ? void 0 : _element$curso7._id;
           paralelo = element.paralelo;
           estudiantes.push(element._id);
         }
@@ -397,7 +506,7 @@ var _default = {
       }
     });
 
-    function informe(_x13, _x14) {
+    function informe(_x17, _x18) {
       return _informe.apply(this, arguments);
     }
 
@@ -413,11 +522,11 @@ var _default = {
         var estudiantes = [];
 
         for (var i = 0; i < arr.length; i++) {
-          var _element$curso6;
+          var _element$curso8;
 
           var element = arr[i];
           idMatricula = element.key;
-          idCurso = (_element$curso6 = element.curso) === null || _element$curso6 === void 0 ? void 0 : _element$curso6._id;
+          idCurso = (_element$curso8 = element.curso) === null || _element$curso8 === void 0 ? void 0 : _element$curso8._id;
           paralelo = element.paralelo;
           estudiantes.push(element._id);
         }
@@ -445,7 +554,7 @@ var _default = {
       }
     });
 
-    function final(_x15, _x16) {
+    function final(_x19, _x20) {
       return _final.apply(this, arguments);
     }
 
@@ -462,11 +571,11 @@ var _default = {
         var estudiantes = [];
 
         for (var i = 0; i < arr.length; i++) {
-          var _element$curso7;
+          var _element$curso9;
 
           var element = arr[i];
           idMatricula = element.key;
-          idCurso = (_element$curso7 = element.curso) === null || _element$curso7 === void 0 ? void 0 : _element$curso7._id;
+          idCurso = (_element$curso9 = element.curso) === null || _element$curso9 === void 0 ? void 0 : _element$curso9._id;
           paralelo = element.paralelo;
           estudiantes.push(element._id);
         }
@@ -496,7 +605,7 @@ var _default = {
       }
     });
 
-    function parcial(_x17, _x18) {
+    function parcial(_x21, _x22) {
       return _parcial.apply(this, arguments);
     }
 
@@ -513,11 +622,11 @@ var _default = {
         var estudiantes = [];
 
         for (var i = 0; i < arr.length; i++) {
-          var _element$curso8;
+          var _element$curso10;
 
           var element = arr[i];
           idMatricula = element.key;
-          idCurso = (_element$curso8 = element.curso) === null || _element$curso8 === void 0 ? void 0 : _element$curso8._id;
+          idCurso = (_element$curso10 = element.curso) === null || _element$curso10 === void 0 ? void 0 : _element$curso10._id;
           paralelo = element.paralelo;
           estudiantes.push(element._id);
         }
@@ -547,7 +656,7 @@ var _default = {
       }
     });
 
-    function quimestral(_x19, _x20) {
+    function quimestral(_x23, _x24) {
       return _quimestral.apply(this, arguments);
     }
 
@@ -564,11 +673,11 @@ var _default = {
         var estudiantes = [];
 
         for (var i = 0; i < arr.length; i++) {
-          var _element$curso9;
+          var _element$curso11;
 
           var element = arr[i];
           idMatricula = element.key;
-          idCurso = (_element$curso9 = element.curso) === null || _element$curso9 === void 0 ? void 0 : _element$curso9._id;
+          idCurso = (_element$curso11 = element.curso) === null || _element$curso11 === void 0 ? void 0 : _element$curso11._id;
           paralelo = element.paralelo;
           estudiantes.push(element._id);
         }
@@ -597,11 +706,76 @@ var _default = {
       }
     });
 
-    function anual(_x21, _x22) {
+    function anual(_x25, _x26) {
       return _anual.apply(this, arguments);
     }
 
     return anual;
+  }(),
+  getNomina: function () {
+    var _getNomina = _asyncToGenerator(function* (req, res) {
+      try {
+        var result = yield _Matriculas.default.find().lean().select({
+          curso: 1,
+          periodo: 1,
+          paralelo: 1,
+          'matriculas.estudiante': 1,
+          'matriculas.nmatricula': 1
+        });
+        var reg = formarNomina(result);
+        var auth = yield autoridad();
+        var tema = yield ejs.renderFile(__dirname + "/themes/nomina.ejs", {
+          result: reg,
+          auth: auth[0]
+        });
+        return res.json(tema);
+      } catch (error) {
+        console.log(error);
+        return res.status(500).json(error);
+      }
+    });
+
+    function getNomina(_x27, _x28) {
+      return _getNomina.apply(this, arguments);
+    }
+
+    return getNomina;
+  }(),
+  getNominaDocente: function () {
+    var _getNominaDocente = _asyncToGenerator(function* (req, res) {
+      try {
+        var result = yield _User.default.find({
+          typo: {
+            $in: ["DOCS"]
+          }
+        }).lean().select({
+          fullname: 1,
+          cedula: 1
+        });
+        result.sort(function (a, b) {
+          var nameA = a.fullname.toLowerCase(),
+              nameB = b.fullname.toLowerCase();
+          if (nameA < nameB) return -1;
+          if (nameA > nameB) return 1;
+          return 0;
+        });
+        var auth = yield autoridad();
+        var tema = yield ejs.renderFile(__dirname + "/themes/nominaDocente.ejs", {
+          result: result,
+          auth: auth[0]
+        });
+        return res.json(tema);
+      } catch (error) {
+        console.log(error);
+        return res.status(500).json(error);
+      }
+    });
+
+    function getNominaDocente(_x29, _x30) {
+      return _getNominaDocente.apply(this, arguments);
+    }
+
+    return getNominaDocente;
   }()
 };
 exports.default = _default;

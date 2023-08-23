@@ -20,10 +20,14 @@ router.post("/matriculaPdf/", [_middlewares.authJwt.verifyToken], _reportes.defa
 router.post("/promocionPdf/", [_middlewares.authJwt.verifyToken], _reportes.default.promocionPdf);
 router.post("/libretas/", [_middlewares.authJwt.verifyToken], _reportes.default.libretas);
 router.post("/juntas/", [_middlewares.authJwt.verifyToken], _reportes.default.juntas);
+router.post("/juntasIndividual/", [_middlewares.authJwt.verifyToken], _reportes.default.juntasIndividual);
+router.post("/juntasFinal/", [_middlewares.authJwt.verifyToken], _reportes.default.juntasFinal);
 router.post("/informe/", [_middlewares.authJwt.verifyToken], _reportes.default.informe);
 router.post("/final/", [_middlewares.authJwt.verifyToken], _reportes.default.final);
 router.post("/parcial/", [_middlewares.authJwt.verifyToken], _reportes.default.parcial);
 router.post("/quimestral/", [_middlewares.authJwt.verifyToken], _reportes.default.quimestral);
 router.post("/anual/", [_middlewares.authJwt.verifyToken], _reportes.default.anual);
+router.get("/nomina", [_middlewares.authJwt.verifyToken], _reportes.default.getNomina);
+router.get("/nominaDocentes", [_middlewares.authJwt.verifyToken], _reportes.default.getNominaDocente);
 var _default = router;
 exports.default = _default;
