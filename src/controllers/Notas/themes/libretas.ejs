@@ -213,6 +213,7 @@
                     </td>
                 </tr>
                 <% }) %>
+
                 <tr>
                     <td style="padding: 1px 3px;border-top: 1px solid #000;font-size: 10px;">
                         <b>PROMEDIO</b>
@@ -241,6 +242,31 @@
                         <% } %>
                     </td>
                 </tr>
+                <% item.data2.forEach(function (subItems) { %>
+                <tr >
+                    <td style="padding: 1px 3px;border-top: 1px solid #000;font-size: .60rem;">
+                        <%= subItems.materia %>
+                    </td>
+                    <td
+                        style="padding: 1px 3px;border-top: 1px solid #000;font-size: .65rem;text-align: center;border-left: 1px solid #000;">
+                        <% if (ops.q1) { %>
+                        <span > <%= subItems.p1 %></span>
+                        <% } %>
+                    </td>
+                    <td
+                        style="padding: 1px 3px;border-top: 1px solid #000;font-size: .65rem;text-align: center;border-left: 1px solid #000;">
+                        <% if (ops.q2) { %>
+                        <span ><%= subItems.p2 %></span>
+                        <% } %>
+                    </td>
+                    <td
+                        style="padding: 1px 3px;border-top: 1px solid #000;font-size: .65rem;text-align: center;border-left: 1px solid #000;">
+                        <% if (ops.q2 &&ops.q1) { %>
+                        <b ><%= subItems.letras %> </b>
+                        <% } %>
+                    </td>
+                </tr>
+                <% }) %>
             </tbody>
         </table>
         <table

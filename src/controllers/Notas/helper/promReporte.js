@@ -31,26 +31,45 @@ export const promedioReportes = () => {
             for (let i = 0; i < matriculas?.length; i++) {
                 const element = matriculas[i];
                 const aux = []
+                const aux2 = []
                 if (estudiantes.includes(element.fkestudiante)) {
                     const computo = matriculas[i].computo;
                     const promGeneral = []
                     for (let j = 0; j < distributivo?.length; j++) {
                         const subelement = distributivo[j];
-                        let promedio, letras = '';
-                        for (let m = 0; m < computo.length; m++) {
-                            const result = computo[m];
-                            if (subelement.fkmaterias == result.fkmateria) {
-                                promedio = result.resultados.notaFinal
+                        if (subelement.materia?.computo==2) {
+                            let promedio, letras = '';
+                            for (let m = 0; m < computo.length; m++) {
+                                const result = computo[m];
+                                if (subelement.fkmaterias == result.fkmateria) {
+                                    promedio = result.resultados.notaFinal
+                                }
                             }
+                            letras = trasformnumberToText(promedio)
+                            promGeneral.push(promedio)
+                            aux.push({
+                                materia: subelement.materia?.nombre,
+                                area: subelement.materia?.area,
+                                promedio: promedio ? promedio.toString().replace('.', ',') : '',
+                                letras: letras,
+                            }) 
+                        } else {
+                            let promedio, letras = '';
+                            for (let m = 0; m < computo.length; m++) {
+                                const result = computo[m];
+                                if (subelement.fkmaterias == result.fkmateria) {
+                                    promedio = result.resultados?.promedioFinal
+                                }
+                            }
+                            letras = calcularPryectos(promedio, subelement.materia?.nombre)
+                            promGeneral.push(promedio)
+                            aux2.push({
+                                materia: subelement.materia?.nombre,
+                                area: subelement.materia?.area,
+                                promedio: promedio,
+                                letras: letras,
+                            }) 
                         }
-                        letras = trasformnumberToText(promedio)
-                        promGeneral.push(promedio)
-                        aux.push({
-                            materia: subelement.materia?.nombre,
-                            area: subelement.materia?.area,
-                            promedio: promedio ? promedio.toString().replace('.', ',') : '',
-                            letras: letras,
-                        })
                     }
                     const pgeneral = calcProm(promGeneral)
                     const letrasFinal = trasformnumberToText(pgeneral)
@@ -60,6 +79,7 @@ export const promedioReportes = () => {
                         periodo: rowM.periodo?.nombre,
                         paralelo: rowM.paralelo,
                         data: aux,
+                        data2: aux2,
                         pgeneral: pgeneral ? pgeneral.toString().replace('.', ',') : '',
                         letrasFinal: letrasFinal
                     })
@@ -107,6 +127,7 @@ export const promedioReportes = () => {
             for (let i = 0; i < matriculas?.length; i++) {
                 const element = matriculas[i];
                 const aux = []
+                const aux2 = []
                 if (estudiantes.includes(element.fkestudiante)) {
                     const computo = matriculas[i].computo;
                     const promPPA = []
@@ -114,39 +135,70 @@ export const promedioReportes = () => {
                     const general = []
                     for (let j = 0; j < distributivo?.length; j++) {
                         const subelement = distributivo[j];
-                        let n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, ppa, ppb, sumAB, sumAB80, exa1, sumAB20, proAB = ''
-                        let letras = '';
-                        for (let m = 0; m < computo.length; m++) {
-                            const result = computo[m];
-                            if (subelement.fkmaterias == result.fkmateria) {
-                                if (quim == 'PRIMER QUIMESTRE') {
-                                    const ins = result.notas
-                                    n1 = ins?.a1; n2 = ins?.a2; n3 = ins?.a3; n4 = ins?.a4; n5 = ins?.a5;
-                                    n6 = ins?.b1; n7 = ins?.b2; n8 = ins?.b3; n9 = ins?.b4; n10 = ins?.b5;
-                                    ppa = ins?.ppa; ppb = ins?.ppb; sumAB = ins?.sumAB; sumAB80 = ins?.sumAB80;
-                                    exa1 = ins?.exa1; sumAB20 = ins?.sumAB20; proAB = ins?.proAB;
-                                    letras = promCuantitativoLetras(ins?.proAB);
-                                }
-                                if (quim == 'SEGUNDO QUIMESTRE') {
-                                    const ins = result.notas
-                                    n1 = ins?.c1; n2 = ins?.c2; n3 = ins?.c3; n4 = ins?.c4; n5 = ins?.c5;
-                                    n6 = ins?.d1; n7 = ins?.d2; n8 = ins?.d3; n9 = ins?.d4; n10 = ins?.d5;
-                                    ppa = ins?.ppc; ppb = ins?.ppd; sumAB = ins?.sumCD; sumAB80 = ins?.sumCD80;
-                                    exa1 = ins?.exa2; sumAB20 = ins?.sumCD20; proAB = ins?.proCD;
-                                    letras = promCuantitativoLetras(ins?.proCD);
+                        if (subelement.materia?.computo==2) {
+                            let n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, ppa, ppb, sumAB, sumAB80, exa1, sumAB20, proAB = ''
+                            let letras = '';
+                            for (let m = 0; m < computo.length; m++) {
+                                const result = computo[m];
+                                if (subelement.fkmaterias == result.fkmateria) {
+                                    if (quim == 'PRIMER QUIMESTRE') {
+                                        const ins = result.notas
+                                        n1 = ins?.a1; n2 = ins?.a2; n3 = ins?.a3; n4 = ins?.a4; n5 = ins?.a5;
+                                        n6 = ins?.b1; n7 = ins?.b2; n8 = ins?.b3; n9 = ins?.b4; n10 = ins?.b5;
+                                        ppa = ins?.ppa; ppb = ins?.ppb; sumAB = ins?.sumAB; sumAB80 = ins?.sumAB80;
+                                        exa1 = ins?.exa1; sumAB20 = ins?.sumAB20; proAB = ins?.proAB;
+                                        letras = promCuantitativoLetras(ins?.proAB);
+                                    }
+                                    if (quim == 'SEGUNDO QUIMESTRE') {
+                                        const ins = result.notas
+                                        n1 = ins?.c1; n2 = ins?.c2; n3 = ins?.c3; n4 = ins?.c4; n5 = ins?.c5;
+                                        n6 = ins?.d1; n7 = ins?.d2; n8 = ins?.d3; n9 = ins?.d4; n10 = ins?.d5;
+                                        ppa = ins?.ppc; ppb = ins?.ppd; sumAB = ins?.sumCD; sumAB80 = ins?.sumCD80;
+                                        exa1 = ins?.exa2; sumAB20 = ins?.sumCD20; proAB = ins?.proCD;
+                                        letras = promCuantitativoLetras(ins?.proCD);
+                                    }
                                 }
                             }
+                            promPPA.push(ppa)
+                            promPPB.push(ppb)
+                            general.push(proAB)
+                            aux.push({
+                                materia: subelement.materia?.nombre,
+                                area: subelement.materia?.area,
+                                n1: n1, n2: n2, n3: n3, n4: n4, n5: n5, n6: n6, n7: n7, n8: n8, n9: n9, n10: n10,
+                                ppa: ppa, ppb: ppb, sumAB: sumAB, sumAB80: sumAB80, exa1: exa1, sumAB20: sumAB20, proAB: proAB,
+                                letras: letras,
+                            })
+                        } else {
+                            let p1, p2= ''
+                            let letras = '';
+                            for (let m = 0; m < computo.length; m++) {
+                                const result = computo[m];
+                                if (subelement.fkmaterias == result.fkmateria) {
+                                    if (quim == 'PRIMER QUIMESTRE') {
+                                        const ins = result.cualitativo
+                                        p1 = ins.p1;
+                                        p2 = ins.p2;
+                                        if (subelement.materia?.nombre == 'COMPORTAMIENTO' || subelement.materia?.nombre == 'DESARROLLO HUMANO INTEGRAL')
+                                        letras = calcularPromedioInsumosLetrasComportamiento(ins.p1, ins.p2)
+                                        else letras = calcularPromedioInsumosLetras(ins.p1, ins.p2)
+                                    }
+                                    if (quim == 'SEGUNDO QUIMESTRE') {
+                                        const ins = result.cualitativo
+                                        p1 = ins.p3;
+                                        p2 = ins.p4;
+                                        if (subelement.materia?.nombre == 'COMPORTAMIENTO' || subelement.materia?.nombre == 'DESARROLLO HUMANO INTEGRAL')
+                                        letras = calcularPromedioInsumosLetrasComportamiento(ins.p3, ins.p4)
+                                        else letras = calcularPromedioInsumosLetras(ins.p3, ins.p4)
+                                    }
+                                }
+                            }
+                            aux2.push({
+                                materia: subelement.materia?.nombre,
+                                letras: letras, p1: p1, p2: p2
+                            })
                         }
-                        promPPA.push(ppa)
-                        promPPB.push(ppb)
-                        general.push(proAB)
-                        aux.push({
-                            materia: subelement.materia?.nombre,
-                            area: subelement.materia?.area,
-                            n1: n1, n2: n2, n3: n3, n4: n4, n5: n5, n6: n6, n7: n7, n8: n8, n9: n9, n10: n10,
-                            ppa: ppa, ppb: ppb, sumAB: sumAB, sumAB80: sumAB80, exa1: exa1, sumAB20: sumAB20, proAB: proAB,
-                            letras: letras,
-                        })
+                        
                     }
                     const pPPA = calcProm(promPPA)
                     const pPPB = calcProm(promPPB)
@@ -156,13 +208,12 @@ export const promedioReportes = () => {
                         curso: rowM.curso?.nombre,
                         periodo: rowM.periodo?.nombre,
                         paralelo: rowM.paralelo,
-                        data: aux, pPPA: pPPA,
+                        data: aux, data2: aux2, pPPA: pPPA,
                         pPPB: pPPB, pgeneral: pgeneral,
                         fechaA: fechaA, nmatricula: element.nmatricula,
                     })
                 }
             }
-            //console.log(help)
             return help
         } catch (error) {
             console.log(error)
@@ -174,6 +225,7 @@ export const promedioReportes = () => {
             const matriculas = rowM?.matriculas
             const distributivo = rowD?.carga
             const help = []
+            const help2 = []
             var fechaA = fechaActual()
             matriculas.sort(function (a, b) {
                 var nameA = a.estudiante.fullname.toLowerCase(), nameB = b.estudiante.fullname.toLowerCase();
@@ -185,106 +237,9 @@ export const promedioReportes = () => {
             });
             for (let j = 0; j < distributivo?.length; j++) {
                 const aux = []
+                const aux2 = []
                 const materias = distributivo[j]
-                const proPPA = []; const proPPB = []; const promAB = []
-                for (let k = 0; k < matriculas.length; k++) {
-                    const res = matriculas[k];
-                    if (estudiantes.includes(res.fkestudiante)) {
-                        const computo = matriculas[k].computo
-                        let n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, ppa, ppb, sumAB, sumAB80, exa1, sumAB20, proAB = ''
-                        let letras = '';
-                        for (let i = 0; i < computo.length; i++) {
-                            const element = computo[i];
-                            if (element.fkmateria == materias.fkmaterias) {
-                                if (quim == 'PRIMER QUIMESTRE') {
-                                    const ins = element.notas
-                                    n1 = ins?.a1; n2 = ins?.a2; n3 = ins?.a3; n4 = ins?.a4; n5 = ins?.a5;
-                                    n6 = ins?.b1; n7 = ins?.b2; n8 = ins?.b3; n9 = ins?.b4; n10 = ins?.b5;
-                                    ppa = element.notas?.ppa
-                                    ppb = element.notas?.ppb
-                                    sumAB = element.notas?.sumAB
-                                    sumAB80 = element.notas?.sumAB80
-                                    exa1 = element.notas?.exa1
-                                    sumAB20 = element.notas?.sumAB20
-                                    proAB = element.notas?.proAB
-                                    letras = promCuantitativoLetras(ins?.proAB);
-                                }
-                                if (quim == 'SEGUNDO QUIMESTRE') {
-                                    const ins = element.notas
-                                    n1 = ins?.c1; n2 = ins?.c2; n3 = ins?.c3; n4 = ins?.c4; n5 = ins?.c5;
-                                    n6 = ins?.d1; n7 = ins?.d2; n8 = ins?.d3; n9 = ins?.d4; n10 = ins?.d5;
-                                    ppa = element.notas?.ppc
-                                    ppb = element.notas?.ppd
-                                    sumAB = element.notas?.sumCD
-                                    sumAB80 = element.notas?.sumCD80
-                                    exa1 = element.notas?.exa2
-                                    sumAB20 = element.notas?.sumCD20
-                                    proAB = element.notas?.proCD
-                                    letras = promCuantitativoLetras(ins?.proCD);
-                                }
-                            }
-                        }
-                        proPPA.push(ppa)
-                        proPPB.push(ppb)
-                        promAB.push(proAB)
-                        aux.push({
-                            estudiante: res.estudiante?.fullname,
-                            n1: n1, n2: n2, n3: n3, n4: n4, n5: n5, n6: n6, n7: n7, n8: n8, n9: n9, n10: n10,
-                            ppa: ppa,
-                            ppb: ppb,
-                            sumAB: sumAB,
-                            sumAB80: sumAB80,
-                            exa1: exa1,
-                            sumAB20: sumAB20,
-                            proAB: proAB,
-                            letras: letras,
-                        })
-                    }
-                }
-                const medPPA = calcMedia(proPPA)
-                const medPPB = calcMedia(proPPB)
-                const medAB = calcMedia(promAB)
-                const pPPA = calcProm(proPPA)
-                const pPPB = calcProm(proPPB)
-                const prAB = calcProm(promAB)
-                //console.log(mediaPPA)
-                //console.log(distributivo)
-                help.push({
-                    materia: materias.materia?.nombre,
-                    docente: materias.docente?.fullname,
-                    curso: rowD?.curso.nombre,
-                    paralelo: paralelo,
-                    data: aux,
-                    fechaA: fechaA,
-                    medPPA: medPPA, medPPB: medPPB, medAB: medAB,
-                    periodo: rowM?.periodo.nombre,
-                    pPPA: pPPA, pPPB: pPPB, prAB: prAB
-                })
-            }
-            //console.log('es',help)
-            return help
-        } catch (error) {
-            console.log(error)
-        }
-    }
-    function formatJuntasIndividual(rowM, rowD, estudiantes, quim, paralelo, keymateria) {
-        try {
-            const matriculas = rowM?.matriculas
-            const distributivo = rowD?.carga
-            const help = []
-            var fechaA = fechaActual()
-            matriculas.sort(function (a, b) {
-                var nameA = a.estudiante.fullname.toLowerCase(), nameB = b.estudiante.fullname.toLowerCase();
-                if (nameA < nameB)
-                    return -1;
-                if (nameA > nameB)
-                    return 1;
-                return 0;
-            });
-            for (let j = 0; j < distributivo?.length; j++) {
-                if (keymateria == distributivo[j].fkmaterias) {
-                    const aux = []
-                    const materias = distributivo[j]
+                if (materias.materia?.computo==2) {
                     const proPPA = []; const proPPB = []; const promAB = []
                     for (let k = 0; k < matriculas.length; k++) {
                         const res = matriculas[k];
@@ -359,10 +314,225 @@ export const promedioReportes = () => {
                         periodo: rowM?.periodo.nombre,
                         pPPA: pPPA, pPPB: pPPB, prAB: prAB
                     })
+                } else {
+                    const proPPA = []; const proPPB = []; const promAB = []
+                    for (let k = 0; k < matriculas.length; k++) {
+                        const res = matriculas[k];
+                        if (estudiantes.includes(res.fkestudiante)) {
+                            const computo = matriculas[k].computo
+                            let p1, p2= ''
+                            let letras = '';
+                            for (let i = 0; i < computo.length; i++) {
+                                const element = computo[i];
+                                if (element.fkmateria == materias.fkmaterias) {
+                                    if (quim == 'PRIMER QUIMESTRE') {
+                                        const ins = element.cualitativo
+                                        p1 = ins.p1;
+                                        p2 = ins.p2;
+                                        if (element.materia?.nombre == 'COMPORTAMIENTO' || element.materia?.nombre == 'DESARROLLO HUMANO INTEGRAL')
+                                        letras = calcularPromedioInsumosLetrasComportamiento(ins.p1, ins.p2)
+                                        else letras = calcularPromedioInsumosLetras(ins.p1, ins.p2)
+                                    }
+                                    if (quim == 'SEGUNDO QUIMESTRE') {
+                                        const ins = element.cualitativo
+                                        p1 = ins.p3;
+                                        p2 = ins.p4;
+                                        if (element.materia?.nombre == 'COMPORTAMIENTO' || element.materia?.nombre == 'DESARROLLO HUMANO INTEGRAL')
+                                        letras = calcularPromedioInsumosLetrasComportamiento(ins.p1, ins.p2)
+                                        else letras = calcularPromedioInsumosLetras(ins.p1, ins.p2)
+                                    }
+                                }
+                            }
+                            proPPA.push(p1)
+                            proPPB.push(p2)
+                            promAB.push(letras)
+                            aux2.push({
+                                estudiante: res.estudiante?.fullname,
+                                letras: letras,
+                                p1:p1, p2:p2,
+                            })
+                        }
+                    }
+                    const medPPA = contarMediaLet(proPPA,materias.materia?.nombre)
+                    const medPPB = contarMediaLet(proPPB,materias.materia?.nombre)
+                    const medAB = contarMediaLet(promAB,materias.materia?.nombre)
+                    help2.push({
+                        materia: materias.materia?.nombre,
+                        docente: materias.docente?.fullname,
+                        curso: rowD?.curso.nombre,
+                        paralelo: paralelo,
+                        data: aux2,
+                        fechaA: fechaA,
+                        medPPA: medPPA, medPPB: medPPB, medAB: medAB,
+                        periodo: rowM?.periodo.nombre,
+                    })
+                }
+            }
+            const arr = {
+                help: help,
+                help2 : help2,
+            }
+            return arr
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    function formatJuntasIndividual(rowM, rowD, estudiantes, quim, paralelo, keymateria) {
+        try {
+            const matriculas = rowM?.matriculas
+            const distributivo = rowD?.carga
+            const help = []
+            const help2 = []
+            var fechaA = fechaActual()
+            matriculas.sort(function (a, b) {
+                var nameA = a.estudiante.fullname.toLowerCase(), nameB = b.estudiante.fullname.toLowerCase();
+                if (nameA < nameB)
+                    return -1;
+                if (nameA > nameB)
+                    return 1;
+                return 0;
+            });
+            for (let j = 0; j < distributivo?.length; j++) {
+                if (keymateria == distributivo[j].fkmaterias) {
+                    const aux = []
+                    const aux2 = []
+                    const materias = distributivo[j]
+                    if (materias.materia?.computo==2) {
+                        const proPPA = []; const proPPB = []; const promAB = []
+                        for (let k = 0; k < matriculas.length; k++) {
+                            const res = matriculas[k];
+                            if (estudiantes.includes(res.fkestudiante)) {
+                                const computo = matriculas[k].computo
+                                let n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, ppa, ppb, sumAB, sumAB80, exa1, sumAB20, proAB = ''
+                                let letras = '';
+                                for (let i = 0; i < computo.length; i++) {
+                                    const element = computo[i];
+                                    if (element.fkmateria == materias.fkmaterias) {
+                                        if (quim == 'PRIMER QUIMESTRE') {
+                                            const ins = element.notas
+                                            n1 = ins?.a1; n2 = ins?.a2; n3 = ins?.a3; n4 = ins?.a4; n5 = ins?.a5;
+                                            n6 = ins?.b1; n7 = ins?.b2; n8 = ins?.b3; n9 = ins?.b4; n10 = ins?.b5;
+                                            ppa = element.notas?.ppa
+                                            ppb = element.notas?.ppb
+                                            sumAB = element.notas?.sumAB
+                                            sumAB80 = element.notas?.sumAB80
+                                            exa1 = element.notas?.exa1
+                                            sumAB20 = element.notas?.sumAB20
+                                            proAB = element.notas?.proAB
+                                            letras = promCuantitativoLetras(ins?.proAB);
+                                        }
+                                        if (quim == 'SEGUNDO QUIMESTRE') {
+                                            const ins = element.notas
+                                            n1 = ins?.c1; n2 = ins?.c2; n3 = ins?.c3; n4 = ins?.c4; n5 = ins?.c5;
+                                            n6 = ins?.d1; n7 = ins?.d2; n8 = ins?.d3; n9 = ins?.d4; n10 = ins?.d5;
+                                            ppa = element.notas?.ppc
+                                            ppb = element.notas?.ppd
+                                            sumAB = element.notas?.sumCD
+                                            sumAB80 = element.notas?.sumCD80
+                                            exa1 = element.notas?.exa2
+                                            sumAB20 = element.notas?.sumCD20
+                                            proAB = element.notas?.proCD
+                                            letras = promCuantitativoLetras(ins?.proCD);
+                                        }
+                                    }
+                                }
+                                proPPA.push(ppa)
+                                proPPB.push(ppb)
+                                promAB.push(proAB)
+                                aux.push({
+                                    estudiante: res.estudiante?.fullname,
+                                    n1: n1, n2: n2, n3: n3, n4: n4, n5: n5, n6: n6, n7: n7, n8: n8, n9: n9, n10: n10,
+                                    ppa: ppa,
+                                    ppb: ppb,
+                                    sumAB: sumAB,
+                                    sumAB80: sumAB80,
+                                    exa1: exa1,
+                                    sumAB20: sumAB20,
+                                    proAB: proAB,
+                                    letras: letras,
+                                })
+                            }
+                        }
+                        const medPPA = calcMedia(proPPA)
+                        const medPPB = calcMedia(proPPB)
+                        const medAB = calcMedia(promAB)
+                        const pPPA = calcProm(proPPA)
+                        const pPPB = calcProm(proPPB)
+                        const prAB = calcProm(promAB)
+                        //console.log(mediaPPA)
+                        //console.log(distributivo)
+                        help.push({
+                            materia: materias.materia?.nombre,
+                            docente: materias.docente?.fullname,
+                            curso: rowD?.curso.nombre,
+                            paralelo: paralelo,
+                            data: aux,
+                            fechaA: fechaA,
+                            medPPA: medPPA, medPPB: medPPB, medAB: medAB,
+                            periodo: rowM?.periodo.nombre,
+                            pPPA: pPPA, pPPB: pPPB, prAB: prAB
+                        })
+                    } else {
+                        const proPPA = []; const proPPB = []; const promAB = []
+                    for (let k = 0; k < matriculas.length; k++) {
+                        const res = matriculas[k];
+                        if (estudiantes.includes(res.fkestudiante)) {
+                            const computo = matriculas[k].computo
+                            let p1, p2= ''
+                            let letras = '';
+                            for (let i = 0; i < computo.length; i++) {
+                                const element = computo[i];
+                                if (element.fkmateria == materias.fkmaterias) {
+                                    if (quim == 'PRIMER QUIMESTRE') {
+                                        const ins = element.cualitativo
+                                        p1 = ins.p1;
+                                        p2 = ins.p2;
+                                        if (element.materia?.nombre == 'COMPORTAMIENTO' || element.materia?.nombre == 'DESARROLLO HUMANO INTEGRAL')
+                                        letras = calcularPromedioInsumosLetrasComportamiento(ins.p1, ins.p2)
+                                        else letras = calcularPromedioInsumosLetras(ins.p1, ins.p2)
+                                    }
+                                    if (quim == 'SEGUNDO QUIMESTRE') {
+                                        const ins = element.cualitativo
+                                        p1 = ins.p3;
+                                        p2 = ins.p4;
+                                        if (element.materia?.nombre == 'COMPORTAMIENTO' || element.materia?.nombre == 'DESARROLLO HUMANO INTEGRAL')
+                                        letras = calcularPromedioInsumosLetrasComportamiento(ins.p1, ins.p2)
+                                        else letras = calcularPromedioInsumosLetras(ins.p1, ins.p2)
+                                    }
+                                }
+                            }
+                            proPPA.push(p1)
+                            proPPB.push(p2)
+                            promAB.push(letras)
+                            aux2.push({
+                                estudiante: res.estudiante?.fullname,
+                                letras: letras,
+                                p1:p1, p2:p2,
+                            })
+                        }
+                    }
+                    const medPPA = contarMediaLet(proPPA,materias.materia?.nombre)
+                    const medPPB = contarMediaLet(proPPB,materias.materia?.nombre)
+                    const medAB = contarMediaLet(promAB,materias.materia?.nombre)
+                    help2.push({
+                        materia: materias.materia?.nombre,
+                        docente: materias.docente?.fullname,
+                        curso: rowD?.curso.nombre,
+                        paralelo: paralelo,
+                        data: aux2,
+                        fechaA: fechaA,
+                        medPPA: medPPA, medPPB: medPPB, medAB: medAB,
+                        periodo: rowM?.periodo.nombre,
+                    })
+                    }
                 }
             }
             //console.log('es',help)
-            return help
+            const arr = {
+                help: help,
+                help2 : help2,
+            }
+            return arr
         } catch (error) {
             console.log(error)
         }
@@ -451,6 +621,7 @@ export const promedioReportes = () => {
             for (let i = 0; i < matriculas?.length; i++) {
                 const element = matriculas[i];
                 const aux = []
+                const aux2 = []
                 if (estudiantes.includes(element.fkestudiante)) {
                     const computo = matriculas[i].computo;
                     const promPPA = []
@@ -464,38 +635,59 @@ export const promedioReportes = () => {
                     const general3 = []
                     for (let j = 0; j < distributivo?.length; j++) {
                         const subelement = distributivo[j];
-                        let ppa, ppb, sumAB, sumAB80, exa1, sumAB20, proAB, ppc, ppd, sumCD, sumCD80, exa2, sumCD20, proCD, suple, final = ''
-                        for (let m = 0; m < computo.length; m++) {
-                            const result = computo[m];
-                            if (subelement.fkmaterias == result.fkmateria) {
-                                const ins = result.notas
-                                const res = result.resultados
-                                ppa = ins?.ppa; ppb = ins?.ppb; sumAB = ins?.sumAB; sumAB80 = ins?.sumAB80;
-                                exa1 = ins?.exa1; sumAB20 = ins?.sumAB20; proAB = ins?.proAB;
-
-                                ppc = ins?.ppc; ppd = ins?.ppd; sumCD = ins?.sumCD; sumCD80 = ins?.sumCD80;
-                                exa2 = ins?.exa2; sumCD20 = ins?.sumCD20; proCD = ins?.proCD;
-
-                                suple = res?.supletorio,
-                                    final = res?.notaFinal
+                        if (subelement.materia?.computo==2) {
+                            let ppa, ppb, sumAB, sumAB80, exa1, sumAB20, proAB, ppc, ppd, sumCD, sumCD80, exa2, sumCD20, proCD, suple, final = ''
+                            for (let m = 0; m < computo.length; m++) {
+                                const result = computo[m];
+                                if (subelement.fkmaterias == result.fkmateria) {
+                                    const ins = result.notas
+                                    const res = result.resultados
+                                    ppa = ins?.ppa; ppb = ins?.ppb; sumAB = ins?.sumAB; sumAB80 = ins?.sumAB80;
+                                    exa1 = ins?.exa1; sumAB20 = ins?.sumAB20; proAB = ins?.proAB;
+    
+                                    ppc = ins?.ppc; ppd = ins?.ppd; sumCD = ins?.sumCD; sumCD80 = ins?.sumCD80;
+                                    exa2 = ins?.exa2; sumCD20 = ins?.sumCD20; proCD = ins?.proCD;
+    
+                                    suple = res?.supletorio,
+                                        final = res?.notaFinal
+                                }
                             }
+                            promPPA.push(ppa)
+                            promPPB.push(ppb)
+                            promAB.push(sumAB)
+                            general.push(proAB)
+                            promPPC.push(ppc)
+                            promPPD.push(ppd)
+                            promCD.push(sumCD)
+                            general2.push(proCD)
+                            general3.push(final)
+                            aux.push({
+                                materia: subelement.materia?.nombre,
+                                area: subelement.materia?.area,
+                                ppa: ppa, ppb: ppb, sumAB: sumAB, sumAB80: sumAB80, exa1: exa1, sumAB20: sumAB20, proAB: proAB,
+                                ppc: ppc, ppd: ppd, sumCD: sumCD, sumCD80: sumCD80, exa2: exa2, sumCD20: sumCD20, proCD: proCD,
+                                final: final, suple: suple
+                            })
+                        } else {
+                            let p1, p2,p3,p4, final = ''
+                            for (let m = 0; m < computo.length; m++) {
+                                const result = computo[m];
+                                if (subelement.fkmaterias == result.fkmateria) {
+                                    const ins = result.cualitativo
+                                        p1 = ins.p1;
+                                        p2 = ins.p2;
+                                        if (subelement.materia?.nombre == 'COMPORTAMIENTO' || subelement.materia?.nombre == 'DESARROLLO HUMANO INTEGRAL')
+                                        final = calcularPromedioInsumosLetrasComportamiento(ins.p1, ins.p2)
+                                        else final = calcularPromedioInsumosLetras(ins.p1, ins.p2)
+                                   
+                                }
+                            }
+                            aux2.push({
+                                materia: subelement.materia?.nombre,
+                                final : final,
+                                p1 : p1, p2 : p2
+                            })
                         }
-                        promPPA.push(ppa)
-                        promPPB.push(ppb)
-                        promAB.push(sumAB)
-                        general.push(proAB)
-                        promPPC.push(ppc)
-                        promPPD.push(ppd)
-                        promCD.push(sumCD)
-                        general2.push(proCD)
-                        general3.push(final)
-                        aux.push({
-                            materia: subelement.materia?.nombre,
-                            area: subelement.materia?.area,
-                            ppa: ppa, ppb: ppb, sumAB: sumAB, sumAB80: sumAB80, exa1: exa1, sumAB20: sumAB20, proAB: proAB,
-                            ppc: ppc, ppd: ppd, sumCD: sumCD, sumCD80: sumCD80, exa2: exa2, sumCD20: sumCD20, proCD: proCD,
-                            final: final, suple: suple
-                        })
                     }
                     const pPPA = calcProm(promPPA)
                     const pPPB = calcProm(promPPB)
@@ -511,7 +703,7 @@ export const promedioReportes = () => {
                         curso: rowM.curso?.nombre,
                         periodo: rowM.periodo?.nombre,
                         paralelo: rowM.paralelo,
-                        data: aux, pgeneral3: pgeneral3,
+                        data: aux,data2: aux2, pgeneral3: pgeneral3,
                         pPPA: pPPA, pPPB: pPPB, pAB: pAB, pgeneral: pgeneral,
                         pPPC: pPPC, pPPD: pPPD, pCD: pCD, pgeneral2: pgeneral2,
                         fechaA: fechaA, nmatricula: element.nmatricula,
@@ -539,28 +731,30 @@ export const promedioReportes = () => {
                     const general3 = []
                     for (let j = 0; j < distributivo?.length; j++) {
                         const subelement = distributivo[j];
-                        let proAB, proCD, suple, final, promedioFinal, remedial, gracia, letras = ''
-                        for (let m = 0; m < computo.length; m++) {
-                            const result = computo[m];
-                            if (subelement.fkmaterias == result.fkmateria) {
-                                const ins = result.notas
-                                const res = result.resultados
-                                proAB = ins?.proAB;
-                                proCD = ins?.proCD;
-                                gracia = ins?.gracia;
-                                suple = res?.supletorio; remedial = res?.remedial;
-                                final = res?.notaFinal
-                                promedioFinal = res?.promedioFinal
+                        if (subelement.materia?.computo==2) {
+                            let proAB, proCD, suple, final, promedioFinal, remedial, gracia, letras = ''
+                            for (let m = 0; m < computo.length; m++) {
+                                const result = computo[m];
+                                if (subelement.fkmaterias == result.fkmateria) {
+                                    const ins = result.notas
+                                    const res = result.resultados
+                                    proAB = ins?.proAB;
+                                    proCD = ins?.proCD;
+                                    gracia = ins?.gracia;
+                                    suple = res?.supletorio; remedial = res?.remedial;
+                                    final = res?.notaFinal
+                                    promedioFinal = res?.promedioFinal
+                                }
                             }
-                        }
-                        letras = promCuantitativoLetras2(final)
-                        general3.push(final)
-                        aux.push({
-                            materia: subelement.materia?.nombre,
-                            proAB: proAB, letras: letras,
-                            proCD: proCD, remedial: remedial, gracia: gracia,
-                            final: final, suple: suple, promedioFinal: promedioFinal
-                        })
+                            letras = promCuantitativoLetras2(final)
+                            general3.push(final)
+                            aux.push({
+                                materia: subelement.materia?.nombre,
+                                proAB: proAB, letras: letras,
+                                proCD: proCD, remedial: remedial, gracia: gracia,
+                                final: final, suple: suple, promedioFinal: promedioFinal
+                            })
+                        } 
                     }
                     const pgeneral3 = calcProm(general3)
                     const letras = trasformnumberToText(pgeneral3)
@@ -607,10 +801,12 @@ export const promedioReportes = () => {
                             if (subarray.fkmaterias == reg.fkmateria) {
                                 if (quim.quimestre == 'PRIMER QUIMESTRE') {
                                     if (quim.q1 == 'PRIMER PARCIAL') {
-                                        nota = reg.notas?.ppa
+                                        if (subarray.materia?.computo==2)  nota = reg.notas?.ppa
+                                       else nota = reg.cualitativo?.p1
                                     }
                                     if (quim.q1 == 'SEGUNDO PARCIAL') {
-                                        nota = reg.notas?.ppb
+                                        if (subarray.materia?.computo==2)  nota = reg.notas?.ppb
+                                       else nota = reg.cualitativo?.p2
                                     }
                                     if (quim.q1 == 'EXAMEN') {
                                         nota = reg.notas?.exa1
@@ -618,10 +814,12 @@ export const promedioReportes = () => {
                                 }
                                 if (quim.quimestre == 'SEGUNDO QUIMESTRE') {
                                     if (quim.q1 == 'PRIMER PARCIAL') {
-                                        nota = reg.notas?.ppc
+                                        if (subarray.materia?.computo==2)  nota = reg.notas?.ppc
+                                        else nota = reg.cualitativo?.p3
                                     }
                                     if (quim.q1 == 'SEGUNDO PARCIAL') {
-                                        nota = reg.notas?.ppd
+                                        if (subarray.materia?.computo==2)  nota = reg.notas?.ppd
+                                        else nota = reg.cualitativo?.p4
                                     }
                                     if (quim.q1 == 'EXAMEN') {
                                         nota = reg.notas?.exa2
@@ -889,6 +1087,163 @@ function calcMedia(array) {
     }
     reg.push(a, b, c, d)
     return reg
+}
+function contarMediaLet(array, materia){
+    if(materia=='COMPORTAMIENTO'){
+        let a = 0; let b = 0; let c = 0; let d = 0; let e =0;
+        const reg = [];
+        for (let i = 0; i < array.length; i++){
+            const element = array[i];
+            const op = element
+            if (op =='A' ||op =='A Muy Satisfactorio') a += 1;
+            if (op =='B'||op =='B Satisfactorio') b += 1;
+            if (op =='C'||op =='C Poco Satisfactorio') c += 1;
+            if (op =='D'||op =='D Mejorable') d += 1; 
+            if (op =='E'||op =='E Insatisfactorio') e += 1;
+        }
+        reg.push(a, b, c, d, e)
+        return reg
+    } else {
+        let a = 0; let b = 0; let c = 0; let d = 0;
+        const reg = [];
+        for (let i = 0; i < array.length; i++){
+            const element = array[i];
+            const op = element
+            if (op =='EX' ||op =='EX Excelente') a += 1;
+            if (op =='MB'||op =='MB Muy Buena') b += 1;
+            if (op =='B'||op =='B Buena') c += 1;
+            if (op =='R'||op =='R Regular') d += 1; 
+        }
+        reg.push(a, b, c, d)
+        return reg
+    }
+}
+const calcularPryectos = (prmd, nombre) => {
+    let letra = ''
+    if (nombre == 'DESARROLLO HUMANO INTEGRAL' || nombre == 'COMPORTAMIENTO') {
+        switch (prmd) {
+            case 'A': letra = 'Muy Satisfactorio';
+                break;
+            case 'B': letra = 'Satisfactorio';
+                break;
+            case 'C': letra = 'Poco Satisfactorio';
+                break;
+            case 'D': letra = 'Mejorable';
+                break;
+            case 'e': letra = 'Insatisfactorio';
+                break;
+            default:
+                letra = 'Sin Confirmar';
+                break;
+        }
+    } else {
+        switch (prmd) {
+            case 'EX': letra = 'Excelente';
+                break;
+            case 'MB': letra = 'Muy Buena';
+                break;
+            case 'B': letra = 'Buena';
+                break;
+            case 'R': letra = 'Regular';
+                break;
+            default:
+                letra = 'E';
+                break;
+        }
+    }
+    return letra;
+}
+function calcularPromedioInsumosLetrasComportamiento (p1, p2) {
+    let aux = 0;
+    let aux2 = 0;
+    switch (p1) {
+        case "A": aux = 5;
+            break;
+        case "B": aux = 4;
+            break;
+        case "C": aux = 3;
+            break;
+        case "D": aux = 2;
+            break;
+        case "E": aux = 1;
+            break;
+        default:
+            break;
+    }
+    switch (p2) {
+        case "A": aux2 = 5;
+            break;
+        case "B": aux2 = 4;
+            break;
+        case "C": aux2 = 3;
+            break;
+        case "D": aux2 = 2;
+            break;
+        case "E": aux2 = 1;
+            break;
+        default:
+            break;
+    }
+    var result = parseInt((aux + aux2) / 2)
+    var letra = ''
+    switch (result) {
+        case 5: letra = 'A Muy Satisfactorio';
+            break;
+        case 4: letra = 'B Satisfactorio';
+            break;
+        case 3: letra = 'C Poco Satisfactorio';
+            break;
+        case 2: letra = 'D Mejorable';
+            break;
+        case 1: letra = 'E Insatisfactorio';
+            break;
+        default:
+            break;
+    }
+    return letra;
+}
+function calcularPromedioInsumosLetras (p1, p2) {
+    let aux = 0;
+    let aux2 = 0;
+    switch (p1) {
+        case "EX": aux = 5;
+            break;
+        case "MB": aux = 4;
+            break;
+        case "B": aux = 3;
+            break;
+        case "R": aux = 2;
+            break;
+        default:
+            break;
+    }
+    switch (p2) {
+        case "EX": aux2 = 5;
+            break;
+        case "MB": aux2 = 4;
+            break;
+        case "B": aux2 = 3;
+            break;
+        case "R": aux2 = 2;
+            break;
+        default:
+            break;
+    }
+    var result = parseInt((aux + aux2) / 2)
+    var letra = ''
+    switch (result) {
+        case 5: letra = 'EX Excelente';
+            break;
+        case 4: letra = 'MB Muy Buena';
+            break;
+        case 3: letra = 'B Buena';
+            break;
+        case 2: letra = 'R Regular';
+            break;
+        default:
+            break;
+    }
+    return letra;
 }
 function promCuantitativoLetras2(prom) {
     let num = parseFloat(prom)

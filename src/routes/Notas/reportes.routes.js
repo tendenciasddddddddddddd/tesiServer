@@ -34,4 +34,8 @@ router.get("/nomina",[authJwt.verifyToken], Ctrl.getNomina);
 
 router.get("/nominaDocentes",[authJwt.verifyToken], Ctrl.getNominaDocente);
 
+router.post("/ambitos",[authJwt.verifyToken], Ctrl.Ambitos);
+
+router.post("/destrezas",[authJwt.verifyToken], Ctrl.Destrezas);
+
 export default router;

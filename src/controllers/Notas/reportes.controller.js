@@ -445,4 +445,40 @@ export default {
             return res.status(500).json(error);
         }
     },
+    Ambitos: async (req, res) => {
+        try {
+            const arr = req.body
+            var fechaA = fechaActual()
+            const auth = await autoridad()
+            const tema = await ejs.renderFile(__dirname + "/themes/ambitos.ejs", { result: arr, auth: auth[0], fechaA:fechaA });
+            res.status(200).json(tema);
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json(error);
+        }
+    },
+    Destrezas: async (req, res) => {
+        try {
+            const arr = req.body
+            var fechaA = fechaActual()
+            const auth = await autoridad()
+            const tema = await ejs.renderFile(__dirname + "/themes/destrezas.ejs", { result: arr, auth: auth[0], fechaA:fechaA });
+            res.status(200).json(tema);
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json(error);
+        }
+    },
+}
+
+
+const fechaActual = () => {
+    const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+        "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+    const dateObj = new Date();
+    const month = monthNames[dateObj.getMonth()];
+    const day = String(dateObj.getDate()).padStart(2, '0');
+    const year = dateObj.getFullYear();
+    const output = day + " de " + month + '\n' + ' del ' + year;
+    return output
 }

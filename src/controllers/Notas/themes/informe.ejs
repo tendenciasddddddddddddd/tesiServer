@@ -261,6 +261,25 @@
                         </table>
                     </td>
                 </tr>
+                <% item.data2.forEach(function (subItems) { %>
+                    <tr >
+                        <td style="padding: 1px 3px;border-top: 1px solid #000;font-size: .60rem;">
+                            <%= subItems.materia %>
+                        </td>
+                        <td
+                            style="padding: 1px 3px;border-top: 1px solid #000;font-size: .65rem;text-align: center;border-left: 1px solid #000;">
+                            <span > <%= subItems.p1 %></span>
+                        </td>
+                        <td
+                            style="padding: 1px 3px;border-top: 1px solid #000;font-size: .65rem;text-align: center;border-left: 1px solid #000;">
+                            <span ><%= subItems.p2 %></span>
+                        </td>
+                        <td
+                            style="padding: 1px 3px;border-top: 1px solid #000;font-size: .65rem;text-align: center;border-left: 1px solid #000;">
+                            <b ><%= subItems.final %> </b>
+                        </td>
+                    </tr>
+                    <% }) %>
             </tbody>
         </table>
         <table
