@@ -68,17 +68,7 @@ var promedio = () => {
 
   function calcular_porcentaje_paciales(prom) {
     var aux = parseFloat(prom);
-    var promedio = aux * 8 / 10;
-    var result = trunc(promedio, 2);
-    if (result == 0) return '0.00';
-    if (isNaN(result) || result == '') result = '';
-    var salida = ifDecimal(result);
-    return salida;
-  }
-
-  function calcular_porcentaje_examen(nota) {
-    var aux = parseFloat(nota);
-    var promedio = aux * 2 / 10;
+    var promedio = aux * 9 / 10;
     var result = trunc(promedio, 2);
     if (result == 0) return '0.00';
     if (isNaN(result) || result == '') result = '';
@@ -95,14 +85,13 @@ var promedio = () => {
     return suma;
   }
 
-  function promedioInsumos(n1, n2, n3, n4, n5) {
+  function promedioInsumos(n1, n2, n3, n4) {
     var array = [];
     var promedio = 0;
     if (n1 != '' && validarNumber(n1)) array.push(n1);
     if (n2 != '' && validarNumber(n2)) array.push(n2);
     if (n3 != '' && validarNumber(n3)) array.push(n3);
     if (n4 != '' && validarNumber(n4)) array.push(n4);
-    if (n5 != '' && validarNumber(n4)) array.push(n5);
     var sumatoria = array.reduce(function (acumulador, siguienteValor) {
       return acumulador + parseFloat(siguienteValor);
     }, 0);
@@ -122,6 +111,48 @@ var promedio = () => {
     if (isNaN(result) || result == '') result = '';
     var salida = ifDecimal(result);
     return salida;
+  }
+
+  function calcular_porcentaje_examen(nota, nota2) {
+    var aux = parseFloat(nota);
+    var aux2 = parseFloat(nota2);
+    var res = calacular_dos(aux, aux2);
+    var promedio = res * 1 / 10;
+    var result = trunc(promedio, 2);
+    if (result == 0) return '';
+    if (isNaN(result) || result == '') result = '';
+    var salida = ifDecimal(result);
+    return salida;
+  }
+
+  function ponderado(nota) {
+    var aux = parseFloat(nota);
+    var promedio = aux * 3 / 10;
+    var result = trunc(promedio, 2);
+    if (result == 0) return '';
+    if (isNaN(result) || result == '') result = '';
+    var salida = ifDecimal(result);
+    return salida;
+  }
+
+  function ponderado90(nota) {
+    var aux = parseFloat(nota);
+    var promedio = aux * 9 / 10;
+    var result = trunc(promedio, 2);
+    if (result == 0) return '';
+    if (isNaN(result) || result == '') result = '';
+    var salida = ifDecimal(result);
+    return salida;
+  }
+
+  function calacular_dos(pa1, pa2) {
+    var suma = parseFloat(pa1) + parseFloat(pa2);
+    var promedio = suma / 2;
+    var result = trunc(promedio, 2);
+    if (result == 0) return '';
+    if (isNaN(result) || result == '') result = '';
+    var salida = ifDecimal(result);
+    return salida;
   } //================================RETORNA EL PROMEDIO DE 2 PARCIALES=================
 
 
@@ -136,9 +167,10 @@ var promedio = () => {
     return res;
   };
 
-  var examen20 = function examen20(exa) {
+  var examen20 = function examen20(exa, pyt) {
     var test = exa ? exa.toString().replace(",", ".") : '';
-    var res = calcular_porcentaje_examen(test);
+    var test2 = pyt ? pyt.toString().replace(",", ".") : '';
+    var res = calcular_porcentaje_examen(test, test2);
     return res;
   };
 
@@ -149,8 +181,8 @@ var promedio = () => {
     return res;
   };
 
-  var finalAnual = function finalAnual(pr1, pr2) {
-    var sum = (parseFloat(pr1) + parseFloat(pr2)) / 2;
+  var finalAnual = function finalAnual(pr1, pr2, pr3) {
+    var sum = (parseFloat(pr1) + parseFloat(pr2) + parseFloat(pr3)) / 3;
     if (sum == 0) return '0.00';
     var suma = trunc(sum, 2);
     if (isNaN(suma) || suma == '') suma = '';
@@ -160,26 +192,38 @@ var promedio = () => {
 
   var finalSupletorios = function finalSupletorios(resultados) {
     var supl = resultados.supletorio ? resultados.supletorio.toString().replace(",", ".") : '';
-    var rem = resultados.remedial ? resultados.remedial.toString().replace(",", ".") : '';
-    var graci = resultados.gracia ? resultados.gracia.toString().replace(",", ".") : '';
-    var promfin = resultados.promedioFinal ? resultados.promedioFinal.toString().replace(",", ".") : '';
+    var promfin = resultados.promGen ? resultados.promGen.toString().replace(",", ".") : '';
     var suple = parseFloat(supl);
-    var reme = parseFloat(rem);
-    var gracia = parseFloat(graci);
     var final = parseFloat(promfin);
     var result = 0;
 
-    if (gracia > 0 && gracia <= 10) {
-      if (gracia >= 7 && gracia <= 10) result = 7.00;else result = final;
-    } else if (reme > 0 && reme <= 10) {
-      if (reme >= 7 && reme <= 10) result = 7.00;else result = final;
-    } else if (suple > 0 && suple <= 10) {
+    if (suple > 0 && suple <= 10) {
       if (suple >= 7 && suple <= 10) result = 7.00;else result = final;
     } else {
       result = 0;
     }
 
     return "".concat(result);
+  };
+
+  function calcUnoPonderado(nota) {
+    var aux = parseFloat(nota);
+    var promedio = aux * 1 / 10;
+    var result = trunc(promedio, 2);
+    if (result == 0) return '';
+    if (isNaN(result) || result == '') result = '';
+    var salida = ifDecimal(result);
+    return salida;
+  }
+
+  var sumatoriaProm = function sumatoriaProm(rest, rest2) {
+    var test = rest ? rest.toString().replace(",", ".") : '';
+    var test2 = rest2 ? rest2.toString().replace(",", ".") : '';
+    var suma10 = parseFloat(test);
+    var suma90 = parseFloat(test2);
+    var res = (suma10 + suma90).toFixed(2);
+    if (isNaN(res) || res == '') res = '';
+    return res;
   };
 
   return {
@@ -190,7 +234,11 @@ var promedio = () => {
     totalPrimerQuim,
     finalAnual,
     finalSupletorios,
-    ifDecimal
+    ifDecimal,
+    ponderado,
+    ponderado90,
+    calcUnoPonderado,
+    sumatoriaProm
   };
 };
 

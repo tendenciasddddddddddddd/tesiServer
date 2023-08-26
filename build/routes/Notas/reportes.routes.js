@@ -29,5 +29,7 @@ router.post("/quimestral/", [_middlewares.authJwt.verifyToken], _reportes.defaul
 router.post("/anual/", [_middlewares.authJwt.verifyToken], _reportes.default.anual);
 router.get("/nomina", [_middlewares.authJwt.verifyToken], _reportes.default.getNomina);
 router.get("/nominaDocentes", [_middlewares.authJwt.verifyToken], _reportes.default.getNominaDocente);
+router.post("/ambitos", [_middlewares.authJwt.verifyToken], _reportes.default.Ambitos);
+router.post("/destrezas", [_middlewares.authJwt.verifyToken], _reportes.default.Destrezas);
 var _default = router;
 exports.default = _default;

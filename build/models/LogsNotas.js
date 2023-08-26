@@ -8,10 +8,7 @@ exports.default = void 0;
 var _mongoose = require("mongoose");
 
 var horarioSchema = new _mongoose.Schema({
-  fkUser: {
-    type: _mongoose.Schema.Types.ObjectId,
-    ref: "User"
-  },
+  usuario: {},
   nombre: String,
   iP: String,
   navegador: String,

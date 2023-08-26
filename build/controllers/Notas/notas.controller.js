@@ -23,7 +23,8 @@ var {
   totalPrimerQuim,
   finalAnual,
   finalSupletorios,
-  ifDecimal
+  ifDecimal,
+  ponderado
 } = (0, _promedios.promedio)();
 
 function primerIngresoNotas(_x, _x2, _x3) {
@@ -36,42 +37,59 @@ function _primerIngresoNotas() {
       var Dto = data.notas;
       var Rto = data.resultados; //PRIMER QUIMESTRE ENTRA A y B
 
-      var ppa = yield promedioInsumos(Dto.a1, Dto.a2, Dto.a3, Dto.a4, Dto.a5);
-      var ppb = promedioInsumos(Dto.b1, Dto.b2, Dto.b3, Dto.b4, Dto.b5);
+      var ppa = yield promedioInsumos(Dto.a1, Dto.a2, Dto.a3, Dto.a4);
+      var ppb = promedioInsumos(Dto.b1, Dto.b2, Dto.b3, Dto.b4);
       var sumAB = sumaParciales(ppa, ppb);
-      var sumAB80 = sumaParciales80(sumAB);
-      var sumAB20 = examen20(Dto.exa1);
-      var proAB = totalPrimerQuim(sumAB80, sumAB20);
+      var sumAB90 = sumaParciales80(sumAB);
+      var sumAB10 = examen20(Dto.exa1, Dto.pry1);
+      var proAB = totalPrimerQuim(sumAB90, sumAB10);
+      var pondAB = ponderado(proAB);
       data.notas['ppa'] = ppa;
       data.notas['ppb'] = ppb;
       data.notas['sumAB'] = sumAB;
-      data.notas['sumAB80'] = sumAB80;
-      data.notas['sumAB20'] = sumAB20;
-      data.notas['proAB'] = proAB; //SEGUNDO QUIMESTRE ENTRA C y D
+      data.notas['sumAB90'] = sumAB90;
+      data.notas['sumAB10'] = sumAB10;
+      data.notas['proAB'] = proAB;
+      data.notas['pondAB'] = pondAB; //SEGUNDO QUIMESTRE ENTRA C y D
 
-      var ppc = promedioInsumos(Dto.c1, Dto.c2, Dto.c3, Dto.c4, Dto.c5);
-      var ppd = promedioInsumos(Dto.d1, Dto.d2, Dto.d3, Dto.d4, Dto.d5);
+      var ppc = promedioInsumos(Dto.c1, Dto.c2, Dto.c3, Dto.c4);
+      var ppd = promedioInsumos(Dto.d1, Dto.d2, Dto.d3, Dto.d4);
       var sumCD = sumaParciales(ppc, ppd);
-      var sumCD80 = sumaParciales80(sumCD);
-      var sumCD20 = examen20(Dto.exa2);
-      var proCD = totalPrimerQuim(sumCD80, sumCD20);
+      var sumCD90 = sumaParciales80(sumCD);
+      var sumCD10 = examen20(Dto.exa2, Dto.pry2);
+      var proCD = totalPrimerQuim(sumCD90, sumCD10);
+      var pondCD = ponderado(proCD);
       data.notas['ppc'] = ppc;
       data.notas['ppd'] = ppd;
       data.notas['sumCD'] = sumCD;
-      data.notas['sumCD80'] = sumCD80;
-      data.notas['sumCD20'] = sumCD20;
-      data.notas['proCD'] = proCD; //RESUKTADOS FINALES DE NOTAS
+      data.notas['sumCD90'] = sumCD90;
+      data.notas['sumCD10'] = sumCD10;
+      data.notas['proCD'] = proCD;
+      data.notas['pondCD'] = pondCD; //TERCER TRIMESTRE ENTRA E y F
 
-      var notaFinal = finalAnual(proAB, proCD);
+      var ppe = promedioInsumos(Dto.e1, Dto.e2, Dto.e3, Dto.e4);
+      var ppf = promedioInsumos(Dto.f1, Dto.f2, Dto.f3, Dto.f4);
+      var sumEF = sumaParciales(ppe, ppf);
+      var sumEF90 = sumaParciales80(sumEF);
+      var sumEF10 = examen20(Dto.exa3, Dto.pry3);
+      var proEF = totalPrimerQuim(sumEF90, sumEF10);
+      var pondEF = ponderado(proEF);
+      data.notas['ppe'] = ppe;
+      data.notas['ppf'] = ppf;
+      data.notas['sumEF'] = sumEF;
+      data.notas['sumEF90'] = sumEF90;
+      data.notas['sumEF10'] = sumEF10;
+      data.notas['proEF'] = proEF;
+      data.notas['pondEF'] = pondEF; //RESUKTADOS FINALES DE NOTAS
+
+      var notaFinal = finalAnual(proAB, proCD, proEF);
       data.resultados.promedioFinal = notaFinal;
       var notaAux = '';
 
-      if (Rto.supletorio == '' && Rto.remedial == '' && Rto.gracia == '') {
+      if (Rto.supletorio == '') {
         notaAux = notaFinal;
       } else {
         notaAux = Rto.supletorio;
-        notaAux = Rto.remedial;
-        notaAux = Rto.gracia;
       }
 
       data.resultados.notaFinal = notaAux;
@@ -136,42 +154,59 @@ function _actualizarIngresoNotas() {
       var Dto = data.notas;
       var Rto = data.resultados; //PRIMER QUIMESTRE ENTRA A y B
 
-      var ppa = promedioInsumos(Dto.a1, Dto.a2, Dto.a3, Dto.a4, Dto.a5);
-      var ppb = promedioInsumos(Dto.b1, Dto.b2, Dto.b3, Dto.b4, Dto.b5);
+      var ppa = yield promedioInsumos(Dto.a1, Dto.a2, Dto.a3, Dto.a4);
+      var ppb = promedioInsumos(Dto.b1, Dto.b2, Dto.b3, Dto.b4);
       var sumAB = sumaParciales(ppa, ppb);
-      var sumAB80 = sumaParciales80(sumAB);
-      var sumAB20 = examen20(Dto.exa1);
-      var proAB = totalPrimerQuim(sumAB80, sumAB20);
+      var sumAB90 = sumaParciales80(sumAB);
+      var sumAB10 = examen20(Dto.exa1, Dto.pry1);
+      var proAB = totalPrimerQuim(sumAB90, sumAB10);
+      var pondAB = ponderado(proAB);
       data.notas['ppa'] = ppa;
       data.notas['ppb'] = ppb;
       data.notas['sumAB'] = sumAB;
-      data.notas['sumAB80'] = sumAB80;
-      data.notas['sumAB20'] = sumAB20;
-      data.notas['proAB'] = proAB; //SEGUNDO QUIMESTRE ENTRA C y D
+      data.notas['sumAB90'] = sumAB90;
+      data.notas['sumAB10'] = sumAB10;
+      data.notas['proAB'] = proAB;
+      data.notas['pondAB'] = pondAB; //SEGUNDO QUIMESTRE ENTRA C y D
 
-      var ppc = promedioInsumos(Dto.c1, Dto.c2, Dto.c3, Dto.c4, Dto.c5);
-      var ppd = promedioInsumos(Dto.d1, Dto.d2, Dto.d3, Dto.d4, Dto.d5);
+      var ppc = promedioInsumos(Dto.c1, Dto.c2, Dto.c3, Dto.c4);
+      var ppd = promedioInsumos(Dto.d1, Dto.d2, Dto.d3, Dto.d4);
       var sumCD = sumaParciales(ppc, ppd);
-      var sumCD80 = sumaParciales80(sumCD);
-      var sumCD20 = examen20(Dto.exa2);
-      var proCD = totalPrimerQuim(sumCD80, sumCD20);
+      var sumCD90 = sumaParciales80(sumCD);
+      var sumCD10 = examen20(Dto.exa2, Dto.pry2);
+      var proCD = totalPrimerQuim(sumCD90, sumCD10);
+      var pondCD = ponderado(proCD);
       data.notas['ppc'] = ppc;
       data.notas['ppd'] = ppd;
       data.notas['sumCD'] = sumCD;
-      data.notas['sumCD80'] = sumCD80;
-      data.notas['sumCD20'] = sumCD20;
-      data.notas['proCD'] = proCD; //RESUKTADOS FINALES DE NOTAS
+      data.notas['sumCD90'] = sumCD90;
+      data.notas['sumCD10'] = sumCD10;
+      data.notas['proCD'] = proCD;
+      data.notas['pondCD'] = pondCD; //TERCER TRIMESTRE ENTRA E y F
 
-      var notaFinal = finalAnual(proAB, proCD);
+      var ppe = promedioInsumos(Dto.e1, Dto.e2, Dto.e3, Dto.e4);
+      var ppf = promedioInsumos(Dto.f1, Dto.f2, Dto.f3, Dto.f4);
+      var sumEF = sumaParciales(ppe, ppf);
+      var sumEF90 = sumaParciales80(sumEF);
+      var sumEF10 = examen20(Dto.exa3, Dto.pry3);
+      var proEF = totalPrimerQuim(sumEF90, sumEF10);
+      var pondEF = ponderado(proEF);
+      data.notas['ppe'] = ppe;
+      data.notas['ppf'] = ppf;
+      data.notas['sumEF'] = sumEF;
+      data.notas['sumEF90'] = sumEF90;
+      data.notas['sumEF10'] = sumEF10;
+      data.notas['proEF'] = proEF;
+      data.notas['pondEF'] = pondEF; //RESUKTADOS FINALES DE NOTAS
+
+      var notaFinal = finalAnual(proAB, proCD, proEF);
       data.resultados.promedioFinal = notaFinal;
       var notaAux = '';
 
-      if (Rto.supletorio == '' && Rto.remedial == '' && Rto.gracia == '') {
+      if (Rto.supletorio == '') {
         notaAux = notaFinal;
       } else {
         notaAux = Rto.supletorio;
-        notaAux = Rto.remedial;
-        notaAux = Rto.gracia;
       }
 
       data.resultados.notaFinal = notaAux;
@@ -216,7 +251,7 @@ function _actualizarIngresoSupletorios() {
       var reg = finalSupletorios(data.resultados);
       var regAux = reg ? ifDecimal(reg) : '';
 
-      if (data.resultados.supletorio == '' && data.resultados.remedial == '' && data.resultados.gracia == '') {
+      if (data.resultados.supletorio == '') {
         regAux = data.resultados.promedioFinal ? ifDecimal(data.resultados.promedioFinal) : '';
       }
 

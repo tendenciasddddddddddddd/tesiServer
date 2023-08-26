@@ -45,6 +45,8 @@ var _horarios = _interopRequireDefault(require("./routes/horarios.routes"));
 
 var _hora = _interopRequireDefault(require("./routes/hora.routes"));
 
+var _common = _interopRequireDefault(require("./routes/Notas/common.routes"));
+
 var _aulas = _interopRequireDefault(require("./routes/Aulas/aulas.routes"));
 
 var _tareas = _interopRequireDefault(require("./routes/Aulas/tareas.routes"));
@@ -152,7 +154,10 @@ app.use("/api/youtube", _youtube.default);
 app.use("/api/eva", _evaluacion.default);
 app.use("/api/foros", _foros.default);
 app.use("/api/logs", _logs.default);
-app.use("/api/reportes", _reportes.default); //sitemap
+app.use("/api/reportes", _reportes.default);
+/* CALIFICACIONES */
+
+app.use("/api/common", _common.default); //sitemap
 
 app.use("/sitemap.xml", _sitemap.default);
 var _default = app;

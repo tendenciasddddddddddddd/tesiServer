@@ -42,6 +42,7 @@ var promedioReportes = () => {
       for (var i = 0; i < (matriculas === null || matriculas === void 0 ? void 0 : matriculas.length); i++) {
         var element = matriculas[i];
         var aux = [];
+        var aux2 = [];
 
         if (estudiantes.includes(element.fkestudiante)) {
           var _element$estudiante, _rowM$curso, _rowM$periodo;
@@ -50,28 +51,57 @@ var promedioReportes = () => {
           var promGeneral = [];
 
           for (var j = 0; j < (distributivo === null || distributivo === void 0 ? void 0 : distributivo.length); j++) {
-            var _subelement$materia, _subelement$materia2;
+            var _subelement$materia;
 
             var subelement = distributivo[j];
-            var promedio = void 0,
-                letras = '';
 
-            for (var m = 0; m < computo.length; m++) {
-              var result = computo[m];
+            if (((_subelement$materia = subelement.materia) === null || _subelement$materia === void 0 ? void 0 : _subelement$materia.computo) == 2) {
+              var _subelement$materia2, _subelement$materia3;
 
-              if (subelement.fkmaterias == result.fkmateria) {
-                promedio = result.resultados.notaFinal;
+              var promedio = void 0,
+                  letras = '';
+
+              for (var m = 0; m < computo.length; m++) {
+                var result = computo[m];
+
+                if (subelement.fkmaterias == result.fkmateria) {
+                  promedio = result.resultados.notaFinal;
+                }
               }
-            }
 
-            letras = trasformnumberToText(promedio);
-            promGeneral.push(promedio);
-            aux.push({
-              materia: (_subelement$materia = subelement.materia) === null || _subelement$materia === void 0 ? void 0 : _subelement$materia.nombre,
-              area: (_subelement$materia2 = subelement.materia) === null || _subelement$materia2 === void 0 ? void 0 : _subelement$materia2.area,
-              promedio: promedio ? promedio.toString().replace('.', ',') : '',
-              letras: letras
-            });
+              letras = trasformnumberToText(promedio);
+              promGeneral.push(promedio);
+              aux.push({
+                materia: (_subelement$materia2 = subelement.materia) === null || _subelement$materia2 === void 0 ? void 0 : _subelement$materia2.nombre,
+                area: (_subelement$materia3 = subelement.materia) === null || _subelement$materia3 === void 0 ? void 0 : _subelement$materia3.area,
+                promedio: promedio ? promedio.toString().replace('.', ',') : '',
+                letras: letras
+              });
+            } else {
+              var _subelement$materia4, _subelement$materia5, _subelement$materia6;
+
+              var _promedio = void 0,
+                  _letras = '';
+
+              for (var _m = 0; _m < computo.length; _m++) {
+                var _result = computo[_m];
+
+                if (subelement.fkmaterias == _result.fkmateria) {
+                  var _result$resultados;
+
+                  _promedio = (_result$resultados = _result.resultados) === null || _result$resultados === void 0 ? void 0 : _result$resultados.promedioFinal;
+                }
+              }
+
+              _letras = calcularPryectos(_promedio, (_subelement$materia4 = subelement.materia) === null || _subelement$materia4 === void 0 ? void 0 : _subelement$materia4.nombre);
+              promGeneral.push(_promedio);
+              aux2.push({
+                materia: (_subelement$materia5 = subelement.materia) === null || _subelement$materia5 === void 0 ? void 0 : _subelement$materia5.nombre,
+                area: (_subelement$materia6 = subelement.materia) === null || _subelement$materia6 === void 0 ? void 0 : _subelement$materia6.area,
+                promedio: _promedio,
+                letras: _letras
+              });
+            }
           }
 
           var pgeneral = calcProm(promGeneral);
@@ -82,6 +112,7 @@ var promedioReportes = () => {
             periodo: (_rowM$periodo = rowM.periodo) === null || _rowM$periodo === void 0 ? void 0 : _rowM$periodo.nombre,
             paralelo: rowM.paralelo,
             data: aux,
+            data2: aux2,
             pgeneral: pgeneral ? pgeneral.toString().replace('.', ',') : '',
             letrasFinal: letrasFinal
           });
@@ -138,6 +169,7 @@ var promedioReportes = () => {
       for (var i = 0; i < (matriculas === null || matriculas === void 0 ? void 0 : matriculas.length); i++) {
         var element = matriculas[i];
         var aux = [];
+        var aux2 = [];
 
         if (estudiantes.includes(element.fkestudiante)) {
           var _element$estudiante3, _rowM$curso3, _rowM$periodo3;
@@ -148,103 +180,145 @@ var promedioReportes = () => {
           var general = [];
 
           for (var j = 0; j < (distributivo === null || distributivo === void 0 ? void 0 : distributivo.length); j++) {
-            var _subelement$materia3, _subelement$materia4;
+            var _subelement$materia7;
 
             var subelement = distributivo[j];
-            var n1 = void 0,
-                n2 = void 0,
-                n3 = void 0,
-                n4 = void 0,
-                n5 = void 0,
-                n6 = void 0,
-                n7 = void 0,
-                n8 = void 0,
-                n9 = void 0,
-                n10 = void 0,
-                ppa = void 0,
-                ppb = void 0,
-                sumAB = void 0,
-                sumAB80 = void 0,
-                exa1 = void 0,
-                sumAB20 = void 0,
-                proAB = '';
-            var letras = '';
 
-            for (var m = 0; m < computo.length; m++) {
-              var result = computo[m];
+            if (((_subelement$materia7 = subelement.materia) === null || _subelement$materia7 === void 0 ? void 0 : _subelement$materia7.computo) == 2) {
+              var _subelement$materia8, _subelement$materia9;
 
-              if (subelement.fkmaterias == result.fkmateria) {
-                if (quim == 'PRIMER QUIMESTRE') {
-                  var ins = result.notas;
-                  n1 = ins === null || ins === void 0 ? void 0 : ins.a1;
-                  n2 = ins === null || ins === void 0 ? void 0 : ins.a2;
-                  n3 = ins === null || ins === void 0 ? void 0 : ins.a3;
-                  n4 = ins === null || ins === void 0 ? void 0 : ins.a4;
-                  n5 = ins === null || ins === void 0 ? void 0 : ins.a5;
-                  n6 = ins === null || ins === void 0 ? void 0 : ins.b1;
-                  n7 = ins === null || ins === void 0 ? void 0 : ins.b2;
-                  n8 = ins === null || ins === void 0 ? void 0 : ins.b3;
-                  n9 = ins === null || ins === void 0 ? void 0 : ins.b4;
-                  n10 = ins === null || ins === void 0 ? void 0 : ins.b5;
-                  ppa = ins === null || ins === void 0 ? void 0 : ins.ppa;
-                  ppb = ins === null || ins === void 0 ? void 0 : ins.ppb;
-                  sumAB = ins === null || ins === void 0 ? void 0 : ins.sumAB;
-                  sumAB80 = ins === null || ins === void 0 ? void 0 : ins.sumAB80;
-                  exa1 = ins === null || ins === void 0 ? void 0 : ins.exa1;
-                  sumAB20 = ins === null || ins === void 0 ? void 0 : ins.sumAB20;
-                  proAB = ins === null || ins === void 0 ? void 0 : ins.proAB;
-                  letras = promCuantitativoLetras(ins === null || ins === void 0 ? void 0 : ins.proAB);
-                }
+              var n1 = void 0,
+                  n2 = void 0,
+                  n3 = void 0,
+                  n4 = void 0,
+                  n5 = void 0,
+                  n6 = void 0,
+                  n7 = void 0,
+                  n8 = void 0,
+                  n9 = void 0,
+                  n10 = void 0,
+                  ppa = void 0,
+                  ppb = void 0,
+                  sumAB = void 0,
+                  sumAB80 = void 0,
+                  exa1 = void 0,
+                  sumAB20 = void 0,
+                  proAB = '';
+              var letras = '';
 
-                if (quim == 'SEGUNDO QUIMESTRE') {
-                  var _ins = result.notas;
-                  n1 = _ins === null || _ins === void 0 ? void 0 : _ins.c1;
-                  n2 = _ins === null || _ins === void 0 ? void 0 : _ins.c2;
-                  n3 = _ins === null || _ins === void 0 ? void 0 : _ins.c3;
-                  n4 = _ins === null || _ins === void 0 ? void 0 : _ins.c4;
-                  n5 = _ins === null || _ins === void 0 ? void 0 : _ins.c5;
-                  n6 = _ins === null || _ins === void 0 ? void 0 : _ins.d1;
-                  n7 = _ins === null || _ins === void 0 ? void 0 : _ins.d2;
-                  n8 = _ins === null || _ins === void 0 ? void 0 : _ins.d3;
-                  n9 = _ins === null || _ins === void 0 ? void 0 : _ins.d4;
-                  n10 = _ins === null || _ins === void 0 ? void 0 : _ins.d5;
-                  ppa = _ins === null || _ins === void 0 ? void 0 : _ins.ppc;
-                  ppb = _ins === null || _ins === void 0 ? void 0 : _ins.ppd;
-                  sumAB = _ins === null || _ins === void 0 ? void 0 : _ins.sumCD;
-                  sumAB80 = _ins === null || _ins === void 0 ? void 0 : _ins.sumCD80;
-                  exa1 = _ins === null || _ins === void 0 ? void 0 : _ins.exa2;
-                  sumAB20 = _ins === null || _ins === void 0 ? void 0 : _ins.sumCD20;
-                  proAB = _ins === null || _ins === void 0 ? void 0 : _ins.proCD;
-                  letras = promCuantitativoLetras(_ins === null || _ins === void 0 ? void 0 : _ins.proCD);
+              for (var m = 0; m < computo.length; m++) {
+                var result = computo[m];
+
+                if (subelement.fkmaterias == result.fkmateria) {
+                  if (quim == 'PRIMER QUIMESTRE') {
+                    var ins = result.notas;
+                    n1 = ins === null || ins === void 0 ? void 0 : ins.a1;
+                    n2 = ins === null || ins === void 0 ? void 0 : ins.a2;
+                    n3 = ins === null || ins === void 0 ? void 0 : ins.a3;
+                    n4 = ins === null || ins === void 0 ? void 0 : ins.a4;
+                    n5 = ins === null || ins === void 0 ? void 0 : ins.a5;
+                    n6 = ins === null || ins === void 0 ? void 0 : ins.b1;
+                    n7 = ins === null || ins === void 0 ? void 0 : ins.b2;
+                    n8 = ins === null || ins === void 0 ? void 0 : ins.b3;
+                    n9 = ins === null || ins === void 0 ? void 0 : ins.b4;
+                    n10 = ins === null || ins === void 0 ? void 0 : ins.b5;
+                    ppa = ins === null || ins === void 0 ? void 0 : ins.ppa;
+                    ppb = ins === null || ins === void 0 ? void 0 : ins.ppb;
+                    sumAB = ins === null || ins === void 0 ? void 0 : ins.sumAB;
+                    sumAB80 = ins === null || ins === void 0 ? void 0 : ins.sumAB80;
+                    exa1 = ins === null || ins === void 0 ? void 0 : ins.exa1;
+                    sumAB20 = ins === null || ins === void 0 ? void 0 : ins.sumAB20;
+                    proAB = ins === null || ins === void 0 ? void 0 : ins.proAB;
+                    letras = promCuantitativoLetras(ins === null || ins === void 0 ? void 0 : ins.proAB);
+                  }
+
+                  if (quim == 'SEGUNDO QUIMESTRE') {
+                    var _ins = result.notas;
+                    n1 = _ins === null || _ins === void 0 ? void 0 : _ins.c1;
+                    n2 = _ins === null || _ins === void 0 ? void 0 : _ins.c2;
+                    n3 = _ins === null || _ins === void 0 ? void 0 : _ins.c3;
+                    n4 = _ins === null || _ins === void 0 ? void 0 : _ins.c4;
+                    n5 = _ins === null || _ins === void 0 ? void 0 : _ins.c5;
+                    n6 = _ins === null || _ins === void 0 ? void 0 : _ins.d1;
+                    n7 = _ins === null || _ins === void 0 ? void 0 : _ins.d2;
+                    n8 = _ins === null || _ins === void 0 ? void 0 : _ins.d3;
+                    n9 = _ins === null || _ins === void 0 ? void 0 : _ins.d4;
+                    n10 = _ins === null || _ins === void 0 ? void 0 : _ins.d5;
+                    ppa = _ins === null || _ins === void 0 ? void 0 : _ins.ppc;
+                    ppb = _ins === null || _ins === void 0 ? void 0 : _ins.ppd;
+                    sumAB = _ins === null || _ins === void 0 ? void 0 : _ins.sumCD;
+                    sumAB80 = _ins === null || _ins === void 0 ? void 0 : _ins.sumCD80;
+                    exa1 = _ins === null || _ins === void 0 ? void 0 : _ins.exa2;
+                    sumAB20 = _ins === null || _ins === void 0 ? void 0 : _ins.sumCD20;
+                    proAB = _ins === null || _ins === void 0 ? void 0 : _ins.proCD;
+                    letras = promCuantitativoLetras(_ins === null || _ins === void 0 ? void 0 : _ins.proCD);
+                  }
                 }
               }
-            }
 
-            promPPA.push(ppa);
-            promPPB.push(ppb);
-            general.push(proAB);
-            aux.push({
-              materia: (_subelement$materia3 = subelement.materia) === null || _subelement$materia3 === void 0 ? void 0 : _subelement$materia3.nombre,
-              area: (_subelement$materia4 = subelement.materia) === null || _subelement$materia4 === void 0 ? void 0 : _subelement$materia4.area,
-              n1: n1,
-              n2: n2,
-              n3: n3,
-              n4: n4,
-              n5: n5,
-              n6: n6,
-              n7: n7,
-              n8: n8,
-              n9: n9,
-              n10: n10,
-              ppa: ppa,
-              ppb: ppb,
-              sumAB: sumAB,
-              sumAB80: sumAB80,
-              exa1: exa1,
-              sumAB20: sumAB20,
-              proAB: proAB,
-              letras: letras
-            });
+              promPPA.push(ppa);
+              promPPB.push(ppb);
+              general.push(proAB);
+              aux.push({
+                materia: (_subelement$materia8 = subelement.materia) === null || _subelement$materia8 === void 0 ? void 0 : _subelement$materia8.nombre,
+                area: (_subelement$materia9 = subelement.materia) === null || _subelement$materia9 === void 0 ? void 0 : _subelement$materia9.area,
+                n1: n1,
+                n2: n2,
+                n3: n3,
+                n4: n4,
+                n5: n5,
+                n6: n6,
+                n7: n7,
+                n8: n8,
+                n9: n9,
+                n10: n10,
+                ppa: ppa,
+                ppb: ppb,
+                sumAB: sumAB,
+                sumAB80: sumAB80,
+                exa1: exa1,
+                sumAB20: sumAB20,
+                proAB: proAB,
+                letras: letras
+              });
+            } else {
+              var _subelement$materia14;
+
+              var p1 = void 0,
+                  p2 = '';
+              var _letras2 = '';
+
+              for (var _m2 = 0; _m2 < computo.length; _m2++) {
+                var _result2 = computo[_m2];
+
+                if (subelement.fkmaterias == _result2.fkmateria) {
+                  if (quim == 'PRIMER QUIMESTRE') {
+                    var _subelement$materia10, _subelement$materia11;
+
+                    var _ins2 = _result2.cualitativo;
+                    p1 = _ins2.p1;
+                    p2 = _ins2.p2;
+                    if (((_subelement$materia10 = subelement.materia) === null || _subelement$materia10 === void 0 ? void 0 : _subelement$materia10.nombre) == 'COMPORTAMIENTO' || ((_subelement$materia11 = subelement.materia) === null || _subelement$materia11 === void 0 ? void 0 : _subelement$materia11.nombre) == 'DESARROLLO HUMANO INTEGRAL') _letras2 = calcularPromedioInsumosLetrasComportamiento(_ins2.p1, _ins2.p2);else _letras2 = calcularPromedioInsumosLetras(_ins2.p1, _ins2.p2);
+                  }
+
+                  if (quim == 'SEGUNDO QUIMESTRE') {
+                    var _subelement$materia12, _subelement$materia13;
+
+                    var _ins3 = _result2.cualitativo;
+                    p1 = _ins3.p3;
+                    p2 = _ins3.p4;
+                    if (((_subelement$materia12 = subelement.materia) === null || _subelement$materia12 === void 0 ? void 0 : _subelement$materia12.nombre) == 'COMPORTAMIENTO' || ((_subelement$materia13 = subelement.materia) === null || _subelement$materia13 === void 0 ? void 0 : _subelement$materia13.nombre) == 'DESARROLLO HUMANO INTEGRAL') _letras2 = calcularPromedioInsumosLetrasComportamiento(_ins3.p3, _ins3.p4);else _letras2 = calcularPromedioInsumosLetras(_ins3.p3, _ins3.p4);
+                  }
+                }
+              }
+
+              aux2.push({
+                materia: (_subelement$materia14 = subelement.materia) === null || _subelement$materia14 === void 0 ? void 0 : _subelement$materia14.nombre,
+                letras: _letras2,
+                p1: p1,
+                p2: p2
+              });
+            }
           }
 
           var pPPA = calcProm(promPPA);
@@ -256,6 +330,7 @@ var promedioReportes = () => {
             periodo: (_rowM$periodo3 = rowM.periodo) === null || _rowM$periodo3 === void 0 ? void 0 : _rowM$periodo3.nombre,
             paralelo: rowM.paralelo,
             data: aux,
+            data2: aux2,
             pPPA: pPPA,
             pPPB: pPPB,
             pgeneral: pgeneral,
@@ -263,8 +338,7 @@ var promedioReportes = () => {
             nmatricula: element.nmatricula
           });
         }
-      } //console.log(help)
-
+      }
 
       return help;
     } catch (error) {
@@ -278,6 +352,7 @@ var promedioReportes = () => {
       var matriculas = rowM === null || rowM === void 0 ? void 0 : rowM.matriculas;
       var distributivo = rowD === null || rowD === void 0 ? void 0 : rowD.carga;
       var help = [];
+      var help2 = [];
       var fechaA = fechaActual();
       matriculas.sort(function (a, b) {
         var nameA = a.estudiante.fullname.toLowerCase(),
@@ -288,173 +363,15 @@ var promedioReportes = () => {
       });
 
       for (var j = 0; j < (distributivo === null || distributivo === void 0 ? void 0 : distributivo.length); j++) {
-        var _materias$materia, _materias$docente;
+        var _materias$materia;
 
         var aux = [];
+        var aux2 = [];
         var materias = distributivo[j];
-        var proPPA = [];
-        var proPPB = [];
-        var promAB = [];
 
-        for (var k = 0; k < matriculas.length; k++) {
-          var res = matriculas[k];
+        if (((_materias$materia = materias.materia) === null || _materias$materia === void 0 ? void 0 : _materias$materia.computo) == 2) {
+          var _materias$materia2, _materias$docente;
 
-          if (estudiantes.includes(res.fkestudiante)) {
-            var _res$estudiante;
-
-            var computo = matriculas[k].computo;
-            var n1 = void 0,
-                n2 = void 0,
-                n3 = void 0,
-                n4 = void 0,
-                n5 = void 0,
-                n6 = void 0,
-                n7 = void 0,
-                n8 = void 0,
-                n9 = void 0,
-                n10 = void 0,
-                ppa = void 0,
-                ppb = void 0,
-                sumAB = void 0,
-                sumAB80 = void 0,
-                exa1 = void 0,
-                sumAB20 = void 0,
-                proAB = '';
-            var letras = '';
-
-            for (var i = 0; i < computo.length; i++) {
-              var element = computo[i];
-
-              if (element.fkmateria == materias.fkmaterias) {
-                if (quim == 'PRIMER QUIMESTRE') {
-                  var _element$notas, _element$notas2, _element$notas3, _element$notas4, _element$notas5, _element$notas6, _element$notas7;
-
-                  var ins = element.notas;
-                  n1 = ins === null || ins === void 0 ? void 0 : ins.a1;
-                  n2 = ins === null || ins === void 0 ? void 0 : ins.a2;
-                  n3 = ins === null || ins === void 0 ? void 0 : ins.a3;
-                  n4 = ins === null || ins === void 0 ? void 0 : ins.a4;
-                  n5 = ins === null || ins === void 0 ? void 0 : ins.a5;
-                  n6 = ins === null || ins === void 0 ? void 0 : ins.b1;
-                  n7 = ins === null || ins === void 0 ? void 0 : ins.b2;
-                  n8 = ins === null || ins === void 0 ? void 0 : ins.b3;
-                  n9 = ins === null || ins === void 0 ? void 0 : ins.b4;
-                  n10 = ins === null || ins === void 0 ? void 0 : ins.b5;
-                  ppa = (_element$notas = element.notas) === null || _element$notas === void 0 ? void 0 : _element$notas.ppa;
-                  ppb = (_element$notas2 = element.notas) === null || _element$notas2 === void 0 ? void 0 : _element$notas2.ppb;
-                  sumAB = (_element$notas3 = element.notas) === null || _element$notas3 === void 0 ? void 0 : _element$notas3.sumAB;
-                  sumAB80 = (_element$notas4 = element.notas) === null || _element$notas4 === void 0 ? void 0 : _element$notas4.sumAB80;
-                  exa1 = (_element$notas5 = element.notas) === null || _element$notas5 === void 0 ? void 0 : _element$notas5.exa1;
-                  sumAB20 = (_element$notas6 = element.notas) === null || _element$notas6 === void 0 ? void 0 : _element$notas6.sumAB20;
-                  proAB = (_element$notas7 = element.notas) === null || _element$notas7 === void 0 ? void 0 : _element$notas7.proAB;
-                  letras = promCuantitativoLetras(ins === null || ins === void 0 ? void 0 : ins.proAB);
-                }
-
-                if (quim == 'SEGUNDO QUIMESTRE') {
-                  var _element$notas8, _element$notas9, _element$notas10, _element$notas11, _element$notas12, _element$notas13, _element$notas14;
-
-                  var _ins2 = element.notas;
-                  n1 = _ins2 === null || _ins2 === void 0 ? void 0 : _ins2.c1;
-                  n2 = _ins2 === null || _ins2 === void 0 ? void 0 : _ins2.c2;
-                  n3 = _ins2 === null || _ins2 === void 0 ? void 0 : _ins2.c3;
-                  n4 = _ins2 === null || _ins2 === void 0 ? void 0 : _ins2.c4;
-                  n5 = _ins2 === null || _ins2 === void 0 ? void 0 : _ins2.c5;
-                  n6 = _ins2 === null || _ins2 === void 0 ? void 0 : _ins2.d1;
-                  n7 = _ins2 === null || _ins2 === void 0 ? void 0 : _ins2.d2;
-                  n8 = _ins2 === null || _ins2 === void 0 ? void 0 : _ins2.d3;
-                  n9 = _ins2 === null || _ins2 === void 0 ? void 0 : _ins2.d4;
-                  n10 = _ins2 === null || _ins2 === void 0 ? void 0 : _ins2.d5;
-                  ppa = (_element$notas8 = element.notas) === null || _element$notas8 === void 0 ? void 0 : _element$notas8.ppc;
-                  ppb = (_element$notas9 = element.notas) === null || _element$notas9 === void 0 ? void 0 : _element$notas9.ppd;
-                  sumAB = (_element$notas10 = element.notas) === null || _element$notas10 === void 0 ? void 0 : _element$notas10.sumCD;
-                  sumAB80 = (_element$notas11 = element.notas) === null || _element$notas11 === void 0 ? void 0 : _element$notas11.sumCD80;
-                  exa1 = (_element$notas12 = element.notas) === null || _element$notas12 === void 0 ? void 0 : _element$notas12.exa2;
-                  sumAB20 = (_element$notas13 = element.notas) === null || _element$notas13 === void 0 ? void 0 : _element$notas13.sumCD20;
-                  proAB = (_element$notas14 = element.notas) === null || _element$notas14 === void 0 ? void 0 : _element$notas14.proCD;
-                  letras = promCuantitativoLetras(_ins2 === null || _ins2 === void 0 ? void 0 : _ins2.proCD);
-                }
-              }
-            }
-
-            proPPA.push(ppa);
-            proPPB.push(ppb);
-            promAB.push(proAB);
-            aux.push({
-              estudiante: (_res$estudiante = res.estudiante) === null || _res$estudiante === void 0 ? void 0 : _res$estudiante.fullname,
-              n1: n1,
-              n2: n2,
-              n3: n3,
-              n4: n4,
-              n5: n5,
-              n6: n6,
-              n7: n7,
-              n8: n8,
-              n9: n9,
-              n10: n10,
-              ppa: ppa,
-              ppb: ppb,
-              sumAB: sumAB,
-              sumAB80: sumAB80,
-              exa1: exa1,
-              sumAB20: sumAB20,
-              proAB: proAB,
-              letras: letras
-            });
-          }
-        }
-
-        var medPPA = calcMedia(proPPA);
-        var medPPB = calcMedia(proPPB);
-        var medAB = calcMedia(promAB);
-        var pPPA = calcProm(proPPA);
-        var pPPB = calcProm(proPPB);
-        var prAB = calcProm(promAB); //console.log(mediaPPA)
-        //console.log(distributivo)
-
-        help.push({
-          materia: (_materias$materia = materias.materia) === null || _materias$materia === void 0 ? void 0 : _materias$materia.nombre,
-          docente: (_materias$docente = materias.docente) === null || _materias$docente === void 0 ? void 0 : _materias$docente.fullname,
-          curso: rowD === null || rowD === void 0 ? void 0 : rowD.curso.nombre,
-          paralelo: paralelo,
-          data: aux,
-          fechaA: fechaA,
-          medPPA: medPPA,
-          medPPB: medPPB,
-          medAB: medAB,
-          periodo: rowM === null || rowM === void 0 ? void 0 : rowM.periodo.nombre,
-          pPPA: pPPA,
-          pPPB: pPPB,
-          prAB: prAB
-        });
-      } //console.log('es',help)
-
-
-      return help;
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  function formatJuntasIndividual(rowM, rowD, estudiantes, quim, paralelo, keymateria) {
-    try {
-      var matriculas = rowM === null || rowM === void 0 ? void 0 : rowM.matriculas;
-      var distributivo = rowD === null || rowD === void 0 ? void 0 : rowD.carga;
-      var help = [];
-      var fechaA = fechaActual();
-      matriculas.sort(function (a, b) {
-        var nameA = a.estudiante.fullname.toLowerCase(),
-            nameB = b.estudiante.fullname.toLowerCase();
-        if (nameA < nameB) return -1;
-        if (nameA > nameB) return 1;
-        return 0;
-      });
-
-      for (var j = 0; j < (distributivo === null || distributivo === void 0 ? void 0 : distributivo.length); j++) {
-        if (keymateria == distributivo[j].fkmaterias) {
-          var _materias$materia2, _materias$docente2;
-
-          var aux = [];
-          var materias = distributivo[j];
           var proPPA = [];
           var proPPB = [];
           var promAB = [];
@@ -463,7 +380,7 @@ var promedioReportes = () => {
             var res = matriculas[k];
 
             if (estudiantes.includes(res.fkestudiante)) {
-              var _res$estudiante2;
+              var _res$estudiante;
 
               var computo = matriculas[k].computo;
               var n1 = void 0,
@@ -490,7 +407,7 @@ var promedioReportes = () => {
 
                 if (element.fkmateria == materias.fkmaterias) {
                   if (quim == 'PRIMER QUIMESTRE') {
-                    var _element$notas15, _element$notas16, _element$notas17, _element$notas18, _element$notas19, _element$notas20, _element$notas21;
+                    var _element$notas, _element$notas2, _element$notas3, _element$notas4, _element$notas5, _element$notas6, _element$notas7;
 
                     var ins = element.notas;
                     n1 = ins === null || ins === void 0 ? void 0 : ins.a1;
@@ -503,38 +420,38 @@ var promedioReportes = () => {
                     n8 = ins === null || ins === void 0 ? void 0 : ins.b3;
                     n9 = ins === null || ins === void 0 ? void 0 : ins.b4;
                     n10 = ins === null || ins === void 0 ? void 0 : ins.b5;
-                    ppa = (_element$notas15 = element.notas) === null || _element$notas15 === void 0 ? void 0 : _element$notas15.ppa;
-                    ppb = (_element$notas16 = element.notas) === null || _element$notas16 === void 0 ? void 0 : _element$notas16.ppb;
-                    sumAB = (_element$notas17 = element.notas) === null || _element$notas17 === void 0 ? void 0 : _element$notas17.sumAB;
-                    sumAB80 = (_element$notas18 = element.notas) === null || _element$notas18 === void 0 ? void 0 : _element$notas18.sumAB80;
-                    exa1 = (_element$notas19 = element.notas) === null || _element$notas19 === void 0 ? void 0 : _element$notas19.exa1;
-                    sumAB20 = (_element$notas20 = element.notas) === null || _element$notas20 === void 0 ? void 0 : _element$notas20.sumAB20;
-                    proAB = (_element$notas21 = element.notas) === null || _element$notas21 === void 0 ? void 0 : _element$notas21.proAB;
+                    ppa = (_element$notas = element.notas) === null || _element$notas === void 0 ? void 0 : _element$notas.ppa;
+                    ppb = (_element$notas2 = element.notas) === null || _element$notas2 === void 0 ? void 0 : _element$notas2.ppb;
+                    sumAB = (_element$notas3 = element.notas) === null || _element$notas3 === void 0 ? void 0 : _element$notas3.sumAB;
+                    sumAB80 = (_element$notas4 = element.notas) === null || _element$notas4 === void 0 ? void 0 : _element$notas4.sumAB80;
+                    exa1 = (_element$notas5 = element.notas) === null || _element$notas5 === void 0 ? void 0 : _element$notas5.exa1;
+                    sumAB20 = (_element$notas6 = element.notas) === null || _element$notas6 === void 0 ? void 0 : _element$notas6.sumAB20;
+                    proAB = (_element$notas7 = element.notas) === null || _element$notas7 === void 0 ? void 0 : _element$notas7.proAB;
                     letras = promCuantitativoLetras(ins === null || ins === void 0 ? void 0 : ins.proAB);
                   }
 
                   if (quim == 'SEGUNDO QUIMESTRE') {
-                    var _element$notas22, _element$notas23, _element$notas24, _element$notas25, _element$notas26, _element$notas27, _element$notas28;
+                    var _element$notas8, _element$notas9, _element$notas10, _element$notas11, _element$notas12, _element$notas13, _element$notas14;
 
-                    var _ins3 = element.notas;
-                    n1 = _ins3 === null || _ins3 === void 0 ? void 0 : _ins3.c1;
-                    n2 = _ins3 === null || _ins3 === void 0 ? void 0 : _ins3.c2;
-                    n3 = _ins3 === null || _ins3 === void 0 ? void 0 : _ins3.c3;
-                    n4 = _ins3 === null || _ins3 === void 0 ? void 0 : _ins3.c4;
-                    n5 = _ins3 === null || _ins3 === void 0 ? void 0 : _ins3.c5;
-                    n6 = _ins3 === null || _ins3 === void 0 ? void 0 : _ins3.d1;
-                    n7 = _ins3 === null || _ins3 === void 0 ? void 0 : _ins3.d2;
-                    n8 = _ins3 === null || _ins3 === void 0 ? void 0 : _ins3.d3;
-                    n9 = _ins3 === null || _ins3 === void 0 ? void 0 : _ins3.d4;
-                    n10 = _ins3 === null || _ins3 === void 0 ? void 0 : _ins3.d5;
-                    ppa = (_element$notas22 = element.notas) === null || _element$notas22 === void 0 ? void 0 : _element$notas22.ppc;
-                    ppb = (_element$notas23 = element.notas) === null || _element$notas23 === void 0 ? void 0 : _element$notas23.ppd;
-                    sumAB = (_element$notas24 = element.notas) === null || _element$notas24 === void 0 ? void 0 : _element$notas24.sumCD;
-                    sumAB80 = (_element$notas25 = element.notas) === null || _element$notas25 === void 0 ? void 0 : _element$notas25.sumCD80;
-                    exa1 = (_element$notas26 = element.notas) === null || _element$notas26 === void 0 ? void 0 : _element$notas26.exa2;
-                    sumAB20 = (_element$notas27 = element.notas) === null || _element$notas27 === void 0 ? void 0 : _element$notas27.sumCD20;
-                    proAB = (_element$notas28 = element.notas) === null || _element$notas28 === void 0 ? void 0 : _element$notas28.proCD;
-                    letras = promCuantitativoLetras(_ins3 === null || _ins3 === void 0 ? void 0 : _ins3.proCD);
+                    var _ins4 = element.notas;
+                    n1 = _ins4 === null || _ins4 === void 0 ? void 0 : _ins4.c1;
+                    n2 = _ins4 === null || _ins4 === void 0 ? void 0 : _ins4.c2;
+                    n3 = _ins4 === null || _ins4 === void 0 ? void 0 : _ins4.c3;
+                    n4 = _ins4 === null || _ins4 === void 0 ? void 0 : _ins4.c4;
+                    n5 = _ins4 === null || _ins4 === void 0 ? void 0 : _ins4.c5;
+                    n6 = _ins4 === null || _ins4 === void 0 ? void 0 : _ins4.d1;
+                    n7 = _ins4 === null || _ins4 === void 0 ? void 0 : _ins4.d2;
+                    n8 = _ins4 === null || _ins4 === void 0 ? void 0 : _ins4.d3;
+                    n9 = _ins4 === null || _ins4 === void 0 ? void 0 : _ins4.d4;
+                    n10 = _ins4 === null || _ins4 === void 0 ? void 0 : _ins4.d5;
+                    ppa = (_element$notas8 = element.notas) === null || _element$notas8 === void 0 ? void 0 : _element$notas8.ppc;
+                    ppb = (_element$notas9 = element.notas) === null || _element$notas9 === void 0 ? void 0 : _element$notas9.ppd;
+                    sumAB = (_element$notas10 = element.notas) === null || _element$notas10 === void 0 ? void 0 : _element$notas10.sumCD;
+                    sumAB80 = (_element$notas11 = element.notas) === null || _element$notas11 === void 0 ? void 0 : _element$notas11.sumCD80;
+                    exa1 = (_element$notas12 = element.notas) === null || _element$notas12 === void 0 ? void 0 : _element$notas12.exa2;
+                    sumAB20 = (_element$notas13 = element.notas) === null || _element$notas13 === void 0 ? void 0 : _element$notas13.sumCD20;
+                    proAB = (_element$notas14 = element.notas) === null || _element$notas14 === void 0 ? void 0 : _element$notas14.proCD;
+                    letras = promCuantitativoLetras(_ins4 === null || _ins4 === void 0 ? void 0 : _ins4.proCD);
                   }
                 }
               }
@@ -543,7 +460,7 @@ var promedioReportes = () => {
               proPPB.push(ppb);
               promAB.push(proAB);
               aux.push({
-                estudiante: (_res$estudiante2 = res.estudiante) === null || _res$estudiante2 === void 0 ? void 0 : _res$estudiante2.fullname,
+                estudiante: (_res$estudiante = res.estudiante) === null || _res$estudiante === void 0 ? void 0 : _res$estudiante.fullname,
                 n1: n1,
                 n2: n2,
                 n3: n3,
@@ -576,7 +493,7 @@ var promedioReportes = () => {
 
           help.push({
             materia: (_materias$materia2 = materias.materia) === null || _materias$materia2 === void 0 ? void 0 : _materias$materia2.nombre,
-            docente: (_materias$docente2 = materias.docente) === null || _materias$docente2 === void 0 ? void 0 : _materias$docente2.fullname,
+            docente: (_materias$docente = materias.docente) === null || _materias$docente === void 0 ? void 0 : _materias$docente.fullname,
             curso: rowD === null || rowD === void 0 ? void 0 : rowD.curso.nombre,
             paralelo: paralelo,
             data: aux,
@@ -589,11 +506,339 @@ var promedioReportes = () => {
             pPPB: pPPB,
             prAB: prAB
           });
+        } else {
+          var _materias$materia3, _materias$materia4, _materias$materia5, _materias$materia6, _materias$docente2;
+
+          var _proPPA = [];
+          var _proPPB = [];
+          var _promAB = [];
+
+          for (var _k = 0; _k < matriculas.length; _k++) {
+            var _res = matriculas[_k];
+
+            if (estudiantes.includes(_res.fkestudiante)) {
+              var _res$estudiante2;
+
+              var _computo = matriculas[_k].computo;
+              var p1 = void 0,
+                  p2 = '';
+              var _letras3 = '';
+
+              for (var _i = 0; _i < _computo.length; _i++) {
+                var _element = _computo[_i];
+
+                if (_element.fkmateria == materias.fkmaterias) {
+                  if (quim == 'PRIMER QUIMESTRE') {
+                    var _element$materia, _element$materia2;
+
+                    var _ins5 = _element.cualitativo;
+                    p1 = _ins5.p1;
+                    p2 = _ins5.p2;
+                    if (((_element$materia = _element.materia) === null || _element$materia === void 0 ? void 0 : _element$materia.nombre) == 'COMPORTAMIENTO' || ((_element$materia2 = _element.materia) === null || _element$materia2 === void 0 ? void 0 : _element$materia2.nombre) == 'DESARROLLO HUMANO INTEGRAL') _letras3 = calcularPromedioInsumosLetrasComportamiento(_ins5.p1, _ins5.p2);else _letras3 = calcularPromedioInsumosLetras(_ins5.p1, _ins5.p2);
+                  }
+
+                  if (quim == 'SEGUNDO QUIMESTRE') {
+                    var _element$materia3, _element$materia4;
+
+                    var _ins6 = _element.cualitativo;
+                    p1 = _ins6.p3;
+                    p2 = _ins6.p4;
+                    if (((_element$materia3 = _element.materia) === null || _element$materia3 === void 0 ? void 0 : _element$materia3.nombre) == 'COMPORTAMIENTO' || ((_element$materia4 = _element.materia) === null || _element$materia4 === void 0 ? void 0 : _element$materia4.nombre) == 'DESARROLLO HUMANO INTEGRAL') _letras3 = calcularPromedioInsumosLetrasComportamiento(_ins6.p1, _ins6.p2);else _letras3 = calcularPromedioInsumosLetras(_ins6.p1, _ins6.p2);
+                  }
+                }
+              }
+
+              _proPPA.push(p1);
+
+              _proPPB.push(p2);
+
+              _promAB.push(_letras3);
+
+              aux2.push({
+                estudiante: (_res$estudiante2 = _res.estudiante) === null || _res$estudiante2 === void 0 ? void 0 : _res$estudiante2.fullname,
+                letras: _letras3,
+                p1: p1,
+                p2: p2
+              });
+            }
+          }
+
+          var _medPPA = contarMediaLet(_proPPA, (_materias$materia3 = materias.materia) === null || _materias$materia3 === void 0 ? void 0 : _materias$materia3.nombre);
+
+          var _medPPB = contarMediaLet(_proPPB, (_materias$materia4 = materias.materia) === null || _materias$materia4 === void 0 ? void 0 : _materias$materia4.nombre);
+
+          var _medAB = contarMediaLet(_promAB, (_materias$materia5 = materias.materia) === null || _materias$materia5 === void 0 ? void 0 : _materias$materia5.nombre);
+
+          help2.push({
+            materia: (_materias$materia6 = materias.materia) === null || _materias$materia6 === void 0 ? void 0 : _materias$materia6.nombre,
+            docente: (_materias$docente2 = materias.docente) === null || _materias$docente2 === void 0 ? void 0 : _materias$docente2.fullname,
+            curso: rowD === null || rowD === void 0 ? void 0 : rowD.curso.nombre,
+            paralelo: paralelo,
+            data: aux2,
+            fechaA: fechaA,
+            medPPA: _medPPA,
+            medPPB: _medPPB,
+            medAB: _medAB,
+            periodo: rowM === null || rowM === void 0 ? void 0 : rowM.periodo.nombre
+          });
+        }
+      }
+
+      var arr = {
+        help: help,
+        help2: help2
+      };
+      return arr;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  function formatJuntasIndividual(rowM, rowD, estudiantes, quim, paralelo, keymateria) {
+    try {
+      var matriculas = rowM === null || rowM === void 0 ? void 0 : rowM.matriculas;
+      var distributivo = rowD === null || rowD === void 0 ? void 0 : rowD.carga;
+      var help = [];
+      var help2 = [];
+      var fechaA = fechaActual();
+      matriculas.sort(function (a, b) {
+        var nameA = a.estudiante.fullname.toLowerCase(),
+            nameB = b.estudiante.fullname.toLowerCase();
+        if (nameA < nameB) return -1;
+        if (nameA > nameB) return 1;
+        return 0;
+      });
+
+      for (var j = 0; j < (distributivo === null || distributivo === void 0 ? void 0 : distributivo.length); j++) {
+        if (keymateria == distributivo[j].fkmaterias) {
+          var _materias$materia7;
+
+          var aux = [];
+          var aux2 = [];
+          var materias = distributivo[j];
+
+          if (((_materias$materia7 = materias.materia) === null || _materias$materia7 === void 0 ? void 0 : _materias$materia7.computo) == 2) {
+            var _materias$materia8, _materias$docente3;
+
+            var proPPA = [];
+            var proPPB = [];
+            var promAB = [];
+
+            for (var k = 0; k < matriculas.length; k++) {
+              var res = matriculas[k];
+
+              if (estudiantes.includes(res.fkestudiante)) {
+                var _res$estudiante3;
+
+                var computo = matriculas[k].computo;
+                var n1 = void 0,
+                    n2 = void 0,
+                    n3 = void 0,
+                    n4 = void 0,
+                    n5 = void 0,
+                    n6 = void 0,
+                    n7 = void 0,
+                    n8 = void 0,
+                    n9 = void 0,
+                    n10 = void 0,
+                    ppa = void 0,
+                    ppb = void 0,
+                    sumAB = void 0,
+                    sumAB80 = void 0,
+                    exa1 = void 0,
+                    sumAB20 = void 0,
+                    proAB = '';
+                var letras = '';
+
+                for (var i = 0; i < computo.length; i++) {
+                  var element = computo[i];
+
+                  if (element.fkmateria == materias.fkmaterias) {
+                    if (quim == 'PRIMER QUIMESTRE') {
+                      var _element$notas15, _element$notas16, _element$notas17, _element$notas18, _element$notas19, _element$notas20, _element$notas21;
+
+                      var ins = element.notas;
+                      n1 = ins === null || ins === void 0 ? void 0 : ins.a1;
+                      n2 = ins === null || ins === void 0 ? void 0 : ins.a2;
+                      n3 = ins === null || ins === void 0 ? void 0 : ins.a3;
+                      n4 = ins === null || ins === void 0 ? void 0 : ins.a4;
+                      n5 = ins === null || ins === void 0 ? void 0 : ins.a5;
+                      n6 = ins === null || ins === void 0 ? void 0 : ins.b1;
+                      n7 = ins === null || ins === void 0 ? void 0 : ins.b2;
+                      n8 = ins === null || ins === void 0 ? void 0 : ins.b3;
+                      n9 = ins === null || ins === void 0 ? void 0 : ins.b4;
+                      n10 = ins === null || ins === void 0 ? void 0 : ins.b5;
+                      ppa = (_element$notas15 = element.notas) === null || _element$notas15 === void 0 ? void 0 : _element$notas15.ppa;
+                      ppb = (_element$notas16 = element.notas) === null || _element$notas16 === void 0 ? void 0 : _element$notas16.ppb;
+                      sumAB = (_element$notas17 = element.notas) === null || _element$notas17 === void 0 ? void 0 : _element$notas17.sumAB;
+                      sumAB80 = (_element$notas18 = element.notas) === null || _element$notas18 === void 0 ? void 0 : _element$notas18.sumAB80;
+                      exa1 = (_element$notas19 = element.notas) === null || _element$notas19 === void 0 ? void 0 : _element$notas19.exa1;
+                      sumAB20 = (_element$notas20 = element.notas) === null || _element$notas20 === void 0 ? void 0 : _element$notas20.sumAB20;
+                      proAB = (_element$notas21 = element.notas) === null || _element$notas21 === void 0 ? void 0 : _element$notas21.proAB;
+                      letras = promCuantitativoLetras(ins === null || ins === void 0 ? void 0 : ins.proAB);
+                    }
+
+                    if (quim == 'SEGUNDO QUIMESTRE') {
+                      var _element$notas22, _element$notas23, _element$notas24, _element$notas25, _element$notas26, _element$notas27, _element$notas28;
+
+                      var _ins7 = element.notas;
+                      n1 = _ins7 === null || _ins7 === void 0 ? void 0 : _ins7.c1;
+                      n2 = _ins7 === null || _ins7 === void 0 ? void 0 : _ins7.c2;
+                      n3 = _ins7 === null || _ins7 === void 0 ? void 0 : _ins7.c3;
+                      n4 = _ins7 === null || _ins7 === void 0 ? void 0 : _ins7.c4;
+                      n5 = _ins7 === null || _ins7 === void 0 ? void 0 : _ins7.c5;
+                      n6 = _ins7 === null || _ins7 === void 0 ? void 0 : _ins7.d1;
+                      n7 = _ins7 === null || _ins7 === void 0 ? void 0 : _ins7.d2;
+                      n8 = _ins7 === null || _ins7 === void 0 ? void 0 : _ins7.d3;
+                      n9 = _ins7 === null || _ins7 === void 0 ? void 0 : _ins7.d4;
+                      n10 = _ins7 === null || _ins7 === void 0 ? void 0 : _ins7.d5;
+                      ppa = (_element$notas22 = element.notas) === null || _element$notas22 === void 0 ? void 0 : _element$notas22.ppc;
+                      ppb = (_element$notas23 = element.notas) === null || _element$notas23 === void 0 ? void 0 : _element$notas23.ppd;
+                      sumAB = (_element$notas24 = element.notas) === null || _element$notas24 === void 0 ? void 0 : _element$notas24.sumCD;
+                      sumAB80 = (_element$notas25 = element.notas) === null || _element$notas25 === void 0 ? void 0 : _element$notas25.sumCD80;
+                      exa1 = (_element$notas26 = element.notas) === null || _element$notas26 === void 0 ? void 0 : _element$notas26.exa2;
+                      sumAB20 = (_element$notas27 = element.notas) === null || _element$notas27 === void 0 ? void 0 : _element$notas27.sumCD20;
+                      proAB = (_element$notas28 = element.notas) === null || _element$notas28 === void 0 ? void 0 : _element$notas28.proCD;
+                      letras = promCuantitativoLetras(_ins7 === null || _ins7 === void 0 ? void 0 : _ins7.proCD);
+                    }
+                  }
+                }
+
+                proPPA.push(ppa);
+                proPPB.push(ppb);
+                promAB.push(proAB);
+                aux.push({
+                  estudiante: (_res$estudiante3 = res.estudiante) === null || _res$estudiante3 === void 0 ? void 0 : _res$estudiante3.fullname,
+                  n1: n1,
+                  n2: n2,
+                  n3: n3,
+                  n4: n4,
+                  n5: n5,
+                  n6: n6,
+                  n7: n7,
+                  n8: n8,
+                  n9: n9,
+                  n10: n10,
+                  ppa: ppa,
+                  ppb: ppb,
+                  sumAB: sumAB,
+                  sumAB80: sumAB80,
+                  exa1: exa1,
+                  sumAB20: sumAB20,
+                  proAB: proAB,
+                  letras: letras
+                });
+              }
+            }
+
+            var medPPA = calcMedia(proPPA);
+            var medPPB = calcMedia(proPPB);
+            var medAB = calcMedia(promAB);
+            var pPPA = calcProm(proPPA);
+            var pPPB = calcProm(proPPB);
+            var prAB = calcProm(promAB); //console.log(mediaPPA)
+            //console.log(distributivo)
+
+            help.push({
+              materia: (_materias$materia8 = materias.materia) === null || _materias$materia8 === void 0 ? void 0 : _materias$materia8.nombre,
+              docente: (_materias$docente3 = materias.docente) === null || _materias$docente3 === void 0 ? void 0 : _materias$docente3.fullname,
+              curso: rowD === null || rowD === void 0 ? void 0 : rowD.curso.nombre,
+              paralelo: paralelo,
+              data: aux,
+              fechaA: fechaA,
+              medPPA: medPPA,
+              medPPB: medPPB,
+              medAB: medAB,
+              periodo: rowM === null || rowM === void 0 ? void 0 : rowM.periodo.nombre,
+              pPPA: pPPA,
+              pPPB: pPPB,
+              prAB: prAB
+            });
+          } else {
+            var _materias$materia9, _materias$materia10, _materias$materia11, _materias$materia12, _materias$docente4;
+
+            var _proPPA2 = [];
+            var _proPPB2 = [];
+            var _promAB2 = [];
+
+            for (var _k2 = 0; _k2 < matriculas.length; _k2++) {
+              var _res2 = matriculas[_k2];
+
+              if (estudiantes.includes(_res2.fkestudiante)) {
+                var _res2$estudiante;
+
+                var _computo2 = matriculas[_k2].computo;
+                var p1 = void 0,
+                    p2 = '';
+                var _letras4 = '';
+
+                for (var _i2 = 0; _i2 < _computo2.length; _i2++) {
+                  var _element2 = _computo2[_i2];
+
+                  if (_element2.fkmateria == materias.fkmaterias) {
+                    if (quim == 'PRIMER QUIMESTRE') {
+                      var _element2$materia, _element2$materia2;
+
+                      var _ins8 = _element2.cualitativo;
+                      p1 = _ins8.p1;
+                      p2 = _ins8.p2;
+                      if (((_element2$materia = _element2.materia) === null || _element2$materia === void 0 ? void 0 : _element2$materia.nombre) == 'COMPORTAMIENTO' || ((_element2$materia2 = _element2.materia) === null || _element2$materia2 === void 0 ? void 0 : _element2$materia2.nombre) == 'DESARROLLO HUMANO INTEGRAL') _letras4 = calcularPromedioInsumosLetrasComportamiento(_ins8.p1, _ins8.p2);else _letras4 = calcularPromedioInsumosLetras(_ins8.p1, _ins8.p2);
+                    }
+
+                    if (quim == 'SEGUNDO QUIMESTRE') {
+                      var _element2$materia3, _element2$materia4;
+
+                      var _ins9 = _element2.cualitativo;
+                      p1 = _ins9.p3;
+                      p2 = _ins9.p4;
+                      if (((_element2$materia3 = _element2.materia) === null || _element2$materia3 === void 0 ? void 0 : _element2$materia3.nombre) == 'COMPORTAMIENTO' || ((_element2$materia4 = _element2.materia) === null || _element2$materia4 === void 0 ? void 0 : _element2$materia4.nombre) == 'DESARROLLO HUMANO INTEGRAL') _letras4 = calcularPromedioInsumosLetrasComportamiento(_ins9.p1, _ins9.p2);else _letras4 = calcularPromedioInsumosLetras(_ins9.p1, _ins9.p2);
+                    }
+                  }
+                }
+
+                _proPPA2.push(p1);
+
+                _proPPB2.push(p2);
+
+                _promAB2.push(_letras4);
+
+                aux2.push({
+                  estudiante: (_res2$estudiante = _res2.estudiante) === null || _res2$estudiante === void 0 ? void 0 : _res2$estudiante.fullname,
+                  letras: _letras4,
+                  p1: p1,
+                  p2: p2
+                });
+              }
+            }
+
+            var _medPPA2 = contarMediaLet(_proPPA2, (_materias$materia9 = materias.materia) === null || _materias$materia9 === void 0 ? void 0 : _materias$materia9.nombre);
+
+            var _medPPB2 = contarMediaLet(_proPPB2, (_materias$materia10 = materias.materia) === null || _materias$materia10 === void 0 ? void 0 : _materias$materia10.nombre);
+
+            var _medAB2 = contarMediaLet(_promAB2, (_materias$materia11 = materias.materia) === null || _materias$materia11 === void 0 ? void 0 : _materias$materia11.nombre);
+
+            help2.push({
+              materia: (_materias$materia12 = materias.materia) === null || _materias$materia12 === void 0 ? void 0 : _materias$materia12.nombre,
+              docente: (_materias$docente4 = materias.docente) === null || _materias$docente4 === void 0 ? void 0 : _materias$docente4.fullname,
+              curso: rowD === null || rowD === void 0 ? void 0 : rowD.curso.nombre,
+              paralelo: paralelo,
+              data: aux2,
+              fechaA: fechaA,
+              medPPA: _medPPA2,
+              medPPB: _medPPB2,
+              medAB: _medAB2,
+              periodo: rowM === null || rowM === void 0 ? void 0 : rowM.periodo.nombre
+            });
+          }
         }
       } //console.log('es',help)
 
 
-      return help;
+      var arr = {
+        help: help,
+        help2: help2
+      };
+      return arr;
     } catch (error) {
       console.log(error);
     }
@@ -615,7 +860,7 @@ var promedioReportes = () => {
 
       for (var j = 0; j < (distributivo === null || distributivo === void 0 ? void 0 : distributivo.length); j++) {
         if (keymateria == distributivo[j].fkmaterias) {
-          var _materias$materia3, _materias$docente3;
+          var _materias$materia13, _materias$docente5;
 
           var aux = [];
           var materias = distributivo[j];
@@ -627,7 +872,7 @@ var promedioReportes = () => {
             var res = matriculas[k];
 
             if (estudiantes.includes(res.fkestudiante)) {
-              var _res$estudiante3;
+              var _res$estudiante4;
 
               var computo = matriculas[k].computo;
               var proAB = void 0,
@@ -644,14 +889,14 @@ var promedioReportes = () => {
                 if (element.fkmateria == materias.fkmaterias) {
                   var _element$notas29, _element$notas30;
 
-                  var _res = element.resultados;
+                  var _res3 = element.resultados;
                   proAB = (_element$notas29 = element.notas) === null || _element$notas29 === void 0 ? void 0 : _element$notas29.proAB;
                   proCD = (_element$notas30 = element.notas) === null || _element$notas30 === void 0 ? void 0 : _element$notas30.proCD;
-                  suple = _res === null || _res === void 0 ? void 0 : _res.supletorio;
-                  final = _res === null || _res === void 0 ? void 0 : _res.notaFinal;
-                  promedioFinal = _res === null || _res === void 0 ? void 0 : _res.promedioFinal;
-                  remedial = _res === null || _res === void 0 ? void 0 : _res.remedial;
-                  gracia = _res === null || _res === void 0 ? void 0 : _res.gracia;
+                  suple = _res3 === null || _res3 === void 0 ? void 0 : _res3.supletorio;
+                  final = _res3 === null || _res3 === void 0 ? void 0 : _res3.notaFinal;
+                  promedioFinal = _res3 === null || _res3 === void 0 ? void 0 : _res3.promedioFinal;
+                  remedial = _res3 === null || _res3 === void 0 ? void 0 : _res3.remedial;
+                  gracia = _res3 === null || _res3 === void 0 ? void 0 : _res3.gracia;
                 }
               }
 
@@ -659,7 +904,7 @@ var promedioReportes = () => {
               promCD.push(proCD);
               promF.push(final);
               aux.push({
-                estudiante: (_res$estudiante3 = res.estudiante) === null || _res$estudiante3 === void 0 ? void 0 : _res$estudiante3.fullname,
+                estudiante: (_res$estudiante4 = res.estudiante) === null || _res$estudiante4 === void 0 ? void 0 : _res$estudiante4.fullname,
                 proAB: proAB,
                 proCD: proCD,
                 suple: suple,
@@ -680,8 +925,8 @@ var promedioReportes = () => {
           //console.log(distributivo)
 
           help.push({
-            materia: (_materias$materia3 = materias.materia) === null || _materias$materia3 === void 0 ? void 0 : _materias$materia3.nombre,
-            docente: (_materias$docente3 = materias.docente) === null || _materias$docente3 === void 0 ? void 0 : _materias$docente3.fullname,
+            materia: (_materias$materia13 = materias.materia) === null || _materias$materia13 === void 0 ? void 0 : _materias$materia13.nombre,
+            docente: (_materias$docente5 = materias.docente) === null || _materias$docente5 === void 0 ? void 0 : _materias$docente5.fullname,
             curso: rowD === null || rowD === void 0 ? void 0 : rowD.curso.nombre,
             paralelo: paralelo,
             data: aux,
@@ -714,6 +959,7 @@ var promedioReportes = () => {
       for (var i = 0; i < (matriculas === null || matriculas === void 0 ? void 0 : matriculas.length); i++) {
         var element = matriculas[i];
         var aux = [];
+        var aux2 = [];
 
         if (estudiantes.includes(element.fkestudiante)) {
           var _element$estudiante4, _rowM$curso4, _rowM$periodo4;
@@ -730,79 +976,112 @@ var promedioReportes = () => {
           var general3 = [];
 
           for (var j = 0; j < (distributivo === null || distributivo === void 0 ? void 0 : distributivo.length); j++) {
-            var _subelement$materia5, _subelement$materia6;
+            var _subelement$materia15;
 
             var subelement = distributivo[j];
-            var ppa = void 0,
-                ppb = void 0,
-                sumAB = void 0,
-                sumAB80 = void 0,
-                exa1 = void 0,
-                sumAB20 = void 0,
-                proAB = void 0,
-                ppc = void 0,
-                ppd = void 0,
-                sumCD = void 0,
-                sumCD80 = void 0,
-                exa2 = void 0,
-                sumCD20 = void 0,
-                proCD = void 0,
-                suple = void 0,
-                final = '';
 
-            for (var m = 0; m < computo.length; m++) {
-              var result = computo[m];
+            if (((_subelement$materia15 = subelement.materia) === null || _subelement$materia15 === void 0 ? void 0 : _subelement$materia15.computo) == 2) {
+              var _subelement$materia16, _subelement$materia17;
 
-              if (subelement.fkmaterias == result.fkmateria) {
-                var ins = result.notas;
-                var res = result.resultados;
-                ppa = ins === null || ins === void 0 ? void 0 : ins.ppa;
-                ppb = ins === null || ins === void 0 ? void 0 : ins.ppb;
-                sumAB = ins === null || ins === void 0 ? void 0 : ins.sumAB;
-                sumAB80 = ins === null || ins === void 0 ? void 0 : ins.sumAB80;
-                exa1 = ins === null || ins === void 0 ? void 0 : ins.exa1;
-                sumAB20 = ins === null || ins === void 0 ? void 0 : ins.sumAB20;
-                proAB = ins === null || ins === void 0 ? void 0 : ins.proAB;
-                ppc = ins === null || ins === void 0 ? void 0 : ins.ppc;
-                ppd = ins === null || ins === void 0 ? void 0 : ins.ppd;
-                sumCD = ins === null || ins === void 0 ? void 0 : ins.sumCD;
-                sumCD80 = ins === null || ins === void 0 ? void 0 : ins.sumCD80;
-                exa2 = ins === null || ins === void 0 ? void 0 : ins.exa2;
-                sumCD20 = ins === null || ins === void 0 ? void 0 : ins.sumCD20;
-                proCD = ins === null || ins === void 0 ? void 0 : ins.proCD;
-                suple = res === null || res === void 0 ? void 0 : res.supletorio, final = res === null || res === void 0 ? void 0 : res.notaFinal;
+              var ppa = void 0,
+                  ppb = void 0,
+                  sumAB = void 0,
+                  sumAB80 = void 0,
+                  exa1 = void 0,
+                  sumAB20 = void 0,
+                  proAB = void 0,
+                  ppc = void 0,
+                  ppd = void 0,
+                  sumCD = void 0,
+                  sumCD80 = void 0,
+                  exa2 = void 0,
+                  sumCD20 = void 0,
+                  proCD = void 0,
+                  suple = void 0,
+                  final = '';
+
+              for (var m = 0; m < computo.length; m++) {
+                var result = computo[m];
+
+                if (subelement.fkmaterias == result.fkmateria) {
+                  var ins = result.notas;
+                  var res = result.resultados;
+                  ppa = ins === null || ins === void 0 ? void 0 : ins.ppa;
+                  ppb = ins === null || ins === void 0 ? void 0 : ins.ppb;
+                  sumAB = ins === null || ins === void 0 ? void 0 : ins.sumAB;
+                  sumAB80 = ins === null || ins === void 0 ? void 0 : ins.sumAB80;
+                  exa1 = ins === null || ins === void 0 ? void 0 : ins.exa1;
+                  sumAB20 = ins === null || ins === void 0 ? void 0 : ins.sumAB20;
+                  proAB = ins === null || ins === void 0 ? void 0 : ins.proAB;
+                  ppc = ins === null || ins === void 0 ? void 0 : ins.ppc;
+                  ppd = ins === null || ins === void 0 ? void 0 : ins.ppd;
+                  sumCD = ins === null || ins === void 0 ? void 0 : ins.sumCD;
+                  sumCD80 = ins === null || ins === void 0 ? void 0 : ins.sumCD80;
+                  exa2 = ins === null || ins === void 0 ? void 0 : ins.exa2;
+                  sumCD20 = ins === null || ins === void 0 ? void 0 : ins.sumCD20;
+                  proCD = ins === null || ins === void 0 ? void 0 : ins.proCD;
+                  suple = res === null || res === void 0 ? void 0 : res.supletorio, final = res === null || res === void 0 ? void 0 : res.notaFinal;
+                }
               }
-            }
 
-            promPPA.push(ppa);
-            promPPB.push(ppb);
-            promAB.push(sumAB);
-            general.push(proAB);
-            promPPC.push(ppc);
-            promPPD.push(ppd);
-            promCD.push(sumCD);
-            general2.push(proCD);
-            general3.push(final);
-            aux.push({
-              materia: (_subelement$materia5 = subelement.materia) === null || _subelement$materia5 === void 0 ? void 0 : _subelement$materia5.nombre,
-              area: (_subelement$materia6 = subelement.materia) === null || _subelement$materia6 === void 0 ? void 0 : _subelement$materia6.area,
-              ppa: ppa,
-              ppb: ppb,
-              sumAB: sumAB,
-              sumAB80: sumAB80,
-              exa1: exa1,
-              sumAB20: sumAB20,
-              proAB: proAB,
-              ppc: ppc,
-              ppd: ppd,
-              sumCD: sumCD,
-              sumCD80: sumCD80,
-              exa2: exa2,
-              sumCD20: sumCD20,
-              proCD: proCD,
-              final: final,
-              suple: suple
-            });
+              promPPA.push(ppa);
+              promPPB.push(ppb);
+              promAB.push(sumAB);
+              general.push(proAB);
+              promPPC.push(ppc);
+              promPPD.push(ppd);
+              promCD.push(sumCD);
+              general2.push(proCD);
+              general3.push(final);
+              aux.push({
+                materia: (_subelement$materia16 = subelement.materia) === null || _subelement$materia16 === void 0 ? void 0 : _subelement$materia16.nombre,
+                area: (_subelement$materia17 = subelement.materia) === null || _subelement$materia17 === void 0 ? void 0 : _subelement$materia17.area,
+                ppa: ppa,
+                ppb: ppb,
+                sumAB: sumAB,
+                sumAB80: sumAB80,
+                exa1: exa1,
+                sumAB20: sumAB20,
+                proAB: proAB,
+                ppc: ppc,
+                ppd: ppd,
+                sumCD: sumCD,
+                sumCD80: sumCD80,
+                exa2: exa2,
+                sumCD20: sumCD20,
+                proCD: proCD,
+                final: final,
+                suple: suple
+              });
+            } else {
+              var _subelement$materia20;
+
+              var p1 = void 0,
+                  p2 = void 0,
+                  p3 = void 0,
+                  p4 = void 0,
+                  _final = '';
+
+              for (var _m3 = 0; _m3 < computo.length; _m3++) {
+                var _result3 = computo[_m3];
+
+                if (subelement.fkmaterias == _result3.fkmateria) {
+                  var _subelement$materia18, _subelement$materia19;
+
+                  var _ins10 = _result3.cualitativo;
+                  p1 = _ins10.p1;
+                  p2 = _ins10.p2;
+                  if (((_subelement$materia18 = subelement.materia) === null || _subelement$materia18 === void 0 ? void 0 : _subelement$materia18.nombre) == 'COMPORTAMIENTO' || ((_subelement$materia19 = subelement.materia) === null || _subelement$materia19 === void 0 ? void 0 : _subelement$materia19.nombre) == 'DESARROLLO HUMANO INTEGRAL') _final = calcularPromedioInsumosLetrasComportamiento(_ins10.p1, _ins10.p2);else _final = calcularPromedioInsumosLetras(_ins10.p1, _ins10.p2);
+                }
+              }
+
+              aux2.push({
+                materia: (_subelement$materia20 = subelement.materia) === null || _subelement$materia20 === void 0 ? void 0 : _subelement$materia20.nombre,
+                final: _final,
+                p1: p1,
+                p2: p2
+              });
+            }
           }
 
           var pPPA = calcProm(promPPA);
@@ -820,6 +1099,7 @@ var promedioReportes = () => {
             periodo: (_rowM$periodo4 = rowM.periodo) === null || _rowM$periodo4 === void 0 ? void 0 : _rowM$periodo4.nombre,
             paralelo: rowM.paralelo,
             data: aux,
+            data2: aux2,
             pgeneral3: pgeneral3,
             pPPA: pPPA,
             pPPB: pPPB,
@@ -861,47 +1141,52 @@ var promedioReportes = () => {
           var general3 = [];
 
           for (var j = 0; j < (distributivo === null || distributivo === void 0 ? void 0 : distributivo.length); j++) {
-            var _subelement$materia7;
+            var _subelement$materia21;
 
             var subelement = distributivo[j];
-            var proAB = void 0,
-                proCD = void 0,
-                suple = void 0,
-                final = void 0,
-                promedioFinal = void 0,
-                remedial = void 0,
-                gracia = void 0,
-                _letras = '';
 
-            for (var m = 0; m < computo.length; m++) {
-              var result = computo[m];
+            if (((_subelement$materia21 = subelement.materia) === null || _subelement$materia21 === void 0 ? void 0 : _subelement$materia21.computo) == 2) {
+              var _subelement$materia22;
 
-              if (subelement.fkmaterias == result.fkmateria) {
-                var ins = result.notas;
-                var res = result.resultados;
-                proAB = ins === null || ins === void 0 ? void 0 : ins.proAB;
-                proCD = ins === null || ins === void 0 ? void 0 : ins.proCD;
-                gracia = ins === null || ins === void 0 ? void 0 : ins.gracia;
-                suple = res === null || res === void 0 ? void 0 : res.supletorio;
-                remedial = res === null || res === void 0 ? void 0 : res.remedial;
-                final = res === null || res === void 0 ? void 0 : res.notaFinal;
-                promedioFinal = res === null || res === void 0 ? void 0 : res.promedioFinal;
+              var proAB = void 0,
+                  proCD = void 0,
+                  suple = void 0,
+                  final = void 0,
+                  promedioFinal = void 0,
+                  remedial = void 0,
+                  gracia = void 0,
+                  _letras5 = '';
+
+              for (var m = 0; m < computo.length; m++) {
+                var result = computo[m];
+
+                if (subelement.fkmaterias == result.fkmateria) {
+                  var ins = result.notas;
+                  var res = result.resultados;
+                  proAB = ins === null || ins === void 0 ? void 0 : ins.proAB;
+                  proCD = ins === null || ins === void 0 ? void 0 : ins.proCD;
+                  gracia = ins === null || ins === void 0 ? void 0 : ins.gracia;
+                  suple = res === null || res === void 0 ? void 0 : res.supletorio;
+                  remedial = res === null || res === void 0 ? void 0 : res.remedial;
+                  final = res === null || res === void 0 ? void 0 : res.notaFinal;
+                  promedioFinal = res === null || res === void 0 ? void 0 : res.promedioFinal;
+                }
               }
-            }
 
-            _letras = promCuantitativoLetras2(final);
-            general3.push(final);
-            aux.push({
-              materia: (_subelement$materia7 = subelement.materia) === null || _subelement$materia7 === void 0 ? void 0 : _subelement$materia7.nombre,
-              proAB: proAB,
-              letras: _letras,
-              proCD: proCD,
-              remedial: remedial,
-              gracia: gracia,
-              final: final,
-              suple: suple,
-              promedioFinal: promedioFinal
-            });
+              _letras5 = promCuantitativoLetras2(final);
+              general3.push(final);
+              aux.push({
+                materia: (_subelement$materia22 = subelement.materia) === null || _subelement$materia22 === void 0 ? void 0 : _subelement$materia22.nombre,
+                proAB: proAB,
+                letras: _letras5,
+                proCD: proCD,
+                remedial: remedial,
+                gracia: gracia,
+                final: final,
+                suple: suple,
+                promedioFinal: promedioFinal
+              });
+            }
           }
 
           var pgeneral3 = calcProm(general3);
@@ -961,15 +1246,15 @@ var promedioReportes = () => {
               if (subarray.fkmaterias == reg.fkmateria) {
                 if (quim.quimestre == 'PRIMER QUIMESTRE') {
                   if (quim.q1 == 'PRIMER PARCIAL') {
-                    var _reg$notas;
+                    var _subarray$materia, _reg$notas, _reg$cualitativo;
 
-                    nota = (_reg$notas = reg.notas) === null || _reg$notas === void 0 ? void 0 : _reg$notas.ppa;
+                    if (((_subarray$materia = subarray.materia) === null || _subarray$materia === void 0 ? void 0 : _subarray$materia.computo) == 2) nota = (_reg$notas = reg.notas) === null || _reg$notas === void 0 ? void 0 : _reg$notas.ppa;else nota = (_reg$cualitativo = reg.cualitativo) === null || _reg$cualitativo === void 0 ? void 0 : _reg$cualitativo.p1;
                   }
 
                   if (quim.q1 == 'SEGUNDO PARCIAL') {
-                    var _reg$notas2;
+                    var _subarray$materia2, _reg$notas2, _reg$cualitativo2;
 
-                    nota = (_reg$notas2 = reg.notas) === null || _reg$notas2 === void 0 ? void 0 : _reg$notas2.ppb;
+                    if (((_subarray$materia2 = subarray.materia) === null || _subarray$materia2 === void 0 ? void 0 : _subarray$materia2.computo) == 2) nota = (_reg$notas2 = reg.notas) === null || _reg$notas2 === void 0 ? void 0 : _reg$notas2.ppb;else nota = (_reg$cualitativo2 = reg.cualitativo) === null || _reg$cualitativo2 === void 0 ? void 0 : _reg$cualitativo2.p2;
                   }
 
                   if (quim.q1 == 'EXAMEN') {
@@ -981,15 +1266,15 @@ var promedioReportes = () => {
 
                 if (quim.quimestre == 'SEGUNDO QUIMESTRE') {
                   if (quim.q1 == 'PRIMER PARCIAL') {
-                    var _reg$notas4;
+                    var _subarray$materia3, _reg$notas4, _reg$cualitativo3;
 
-                    nota = (_reg$notas4 = reg.notas) === null || _reg$notas4 === void 0 ? void 0 : _reg$notas4.ppc;
+                    if (((_subarray$materia3 = subarray.materia) === null || _subarray$materia3 === void 0 ? void 0 : _subarray$materia3.computo) == 2) nota = (_reg$notas4 = reg.notas) === null || _reg$notas4 === void 0 ? void 0 : _reg$notas4.ppc;else nota = (_reg$cualitativo3 = reg.cualitativo) === null || _reg$cualitativo3 === void 0 ? void 0 : _reg$cualitativo3.p3;
                   }
 
                   if (quim.q1 == 'SEGUNDO PARCIAL') {
-                    var _reg$notas5;
+                    var _subarray$materia4, _reg$notas5, _reg$cualitativo4;
 
-                    nota = (_reg$notas5 = reg.notas) === null || _reg$notas5 === void 0 ? void 0 : _reg$notas5.ppd;
+                    if (((_subarray$materia4 = subarray.materia) === null || _subarray$materia4 === void 0 ? void 0 : _subarray$materia4.computo) == 2) nota = (_reg$notas5 = reg.notas) === null || _reg$notas5 === void 0 ? void 0 : _reg$notas5.ppd;else nota = (_reg$cualitativo4 = reg.cualitativo) === null || _reg$cualitativo4 === void 0 ? void 0 : _reg$cualitativo4.p4;
                   }
 
                   if (quim.q1 == 'EXAMEN') {
@@ -1113,7 +1398,7 @@ var promedioReportes = () => {
       });
 
       for (var j = 0; j < (distributivo === null || distributivo === void 0 ? void 0 : distributivo.length); j++) {
-        var _materias$materia4, _materias$docente4;
+        var _materias$materia14, _materias$docente6;
 
         var aux = [];
         var materias = distributivo[j];
@@ -1125,7 +1410,7 @@ var promedioReportes = () => {
           var res = matriculas[k];
 
           if (estudiantes.includes(res.fkestudiante)) {
-            var _res$estudiante4;
+            var _res$estudiante5;
 
             var computo = matriculas[k].computo;
             var ppa = void 0,
@@ -1172,7 +1457,7 @@ var promedioReportes = () => {
             proPPB.push(ppb);
             promAB.push(proAB);
             aux.push({
-              estudiante: (_res$estudiante4 = res.estudiante) === null || _res$estudiante4 === void 0 ? void 0 : _res$estudiante4.fullname,
+              estudiante: (_res$estudiante5 = res.estudiante) === null || _res$estudiante5 === void 0 ? void 0 : _res$estudiante5.fullname,
               ppa: ppa,
               ppb: ppb,
               sumAB: sumAB,
@@ -1195,8 +1480,8 @@ var promedioReportes = () => {
 
 
         help.push({
-          materia: (_materias$materia4 = materias.materia) === null || _materias$materia4 === void 0 ? void 0 : _materias$materia4.nombre,
-          docente: (_materias$docente4 = materias.docente) === null || _materias$docente4 === void 0 ? void 0 : _materias$docente4.fullname,
+          materia: (_materias$materia14 = materias.materia) === null || _materias$materia14 === void 0 ? void 0 : _materias$materia14.nombre,
+          docente: (_materias$docente6 = materias.docente) === null || _materias$docente6 === void 0 ? void 0 : _materias$docente6.fullname,
           curso: rowD === null || rowD === void 0 ? void 0 : rowD.curso.nombre,
           paralelo: rowM === null || rowM === void 0 ? void 0 : rowM.paralelo,
           data: aux,
@@ -1354,6 +1639,263 @@ function calcMedia(array) {
 
   reg.push(a, b, c, d);
   return reg;
+}
+
+function contarMediaLet(array, materia) {
+  if (materia == 'COMPORTAMIENTO') {
+    var a = 0;
+    var b = 0;
+    var c = 0;
+    var d = 0;
+    var e = 0;
+    var reg = [];
+
+    for (var i = 0; i < array.length; i++) {
+      var element = array[i];
+      var op = element;
+      if (op == 'A' || op == 'A Muy Satisfactorio') a += 1;
+      if (op == 'B' || op == 'B Satisfactorio') b += 1;
+      if (op == 'C' || op == 'C Poco Satisfactorio') c += 1;
+      if (op == 'D' || op == 'D Mejorable') d += 1;
+      if (op == 'E' || op == 'E Insatisfactorio') e += 1;
+    }
+
+    reg.push(a, b, c, d, e);
+    return reg;
+  } else {
+    var _a = 0;
+    var _b = 0;
+    var _c = 0;
+    var _d = 0;
+    var _reg = [];
+
+    for (var _i3 = 0; _i3 < array.length; _i3++) {
+      var _element3 = array[_i3];
+      var _op = _element3;
+      if (_op == 'EX' || _op == 'EX Excelente') _a += 1;
+      if (_op == 'MB' || _op == 'MB Muy Buena') _b += 1;
+      if (_op == 'B' || _op == 'B Buena') _c += 1;
+      if (_op == 'R' || _op == 'R Regular') _d += 1;
+    }
+
+    _reg.push(_a, _b, _c, _d);
+
+    return _reg;
+  }
+}
+
+var calcularPryectos = (prmd, nombre) => {
+  var letra = '';
+
+  if (nombre == 'DESARROLLO HUMANO INTEGRAL' || nombre == 'COMPORTAMIENTO') {
+    switch (prmd) {
+      case 'A':
+        letra = 'Muy Satisfactorio';
+        break;
+
+      case 'B':
+        letra = 'Satisfactorio';
+        break;
+
+      case 'C':
+        letra = 'Poco Satisfactorio';
+        break;
+
+      case 'D':
+        letra = 'Mejorable';
+        break;
+
+      case 'e':
+        letra = 'Insatisfactorio';
+        break;
+
+      default:
+        letra = 'Sin Confirmar';
+        break;
+    }
+  } else {
+    switch (prmd) {
+      case 'EX':
+        letra = 'Excelente';
+        break;
+
+      case 'MB':
+        letra = 'Muy Buena';
+        break;
+
+      case 'B':
+        letra = 'Buena';
+        break;
+
+      case 'R':
+        letra = 'Regular';
+        break;
+
+      default:
+        letra = 'E';
+        break;
+    }
+  }
+
+  return letra;
+};
+
+function calcularPromedioInsumosLetrasComportamiento(p1, p2) {
+  var aux = 0;
+  var aux2 = 0;
+
+  switch (p1) {
+    case "A":
+      aux = 5;
+      break;
+
+    case "B":
+      aux = 4;
+      break;
+
+    case "C":
+      aux = 3;
+      break;
+
+    case "D":
+      aux = 2;
+      break;
+
+    case "E":
+      aux = 1;
+      break;
+
+    default:
+      break;
+  }
+
+  switch (p2) {
+    case "A":
+      aux2 = 5;
+      break;
+
+    case "B":
+      aux2 = 4;
+      break;
+
+    case "C":
+      aux2 = 3;
+      break;
+
+    case "D":
+      aux2 = 2;
+      break;
+
+    case "E":
+      aux2 = 1;
+      break;
+
+    default:
+      break;
+  }
+
+  var result = parseInt((aux + aux2) / 2);
+  var letra = '';
+
+  switch (result) {
+    case 5:
+      letra = 'A Muy Satisfactorio';
+      break;
+
+    case 4:
+      letra = 'B Satisfactorio';
+      break;
+
+    case 3:
+      letra = 'C Poco Satisfactorio';
+      break;
+
+    case 2:
+      letra = 'D Mejorable';
+      break;
+
+    case 1:
+      letra = 'E Insatisfactorio';
+      break;
+
+    default:
+      break;
+  }
+
+  return letra;
+}
+
+function calcularPromedioInsumosLetras(p1, p2) {
+  var aux = 0;
+  var aux2 = 0;
+
+  switch (p1) {
+    case "EX":
+      aux = 5;
+      break;
+
+    case "MB":
+      aux = 4;
+      break;
+
+    case "B":
+      aux = 3;
+      break;
+
+    case "R":
+      aux = 2;
+      break;
+
+    default:
+      break;
+  }
+
+  switch (p2) {
+    case "EX":
+      aux2 = 5;
+      break;
+
+    case "MB":
+      aux2 = 4;
+      break;
+
+    case "B":
+      aux2 = 3;
+      break;
+
+    case "R":
+      aux2 = 2;
+      break;
+
+    default:
+      break;
+  }
+
+  var result = parseInt((aux + aux2) / 2);
+  var letra = '';
+
+  switch (result) {
+    case 5:
+      letra = 'EX Excelente';
+      break;
+
+    case 4:
+      letra = 'MB Muy Buena';
+      break;
+
+    case 3:
+      letra = 'B Buena';
+      break;
+
+    case 2:
+      letra = 'R Regular';
+      break;
+
+    default:
+      break;
+  }
+
+  return letra;
 }
 
 function promCuantitativoLetras2(prom) {

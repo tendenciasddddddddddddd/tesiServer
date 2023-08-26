@@ -776,6 +776,64 @@ var _default = {
     }
 
     return getNominaDocente;
+  }(),
+  Ambitos: function () {
+    var _Ambitos = _asyncToGenerator(function* (req, res) {
+      try {
+        var arr = req.body;
+        var fechaA = fechaActual();
+        var auth = yield autoridad();
+        var tema = yield ejs.renderFile(__dirname + "/themes/ambitos.ejs", {
+          result: arr,
+          auth: auth[0],
+          fechaA: fechaA
+        });
+        res.status(200).json(tema);
+      } catch (error) {
+        console.log(error);
+        return res.status(500).json(error);
+      }
+    });
+
+    function Ambitos(_x31, _x32) {
+      return _Ambitos.apply(this, arguments);
+    }
+
+    return Ambitos;
+  }(),
+  Destrezas: function () {
+    var _Destrezas = _asyncToGenerator(function* (req, res) {
+      try {
+        var arr = req.body;
+        var fechaA = fechaActual();
+        var auth = yield autoridad();
+        var tema = yield ejs.renderFile(__dirname + "/themes/destrezas.ejs", {
+          result: arr,
+          auth: auth[0],
+          fechaA: fechaA
+        });
+        res.status(200).json(tema);
+      } catch (error) {
+        console.log(error);
+        return res.status(500).json(error);
+      }
+    });
+
+    function Destrezas(_x33, _x34) {
+      return _Destrezas.apply(this, arguments);
+    }
+
+    return Destrezas;
   }()
 };
 exports.default = _default;
+
+var fechaActual = () => {
+  var monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+  var dateObj = new Date();
+  var month = monthNames[dateObj.getMonth()];
+  var day = String(dateObj.getDate()).padStart(2, '0');
+  var year = dateObj.getFullYear();
+  var output = day + " de " + month + '\n' + ' del ' + year;
+  return output;
+};
