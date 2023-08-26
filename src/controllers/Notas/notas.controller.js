@@ -1,50 +1,71 @@
 import Matriculas from "../../models/Matriculas";  //CAMBIAMOS TEMPORALMENTE
 import { promedio } from "./helper/promedios";
 
-const { promedioInsumos, sumaParciales, sumaParciales80, examen20, totalPrimerQuim, finalAnual, finalSupletorios, ifDecimal } = promedio();
+const { promedioInsumos, sumaParciales, sumaParciales80, examen20, totalPrimerQuim, finalAnual, finalSupletorios, ifDecimal, ponderado } = promedio();
 
 async function primerIngresoNotas(idcurso, idmatricula, data) {
   try {
     const Dto = data.notas
     const Rto = data.resultados
     //PRIMER QUIMESTRE ENTRA A y B
-    const ppa = await promedioInsumos(Dto.a1, Dto.a2, Dto.a3, Dto.a4, Dto.a5)
-    const ppb = promedioInsumos(Dto.b1, Dto.b2, Dto.b3, Dto.b4, Dto.b5)
+    const ppa = await promedioInsumos(Dto.a1, Dto.a2, Dto.a3, Dto.a4)
+    const ppb = promedioInsumos(Dto.b1, Dto.b2, Dto.b3, Dto.b4)
     const sumAB = sumaParciales(ppa, ppb)
-    const sumAB80 = sumaParciales80(sumAB)
-    const sumAB20 = examen20(Dto.exa1)
-    const proAB = totalPrimerQuim(sumAB80, sumAB20)
+    const sumAB90 = sumaParciales80(sumAB)
+    const sumAB10 = examen20(Dto.exa1, Dto.pry1)
+    const proAB = totalPrimerQuim(sumAB90, sumAB10)
+    const pondAB = ponderado(proAB)
     data.notas['ppa'] = ppa
     data.notas['ppb'] = ppb
     data.notas['sumAB'] = sumAB
-    data.notas['sumAB80'] = sumAB80
-    data.notas['sumAB20'] = sumAB20
+    data.notas['sumAB90'] = sumAB90
+    data.notas['sumAB10'] = sumAB10
     data.notas['proAB'] = proAB
+    data.notas['pondAB'] = pondAB
+
     //SEGUNDO QUIMESTRE ENTRA C y D
-    const ppc = promedioInsumos(Dto.c1, Dto.c2, Dto.c3, Dto.c4, Dto.c5)
-    const ppd = promedioInsumos(Dto.d1, Dto.d2, Dto.d3, Dto.d4, Dto.d5)
+    const ppc = promedioInsumos(Dto.c1, Dto.c2, Dto.c3, Dto.c4)
+    const ppd = promedioInsumos(Dto.d1, Dto.d2, Dto.d3, Dto.d4)
     const sumCD = sumaParciales(ppc, ppd)
-    const sumCD80 = sumaParciales80(sumCD)
-    const sumCD20 = examen20(Dto.exa2)
-    const proCD = totalPrimerQuim(sumCD80, sumCD20)
+    const sumCD90 = sumaParciales80(sumCD)
+    const sumCD10 = examen20(Dto.exa2, Dto.pry2)
+    const proCD = totalPrimerQuim(sumCD90, sumCD10)
+    const pondCD = ponderado(proCD)
     data.notas['ppc'] = ppc
     data.notas['ppd'] = ppd
     data.notas['sumCD'] = sumCD
-    data.notas['sumCD80'] = sumCD80
-    data.notas['sumCD20'] = sumCD20
+    data.notas['sumCD90'] = sumCD90
+    data.notas['sumCD10'] = sumCD10
     data.notas['proCD'] = proCD
+    data.notas['pondCD'] = pondCD
+
+    //TERCER TRIMESTRE ENTRA E y F
+    const ppe = promedioInsumos(Dto.e1, Dto.e2, Dto.e3, Dto.e4)
+    const ppf = promedioInsumos(Dto.f1, Dto.f2, Dto.f3, Dto.f4)
+    const sumEF = sumaParciales(ppe, ppf)
+    const sumEF90 = sumaParciales80(sumEF)
+    const sumEF10 = examen20(Dto.exa3, Dto.pry3)
+    const proEF = totalPrimerQuim(sumEF90, sumEF10)
+    const pondEF = ponderado(proEF)
+    data.notas['ppe'] = ppe
+    data.notas['ppf'] = ppf
+    data.notas['sumEF'] = sumEF
+    data.notas['sumEF90'] = sumEF90
+    data.notas['sumEF10'] = sumEF10
+    data.notas['proEF'] = proEF
+    data.notas['pondEF'] = pondEF
+
     //RESUKTADOS FINALES DE NOTAS
-    const notaFinal = finalAnual(proAB, proCD)
+    const notaFinal = finalAnual(proAB, proCD, proEF)
     data.resultados.promedioFinal = notaFinal
     let notaAux = ''
-    if (Rto.supletorio == '' && Rto.remedial == '' && Rto.gracia == '') {
+    if (Rto.supletorio == '') {
       notaAux = notaFinal
     } else {
       notaAux = Rto.supletorio
-      notaAux = Rto.remedial
-      notaAux = Rto.gracia
     }
     data.resultados.notaFinal = notaAux
+
     await Matriculas.updateOne(
       { _id: idcurso },
       {
@@ -89,43 +110,64 @@ async function actualizarIngresoNotas(idcurso, idmatricula, fkmateria, data) {
     const Dto = data.notas
     const Rto = data.resultados
     //PRIMER QUIMESTRE ENTRA A y B
-    const ppa = promedioInsumos(Dto.a1, Dto.a2, Dto.a3, Dto.a4, Dto.a5)
-    const ppb = promedioInsumos(Dto.b1, Dto.b2, Dto.b3, Dto.b4, Dto.b5)
+    const ppa = await promedioInsumos(Dto.a1, Dto.a2, Dto.a3, Dto.a4)
+    const ppb = promedioInsumos(Dto.b1, Dto.b2, Dto.b3, Dto.b4)
     const sumAB = sumaParciales(ppa, ppb)
-    const sumAB80 = sumaParciales80(sumAB)
-    const sumAB20 = examen20(Dto.exa1)
-    const proAB = totalPrimerQuim(sumAB80, sumAB20)
+    const sumAB90 = sumaParciales80(sumAB)
+    const sumAB10 = examen20(Dto.exa1, Dto.pry1)
+    const proAB = totalPrimerQuim(sumAB90, sumAB10)
+    const pondAB = ponderado(proAB)
     data.notas['ppa'] = ppa
     data.notas['ppb'] = ppb
     data.notas['sumAB'] = sumAB
-    data.notas['sumAB80'] = sumAB80
-    data.notas['sumAB20'] = sumAB20
+    data.notas['sumAB90'] = sumAB90
+    data.notas['sumAB10'] = sumAB10
     data.notas['proAB'] = proAB
+    data.notas['pondAB'] = pondAB
+
     //SEGUNDO QUIMESTRE ENTRA C y D
-    const ppc = promedioInsumos(Dto.c1, Dto.c2, Dto.c3, Dto.c4, Dto.c5)
-    const ppd = promedioInsumos(Dto.d1, Dto.d2, Dto.d3, Dto.d4, Dto.d5)
+    const ppc = promedioInsumos(Dto.c1, Dto.c2, Dto.c3, Dto.c4)
+    const ppd = promedioInsumos(Dto.d1, Dto.d2, Dto.d3, Dto.d4)
     const sumCD = sumaParciales(ppc, ppd)
-    const sumCD80 = sumaParciales80(sumCD)
-    const sumCD20 = examen20(Dto.exa2)
-    const proCD = totalPrimerQuim(sumCD80, sumCD20)
+    const sumCD90 = sumaParciales80(sumCD)
+    const sumCD10 = examen20(Dto.exa2, Dto.pry2)
+    const proCD = totalPrimerQuim(sumCD90, sumCD10)
+    const pondCD = ponderado(proCD)
     data.notas['ppc'] = ppc
     data.notas['ppd'] = ppd
     data.notas['sumCD'] = sumCD
-    data.notas['sumCD80'] = sumCD80
-    data.notas['sumCD20'] = sumCD20
+    data.notas['sumCD90'] = sumCD90
+    data.notas['sumCD10'] = sumCD10
     data.notas['proCD'] = proCD
+    data.notas['pondCD'] = pondCD
+
+    //TERCER TRIMESTRE ENTRA E y F
+    const ppe = promedioInsumos(Dto.e1, Dto.e2, Dto.e3, Dto.e4)
+    const ppf = promedioInsumos(Dto.f1, Dto.f2, Dto.f3, Dto.f4)
+    const sumEF = sumaParciales(ppe, ppf)
+    const sumEF90 = sumaParciales80(sumEF)
+    const sumEF10 = examen20(Dto.exa3, Dto.pry3)
+    const proEF = totalPrimerQuim(sumEF90, sumEF10)
+    const pondEF = ponderado(proEF)
+    data.notas['ppe'] = ppe
+    data.notas['ppf'] = ppf
+    data.notas['sumEF'] = sumEF
+    data.notas['sumEF90'] = sumEF90
+    data.notas['sumEF10'] = sumEF10
+    data.notas['proEF'] = proEF
+    data.notas['pondEF'] = pondEF
+
     //RESUKTADOS FINALES DE NOTAS
-    const notaFinal = finalAnual(proAB, proCD)
+    const notaFinal = finalAnual(proAB, proCD, proEF)
     data.resultados.promedioFinal = notaFinal
     let notaAux = ''
-    if (Rto.supletorio == '' && Rto.remedial == '' && Rto.gracia == '') {
+    if (Rto.supletorio == '') {
       notaAux = notaFinal
     } else {
       notaAux = Rto.supletorio
-      notaAux = Rto.remedial
-      notaAux = Rto.gracia
     }
     data.resultados.notaFinal = notaAux
+    
     await Matriculas.updateOne(
       { _id: idcurso },
       {
@@ -156,7 +198,7 @@ async function actualizarIngresoSupletorios(idcurso, idmatricula, fkmateria, dat
   try {
     const reg = finalSupletorios(data.resultados)
     let regAux = reg ? ifDecimal(reg) : ''
-    if (data.resultados.supletorio == '' && data.resultados.remedial == '' && data.resultados.gracia == '') {
+    if (data.resultados.supletorio == '') {
       regAux = data.resultados.promedioFinal ? ifDecimal(data.resultados.promedioFinal) : ''
     }
     data.resultados.notaFinal = regAux

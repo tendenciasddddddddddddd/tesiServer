@@ -4,10 +4,7 @@ import {
 } from "mongoose";
 
 const horarioSchema = new Schema({
-    fkUser: {
-        type: Schema.Types.ObjectId,
-        ref: "User",
-    },
+    usuario: { },
     nombre: String,
     iP : String,
     navegador: String,

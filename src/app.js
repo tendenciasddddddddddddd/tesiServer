@@ -25,6 +25,9 @@ import reportesRoutes from './routes/Notas/reportes.routes';
 //---------------------HORARIOS--------------------
 import horariosRoutes from './routes/horarios.routes';
 import horaRoutes from './routes/hora.routes';
+
+/*  CALIFICACIONES  */
+import commonRoutes from './routes/Notas/common.routes';
 //---------------------AULAS VIRTUALES--------------------
 import aulasRoutes from './routes/Aulas/aulas.routes';
 import tareasRoutes from './routes/Aulas/tareas.routes';
@@ -118,6 +121,10 @@ app.use("/api/eva",evaluacionRoutes)
 app.use("/api/foros",forosRoutes)
 app.use("/api/logs",logsRoutes)
 app.use("/api/reportes",reportesRoutes)
+
+/* CALIFICACIONES */
+app.use("/api/common",commonRoutes)
+
 //sitemap
 app.use("/sitemap.xml", sitemapRouter);
 export default app;
