@@ -10,6 +10,7 @@ const nivelSchema = new Schema(
         type: String,
         unique: true,
       },
+      subnivel: String,
       estado: {
         type: String,
         default:1

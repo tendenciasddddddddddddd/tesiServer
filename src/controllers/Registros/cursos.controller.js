@@ -8,7 +8,8 @@ async function editarTutores(iddocente, modelo) {
   const curso = {
     _id: modelo._id,
     nombre: modelo.nombre,
-    num : modelo.num
+    num : modelo.num,
+    subnivel : modelo.subnivel
   }
   await Tutores.updateMany({ fkcurso: iddocente }, { $set: { curso: curso} });
 }
@@ -16,7 +17,8 @@ async function editarDistributivo(iddocente, modelo) {
   const curso = {
     _id: modelo._id,
     nombre: modelo.nombre,
-    num : modelo.num
+    num : modelo.num,
+    subnivel : modelo.subnivel
   }
   await Distributivo.updateMany({ fkcurso: iddocente }, { $set: { curso: curso} });
 }
@@ -24,7 +26,8 @@ async function editarMatricula(iddocente, modelo) {
   const curso = {
     _id: modelo._id,
     nombre: modelo.nombre,
-    num : modelo.num
+    num : modelo.num,
+    subnivel : modelo.subnivel
   }
   await Matriculas.updateMany({ fkcurso: iddocente }, { $set: { curso: curso} });
 }
@@ -41,10 +44,10 @@ async function eliminarMatricula(array) {
 
 export default {
   create: async (req, res) => {
-    const { nombre, num } = req.body;
+    const { nombre, num, subnivel } = req.body;
     try {
       const newData = new Cursos({
-        nombre, num
+        nombre, num, subnivel
       });
       const dataSaved = await newData.save();
       res.status(201).json(dataSaved);

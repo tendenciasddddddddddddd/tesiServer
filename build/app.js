@@ -47,6 +47,10 @@ var _hora = _interopRequireDefault(require("./routes/hora.routes"));
 
 var _common = _interopRequireDefault(require("./routes/Notas/common.routes"));
 
+var _subnivel = _interopRequireDefault(require("./routes/Notas/subnivel.routes"));
+
+var _cualitativo = _interopRequireDefault(require("./routes/Notas/cualitativo.routes"));
+
 var _aulas = _interopRequireDefault(require("./routes/Aulas/aulas.routes"));
 
 var _tareas = _interopRequireDefault(require("./routes/Aulas/tareas.routes"));
@@ -157,7 +161,9 @@ app.use("/api/logs", _logs.default);
 app.use("/api/reportes", _reportes.default);
 /* CALIFICACIONES */
 
-app.use("/api/common", _common.default); //sitemap
+app.use("/api/common", _common.default);
+app.use("/api/subnivel", _subnivel.default);
+app.use("/api/cualitativo", _cualitativo.default); //sitemap
 
 app.use("/sitemap.xml", _sitemap.default);
 var _default = app;

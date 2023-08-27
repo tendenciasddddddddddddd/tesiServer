@@ -30,7 +30,8 @@ function _editarTutores() {
     var curso = {
       _id: modelo._id,
       nombre: modelo.nombre,
-      num: modelo.num
+      num: modelo.num,
+      subnivel: modelo.subnivel
     };
     yield _Tutores.default.updateMany({
       fkcurso: iddocente
@@ -52,7 +53,8 @@ function _editarDistributivo() {
     var curso = {
       _id: modelo._id,
       nombre: modelo.nombre,
-      num: modelo.num
+      num: modelo.num,
+      subnivel: modelo.subnivel
     };
     yield _Distributivo.default.updateMany({
       fkcurso: iddocente
@@ -74,7 +76,8 @@ function _editarMatricula() {
     var curso = {
       _id: modelo._id,
       nombre: modelo.nombre,
-      num: modelo.num
+      num: modelo.num,
+      subnivel: modelo.subnivel
     };
     yield _Matriculas.default.updateMany({
       fkcurso: iddocente
@@ -137,13 +140,15 @@ var _default = {
     var _create = _asyncToGenerator(function* (req, res) {
       var {
         nombre,
-        num
+        num,
+        subnivel
       } = req.body;
 
       try {
         var newData = new _Cursos.default({
           nombre,
-          num
+          num,
+          subnivel
         });
         var dataSaved = yield newData.save();
         res.status(201).json(dataSaved);

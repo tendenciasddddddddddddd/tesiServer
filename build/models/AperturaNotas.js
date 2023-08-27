@@ -14,11 +14,13 @@ var roleSchema = new _mongoose.Schema({
   parcial2: String,
   parcial3: String,
   parcial4: String,
+  parcial5: String,
+  parcial6: String,
   examen1: String,
   examen2: String,
-  supletorios: String,
-  remedial: String,
-  gracia: String
+  examen3: String,
+  proyecto: String,
+  supletorios: String
 }, {
   versionKey: false
 });

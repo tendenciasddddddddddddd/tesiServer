@@ -216,6 +216,13 @@ var promedio = () => {
     return salida;
   }
 
+  function calcDosPonderado(exa, pyt) {
+    var test = exa ? exa.toString().replace(",", ".") : '';
+    var test2 = pyt ? pyt.toString().replace(",", ".") : '';
+    var res = calcular_porcentaje_examen(test, test2);
+    return res;
+  }
+
   var sumatoriaProm = function sumatoriaProm(rest, rest2) {
     var test = rest ? rest.toString().replace(",", ".") : '';
     var test2 = rest2 ? rest2.toString().replace(",", ".") : '';
@@ -238,7 +245,8 @@ var promedio = () => {
     ponderado,
     ponderado90,
     calcUnoPonderado,
-    sumatoriaProm
+    sumatoriaProm,
+    calcDosPonderado
   };
 };
 

@@ -185,6 +185,12 @@ export const promedio = () => {
     let salida = ifDecimal(result)
     return salida;
   }
+  function calcDosPonderado(exa, pyt) {
+    var test = exa ? exa.toString().replace(",", ".") : ''
+    var test2 = pyt ? pyt.toString().replace(",", ".") : ''
+    let res = calcular_porcentaje_examen(test, test2)
+    return res;
+  }
   const sumatoriaProm = function (rest, rest2) {
     var test = rest ? rest.toString().replace(",", ".") : ''
     var test2 = rest2 ? rest2.toString().replace(",", ".") : ''
@@ -196,5 +202,5 @@ export const promedio = () => {
 };
 
   return { promedioInsumos, sumaParciales, sumaParciales80, examen20, totalPrimerQuim, finalAnual, finalSupletorios, ifDecimal, ponderado,
-    ponderado90, calcUnoPonderado, sumatoriaProm }
+    ponderado90, calcUnoPonderado, sumatoriaProm, calcDosPonderado }
 };

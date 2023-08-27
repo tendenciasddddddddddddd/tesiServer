@@ -28,6 +28,8 @@ import horaRoutes from './routes/hora.routes';
 
 /*  CALIFICACIONES  */
 import commonRoutes from './routes/Notas/common.routes';
+import subnivelRoutes from './routes/Notas/subnivel.routes';
+import cualitativoRoutes from './routes/Notas/cualitativo.routes';
 //---------------------AULAS VIRTUALES--------------------
 import aulasRoutes from './routes/Aulas/aulas.routes';
 import tareasRoutes from './routes/Aulas/tareas.routes';
@@ -124,6 +126,8 @@ app.use("/api/reportes",reportesRoutes)
 
 /* CALIFICACIONES */
 app.use("/api/common",commonRoutes)
+app.use("/api/subnivel",subnivelRoutes)
+app.use("/api/cualitativo",cualitativoRoutes)
 
 //sitemap
 app.use("/sitemap.xml", sitemapRouter);

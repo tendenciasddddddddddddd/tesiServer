@@ -142,11 +142,13 @@ var apertura = /*#__PURE__*/function () {
       parcial2: '0',
       parcial3: '0',
       parcial4: '0',
+      parcial5: '0',
+      parcial6: '0',
       examen1: '0',
       examen2: '0',
-      supletorios: '0',
-      remedial: '0',
-      gracia: '0'
+      examen3: '0',
+      proyecto: '0',
+      supletorios: '0'
     });
     console.log('Apertura create');
   });
