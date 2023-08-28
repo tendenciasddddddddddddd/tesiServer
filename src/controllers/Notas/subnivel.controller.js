@@ -3,7 +3,7 @@ import { promedio } from "./helper/promedios";
 import { auditoria } from "./auditoria";
 
 const { promedioInsumos, sumaParciales, sumaParciales80, examen20, totalPrimerQuim, finalAnual, finalSupletorios, ifDecimal, ponderado
-  , ponderado90, calcUnoPonderado, sumatoriaProm, calcDosPonderado} = promedio();
+  , ponderado90,  sumatoriaProm, calcDosPonderado} = promedio();
 const {saveProgreso} = auditoria()
 
 export default {

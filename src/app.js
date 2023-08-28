@@ -30,6 +30,11 @@ import horaRoutes from './routes/hora.routes';
 import commonRoutes from './routes/Notas/common.routes';
 import subnivelRoutes from './routes/Notas/subnivel.routes';
 import cualitativoRoutes from './routes/Notas/cualitativo.routes';
+import elementalRoutes from './routes/Notas/elemental.routes';
+
+/*  HISTORIAL REPORTES  */
+import r2023Routes from './routes/History/2023.routes';
+
 //---------------------AULAS VIRTUALES--------------------
 import aulasRoutes from './routes/Aulas/aulas.routes';
 import tareasRoutes from './routes/Aulas/tareas.routes';
@@ -54,7 +59,7 @@ import publico from "./public/routes/index"
 import sitemapRouter from "./service/sitemap"
 
 import { createRoles, createAdmin, config, aplicaciones, apertura, iniciarSecuencia} from "./libs/initialSetup";
-import {migracionMatricula, temporalMatricula, deleteMatriculasMany } from "./libs/migrarDB";
+import {migracionMatricula,migracionDistributivo, temporalMatricula, deleteMatriculasMany } from "./libs/migrarDB";
 const app = express();
 //createRoles();
 //createAdmin();
@@ -65,6 +70,7 @@ const app = express();
 
 //===========0=PELIGRO =================================
 //migracionMatricula();
+//migracionDistributivo()
 //temporalMatricula();
 //deleteMatriculasMany();
 
@@ -128,6 +134,10 @@ app.use("/api/reportes",reportesRoutes)
 app.use("/api/common",commonRoutes)
 app.use("/api/subnivel",subnivelRoutes)
 app.use("/api/cualitativo",cualitativoRoutes)
+app.use("/api/elemental",elementalRoutes)
+
+/* HISTORIAL REPORTES */
+app.use("/api/rep2023",r2023Routes)
 
 //sitemap
 app.use("/sitemap.xml", sitemapRouter);

@@ -1,11 +1,14 @@
 import Matriculas from "../models/Matriculas";
-import Respaldo from "../models/Respaldo";
+import Mat2023 from "../models/history/Mat2023";
+import Dis2023 from "../models/history/Dis2023";
 import Temporal from "../models/Temporal";
+import Respaldo from "../models/Respaldo";
+import Distributivo from "../models/distributivos/Distributivo";
 
 export const migracionMatricula = async ()=>{
-    Matriculas.find().then((colecciones) => {
+  Temporal.find().then((colecciones) => {
       colecciones.forEach((array) => {
-        const nuewData = Respaldo(array);
+        const nuewData = Mat2023(array);
         nuewData.isNew = true;  
         nuewData.save();
        
@@ -13,6 +16,20 @@ export const migracionMatricula = async ()=>{
     });
     console.log('migracion creada');
 }
+
+export const migracionDistributivo = async ()=>{
+  Distributivo.find().then((colecciones) => {
+      colecciones.forEach((array) => {
+        const nuewData = Dis2023(array);
+        nuewData.isNew = true;  
+        nuewData.save();
+       
+      });
+    });
+    console.log('migracion creada');
+}
+
+
 export const temporalMatricula = async ()=>{
     Matriculas.find().then((colecciones) => {
       colecciones.forEach((array) => {
@@ -30,7 +47,7 @@ export const temporalMatricula = async ()=>{
 export const deleteMatriculasMany = async ()=>{
     try {
       await Matriculas.deleteMany();
-      console.log('temporal creada');
+      console.log('coleccion eliminada');
     } catch (e) {
         console.log('ERROR EN ELIMINACION');
     }
