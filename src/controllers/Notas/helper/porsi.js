@@ -136,34 +136,26 @@ export const promedioReportes = () => {
                     for (let j = 0; j < distributivo?.length; j++) {
                         const subelement = distributivo[j];
                         if (subelement.materia?.computo==2) {
-                            let n1, n2, n3, n4, n6, n7, n8, n9, ppa, ppb, sumAB, sumAB90, exa1,pry1, sumAB10, proAB = ''
+                            let n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, ppa, ppb, sumAB, sumAB80, exa1, sumAB20, proAB = ''
                             let letras = '';
                             for (let m = 0; m < computo.length; m++) {
                                 const result = computo[m];
                                 if (subelement.fkmaterias == result.fkmateria) {
-                                    if (quim == 'PRIMER TRIMESTRE') {
+                                    if (quim == 'PRIMER QUIMESTRE') {
                                         const ins = result.notas
-                                        n1 = ins?.a1; n2 = ins?.a2; n3 = ins?.a3; n4 = ins?.a4;
-                                        n6 = ins?.b1; n7 = ins?.b2; n8 = ins?.b3; n9 = ins?.b4; 
-                                        ppa = ins?.ppa; ppb = ins?.ppb; sumAB = ins?.sumAB; sumAB90 = ins?.sumAB90;
-                                        exa1 = ins?.exa1; pry1= ins?.pry1; sumAB10 = ins?.sumAB10; proAB = ins?.proAB;
+                                        n1 = ins?.a1; n2 = ins?.a2; n3 = ins?.a3; n4 = ins?.a4; n5 = ins?.a5;
+                                        n6 = ins?.b1; n7 = ins?.b2; n8 = ins?.b3; n9 = ins?.b4; n10 = ins?.b5;
+                                        ppa = ins?.ppa; ppb = ins?.ppb; sumAB = ins?.sumAB; sumAB80 = ins?.sumAB80;
+                                        exa1 = ins?.exa1; sumAB20 = ins?.sumAB20; proAB = ins?.proAB;
                                         letras = promCuantitativoLetras(ins?.proAB);
                                     }
-                                    if (quim == 'SEGUNDO TRIMESTRE') {
+                                    if (quim == 'SEGUNDO QUIMESTRE') {
                                         const ins = result.notas
-                                        n1 = ins?.c1; n2 = ins?.c2; n3 = ins?.c3; n4 = ins?.c4; 
-                                        n6 = ins?.d1; n7 = ins?.d2; n8 = ins?.d3; n9 = ins?.d4; 
-                                        ppa = ins?.ppc; ppb = ins?.ppd; sumAB = ins?.sumCD; sumAB90 = ins?.sumCD90;
-                                        exa1 = ins?.exa2;pry1= ins?.pry2; sumAB10 = ins?.sumCD10; proAB = ins?.proCD;
+                                        n1 = ins?.c1; n2 = ins?.c2; n3 = ins?.c3; n4 = ins?.c4; n5 = ins?.c5;
+                                        n6 = ins?.d1; n7 = ins?.d2; n8 = ins?.d3; n9 = ins?.d4; n10 = ins?.d5;
+                                        ppa = ins?.ppc; ppb = ins?.ppd; sumAB = ins?.sumCD; sumAB80 = ins?.sumCD80;
+                                        exa1 = ins?.exa2; sumAB20 = ins?.sumCD20; proAB = ins?.proCD;
                                         letras = promCuantitativoLetras(ins?.proCD);
-                                    }
-                                    if (quim == 'TERCER TRIMESTRE') {
-                                        const ins = result.notas
-                                        n1 = ins?.e1; n2 = ins?.e2; n3 = ins?.e3; n4 = ins?.e4;
-                                        n6 = ins?.f1; n7 = ins?.f2; n8 = ins?.f3; n9 = ins?.f4; 
-                                        ppa = ins?.ppe; ppb = ins?.ppf; sumAB = ins?.sumEF; sumAB90 = ins?.sumEF90;
-                                        exa1 = ins?.exa3;pry1= ins?.pry3; sumAB10 = ins?.sumEF10; proAB = ins?.proEF;
-                                        letras = promCuantitativoLetras(ins?.proEF);
                                     }
                                 }
                             }
@@ -173,8 +165,8 @@ export const promedioReportes = () => {
                             aux.push({
                                 materia: subelement.materia?.nombre,
                                 area: subelement.materia?.area,
-                                n1: n1, n2: n2, n3: n3, n4: n4,  n6: n6, n7: n7, n8: n8, n9: n9,pry1:pry1,
-                                ppa: ppa, ppb: ppb, sumAB: sumAB, sumAB90: sumAB90, exa1: exa1, sumAB10: sumAB10, proAB: proAB,
+                                n1: n1, n2: n2, n3: n3, n4: n4, n5: n5, n6: n6, n7: n7, n8: n8, n9: n9, n10: n10,
+                                ppa: ppa, ppb: ppb, sumAB: sumAB, sumAB80: sumAB80, exa1: exa1, sumAB20: sumAB20, proAB: proAB,
                                 letras: letras,
                             })
                         } else {
@@ -183,29 +175,21 @@ export const promedioReportes = () => {
                             for (let m = 0; m < computo.length; m++) {
                                 const result = computo[m];
                                 if (subelement.fkmaterias == result.fkmateria) {
-                                    if (quim == 'PRIMER TRIMESTRE') {
+                                    if (quim == 'PRIMER QUIMESTRE') {
                                         const ins = result.cualitativo
                                         p1 = ins.p1;
                                         p2 = ins.p2;
                                         if (subelement.materia?.nombre == 'COMPORTAMIENTO' || subelement.materia?.nombre == 'DESARROLLO HUMANO INTEGRAL')
-                                        letras = calcularPromedioInsumosLetrasComportamiento(ins.p1)
+                                        letras = calcularPromedioInsumosLetrasComportamiento(ins.p1, ins.p2)
                                         else letras = calcularPromedioInsumosLetras(ins.p1, ins.p2)
                                     }
-                                    if (quim == 'SEGUNDO TRIMESTRE') {
+                                    if (quim == 'SEGUNDO QUIMESTRE') {
                                         const ins = result.cualitativo
                                         p1 = ins.p3;
                                         p2 = ins.p4;
                                         if (subelement.materia?.nombre == 'COMPORTAMIENTO' || subelement.materia?.nombre == 'DESARROLLO HUMANO INTEGRAL')
-                                        letras = calcularPromedioInsumosLetrasComportamiento(ins.p2)
+                                        letras = calcularPromedioInsumosLetrasComportamiento(ins.p3, ins.p4)
                                         else letras = calcularPromedioInsumosLetras(ins.p3, ins.p4)
-                                    }
-                                    if (quim == 'TERCER TRIMESTRE') {
-                                        const ins = result.cualitativo
-                                        p1 = ins.p3;
-                                        p2 = ins.p4;
-                                        if (subelement.materia?.nombre == 'COMPORTAMIENTO' || subelement.materia?.nombre == 'DESARROLLO HUMANO INTEGRAL')
-                                        letras = calcularPromedioInsumosLetrasComportamiento(ins.p3)
-                                        else letras = calcularPromedioInsumosLetras(ins.p5, ins.p6)
                                     }
                                 }
                             }
@@ -261,52 +245,36 @@ export const promedioReportes = () => {
                         const res = matriculas[k];
                         if (estudiantes.includes(res.fkestudiante)) {
                             const computo = matriculas[k].computo
-                            let n1, n2, n3, n4, n6, n7, n8, n9, ppa, ppb, sumAB, sumAB90, exa1, pry1, sumAB10, proAB = ''
+                            let n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, ppa, ppb, sumAB, sumAB80, exa1, sumAB20, proAB = ''
                             let letras = '';
                             for (let i = 0; i < computo.length; i++) {
                                 const element = computo[i];
                                 if (element.fkmateria == materias.fkmaterias) {
-                                    if (quim == 'PRIMER TRIMESTRE') {
+                                    if (quim == 'PRIMER QUIMESTRE') {
                                         const ins = element.notas
-                                        n1 = ins?.a1; n2 = ins?.a2; n3 = ins?.a3; n4 = ins?.a4;
-                                        n6 = ins?.b1; n7 = ins?.b2; n8 = ins?.b3; n9 = ins?.b4;
+                                        n1 = ins?.a1; n2 = ins?.a2; n3 = ins?.a3; n4 = ins?.a4; n5 = ins?.a5;
+                                        n6 = ins?.b1; n7 = ins?.b2; n8 = ins?.b3; n9 = ins?.b4; n10 = ins?.b5;
                                         ppa = element.notas?.ppa
                                         ppb = element.notas?.ppb
                                         sumAB = element.notas?.sumAB
-                                        sumAB90 = element.notas?.sumAB90
+                                        sumAB80 = element.notas?.sumAB80
                                         exa1 = element.notas?.exa1
-                                        pry1 = element.notas?.pry1;
-                                        sumAB10 = element.notas?.sumAB10
+                                        sumAB20 = element.notas?.sumAB20
                                         proAB = element.notas?.proAB
                                         letras = promCuantitativoLetras(ins?.proAB);
                                     }
-                                    if (quim == 'SEGUNDO TRIMESTRE') {
+                                    if (quim == 'SEGUNDO QUIMESTRE') {
                                         const ins = element.notas
-                                        n1 = ins?.c1; n2 = ins?.c2; n3 = ins?.c3; n4 = ins?.c4;
-                                        n6 = ins?.d1; n7 = ins?.d2; n8 = ins?.d3; n9 = ins?.d4;
+                                        n1 = ins?.c1; n2 = ins?.c2; n3 = ins?.c3; n4 = ins?.c4; n5 = ins?.c5;
+                                        n6 = ins?.d1; n7 = ins?.d2; n8 = ins?.d3; n9 = ins?.d4; n10 = ins?.d5;
                                         ppa = element.notas?.ppc
                                         ppb = element.notas?.ppd
                                         sumAB = element.notas?.sumCD
-                                        sumAB90 = element.notas?.sumCD90
+                                        sumAB80 = element.notas?.sumCD80
                                         exa1 = element.notas?.exa2
-                                        pry1 = element.notas?.pry2;
-                                        sumAB10 = element.notas?.sumCD10
+                                        sumAB20 = element.notas?.sumCD20
                                         proAB = element.notas?.proCD
                                         letras = promCuantitativoLetras(ins?.proCD);
-                                    }
-                                    if (quim == 'TERCER TRIMESTRE') {
-                                        const ins = element.notas
-                                        n1 = ins?.e1; n2 = ins?.e2; n3 = ins?.e3; n4 = ins?.e4;
-                                        n6 = ins?.f1; n7 = ins?.f2; n8 = ins?.f3; n9 = ins?.f4;
-                                        ppa = element.notas?.ppe
-                                        ppb = element.notas?.ppf
-                                        sumAB = element.notas?.sumEF
-                                        sumAB90 = element.notas?.sumEF90
-                                        exa1 = element.notas?.exa3
-                                        pry1 = element.notas?.pry3;
-                                        sumAB10 = element.notas?.sumEF10
-                                        proAB = element.notas?.proEF
-                                        letras = promCuantitativoLetras(ins?.proEF);
                                     }
                                 }
                             }
@@ -315,13 +283,13 @@ export const promedioReportes = () => {
                             promAB.push(proAB)
                             aux.push({
                                 estudiante: res.estudiante?.fullname,
-                                n1: n1, n2: n2, n3: n3, n4: n4, n6: n6, n7: n7, n8: n8, n9: n9,
+                                n1: n1, n2: n2, n3: n3, n4: n4, n5: n5, n6: n6, n7: n7, n8: n8, n9: n9, n10: n10,
                                 ppa: ppa,
                                 ppb: ppb,
                                 sumAB: sumAB,
-                                sumAB90: sumAB90,
-                                exa1: exa1, pry1: pry1,
-                                sumAB10: sumAB10,
+                                sumAB80: sumAB80,
+                                exa1: exa1,
+                                sumAB20: sumAB20,
                                 proAB: proAB,
                                 letras: letras,
                             })
@@ -357,29 +325,21 @@ export const promedioReportes = () => {
                             for (let i = 0; i < computo.length; i++) {
                                 const element = computo[i];
                                 if (element.fkmateria == materias.fkmaterias) {
-                                    if (quim == 'PRIMER TRIMESTRE') {
+                                    if (quim == 'PRIMER QUIMESTRE') {
                                         const ins = element.cualitativo
                                         p1 = ins.p1;
                                         p2 = ins.p2;
                                         if (element.materia?.nombre == 'COMPORTAMIENTO' || element.materia?.nombre == 'DESARROLLO HUMANO INTEGRAL')
-                                        letras = calcularPromedioInsumosLetrasComportamiento(ins.p1)
+                                        letras = calcularPromedioInsumosLetrasComportamiento(ins.p1, ins.p2)
                                         else letras = calcularPromedioInsumosLetras(ins.p1, ins.p2)
                                     }
-                                    if (quim == 'SEGUNDO TRIMESTRE') {
+                                    if (quim == 'SEGUNDO QUIMESTRE') {
                                         const ins = element.cualitativo
                                         p1 = ins.p3;
                                         p2 = ins.p4;
                                         if (element.materia?.nombre == 'COMPORTAMIENTO' || element.materia?.nombre == 'DESARROLLO HUMANO INTEGRAL')
-                                        letras = calcularPromedioInsumosLetrasComportamiento(ins.p2)
-                                        else letras = calcularPromedioInsumosLetras(ins.p3, ins.p4)
-                                    }
-                                    if (quim == 'TERCER TRIMESTRE') {
-                                        const ins = element.cualitativo
-                                        p1 = ins.p5;
-                                        p2 = ins.p6;
-                                        if (element.materia?.nombre == 'COMPORTAMIENTO' || element.materia?.nombre == 'DESARROLLO HUMANO INTEGRAL')
-                                        letras = calcularPromedioInsumosLetrasComportamiento(ins.p3)
-                                        else letras = calcularPromedioInsumosLetras(ins.p5, ins.p6)
+                                        letras = calcularPromedioInsumosLetrasComportamiento(ins.p1, ins.p2)
+                                        else letras = calcularPromedioInsumosLetras(ins.p1, ins.p2)
                                     }
                                 }
                             }
@@ -443,52 +403,36 @@ export const promedioReportes = () => {
                             const res = matriculas[k];
                             if (estudiantes.includes(res.fkestudiante)) {
                                 const computo = matriculas[k].computo
-                                let n1, n2, n3, n4, n6, n7, n8, n9, ppa, ppb, sumAB, sumAB90, exa1,pry1, sumAB10, proAB = ''
+                                let n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, ppa, ppb, sumAB, sumAB80, exa1, sumAB20, proAB = ''
                                 let letras = '';
                                 for (let i = 0; i < computo.length; i++) {
                                     const element = computo[i];
                                     if (element.fkmateria == materias.fkmaterias) {
-                                        if (quim == 'PRIMER TRIMESTRE') {
+                                        if (quim == 'PRIMER QUIMESTRE') {
                                             const ins = element.notas
-                                            n1 = ins?.a1; n2 = ins?.a2; n3 = ins?.a3; n4 = ins?.a4;
-                                            n6 = ins?.b1; n7 = ins?.b2; n8 = ins?.b3; n9 = ins?.b4;
+                                            n1 = ins?.a1; n2 = ins?.a2; n3 = ins?.a3; n4 = ins?.a4; n5 = ins?.a5;
+                                            n6 = ins?.b1; n7 = ins?.b2; n8 = ins?.b3; n9 = ins?.b4; n10 = ins?.b5;
                                             ppa = element.notas?.ppa
                                             ppb = element.notas?.ppb
                                             sumAB = element.notas?.sumAB
-                                            sumAB90 = element.notas?.sumAB90
+                                            sumAB80 = element.notas?.sumAB80
                                             exa1 = element.notas?.exa1
-                                            pry1 = element.notas?.pry1
-                                            sumAB10 = element.notas?.sumAB10
+                                            sumAB20 = element.notas?.sumAB20
                                             proAB = element.notas?.proAB
                                             letras = promCuantitativoLetras(ins?.proAB);
                                         }
-                                        if (quim == 'SEGUNDO TRIMESTRE') {
+                                        if (quim == 'SEGUNDO QUIMESTRE') {
                                             const ins = element.notas
-                                            n1 = ins?.c1; n2 = ins?.c2; n3 = ins?.c3; n4 = ins?.c4;
-                                            n6 = ins?.d1; n7 = ins?.d2; n8 = ins?.d3; n9 = ins?.d4;
+                                            n1 = ins?.c1; n2 = ins?.c2; n3 = ins?.c3; n4 = ins?.c4; n5 = ins?.c5;
+                                            n6 = ins?.d1; n7 = ins?.d2; n8 = ins?.d3; n9 = ins?.d4; n10 = ins?.d5;
                                             ppa = element.notas?.ppc
                                             ppb = element.notas?.ppd
                                             sumAB = element.notas?.sumCD
-                                            sumAB90 = element.notas?.sumCD90
+                                            sumAB80 = element.notas?.sumCD80
                                             exa1 = element.notas?.exa2
-                                            pry1 = element.notas?.pry2
-                                            sumAB10 = element.notas?.sumCD10
+                                            sumAB20 = element.notas?.sumCD20
                                             proAB = element.notas?.proCD
                                             letras = promCuantitativoLetras(ins?.proCD);
-                                        }
-                                        if (quim == 'TERCER TRIMESTRE') {
-                                            const ins = element.notas
-                                            n1 = ins?.e1; n2 = ins?.e2; n3 = ins?.e3; n4 = ins?.e4;
-                                            n6 = ins?.f1; n7 = ins?.f2; n8 = ins?.f3; n9 = ins?.f4;
-                                            ppa = element.notas?.ppe
-                                            ppb = element.notas?.ppf
-                                            sumAB = element.notas?.sumEF
-                                            sumAB90 = element.notas?.sumEF90
-                                            exa1 = element.notas?.exa3
-                                            pry1 = element.notas?.pry3
-                                            sumAB10 = element.notas?.sumEF10
-                                            proAB = element.notas?.proEF
-                                            letras = promCuantitativoLetras(ins?.proEF);
                                         }
                                     }
                                 }
@@ -497,13 +441,13 @@ export const promedioReportes = () => {
                                 promAB.push(proAB)
                                 aux.push({
                                     estudiante: res.estudiante?.fullname,
-                                    n1: n1, n2: n2, n3: n3, n4: n4, n6: n6, n7: n7, n8: n8, n9: n9,
+                                    n1: n1, n2: n2, n3: n3, n4: n4, n5: n5, n6: n6, n7: n7, n8: n8, n9: n9, n10: n10,
                                     ppa: ppa,
                                     ppb: ppb,
                                     sumAB: sumAB,
-                                    sumAB90: sumAB90,
-                                    exa1: exa1,pry1:pry1,
-                                    sumAB10: sumAB10,
+                                    sumAB80: sumAB80,
+                                    exa1: exa1,
+                                    sumAB20: sumAB20,
                                     proAB: proAB,
                                     letras: letras,
                                 })
@@ -539,28 +483,20 @@ export const promedioReportes = () => {
                             for (let i = 0; i < computo.length; i++) {
                                 const element = computo[i];
                                 if (element.fkmateria == materias.fkmaterias) {
-                                    if (quim == 'PRIMER TRIMESTRE') {
+                                    if (quim == 'PRIMER QUIMESTRE') {
                                         const ins = element.cualitativo
                                         p1 = ins.p1;
                                         p2 = ins.p2;
                                         if (element.materia?.nombre == 'COMPORTAMIENTO' || element.materia?.nombre == 'DESARROLLO HUMANO INTEGRAL')
-                                        letras = calcularPromedioInsumosLetrasComportamiento(ins.p1)
+                                        letras = calcularPromedioInsumosLetrasComportamiento(ins.p1, ins.p2)
                                         else letras = calcularPromedioInsumosLetras(ins.p1, ins.p2)
                                     }
-                                    if (quim == 'SEGUNDO TRIMESTRE') {
+                                    if (quim == 'SEGUNDO QUIMESTRE') {
                                         const ins = element.cualitativo
                                         p1 = ins.p3;
                                         p2 = ins.p4;
                                         if (element.materia?.nombre == 'COMPORTAMIENTO' || element.materia?.nombre == 'DESARROLLO HUMANO INTEGRAL')
-                                        letras = calcularPromedioInsumosLetrasComportamiento(ins.p2)
-                                        else letras = calcularPromedioInsumosLetras(ins.p1, ins.p2)
-                                    }
-                                    if (quim == 'TERCER TRIMESTRE') {
-                                        const ins = element.cualitativo
-                                        p1 = ins.p5;
-                                        p2 = ins.p6;
-                                        if (element.materia?.nombre == 'COMPORTAMIENTO' || element.materia?.nombre == 'DESARROLLO HUMANO INTEGRAL')
-                                        letras = calcularPromedioInsumosLetrasComportamiento(ins.p3)
+                                        letras = calcularPromedioInsumosLetrasComportamiento(ins.p1, ins.p2)
                                         else letras = calcularPromedioInsumosLetras(ins.p1, ins.p2)
                                     }
                                 }
@@ -796,7 +732,7 @@ export const promedioReportes = () => {
                     for (let j = 0; j < distributivo?.length; j++) {
                         const subelement = distributivo[j];
                         if (subelement.materia?.computo==2) {
-                            let proAB, proCD, suple, final, promGen, remedial, gracia, letras = ''
+                            let proAB, proCD, suple, final, promedioFinal, remedial, gracia, letras = ''
                             for (let m = 0; m < computo.length; m++) {
                                 const result = computo[m];
                                 if (subelement.fkmaterias == result.fkmateria) {
@@ -807,7 +743,7 @@ export const promedioReportes = () => {
                                     gracia = ins?.gracia;
                                     suple = res?.supletorio; remedial = res?.remedial;
                                     final = res?.notaFinal
-                                    promGen = res?.promGen
+                                    promedioFinal = res?.promedioFinal
                                 }
                             }
                             letras = promCuantitativoLetras2(final)
@@ -816,7 +752,7 @@ export const promedioReportes = () => {
                                 materia: subelement.materia?.nombre,
                                 proAB: proAB, letras: letras,
                                 proCD: proCD, remedial: remedial, gracia: gracia,
-                                final: final, suple: suple, promGen: promGen
+                                final: final, suple: suple, promedioFinal: promedioFinal
                             })
                         } 
                     }
@@ -1217,18 +1153,49 @@ const calcularPryectos = (prmd, nombre) => {
     }
     return letra;
 }
-function calcularPromedioInsumosLetrasComportamiento (p1) {
-    var letra = ''
+function calcularPromedioInsumosLetrasComportamiento (p1, p2) {
+    let aux = 0;
+    let aux2 = 0;
     switch (p1) {
-        case "A": letra = 'A Muy Satisfactorio';
+        case "A": aux = 5;
             break;
-        case "B": letra = 'B Satisfactorio';
+        case "B": aux = 4;
             break;
-        case "C": letra = 'C Poco Satisfactorio';
+        case "C": aux = 3;
             break;
-        case "D": letra = 'D Mejorable';
+        case "D": aux = 2;
             break;
-        case "E": letra = 'E Insatisfactorio';
+        case "E": aux = 1;
+            break;
+        default:
+            break;
+    }
+    switch (p2) {
+        case "A": aux2 = 5;
+            break;
+        case "B": aux2 = 4;
+            break;
+        case "C": aux2 = 3;
+            break;
+        case "D": aux2 = 2;
+            break;
+        case "E": aux2 = 1;
+            break;
+        default:
+            break;
+    }
+    var result = parseInt((aux + aux2) / 2)
+    var letra = ''
+    switch (result) {
+        case 5: letra = 'A Muy Satisfactorio';
+            break;
+        case 4: letra = 'B Satisfactorio';
+            break;
+        case 3: letra = 'C Poco Satisfactorio';
+            break;
+        case 2: letra = 'D Mejorable';
+            break;
+        case 1: letra = 'E Insatisfactorio';
             break;
         default:
             break;
