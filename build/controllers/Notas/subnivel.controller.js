@@ -28,7 +28,6 @@ var {
   ifDecimal,
   ponderado,
   ponderado90,
-  calcUnoPonderado,
   sumatoriaProm,
   calcDosPonderado
 } = (0, _promedios.promedio)();

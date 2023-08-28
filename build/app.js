@@ -51,6 +51,10 @@ var _subnivel = _interopRequireDefault(require("./routes/Notas/subnivel.routes")
 
 var _cualitativo = _interopRequireDefault(require("./routes/Notas/cualitativo.routes"));
 
+var _elemental = _interopRequireDefault(require("./routes/Notas/elemental.routes"));
+
+var _ = _interopRequireDefault(require("./routes/History/2023.routes"));
+
 var _aulas = _interopRequireDefault(require("./routes/Aulas/aulas.routes"));
 
 var _tareas = _interopRequireDefault(require("./routes/Aulas/tareas.routes"));
@@ -101,6 +105,7 @@ var app = (0, _express.default)(); //createRoles();
 //iniciarSecuencia()
 //===========0=PELIGRO =================================
 //migracionMatricula();
+//migracionDistributivo()
 //temporalMatricula();
 //deleteMatriculasMany();
 
@@ -163,7 +168,11 @@ app.use("/api/reportes", _reportes.default);
 
 app.use("/api/common", _common.default);
 app.use("/api/subnivel", _subnivel.default);
-app.use("/api/cualitativo", _cualitativo.default); //sitemap
+app.use("/api/cualitativo", _cualitativo.default);
+app.use("/api/elemental", _elemental.default);
+/* HISTORIAL REPORTES */
+
+app.use("/api/rep2023", _.default); //sitemap
 
 app.use("/sitemap.xml", _sitemap.default);
 var _default = app;

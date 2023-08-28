@@ -3,13 +3,19 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.deleteMatriculasMany = exports.temporalMatricula = exports.migracionMatricula = void 0;
+exports.deleteMatriculasMany = exports.temporalMatricula = exports.migracionDistributivo = exports.migracionMatricula = void 0;
 
 var _Matriculas = _interopRequireDefault(require("../models/Matriculas"));
 
-var _Respaldo = _interopRequireDefault(require("../models/Respaldo"));
+var _Mat = _interopRequireDefault(require("../models/history/Mat2023"));
+
+var _Dis = _interopRequireDefault(require("../models/history/Dis2023"));
 
 var _Temporal = _interopRequireDefault(require("../models/Temporal"));
+
+var _Respaldo = _interopRequireDefault(require("../models/Respaldo"));
+
+var _Distributivo = _interopRequireDefault(require("../models/distributivos/Distributivo"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -19,9 +25,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 var migracionMatricula = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator(function* () {
-    _Matriculas.default.find().then(colecciones => {
+    _Temporal.default.find().then(colecciones => {
       colecciones.forEach(array => {
-        var nuewData = (0, _Respaldo.default)(array);
+        var nuewData = (0, _Mat.default)(array);
         nuewData.isNew = true;
         nuewData.save();
       });
@@ -37,8 +43,28 @@ var migracionMatricula = /*#__PURE__*/function () {
 
 exports.migracionMatricula = migracionMatricula;
 
-var temporalMatricula = /*#__PURE__*/function () {
+var migracionDistributivo = /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator(function* () {
+    _Distributivo.default.find().then(colecciones => {
+      colecciones.forEach(array => {
+        var nuewData = (0, _Dis.default)(array);
+        nuewData.isNew = true;
+        nuewData.save();
+      });
+    });
+
+    console.log('migracion creada');
+  });
+
+  return function migracionDistributivo() {
+    return _ref2.apply(this, arguments);
+  };
+}();
+
+exports.migracionDistributivo = migracionDistributivo;
+
+var temporalMatricula = /*#__PURE__*/function () {
+  var _ref3 = _asyncToGenerator(function* () {
     _Matriculas.default.find().then(colecciones => {
       colecciones.forEach(array => {
         var nuewData = (0, _Temporal.default)(array);
@@ -51,7 +77,7 @@ var temporalMatricula = /*#__PURE__*/function () {
   });
 
   return function temporalMatricula() {
-    return _ref2.apply(this, arguments);
+    return _ref3.apply(this, arguments);
   };
 }(); //-------------------ELIMINAMOS LOS DATOS DE LA TABLA MATRICULA---------------------------
 
@@ -59,17 +85,17 @@ var temporalMatricula = /*#__PURE__*/function () {
 exports.temporalMatricula = temporalMatricula;
 
 var deleteMatriculasMany = /*#__PURE__*/function () {
-  var _ref3 = _asyncToGenerator(function* () {
+  var _ref4 = _asyncToGenerator(function* () {
     try {
       yield _Matriculas.default.deleteMany();
-      console.log('temporal creada');
+      console.log('coleccion eliminada');
     } catch (e) {
       console.log('ERROR EN ELIMINACION');
     }
   });
 
   return function deleteMatriculasMany() {
-    return _ref3.apply(this, arguments);
+    return _ref4.apply(this, arguments);
   };
 }();
 
