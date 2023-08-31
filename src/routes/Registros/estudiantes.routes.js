@@ -24,6 +24,8 @@ router.delete("/:id", [authJwt.verifyToken], Ctrl.deleteEstudianteById);
 
 router.post("/alumnosMany", [authJwt.verifyToken], Ctrl.createEstudianteMany);
 
+router.post("/actualizar", [authJwt.verifyToken], Ctrl.updateEstudianteMany);
+
 router.post("/",[verifySignup.checkDuplicateEstudiante, authJwt.verifyToken], Ctrl.createEstudiante);
 
 

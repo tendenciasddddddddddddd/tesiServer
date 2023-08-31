@@ -26,6 +26,7 @@ router.put("/representante/:usuariosId", [_middlewares.authJwt.verifyToken], Ctr
 router.put("/:usuariosId", [_middlewares.authJwt.verifyToken], Ctrl.updateEstudianteById);
 router.delete("/:id", [_middlewares.authJwt.verifyToken], Ctrl.deleteEstudianteById);
 router.post("/alumnosMany", [_middlewares.authJwt.verifyToken], Ctrl.createEstudianteMany);
+router.post("/actualizar", [_middlewares.authJwt.verifyToken], Ctrl.updateEstudianteMany);
 router.post("/", [_middlewares.verifySignup.checkDuplicateEstudiante, _middlewares.authJwt.verifyToken], Ctrl.createEstudiante);
 var _default = router;
 exports.default = _default;

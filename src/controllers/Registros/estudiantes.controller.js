@@ -148,7 +148,7 @@ export const createEstudiante = async (req, res) => {
   }
 };
 
-//--------------------------------CREAR ESTUDIANTE--------------------
+//--------------------------------CREAR ESTUDIANTE MASIVOS--------------------
 export const createEstudianteMany = async (req, res) => {
   try {
     let array = req.body;
@@ -174,6 +174,34 @@ export const createEstudianteMany = async (req, res) => {
     return res.status(200).json({
       duplicados
     });
+  } catch (error) {
+    return res.status(500).json({ message: 'Problem' });
+  }
+};
+
+//--------------------------------ACTUALIZAR INFORMEACIONS ESTUDIANTE MASIVOS--------------------
+export const updateEstudianteMany = async (req, res) => {
+  try {
+    let array = req.body;
+    const exist = []
+    const noexist = []
+    for (let i = 0; i < array.length; i++) {
+      const founds = await User.findOne({ cedula: array[i].cedula });
+      if (founds) {
+        exist.push(array[i])
+        if(founds.information) continue;
+        await User.findByIdAndUpdate(
+          founds._id,
+          array[i],
+          {
+            new: true,
+          }
+        );
+      } else {
+        noexist.push(array[i])
+      }
+    }
+    return res.status(200).json(noexist);
   } catch (error) {
     return res.status(500).json({ message: 'Problem' });
   }

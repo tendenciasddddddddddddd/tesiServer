@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.query = exports.activate = exports.createEstudianteMany = exports.createEstudiante = exports.deleteEstudianteById = exports.updateRepresentante = exports.updateEstudianteById = exports.getEstudianteById = exports.getListEstudAulas = exports.getListasEstudiantes = exports.getEstudiantes = void 0;
+exports.query = exports.activate = exports.updateEstudianteMany = exports.createEstudianteMany = exports.createEstudiante = exports.deleteEstudianteById = exports.updateRepresentante = exports.updateEstudianteById = exports.getEstudianteById = exports.getListEstudAulas = exports.getListasEstudiantes = exports.getEstudiantes = void 0;
 
 var _Estudiante = _interopRequireDefault(require("../../models/registros/Estudiante"));
 
@@ -266,7 +266,7 @@ var createEstudiante = /*#__PURE__*/function () {
   return function createEstudiante(_x18, _x19) {
     return _ref8.apply(this, arguments);
   };
-}(); //--------------------------------CREAR ESTUDIANTE--------------------
+}(); //--------------------------------CREAR ESTUDIANTE MASIVOS--------------------
 
 
 exports.createEstudiante = createEstudiante;
@@ -315,12 +315,51 @@ var createEstudianteMany = /*#__PURE__*/function () {
   return function createEstudianteMany(_x20, _x21) {
     return _ref9.apply(this, arguments);
   };
-}();
+}(); //--------------------------------ACTUALIZAR INFORMEACIONS ESTUDIANTE MASIVOS--------------------
+
 
 exports.createEstudianteMany = createEstudianteMany;
 
+var updateEstudianteMany = /*#__PURE__*/function () {
+  var _ref10 = _asyncToGenerator(function* (req, res) {
+    try {
+      var array = req.body;
+      var exist = [];
+      var noexist = [];
+
+      for (var i = 0; i < array.length; i++) {
+        var founds = yield _Estudiante.default.findOne({
+          cedula: array[i].cedula
+        });
+
+        if (founds) {
+          exist.push(array[i]);
+          if (founds.information) continue;
+          yield _Estudiante.default.findByIdAndUpdate(founds._id, array[i], {
+            new: true
+          });
+        } else {
+          noexist.push(array[i]);
+        }
+      }
+
+      return res.status(200).json(noexist);
+    } catch (error) {
+      return res.status(500).json({
+        message: 'Problem'
+      });
+    }
+  });
+
+  return function updateEstudianteMany(_x22, _x23) {
+    return _ref10.apply(this, arguments);
+  };
+}();
+
+exports.updateEstudianteMany = updateEstudianteMany;
+
 var activate = /*#__PURE__*/function () {
-  var _ref10 = _asyncToGenerator(function* (req, res, next) {
+  var _ref11 = _asyncToGenerator(function* (req, res, next) {
     try {
       var reg = yield _Estudiante.default.findByIdAndUpdate({
         _id: req.params.id
@@ -336,15 +375,15 @@ var activate = /*#__PURE__*/function () {
     }
   });
 
-  return function activate(_x22, _x23, _x24) {
-    return _ref10.apply(this, arguments);
+  return function activate(_x24, _x25, _x26) {
+    return _ref11.apply(this, arguments);
   };
 }();
 
 exports.activate = activate;
 
 var query = /*#__PURE__*/function () {
-  var _ref11 = _asyncToGenerator(function* (req, res) {
+  var _ref12 = _asyncToGenerator(function* (req, res) {
     try {
       var querys = req.query.querys;
       var result = yield _Estudiante.default.find({
@@ -361,8 +400,8 @@ var query = /*#__PURE__*/function () {
     }
   });
 
-  return function query(_x25, _x26) {
-    return _ref11.apply(this, arguments);
+  return function query(_x27, _x28) {
+    return _ref12.apply(this, arguments);
   };
 }();
 
