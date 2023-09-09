@@ -527,6 +527,49 @@ export default {
       res.status(500).json("error del servidor");
     }
   },
+  entragaTareas : async (req, res) => {
+    try {
+      await Aulasvirtuales.updateOne(
+        { "tareas._id": req.params.paramId },
+        { $push: { 
+                   "tareas.$.entrega": req.body.entrega,
+                  } 
+        },
+        {
+          new: true,
+        }
+      );
+      res.status(200).json("crearnote");
+    } catch (e) {
+      res.status(500).json(e);
+    }
+  },
+  editarTareas : async (req, res) => {
+    try {
+      let cadenaId = req.params.paramId;
+      const array = cadenaId.split(",");
+      const reg = req.body.entrega
+      await Aulasvirtuales.updateOne(
+        { _id: array[0] },
+        { $set: 
+          { 
+            "tareas.$[perf].entrega.$[est].link": reg.link,
+            "tareas.$[perf].entrega.$[est].comentario": reg.comentario,
+          } 
+        },
+        {
+          arrayFilters: [{
+            "perf._id": {$eq : array[1]}},
+            {"est._id": {$eq : array[2]}}],
+          new: true,
+        }
+      );
+      res.status(200).json("ok");
+    } catch (e) {
+      console.log(e)
+      res.status(500).json(e);
+    }
+  },
   showHidens: async (req, res) => {
     try {
       let disp = req.body.disponibilidad == "1" ? '0' : '1';

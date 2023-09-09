@@ -51,6 +51,8 @@ function updateFiles(_x3) {
 
 function _updateFiles() {
   _updateFiles = _asyncToGenerator(function* (modelo) {
+    console.log(modelo);
+
     try {
       yield _Repositorio.default.updateOne({
         "entregas._id": modelo.keyEntrega

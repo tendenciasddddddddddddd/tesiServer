@@ -820,7 +820,7 @@ function _removeForoOneForos() {
         _id: array[0]
       }, {
         $pull: {
-          "Foros.$[perf].foro": {
+          "foros.$[perf].foro": {
             _id: array[2]
           }
         }

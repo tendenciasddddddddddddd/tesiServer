@@ -134,6 +134,30 @@ var _default = {
     }
 
     return updatePreguntas;
+  }(),
+  resolver: function () {
+    var _resolver = _asyncToGenerator(function* (req, res) {
+      try {
+        yield _Aulasvirtuales.default.updateOne({
+          "evaluacion._id": req.params.paramId
+        }, {
+          $push: {
+            "evaluacion.$.answers": req.body
+          }
+        }, {
+          new: true
+        });
+        res.status(200).json("ok");
+      } catch (e) {
+        res.status(500).json(e);
+      }
+    });
+
+    function resolver(_x9, _x10) {
+      return _resolver.apply(this, arguments);
+    }
+
+    return resolver;
   }()
 };
 exports.default = _default;

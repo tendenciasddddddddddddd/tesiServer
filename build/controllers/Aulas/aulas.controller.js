@@ -160,7 +160,13 @@ var _default = {
         var result = yield _Aulasvirtuales.default.findById(id).select({
           'tareas.title': 1,
           'tareas.start': 1,
-          'tareas.tipo': 1
+          'tareas.tipo': 1,
+          'evaluacion.title': 1,
+          'evaluacion.start': 1,
+          'evaluacion.tipo': 1,
+          'foros.title': 1,
+          'foros.start': 1,
+          'foros.tipo': 1
         });
         res.status(200).json(result);
       } catch (error) {

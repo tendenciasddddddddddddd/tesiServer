@@ -10,6 +10,10 @@ router.put("/remover/:paramId",[authJwt.verifyToken], Ctrl.delete);
 
 router.put("/editar/:paramId",[authJwt.verifyToken], Ctrl.update); 
 
+router.put("/entregarTarea/:paramId",[authJwt.verifyToken], Ctrl.entragaTareas); 
+
+router.put("/editarTareas/:paramId",[authJwt.verifyToken], Ctrl.editarTareas); 
+
 router.put("/calificar/:paramId",[authJwt.verifyToken], Ctrl.calificar); 
 
 router.put("/show/:paramId",[authJwt.verifyToken], Ctrl.showHidens); 

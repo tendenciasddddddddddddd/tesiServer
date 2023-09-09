@@ -22,6 +22,7 @@ async function insetFiles(id, model) {
 }
 
 async function updateFiles(modelo) {
+  console.log(modelo);
   try {
     await Repositorio.updateOne(
       { "entregas._id": modelo.keyEntrega },

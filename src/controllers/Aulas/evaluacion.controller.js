@@ -85,4 +85,21 @@ export default {
       res.status(500).json("error del servidor");
     }
   },
+  resolver: async (req, res) => {
+    try {
+      await Aulasvirtuales.updateOne(
+        { "evaluacion._id": req.params.paramId },
+        { $push: { 
+                   "evaluacion.$.answers": req.body,
+                  } 
+        },
+        {
+          new: true,
+        }
+      );
+      res.status(200).json("ok");
+    } catch (e) {
+      res.status(500).json(e);
+    }
+  },
 }

@@ -157,7 +157,7 @@ var AulasSchema = new _mongoose.Schema({
     entrega: [{
       fkestudiante: String,
       estudiante: {},
-      link: String,
+      link: [],
       nota: String,
       observar: String,
       comentario: String

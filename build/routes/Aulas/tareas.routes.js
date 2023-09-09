@@ -17,6 +17,8 @@ var router = (0, _express.Router)();
 router.put("/:id", [_middlewares.authJwt.verifyToken], _tareas.default.create);
 router.put("/remover/:paramId", [_middlewares.authJwt.verifyToken], _tareas.default.delete);
 router.put("/editar/:paramId", [_middlewares.authJwt.verifyToken], _tareas.default.update);
+router.put("/entregarTarea/:paramId", [_middlewares.authJwt.verifyToken], _tareas.default.entragaTareas);
+router.put("/editarTareas/:paramId", [_middlewares.authJwt.verifyToken], _tareas.default.editarTareas);
 router.put("/calificar/:paramId", [_middlewares.authJwt.verifyToken], _tareas.default.calificar);
 router.put("/show/:paramId", [_middlewares.authJwt.verifyToken], _tareas.default.showHidens);
 router.put("/orderAct/:paramId", [_middlewares.authJwt.verifyToken], _tareas.default.orderActividad);

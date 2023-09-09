@@ -436,7 +436,7 @@ async function removeForoOneForos(array) {
     try {
         await Aulasvirtuales.updateOne(
             { _id: array[0] },
-            { $pull: { "Foros.$[perf].foro": { _id: array[2] } } },
+            { $pull: { "foros.$[perf].foro": { _id: array[2] } } },
             {
                 arrayFilters: [
                     { "perf._id": { $eq: array[1] } },

@@ -802,6 +802,68 @@ var _default = {
 
     return calificar;
   }(),
+  entragaTareas: function () {
+    var _entragaTareas = _asyncToGenerator(function* (req, res) {
+      try {
+        yield _Aulasvirtuales.default.updateOne({
+          "tareas._id": req.params.paramId
+        }, {
+          $push: {
+            "tareas.$.entrega": req.body.entrega
+          }
+        }, {
+          new: true
+        });
+        res.status(200).json("crearnote");
+      } catch (e) {
+        res.status(500).json(e);
+      }
+    });
+
+    function entragaTareas(_x73, _x74) {
+      return _entragaTareas.apply(this, arguments);
+    }
+
+    return entragaTareas;
+  }(),
+  editarTareas: function () {
+    var _editarTareas = _asyncToGenerator(function* (req, res) {
+      try {
+        var cadenaId = req.params.paramId;
+        var array = cadenaId.split(",");
+        var reg = req.body.entrega;
+        yield _Aulasvirtuales.default.updateOne({
+          _id: array[0]
+        }, {
+          $set: {
+            "tareas.$[perf].entrega.$[est].link": reg.link,
+            "tareas.$[perf].entrega.$[est].comentario": reg.comentario
+          }
+        }, {
+          arrayFilters: [{
+            "perf._id": {
+              $eq: array[1]
+            }
+          }, {
+            "est._id": {
+              $eq: array[2]
+            }
+          }],
+          new: true
+        });
+        res.status(200).json("ok");
+      } catch (e) {
+        console.log(e);
+        res.status(500).json(e);
+      }
+    });
+
+    function editarTareas(_x75, _x76) {
+      return _editarTareas.apply(this, arguments);
+    }
+
+    return editarTareas;
+  }(),
   showHidens: function () {
     var _showHidens = _asyncToGenerator(function* (req, res) {
       try {
@@ -820,7 +882,7 @@ var _default = {
       }
     });
 
-    function showHidens(_x73, _x74) {
+    function showHidens(_x77, _x78) {
       return _showHidens.apply(this, arguments);
     }
 
@@ -843,7 +905,7 @@ var _default = {
       }
     });
 
-    function orderActividad(_x75, _x76) {
+    function orderActividad(_x79, _x80) {
       return _orderActividad.apply(this, arguments);
     }
 

@@ -12,4 +12,6 @@ router.put("/createPreguntas/:paramId",[authJwt.verifyToken], Ctrl.createPregunt
 
 router.put("/updatePreguntas/:paramId",[authJwt.verifyToken], Ctrl.updatePreguntas);
 
+router.put("/resolver/:paramId",[authJwt.verifyToken], Ctrl.resolver);
+
 export default router;

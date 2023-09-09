@@ -18,5 +18,6 @@ router.put("/:id", [_middlewares.authJwt.verifyToken], _evaluacion.default.creat
 router.put("/editar/:paramId", [_middlewares.authJwt.verifyToken], _evaluacion.default.update);
 router.put("/createPreguntas/:paramId", [_middlewares.authJwt.verifyToken], _evaluacion.default.createPreguntas);
 router.put("/updatePreguntas/:paramId", [_middlewares.authJwt.verifyToken], _evaluacion.default.updatePreguntas);
+router.put("/resolver/:paramId", [_middlewares.authJwt.verifyToken], _evaluacion.default.resolver);
 var _default = router;
 exports.default = _default;

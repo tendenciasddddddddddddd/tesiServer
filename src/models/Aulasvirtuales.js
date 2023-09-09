@@ -155,7 +155,7 @@ const AulasSchema = new Schema(
                 {
                     fkestudiante: String,
                     estudiante: {},
-                    link: String,
+                    link: [],
                     nota: String,
                     observar: String,
                     comentario: String,
