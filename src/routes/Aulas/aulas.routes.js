@@ -12,6 +12,8 @@ router.get("/lista",[authJwt.verifyToken], Ctrl.getLista);
 
 router.get("/calendario/:id",[authJwt.verifyToken], Ctrl.getByListCalendario);
 
+router.get("/aulasNotas/:id",[authJwt.verifyToken], Ctrl.getByListNotas);
+
 router.get("/:id",[authJwt.verifyToken], Ctrl.getById);
 
 router.get("/conf/:id",[authJwt.verifyToken], Ctrl.getByConfigCourse);

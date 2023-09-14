@@ -203,7 +203,8 @@ const AulasSchema = new Schema(
             answers: [{
                 fkestudiante: String,
                 responses: [{}],
-                puntage: String
+                puntage: String,
+                nota : String,
             }],
             archivo: [{
                 link : String,

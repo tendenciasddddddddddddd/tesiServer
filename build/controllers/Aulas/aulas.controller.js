@@ -180,6 +180,35 @@ var _default = {
 
     return getByListCalendario;
   }(),
+  //======================GET PARA CALIFICACIONES AULAS =================================
+  getByListNotas: function () {
+    var _getByListNotas = _asyncToGenerator(function* (req, res) {
+      try {
+        var {
+          id
+        } = req.params;
+        var result = yield _Aulasvirtuales.default.findById(id).select({
+          'tareas.title': 1,
+          'tareas.entrega': 1,
+          'evaluacion.title': 1,
+          'evaluacion.answers': 1,
+          'foros.title': 1,
+          'foros.start': 1,
+          'foros.tipo': 1,
+          estudiantes: 1
+        });
+        res.status(200).json(result);
+      } catch (error) {
+        return res.status(500).json(error);
+      }
+    });
+
+    function getByListNotas(_x15, _x16) {
+      return _getByListNotas.apply(this, arguments);
+    }
+
+    return getByListNotas;
+  }(),
   //======================GET PARA HOME DOCENTE =================================
   update: function () {
     var _update = _asyncToGenerator(function* (req, res) {
@@ -196,7 +225,7 @@ var _default = {
       }
     });
 
-    function update(_x15, _x16) {
+    function update(_x17, _x18) {
       return _update.apply(this, arguments);
     }
 
@@ -218,7 +247,7 @@ var _default = {
       }
     });
 
-    function insertEstudiantes(_x17, _x18) {
+    function insertEstudiantes(_x19, _x20) {
       return _insertEstudiantes.apply(this, arguments);
     }
 
@@ -249,7 +278,7 @@ var _default = {
       }
     });
 
-    function deleteEstudiante(_x19, _x20) {
+    function deleteEstudiante(_x21, _x22) {
       return _deleteEstudiante.apply(this, arguments);
     }
 
@@ -269,7 +298,7 @@ var _default = {
       }
     });
 
-    function deleteById(_x21, _x22) {
+    function deleteById(_x23, _x24) {
       return _deleteById.apply(this, arguments);
     }
 
@@ -303,7 +332,7 @@ var _default = {
       }
     });
 
-    function updateSeccion(_x23, _x24) {
+    function updateSeccion(_x25, _x26) {
       return _updateSeccion.apply(this, arguments);
     }
 

@@ -77,6 +77,19 @@ export default {
         return res.status(500).json(error);
       }
     },
+     //======================GET PARA CALIFICACIONES AULAS =================================
+     getByListNotas: async (req, res) => {
+      try {
+        const { id } = req.params;
+        const result = await Aulasvirtuales.findById(id)
+        .select({'tareas.title':1,'tareas.entrega':1,
+        'evaluacion.title':1,'evaluacion.answers':1,
+        'foros.title':1,'foros.start':1,'foros.tipo':1, estudiantes: 1});
+        res.status(200).json(result);
+      } catch (error) {
+        return res.status(500).json(error);
+      }
+    },
   //======================GET PARA HOME DOCENTE =================================
   update: async (req, res) => {
     try {

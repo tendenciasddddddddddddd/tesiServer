@@ -11,6 +11,8 @@ var _Role = _interopRequireDefault(require("../../models/Role"));
 
 var _Matriculas = _interopRequireDefault(require("../../models/Matriculas"));
 
+var _Aulasvirtuales = _interopRequireDefault(require("../../models/Aulasvirtuales"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -46,7 +48,38 @@ function _editarMatricula() {
   return _editarMatricula.apply(this, arguments);
 }
 
-function eliminarMatricula(_x3) {
+function editarAulas(_x3, _x4) {
+  return _editarAulas.apply(this, arguments);
+}
+
+function _editarAulas() {
+  _editarAulas = _asyncToGenerator(function* (keyEstudiante, modelo) {
+    try {
+      var estudiante = {
+        _id: modelo._id,
+        fullname: modelo.fullname,
+        cedula: modelo.cedula,
+        foto: modelo.foto,
+        telefono: modelo.telefono
+      };
+      yield _Aulasvirtuales.default.updateMany({}, {
+        $set: {
+          "estudiantes.$[perf].estudiante": estudiante
+        }
+      }, {
+        arrayFilters: [{
+          "perf.fkestudiante": {
+            $eq: keyEstudiante
+          }
+        }],
+        new: true
+      });
+    } catch (error) {}
+  });
+  return _editarAulas.apply(this, arguments);
+}
+
+function eliminarMatricula(_x5) {
   return _eliminarMatricula.apply(this, arguments);
 }
 
@@ -87,7 +120,7 @@ var getEstudiantes = /*#__PURE__*/function () {
     }
   });
 
-  return function getEstudiantes(_x4, _x5) {
+  return function getEstudiantes(_x6, _x7) {
     return _ref.apply(this, arguments);
   };
 }(); //--------------------------------LISTA PARA FILTROS [MATRICULAS, ]  --------------------
@@ -108,7 +141,7 @@ var getListasEstudiantes = /*#__PURE__*/function () {
     }
   });
 
-  return function getListasEstudiantes(_x6, _x7) {
+  return function getListasEstudiantes(_x8, _x9) {
     return _ref2.apply(this, arguments);
   };
 }(); //--------------------------------LISTA PARA FILTROS [AULAS, ]  --------------------
@@ -131,7 +164,7 @@ var getListEstudAulas = /*#__PURE__*/function () {
     }
   });
 
-  return function getListEstudAulas(_x8, _x9) {
+  return function getListEstudAulas(_x10, _x11) {
     return _ref3.apply(this, arguments);
   };
 }(); //--------------------------------OPTENEMOS UN USUARIO POR ID--------------------
@@ -152,7 +185,7 @@ var getEstudianteById = /*#__PURE__*/function () {
     }
   });
 
-  return function getEstudianteById(_x10, _x11) {
+  return function getEstudianteById(_x12, _x13) {
     return _ref4.apply(this, arguments);
   };
 }(); //--------------------------------EDITAR USUARIO POR EL ID--------------------
@@ -173,7 +206,7 @@ var updateEstudianteById = /*#__PURE__*/function () {
     }
   });
 
-  return function updateEstudianteById(_x12, _x13) {
+  return function updateEstudianteById(_x14, _x15) {
     return _ref5.apply(this, arguments);
   };
 }(); //--------------------------------EDITAR USUARIO PARA REPRESENTANTE-------------------
@@ -187,13 +220,14 @@ var updateRepresentante = /*#__PURE__*/function () {
       var updatedUsuarios = yield _Estudiante.default.findByIdAndUpdate(req.params.usuariosId, req.body, {
         new: true
       });
+      editarAulas(req.params.usuariosId, req.body);
       res.status(200).json(updatedUsuarios);
     } catch (error) {
       return res.status(500).json(error);
     }
   });
 
-  return function updateRepresentante(_x14, _x15) {
+  return function updateRepresentante(_x16, _x17) {
     return _ref6.apply(this, arguments);
   };
 }(); //--------------------------------ELIMINAR USUARIOS POR EL ID--------------------
@@ -218,7 +252,7 @@ var deleteEstudianteById = /*#__PURE__*/function () {
     }
   });
 
-  return function deleteEstudianteById(_x16, _x17) {
+  return function deleteEstudianteById(_x18, _x19) {
     return _ref7.apply(this, arguments);
   };
 }(); //--------------------------------CREAR ESTUDIANTE--------------------
@@ -263,7 +297,7 @@ var createEstudiante = /*#__PURE__*/function () {
     }
   });
 
-  return function createEstudiante(_x18, _x19) {
+  return function createEstudiante(_x20, _x21) {
     return _ref8.apply(this, arguments);
   };
 }(); //--------------------------------CREAR ESTUDIANTE MASIVOS--------------------
@@ -312,7 +346,7 @@ var createEstudianteMany = /*#__PURE__*/function () {
     }
   });
 
-  return function createEstudianteMany(_x20, _x21) {
+  return function createEstudianteMany(_x22, _x23) {
     return _ref9.apply(this, arguments);
   };
 }(); //--------------------------------ACTUALIZAR INFORMEACIONS ESTUDIANTE MASIVOS--------------------
@@ -351,7 +385,7 @@ var updateEstudianteMany = /*#__PURE__*/function () {
     }
   });
 
-  return function updateEstudianteMany(_x22, _x23) {
+  return function updateEstudianteMany(_x24, _x25) {
     return _ref10.apply(this, arguments);
   };
 }();
@@ -375,7 +409,7 @@ var activate = /*#__PURE__*/function () {
     }
   });
 
-  return function activate(_x24, _x25, _x26) {
+  return function activate(_x26, _x27, _x28) {
     return _ref11.apply(this, arguments);
   };
 }();
@@ -400,7 +434,7 @@ var query = /*#__PURE__*/function () {
     }
   });
 
-  return function query(_x27, _x28) {
+  return function query(_x29, _x30) {
     return _ref12.apply(this, arguments);
   };
 }();

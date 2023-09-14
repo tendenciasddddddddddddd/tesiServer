@@ -1,6 +1,7 @@
 import User from "../../models/registros/Estudiante";
 import Role from "../../models/Role";
 import Matriculas from "../../models/Matriculas";
+import Aulasvirtuales from "../../models/Aulasvirtuales";
 
 async function editarMatricula(keyEstudiante, modelo) {
   try {
@@ -10,6 +11,25 @@ async function editarMatricula(keyEstudiante, modelo) {
       cedula: modelo.cedula,
     }
     await Matriculas.updateMany({}, { $set: { "matriculas.$[perf].estudiante" :estudiante } },
+    {
+      arrayFilters: [{
+        "perf.fkestudiante": {$eq : keyEstudiante}}],
+      new: true,
+    });
+  } catch (error) {
+    
+  }
+}
+async function editarAulas(keyEstudiante, modelo) {
+  try {
+    const estudiante = {
+      _id: modelo._id,
+      fullname: modelo.fullname,
+      cedula: modelo.cedula,
+      foto : modelo.foto,
+      telefono : modelo.telefono
+    }
+    await Aulasvirtuales.updateMany({}, { $set: { "estudiantes.$[perf].estudiante" :estudiante } },
     {
       arrayFilters: [{
         "perf.fkestudiante": {$eq : keyEstudiante}}],
@@ -102,6 +122,7 @@ export const updateRepresentante = async (req, res) => {
         new: true,
       }
     );
+    editarAulas(req.params.usuariosId, req.body)
     res.status(200).json(updatedUsuarios);
   } catch (error) {
     return res.status(500).json(error);

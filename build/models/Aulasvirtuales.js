@@ -205,7 +205,8 @@ var AulasSchema = new _mongoose.Schema({
     answers: [{
       fkestudiante: String,
       responses: [{}],
-      puntage: String
+      puntage: String,
+      nota: String
     }],
     archivo: [{
       link: String,
