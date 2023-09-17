@@ -840,6 +840,7 @@ export const promedioReportes = () => {
         }
     }
     function formatParcial(rowM, rowD, estudiantes, quim, paralelo) {
+        console.log(quim)
         try {
             const matriculas = rowM?.matriculas
             const distributivo = rowD?.carga
@@ -863,30 +864,43 @@ export const promedioReportes = () => {
                         for (let k = 0; k < computo.length; k++) {
                             const reg = computo[k];
                             if (subarray.fkmaterias == reg.fkmateria) {
-                                if (quim.quimestre == 'PRIMER QUIMESTRE') {
-                                    if (quim.q1 == 'PRIMER PARCIAL') {
+                                if (quim.quimestre == 'PRIMER TRIMESTRE') {
+                                    if (quim.qr == 'INSUMO INDIVIDUAL') {
                                         if (subarray.materia?.computo==2)  nota = reg.notas?.ppa
                                        else nota = reg.cualitativo?.p1
                                     }
-                                    if (quim.q1 == 'SEGUNDO PARCIAL') {
+                                    if (quim.qr == 'INSUMO GRUPAL') {
                                         if (subarray.materia?.computo==2)  nota = reg.notas?.ppb
                                        else nota = reg.cualitativo?.p2
                                     }
-                                    if (quim.q1 == 'EXAMEN') {
+                                    if (quim.qr == 'PROYECTO / EXAMEN') {
                                         nota = reg.notas?.exa1
                                     }
                                 }
-                                if (quim.quimestre == 'SEGUNDO QUIMESTRE') {
-                                    if (quim.q1 == 'PRIMER PARCIAL') {
+                                if (quim.quimestre == 'SEGUNDO TRIMESTRE') {
+                                    if (quim.qr == 'INSUMO INDIVIDUAL') {
                                         if (subarray.materia?.computo==2)  nota = reg.notas?.ppc
                                         else nota = reg.cualitativo?.p3
                                     }
-                                    if (quim.q1 == 'SEGUNDO PARCIAL') {
+                                    if (quim.qr == 'INSUMO GRUPAL') {
                                         if (subarray.materia?.computo==2)  nota = reg.notas?.ppd
                                         else nota = reg.cualitativo?.p4
                                     }
-                                    if (quim.q1 == 'EXAMEN') {
+                                    if (quim.qr == 'PROYECTO / EXAMEN') {
                                         nota = reg.notas?.exa2
+                                    }
+                                }
+                                if (quim.quimestre == 'TERCER TRIMESTRE') {
+                                    if (quim.qr == 'INSUMO INDIVIDUAL') {
+                                        if (subarray.materia?.computo==2)  nota = reg.notas?.ppe
+                                        else nota = reg.cualitativo?.p5
+                                    }
+                                    if (quim.qr == 'INSUMO GRUPAL') {
+                                        if (subarray.materia?.computo==2)  nota = reg.notas?.ppf
+                                        else nota = reg.cualitativo?.p6
+                                    }
+                                    if (quim.qr == 'PROYECTO / EXAMEN') {
+                                        nota = reg.notas?.exa3
                                     }
                                 }
                             }
@@ -935,11 +949,14 @@ export const promedioReportes = () => {
                         for (let k = 0; k < computo.length; k++) {
                             const reg = computo[k];
                             if (subarray.fkmaterias == reg.fkmateria) {
-                                if (quim.quimestre == 'PRIMER QUIMESTRE') {
+                                if (quim.quimestre == 'PRIMER TRIMESTRE') {
                                     nota = reg.notas?.proAB
                                 }
-                                if (quim.quimestre == 'SEGUNDO QUIMESTRE') {
+                                if (quim.quimestre == 'SEGUNDO TRIMESTRE') {
                                     nota = reg.notas?.proCD
+                                }
+                                if (quim.quimestre == 'TERCER TRIMESTRE') {
+                                    nota = reg.notas?.proEF
                                 }
                             }
                         }

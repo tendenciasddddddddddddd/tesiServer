@@ -49,6 +49,7 @@ export default {
       const newData = new Cursos({
         nombre, num, subnivel
       });
+      client.del('3000cursos');
       const dataSaved = await newData.save();
       res.status(201).json(dataSaved);
     } catch (error) {
@@ -82,7 +83,7 @@ export default {
     try {
       const reply = await client.get("3000cursos");
       if (reply) return res.json(JSON.parse(reply));
-      const result = await Cursos.find().lean().select({ nombre: 1, num: 1 });
+      const result = await Cursos.find().lean().select({ nombre: 1, num: 1,subnivel:1 });
       await client.set('3000cursos', JSON.stringify(result), { EX: 36000});
       return res.json(result);
     } catch (error) {

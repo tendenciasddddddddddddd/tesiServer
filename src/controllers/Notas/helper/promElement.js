@@ -60,8 +60,43 @@ export const promElement = () => {
         var sumatoria = array.reduce(function (acumulador, siguienteValor) {
             return acumulador + parseInt(siguienteValor);
         }, 0);
-        let par = (sumatoria / array.length).toFixed(0);
-        promedio = parseInt(par)
+        let par = (sumatoria / array.length)
+        promedio = Math.round(par)
+        if (promedio == 0) return '';
+        if (isNaN(promedio) || promedio == '') promedio = ''
+        let salida = numbToletters(promedio)
+        return salida;
+    }
+    const calcPromInsFin = (n1, n2, n3) => {
+        const array = []
+        let promedio = 0;
+        if (n1 != '' && n1) array.push(n1)
+        if (n2 != '' && n2) array.push(n2)
+        if (n3 != '' && n3) array.push(n3)
+        else return ''
+        var sumatoria = array.reduce(function (acumulador, siguienteValor) {
+            return acumulador + parseInt(siguienteValor);
+        }, 0);
+        let par = (sumatoria / array.length);
+        promedio = Math.round(par)
+        if (promedio == 0) return '';
+        if (isNaN(promedio) || promedio == '') promedio = ''
+        let salida = numbToletters(promedio)
+        return salida;
+    }
+    const calcPromInsFinCuartos = (n1, n2, n3,n4) => {
+        const array = []
+        let promedio = 0;
+        if (n1 != '' && n1) array.push(n1)
+        if (n2 != '' && n2) array.push(n2)
+        if (n3 != '' && n3) array.push(n3)
+        if (n4 != '' && n4) array.push(n4)
+        else return ''
+        var sumatoria = array.reduce(function (acumulador, siguienteValor) {
+            return acumulador + parseInt(siguienteValor);
+        }, 0);
+        let par = (sumatoria / array.length);
+        promedio = Math.round(par)
         if (promedio == 0) return '';
         if (isNaN(promedio) || promedio == '') promedio = ''
         let salida = numbToletters(promedio)
@@ -83,5 +118,5 @@ export const promElement = () => {
         return letra
     }
   
-    return { convertirNum,calcularPromedioInsumos }
+    return { convertirNum,calcularPromedioInsumos, calcPromInsFin , calcPromInsFinCuartos }
   };

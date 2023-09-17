@@ -141,8 +141,18 @@ export const getDocentes = async (req, res) => {
 //--------------------------------LISTA PARA FILTROS [DISTRIBUTIVO, ]  --------------------
 export const getListasDocentes = async (req, res) => {
   try {
-    const products = await User.find({ typo: { $in: ["DOCS"] } }).lean().select({ fullname: 1, cedula: 1 });
-    return res.json(products);
+    const arg = await User.find({ typo: { $in: ["DOCS"] } }).lean().select({ fullname: 1, cedula: 1 });
+    if(arg) {
+      arg.sort(function (a, b) {
+        var nameA = a.fullname.toLowerCase(), nameB = b.fullname.toLowerCase();
+        if (nameA < nameB)
+          return -1;
+        if (nameA > nameB)
+          return 1;
+        return 0;
+      });
+    }
+    return res.json(arg);
   } catch (error) {
     return res.status(500).json(err);
   }

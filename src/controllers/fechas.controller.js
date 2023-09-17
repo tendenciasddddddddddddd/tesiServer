@@ -6,7 +6,7 @@ export default {
     try {
       const reply = await client.get("3000fechas");
       if (reply) return res.json(JSON.parse(reply));
-      const result = await AperturaNotas.find().lean();
+      const result = await AperturaNotas.findOne()
       await client.set('3000fechas', JSON.stringify(result), { EX: 36000});
       return res.json(result);
     } catch (error) {
