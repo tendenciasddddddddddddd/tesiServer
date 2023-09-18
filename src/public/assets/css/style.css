@@ -87,9 +87,7 @@ a:focus {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  background-image: url(../images/fondoos.jpg);
-  background-size: cover;
-  background-position: center;
+          background: linear-gradient(135deg, #2fc7f7 0%, #409eef 100%);
 }
 
 .sub_page .hero_area {
@@ -101,7 +99,8 @@ a:focus {
 }
 
 .header_section {
-  background-color: #1c1c1c;
+  background-color: #fff;
+  box-shadow: 0 2px 3px 0 rgba(0,0,0,0.09);
   /* margin-top: 15px; */
 }
 
@@ -117,7 +116,9 @@ a:focus {
 .custom_nav-container .navbar-nav .nav-item .nav-link {
   padding: 3px 15px;
   margin: 10px 15px;
-  color: #ffffff;
+  color: #262626;
+  font-size: .8125rem;
+  font-weight: 600;
   text-align: center;
   text-transform: uppercase;
 }
@@ -140,8 +141,8 @@ a:focus {
 
 .navbar-brand span {
   font-size: 24px;
-  font-weight: 700;
-  color: #ffffff;
+  font-weight: 600;
+  color: #090909;
 }
 
 .custom_nav-container {
@@ -242,7 +243,13 @@ a:focus {
 }
 
 .quote_btn-container a {
-  color: #ffffff;
+  background-color: #bdf300;
+  font-weight: 700;
+  font-size: .85rem;
+  white-space: nowrap;
+  padding: 0.5rem 1.25rem;
+  border-radius: 30px;
+  color: #000;
   margin-right: 25px;
   text-transform: uppercase;
 }
@@ -276,29 +283,28 @@ a:focus {
 }
 
 .slider_section .detail_box {
-  color: #000;
-  background: white;
+  color: #ffffff;
   border-radius: 15px;
   padding: 10px;
 }
 
 .slider_section .detail_box h1 {
   font-size: 3rem;
-  font-weight: bold;
+  font-weight: 400;
   margin-bottom: 25px;
 }
 
 .slider_section .detail_box a {
   display: inline-block;
   padding: 12px 45px;
-  background-color: #d93c9d;
-  color: #ffffff;
+  background-color: #bdf300;
+  color: #262626;
   border-radius: 30px;
   margin-top: 15px;
 }
 
 .slider_section .detail_box a:hover {
-  background-color: #bd2583;
+  background-color: #bdf300;
 }
 
 .slider_section .carousel-indicators {
@@ -350,14 +356,14 @@ a:focus {
 .about_section .detail-box a {
   display: inline-block;
   padding: 12px 45px;
-  background-color: #d93c9d;
-  color: #ffffff;
+  background-color: #bdf300;
+  color: #262626;
   border-radius: 30px;
   margin-top: 15px;
 }
 
 .about_section .detail-box a:hover {
-  background-color: #bd2583;
+  background-color: #bdf300;
 }
 
 .course_section .box {
@@ -400,14 +406,14 @@ a:focus {
 .course_section .box .detail-box a {
   display: inline-block;
   padding: 12px 45px;
-  background-color: #d93c9d;
-  color: #ffffff;
+  background-color: #bdf300;
+  color: #262626;
   border-radius: 30px;
   margin-top: 15px;
 }
 
 .course_section .box .detail-box a:hover {
-  background-color: #bd2583;
+  background-color: #bdf300;
 }
 
 .course_section .carousel-control-prev,
