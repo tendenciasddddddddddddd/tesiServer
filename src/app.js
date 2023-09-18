@@ -93,7 +93,9 @@ app.use(compression())
 
 app.use('/uploads', express.static(path.join(__dirname, '..', 'videos')))
 
-app.use(express.static(path.join(__dirname, "public")));
+app.use('/assets', express.static(path.join(__dirname, '/public/assets')))
+
+//app.use(express.static(path.join(__dirname, "public")));
 app.use('/', publico);
 
 app.use("/api/auth", authRoutes);

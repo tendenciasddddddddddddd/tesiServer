@@ -126,7 +126,8 @@ app.set('views', path.join(__dirname, 'public/views'));
 app.set('view engine', 'ejs');
 app.use((0, _compression.default)());
 app.use('/uploads', _express.default.static(path.join(__dirname, '..', 'videos')));
-app.use(_express.default.static(path.join(__dirname, "public")));
+app.use('/assets', _express.default.static(path.join(__dirname, '/public/assets'))); //app.use(express.static(path.join(__dirname, "public")));
+
 app.use('/', _index.default);
 app.use("/api/auth", _auth.default);
 app.use("/api/upload", _upload.default);
