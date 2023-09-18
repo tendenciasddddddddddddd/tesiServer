@@ -1,5 +1,3 @@
-"use strict";
-
 /**
 * Template Name: Impact
 * Updated: Mar 10 2023 with Bootstrap v5.2.3
@@ -9,76 +7,74 @@
 */
 document.addEventListener('DOMContentLoaded', () => {
   "use strict";
+
   /**
    * Preloader
    */
-
-  var preloader = document.querySelector('#preloader');
-
+  const preloader = document.querySelector('#preloader');
   if (preloader) {
     window.addEventListener('load', () => {
       preloader.remove();
     });
   }
+
   /**
    * Sticky Header on Scroll
    */
-
-
-  var selectHeader = document.querySelector('#header');
-
+  const selectHeader = document.querySelector('#header');
   if (selectHeader) {
-    var headerOffset = selectHeader.offsetTop;
-    var nextElement = selectHeader.nextElementSibling;
+    let headerOffset = selectHeader.offsetTop;
+    let nextElement = selectHeader.nextElementSibling;
 
-    var headerFixed = () => {
-      if (headerOffset - window.scrollY <= 0) {
+    const headerFixed = () => {
+      if ((headerOffset - window.scrollY) <= 0) {
         selectHeader.classList.add('sticked');
         if (nextElement) nextElement.classList.add('sticked-header-offset');
       } else {
         selectHeader.classList.remove('sticked');
         if (nextElement) nextElement.classList.remove('sticked-header-offset');
       }
-    };
-
+    }
     window.addEventListener('load', headerFixed);
     document.addEventListener('scroll', headerFixed);
   }
+
   /**
    * Navbar links active state on scroll
    */
-
-
-  var navbarlinks = document.querySelectorAll('#navbar a');
+  let navbarlinks = document.querySelectorAll('#navbar a');
 
   function navbarlinksActive() {
     navbarlinks.forEach(navbarlink => {
-      if (!navbarlink.hash) return;
-      var section = document.querySelector(navbarlink.hash);
-      if (!section) return;
-      var position = window.scrollY + 200;
 
-      if (position >= section.offsetTop && position <= section.offsetTop + section.offsetHeight) {
+      if (!navbarlink.hash) return;
+
+      let section = document.querySelector(navbarlink.hash);
+      if (!section) return;
+
+      let position = window.scrollY + 200;
+
+      if (position >= section.offsetTop && position <= (section.offsetTop + section.offsetHeight)) {
         navbarlink.classList.add('active');
       } else {
         navbarlink.classList.remove('active');
       }
-    });
+    })
   }
-
   window.addEventListener('load', navbarlinksActive);
   document.addEventListener('scroll', navbarlinksActive);
+
   /**
    * Mobile nav toggle
    */
+  const mobileNavShow = document.querySelector('.mobile-nav-show');
+  const mobileNavHide = document.querySelector('.mobile-nav-hide');
 
-  var mobileNavShow = document.querySelector('.mobile-nav-show');
-  var mobileNavHide = document.querySelector('.mobile-nav-hide');
   document.querySelectorAll('.mobile-nav-toggle').forEach(el => {
-    el.addEventListener('click', function (event) {
+    el.addEventListener('click', function(event) {
       event.preventDefault();
       mobileNavToogle();
-    });
+    })
   });
 
   function mobileNavToogle() {
@@ -86,56 +82,59 @@ document.addEventListener('DOMContentLoaded', () => {
     mobileNavShow.classList.toggle('d-none');
     mobileNavHide.classList.toggle('d-none');
   }
+
   /**
    * Hide mobile nav on same-page/hash links
    */
-
-
   document.querySelectorAll('#navbar a').forEach(navbarlink => {
+
     if (!navbarlink.hash) return;
-    var section = document.querySelector(navbarlink.hash);
+
+    let section = document.querySelector(navbarlink.hash);
     if (!section) return;
+
     navbarlink.addEventListener('click', () => {
       if (document.querySelector('.mobile-nav-active')) {
         mobileNavToogle();
       }
     });
+
   });
+
   /**
    * Toggle mobile nav dropdowns
    */
+  const navDropdowns = document.querySelectorAll('.navbar .dropdown > a');
 
-  var navDropdowns = document.querySelectorAll('.navbar .dropdown > a');
   navDropdowns.forEach(el => {
-    el.addEventListener('click', function (event) {
+    el.addEventListener('click', function(event) {
       if (document.querySelector('.mobile-nav-active')) {
         event.preventDefault();
         this.classList.toggle('active');
         this.nextElementSibling.classList.toggle('dropdown-active');
-        var dropDownIndicator = this.querySelector('.dropdown-indicator');
+
+        let dropDownIndicator = this.querySelector('.dropdown-indicator');
         dropDownIndicator.classList.toggle('bi-chevron-up');
         dropDownIndicator.classList.toggle('bi-chevron-down');
       }
-    });
+    })
   });
+
   /**
    * Initiate glightbox
    */
-
-  var glightbox = GLightbox({
+  const glightbox = GLightbox({
     selector: '.glightbox'
   });
+
   /**
    * Scroll top button
    */
-
-  var scrollTop = document.querySelector('.scroll-top');
-
+  const scrollTop = document.querySelector('.scroll-top');
   if (scrollTop) {
-    var togglescrollTop = function togglescrollTop() {
+    const togglescrollTop = function() {
       window.scrollY > 100 ? scrollTop.classList.add('active') : scrollTop.classList.remove('active');
-    };
-
+    }
     window.addEventListener('load', togglescrollTop);
     document.addEventListener('scroll', togglescrollTop);
     scrollTop.addEventListener('click', window.scrollTo({
@@ -143,16 +142,15 @@ document.addEventListener('DOMContentLoaded', () => {
       behavior: 'smooth'
     }));
   }
+
   /**
    * Initiate Pure Counter
    */
-
-
   new PureCounter();
+
   /**
    * Clients Slider
    */
-
   new Swiper('.clients-slider', {
     speed: 400,
     loop: true,
@@ -185,10 +183,10 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
   });
+
   /**
    * Init swiper slider with 1 slide at once in desktop view
    */
-
   new Swiper('.slides-1', {
     speed: 600,
     loop: true,
@@ -204,13 +202,13 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     navigation: {
       nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev'
+      prevEl: '.swiper-button-prev',
     }
   });
+
   /**
    * Init swiper slider with 3 slides at once in desktop view
    */
-
   new Swiper('.slides-3', {
     speed: 600,
     loop: true,
@@ -226,56 +224,60 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     navigation: {
       nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev'
+      prevEl: '.swiper-button-prev',
     },
     breakpoints: {
       320: {
         slidesPerView: 1,
         spaceBetween: 40
       },
+
       1200: {
-        slidesPerView: 3
+        slidesPerView: 3,
       }
     }
   });
+
   /**
    * Porfolio isotope and filter
    */
-
-  var portfolionIsotope = document.querySelector('.portfolio-isotope');
+  let portfolionIsotope = document.querySelector('.portfolio-isotope');
 
   if (portfolionIsotope) {
-    var portfolioFilter = portfolionIsotope.getAttribute('data-portfolio-filter') ? portfolionIsotope.getAttribute('data-portfolio-filter') : '*';
-    var portfolioLayout = portfolionIsotope.getAttribute('data-portfolio-layout') ? portfolionIsotope.getAttribute('data-portfolio-layout') : 'masonry';
-    var portfolioSort = portfolionIsotope.getAttribute('data-portfolio-sort') ? portfolionIsotope.getAttribute('data-portfolio-sort') : 'original-order';
+
+    let portfolioFilter = portfolionIsotope.getAttribute('data-portfolio-filter') ? portfolionIsotope.getAttribute('data-portfolio-filter') : '*';
+    let portfolioLayout = portfolionIsotope.getAttribute('data-portfolio-layout') ? portfolionIsotope.getAttribute('data-portfolio-layout') : 'masonry';
+    let portfolioSort = portfolionIsotope.getAttribute('data-portfolio-sort') ? portfolionIsotope.getAttribute('data-portfolio-sort') : 'original-order';
+
     window.addEventListener('load', () => {
-      var portfolioIsotope = new Isotope(document.querySelector('.portfolio-container'), {
+      let portfolioIsotope = new Isotope(document.querySelector('.portfolio-container'), {
         itemSelector: '.portfolio-item',
         layoutMode: portfolioLayout,
         filter: portfolioFilter,
         sortBy: portfolioSort
       });
-      var menuFilters = document.querySelectorAll('.portfolio-isotope .portfolio-flters li');
-      menuFilters.forEach(function (el) {
-        el.addEventListener('click', function () {
+
+      let menuFilters = document.querySelectorAll('.portfolio-isotope .portfolio-flters li');
+      menuFilters.forEach(function(el) {
+        el.addEventListener('click', function() {
           document.querySelector('.portfolio-isotope .portfolio-flters .filter-active').classList.remove('filter-active');
           this.classList.add('filter-active');
           portfolioIsotope.arrange({
             filter: this.getAttribute('data-filter')
           });
-
           if (typeof aos_init === 'function') {
             aos_init();
           }
         }, false);
       });
+
     });
+
   }
+
   /**
    * Animation on scroll function and init
    */
-
-
   function aos_init() {
     AOS.init({
       duration: 1000,
@@ -284,8 +286,8 @@ document.addEventListener('DOMContentLoaded', () => {
       mirror: false
     });
   }
-
   window.addEventListener('load', () => {
     aos_init();
   });
+
 });

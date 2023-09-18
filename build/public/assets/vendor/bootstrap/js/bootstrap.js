@@ -1,65 +1,47 @@
-"use strict";
-
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 /*!
   * Bootstrap v5.2.3 (https://getbootstrap.com/)
   * Copyright 2011-2022 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
   */
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('@popperjs/core')) : typeof define === 'function' && define.amd ? define(['@popperjs/core'], factory) : (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.bootstrap = factory(global.Popper));
-})(void 0, function (Popper) {
-  'use strict';
+  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('@popperjs/core')) :
+  typeof define === 'function' && define.amd ? define(['@popperjs/core'], factory) :
+  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.bootstrap = factory(global.Popper));
+})(this, (function (Popper) { 'use strict';
 
   function _interopNamespace(e) {
     if (e && e.__esModule) return e;
-    var n = Object.create(null, {
-      [Symbol.toStringTag]: {
-        value: 'Module'
-      }
-    });
-
+    const n = Object.create(null, { [Symbol.toStringTag]: { value: 'Module' } });
     if (e) {
-      var _loop = function _loop(k) {
+      for (const k in e) {
         if (k !== 'default') {
-          var d = Object.getOwnPropertyDescriptor(e, k);
+          const d = Object.getOwnPropertyDescriptor(e, k);
           Object.defineProperty(n, k, d.get ? d : {
             enumerable: true,
             get: () => e[k]
           });
         }
-      };
-
-      for (var k in e) {
-        _loop(k);
       }
     }
-
     n.default = e;
     return Object.freeze(n);
   }
 
-  var Popper__namespace = /*#__PURE__*/_interopNamespace(Popper);
+  const Popper__namespace = /*#__PURE__*/_interopNamespace(Popper);
+
   /**
    * --------------------------------------------------------------------------
    * Bootstrap (v5.2.3): util/index.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
+  const MAX_UID = 1000000;
+  const MILLISECONDS_MULTIPLIER = 1000;
+  const TRANSITION_END = 'transitionend'; // Shout-out Angus Croll (https://goo.gl/pxwQGp)
 
-
-  var MAX_UID = 1000000;
-  var MILLISECONDS_MULTIPLIER = 1000;
-  var TRANSITION_END = 'transitionend'; // Shout-out Angus Croll (https://goo.gl/pxwQGp)
-
-  var toType = object => {
+  const toType = object => {
     if (object === null || object === undefined) {
-      return "".concat(object);
+      return `${object}`;
     }
 
     return Object.prototype.toString.call(object).match(/\s([a-z]+)/i)[1].toLowerCase();
@@ -69,7 +51,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
    */
 
 
-  var getUID = prefix => {
+  const getUID = prefix => {
     do {
       prefix += Math.floor(Math.random() * MAX_UID);
     } while (document.getElementById(prefix));
@@ -77,11 +59,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return prefix;
   };
 
-  var getSelector = element => {
-    var selector = element.getAttribute('data-bs-target');
+  const getSelector = element => {
+    let selector = element.getAttribute('data-bs-target');
 
     if (!selector || selector === '#') {
-      var hrefAttribute = element.getAttribute('href'); // The only valid content that could double as a selector are IDs or classes,
+      let hrefAttribute = element.getAttribute('href'); // The only valid content that could double as a selector are IDs or classes,
       // so everything starting with `#` or `.`. If a "real" URL is used as the selector,
       // `document.querySelector` will rightfully complain it is invalid.
       // See https://github.com/twbs/bootstrap/issues/32273
@@ -92,7 +74,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
       if (hrefAttribute.includes('#') && !hrefAttribute.startsWith('#')) {
-        hrefAttribute = "#".concat(hrefAttribute.split('#')[1]);
+        hrefAttribute = `#${hrefAttribute.split('#')[1]}`;
       }
 
       selector = hrefAttribute && hrefAttribute !== '#' ? hrefAttribute.trim() : null;
@@ -101,8 +83,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return selector;
   };
 
-  var getSelectorFromElement = element => {
-    var selector = getSelector(element);
+  const getSelectorFromElement = element => {
+    const selector = getSelector(element);
 
     if (selector) {
       return document.querySelector(selector) ? selector : null;
@@ -111,23 +93,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return null;
   };
 
-  var getElementFromSelector = element => {
-    var selector = getSelector(element);
+  const getElementFromSelector = element => {
+    const selector = getSelector(element);
     return selector ? document.querySelector(selector) : null;
   };
 
-  var getTransitionDurationFromElement = element => {
+  const getTransitionDurationFromElement = element => {
     if (!element) {
       return 0;
     } // Get transition-duration of the element
 
 
-    var {
+    let {
       transitionDuration,
       transitionDelay
     } = window.getComputedStyle(element);
-    var floatTransitionDuration = Number.parseFloat(transitionDuration);
-    var floatTransitionDelay = Number.parseFloat(transitionDelay); // Return 0 if element or transition duration is not found
+    const floatTransitionDuration = Number.parseFloat(transitionDuration);
+    const floatTransitionDelay = Number.parseFloat(transitionDelay); // Return 0 if element or transition duration is not found
 
     if (!floatTransitionDuration && !floatTransitionDelay) {
       return 0;
@@ -139,11 +121,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return (Number.parseFloat(transitionDuration) + Number.parseFloat(transitionDelay)) * MILLISECONDS_MULTIPLIER;
   };
 
-  var triggerTransitionEnd = element => {
+  const triggerTransitionEnd = element => {
     element.dispatchEvent(new Event(TRANSITION_END));
   };
 
-  var isElement = object => {
+  const isElement = object => {
     if (!object || typeof object !== 'object') {
       return false;
     }
@@ -155,7 +137,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return typeof object.nodeType !== 'undefined';
   };
 
-  var getElement = object => {
+  const getElement = object => {
     // it's a jQuery object or a node element
     if (isElement(object)) {
       return object.jquery ? object[0] : object;
@@ -168,21 +150,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return null;
   };
 
-  var isVisible = element => {
+  const isVisible = element => {
     if (!isElement(element) || element.getClientRects().length === 0) {
       return false;
     }
 
-    var elementIsVisible = getComputedStyle(element).getPropertyValue('visibility') === 'visible'; // Handle `details` element as its content may falsie appear visible when it is closed
+    const elementIsVisible = getComputedStyle(element).getPropertyValue('visibility') === 'visible'; // Handle `details` element as its content may falsie appear visible when it is closed
 
-    var closedDetails = element.closest('details:not([open])');
+    const closedDetails = element.closest('details:not([open])');
 
     if (!closedDetails) {
       return elementIsVisible;
     }
 
     if (closedDetails !== element) {
-      var summary = element.closest('summary');
+      const summary = element.closest('summary');
 
       if (summary && summary.parentNode !== closedDetails) {
         return false;
@@ -196,7 +178,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return elementIsVisible;
   };
 
-  var isDisabled = element => {
+  const isDisabled = element => {
     if (!element || element.nodeType !== Node.ELEMENT_NODE) {
       return true;
     }
@@ -212,14 +194,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return element.hasAttribute('disabled') && element.getAttribute('disabled') !== 'false';
   };
 
-  var findShadowRoot = element => {
+  const findShadowRoot = element => {
     if (!document.documentElement.attachShadow) {
       return null;
     } // Can find the shadow root otherwise it'll return the document
 
 
     if (typeof element.getRootNode === 'function') {
-      var root = element.getRootNode();
+      const root = element.getRootNode();
       return root instanceof ShadowRoot ? root : null;
     }
 
@@ -235,7 +217,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return findShadowRoot(element.parentNode);
   };
 
-  var noop = () => {};
+  const noop = () => {};
   /**
    * Trick to restart an element's animation
    *
@@ -246,11 +228,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
    */
 
 
-  var reflow = element => {
+  const reflow = element => {
     element.offsetHeight; // eslint-disable-line no-unused-expressions
   };
 
-  var getjQuery = () => {
+  const getjQuery = () => {
     if (window.jQuery && !document.body.hasAttribute('data-bs-no-jquery')) {
       return window.jQuery;
     }
@@ -258,15 +240,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return null;
   };
 
-  var DOMContentLoadedCallbacks = [];
+  const DOMContentLoadedCallbacks = [];
 
-  var onDOMContentLoaded = callback => {
+  const onDOMContentLoaded = callback => {
     if (document.readyState === 'loading') {
       // add listener on the first call when the document is in loading state
       if (!DOMContentLoadedCallbacks.length) {
         document.addEventListener('DOMContentLoaded', () => {
-          for (var _callback of DOMContentLoadedCallbacks) {
-            _callback();
+          for (const callback of DOMContentLoadedCallbacks) {
+            callback();
           }
         });
       }
@@ -277,16 +259,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   };
 
-  var isRTL = () => document.documentElement.dir === 'rtl';
+  const isRTL = () => document.documentElement.dir === 'rtl';
 
-  var defineJQueryPlugin = plugin => {
+  const defineJQueryPlugin = plugin => {
     onDOMContentLoaded(() => {
-      var $ = getjQuery();
+      const $ = getjQuery();
       /* istanbul ignore if */
 
       if ($) {
-        var name = plugin.NAME;
-        var JQUERY_NO_CONFLICT = $.fn[name];
+        const name = plugin.NAME;
+        const JQUERY_NO_CONFLICT = $.fn[name];
         $.fn[name] = plugin.jQueryInterface;
         $.fn[name].Constructor = plugin;
 
@@ -298,29 +280,25 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     });
   };
 
-  var execute = callback => {
+  const execute = callback => {
     if (typeof callback === 'function') {
       callback();
     }
   };
 
-  var executeAfterTransition = function executeAfterTransition(callback, transitionElement) {
-    var waitForTransition = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
-
+  const executeAfterTransition = (callback, transitionElement, waitForTransition = true) => {
     if (!waitForTransition) {
       execute(callback);
       return;
     }
 
-    var durationPadding = 5;
-    var emulatedDuration = getTransitionDurationFromElement(transitionElement) + durationPadding;
-    var called = false;
+    const durationPadding = 5;
+    const emulatedDuration = getTransitionDurationFromElement(transitionElement) + durationPadding;
+    let called = false;
 
-    var handler = _ref => {
-      var {
-        target
-      } = _ref;
-
+    const handler = ({
+      target
+    }) => {
       if (target !== transitionElement) {
         return;
       }
@@ -348,9 +326,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
    */
 
 
-  var getNextActiveElement = (list, activeElement, shouldGetNext, isCycleAllowed) => {
-    var listLength = list.length;
-    var index = list.indexOf(activeElement); // if the element does not exist in the list return an element
+  const getNextActiveElement = (list, activeElement, shouldGetNext, isCycleAllowed) => {
+    const listLength = list.length;
+    let index = list.indexOf(activeElement); // if the element does not exist in the list return an element
     // depending on the direction and if cycle is allowed
 
     if (index === -1) {
@@ -365,39 +343,38 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     return list[Math.max(0, Math.min(index, listLength - 1))];
   };
+
   /**
    * --------------------------------------------------------------------------
    * Bootstrap (v5.2.3): dom/event-handler.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
-
   /**
    * Constants
    */
 
+  const namespaceRegex = /[^.]*(?=\..*)\.|.*/;
+  const stripNameRegex = /\..*/;
+  const stripUidRegex = /::\d+$/;
+  const eventRegistry = {}; // Events storage
 
-  var namespaceRegex = /[^.]*(?=\..*)\.|.*/;
-  var stripNameRegex = /\..*/;
-  var stripUidRegex = /::\d+$/;
-  var eventRegistry = {}; // Events storage
-
-  var uidEvent = 1;
-  var customEvents = {
+  let uidEvent = 1;
+  const customEvents = {
     mouseenter: 'mouseover',
     mouseleave: 'mouseout'
   };
-  var nativeEvents = new Set(['click', 'dblclick', 'mouseup', 'mousedown', 'contextmenu', 'mousewheel', 'DOMMouseScroll', 'mouseover', 'mouseout', 'mousemove', 'selectstart', 'selectend', 'keydown', 'keypress', 'keyup', 'orientationchange', 'touchstart', 'touchmove', 'touchend', 'touchcancel', 'pointerdown', 'pointermove', 'pointerup', 'pointerleave', 'pointercancel', 'gesturestart', 'gesturechange', 'gestureend', 'focus', 'blur', 'change', 'reset', 'select', 'submit', 'focusin', 'focusout', 'load', 'unload', 'beforeunload', 'resize', 'move', 'DOMContentLoaded', 'readystatechange', 'error', 'abort', 'scroll']);
+  const nativeEvents = new Set(['click', 'dblclick', 'mouseup', 'mousedown', 'contextmenu', 'mousewheel', 'DOMMouseScroll', 'mouseover', 'mouseout', 'mousemove', 'selectstart', 'selectend', 'keydown', 'keypress', 'keyup', 'orientationchange', 'touchstart', 'touchmove', 'touchend', 'touchcancel', 'pointerdown', 'pointermove', 'pointerup', 'pointerleave', 'pointercancel', 'gesturestart', 'gesturechange', 'gestureend', 'focus', 'blur', 'change', 'reset', 'select', 'submit', 'focusin', 'focusout', 'load', 'unload', 'beforeunload', 'resize', 'move', 'DOMContentLoaded', 'readystatechange', 'error', 'abort', 'scroll']);
   /**
    * Private methods
    */
 
   function makeEventUid(element, uid) {
-    return uid && "".concat(uid, "::").concat(uidEvent++) || element.uidEvent || uidEvent++;
+    return uid && `${uid}::${uidEvent++}` || element.uidEvent || uidEvent++;
   }
 
   function getElementEvents(element) {
-    var uid = makeEventUid(element);
+    const uid = makeEventUid(element);
     element.uidEvent = uid;
     eventRegistry[uid] = eventRegistry[uid] || {};
     return eventRegistry[uid];
@@ -419,12 +396,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
   function bootstrapDelegationHandler(element, selector, fn) {
     return function handler(event) {
-      var domElements = element.querySelectorAll(selector);
+      const domElements = element.querySelectorAll(selector);
 
-      for (var {
+      for (let {
         target
       } = event; target && target !== this; target = target.parentNode) {
-        for (var domElement of domElements) {
+        for (const domElement of domElements) {
           if (domElement !== target) {
             continue;
           }
@@ -443,16 +420,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     };
   }
 
-  function findHandler(events, callable) {
-    var delegationSelector = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+  function findHandler(events, callable, delegationSelector = null) {
     return Object.values(events).find(event => event.callable === callable && event.delegationSelector === delegationSelector);
   }
 
   function normalizeParameters(originalTypeEvent, handler, delegationFunction) {
-    var isDelegated = typeof handler === 'string'; // todo: tooltip passes `false` instead of selector, so we need to check
+    const isDelegated = typeof handler === 'string'; // todo: tooltip passes `false` instead of selector, so we need to check
 
-    var callable = isDelegated ? delegationFunction : handler || delegationFunction;
-    var typeEvent = getTypeEvent(originalTypeEvent);
+    const callable = isDelegated ? delegationFunction : handler || delegationFunction;
+    let typeEvent = getTypeEvent(originalTypeEvent);
 
     if (!nativeEvents.has(typeEvent)) {
       typeEvent = originalTypeEvent;
@@ -466,11 +442,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return;
     }
 
-    var [isDelegated, callable, typeEvent] = normalizeParameters(originalTypeEvent, handler, delegationFunction); // in case of mouseenter or mouseleave wrap the handler within a function that checks for its DOM position
+    let [isDelegated, callable, typeEvent] = normalizeParameters(originalTypeEvent, handler, delegationFunction); // in case of mouseenter or mouseleave wrap the handler within a function that checks for its DOM position
     // this prevents the handler from being dispatched the same way as mouseover or mouseout does
 
     if (originalTypeEvent in customEvents) {
-      var wrapFunction = fn => {
+      const wrapFunction = fn => {
         return function (event) {
           if (!event.relatedTarget || event.relatedTarget !== event.delegateTarget && !event.delegateTarget.contains(event.relatedTarget)) {
             return fn.call(this, event);
@@ -481,17 +457,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       callable = wrapFunction(callable);
     }
 
-    var events = getElementEvents(element);
-    var handlers = events[typeEvent] || (events[typeEvent] = {});
-    var previousFunction = findHandler(handlers, callable, isDelegated ? handler : null);
+    const events = getElementEvents(element);
+    const handlers = events[typeEvent] || (events[typeEvent] = {});
+    const previousFunction = findHandler(handlers, callable, isDelegated ? handler : null);
 
     if (previousFunction) {
       previousFunction.oneOff = previousFunction.oneOff && oneOff;
       return;
     }
 
-    var uid = makeEventUid(callable, originalTypeEvent.replace(namespaceRegex, ''));
-    var fn = isDelegated ? bootstrapDelegationHandler(element, handler, callable) : bootstrapHandler(element, callable);
+    const uid = makeEventUid(callable, originalTypeEvent.replace(namespaceRegex, ''));
+    const fn = isDelegated ? bootstrapDelegationHandler(element, handler, callable) : bootstrapHandler(element, callable);
     fn.delegationSelector = isDelegated ? handler : null;
     fn.callable = callable;
     fn.oneOff = oneOff;
@@ -501,7 +477,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   }
 
   function removeHandler(element, events, typeEvent, handler, delegationSelector) {
-    var fn = findHandler(events[typeEvent], handler, delegationSelector);
+    const fn = findHandler(events[typeEvent], handler, delegationSelector);
 
     if (!fn) {
       return;
@@ -512,11 +488,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   }
 
   function removeNamespacedHandlers(element, events, typeEvent, namespace) {
-    var storeElementEvent = events[typeEvent] || {};
+    const storeElementEvent = events[typeEvent] || {};
 
-    for (var handlerKey of Object.keys(storeElementEvent)) {
+    for (const handlerKey of Object.keys(storeElementEvent)) {
       if (handlerKey.includes(namespace)) {
-        var event = storeElementEvent[handlerKey];
+        const event = storeElementEvent[handlerKey];
         removeHandler(element, events, typeEvent, event.callable, event.delegationSelector);
       }
     }
@@ -528,7 +504,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return customEvents[event] || event;
   }
 
-  var EventHandler = {
+  const EventHandler = {
     on(element, event, handler, delegationFunction) {
       addHandler(element, event, handler, delegationFunction, false);
     },
@@ -542,11 +518,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return;
       }
 
-      var [isDelegated, callable, typeEvent] = normalizeParameters(originalTypeEvent, handler, delegationFunction);
-      var inNamespace = typeEvent !== originalTypeEvent;
-      var events = getElementEvents(element);
-      var storeElementEvent = events[typeEvent] || {};
-      var isNamespace = originalTypeEvent.startsWith('.');
+      const [isDelegated, callable, typeEvent] = normalizeParameters(originalTypeEvent, handler, delegationFunction);
+      const inNamespace = typeEvent !== originalTypeEvent;
+      const events = getElementEvents(element);
+      const storeElementEvent = events[typeEvent] || {};
+      const isNamespace = originalTypeEvent.startsWith('.');
 
       if (typeof callable !== 'undefined') {
         // Simplest case: handler is passed, remove that listener ONLY.
@@ -559,16 +535,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
 
       if (isNamespace) {
-        for (var elementEvent of Object.keys(events)) {
+        for (const elementEvent of Object.keys(events)) {
           removeNamespacedHandlers(element, events, elementEvent, originalTypeEvent.slice(1));
         }
       }
 
-      for (var keyHandlers of Object.keys(storeElementEvent)) {
-        var handlerKey = keyHandlers.replace(stripUidRegex, '');
+      for (const keyHandlers of Object.keys(storeElementEvent)) {
+        const handlerKey = keyHandlers.replace(stripUidRegex, '');
 
         if (!inNamespace || originalTypeEvent.includes(handlerKey)) {
-          var event = storeElementEvent[keyHandlers];
+          const event = storeElementEvent[keyHandlers];
           removeHandler(element, events, typeEvent, event.callable, event.delegationSelector);
         }
       }
@@ -579,13 +555,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return null;
       }
 
-      var $ = getjQuery();
-      var typeEvent = getTypeEvent(event);
-      var inNamespace = event !== typeEvent;
-      var jQueryEvent = null;
-      var bubbles = true;
-      var nativeDispatch = true;
-      var defaultPrevented = false;
+      const $ = getjQuery();
+      const typeEvent = getTypeEvent(event);
+      const inNamespace = event !== typeEvent;
+      let jQueryEvent = null;
+      let bubbles = true;
+      let nativeDispatch = true;
+      let defaultPrevented = false;
 
       if (inNamespace && $) {
         jQueryEvent = $.Event(event, args);
@@ -595,7 +571,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         defaultPrevented = jQueryEvent.isDefaultPrevented();
       }
 
-      var evt = new Event(event, {
+      let evt = new Event(event, {
         bubbles,
         cancelable: true
       });
@@ -619,7 +595,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   };
 
   function hydrateObj(obj, meta) {
-    var _loop2 = function _loop2(key, value) {
+    for (const [key, value] of Object.entries(meta || {})) {
       try {
         obj[key] = value;
       } catch (_unused) {
@@ -632,14 +608,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         });
       }
-    };
-
-    for (var [key, value] of Object.entries(meta || {})) {
-      _loop2(key, value);
     }
 
     return obj;
   }
+
   /**
    * --------------------------------------------------------------------------
    * Bootstrap (v5.2.3): dom/data.js
@@ -650,21 +623,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   /**
    * Constants
    */
-
-
-  var elementMap = new Map();
-  var Data = {
+  const elementMap = new Map();
+  const Data = {
     set(element, key, instance) {
       if (!elementMap.has(element)) {
         elementMap.set(element, new Map());
       }
 
-      var instanceMap = elementMap.get(element); // make it clear we only want one instance per element
+      const instanceMap = elementMap.get(element); // make it clear we only want one instance per element
       // can be removed later when multiple key/instances are fine to be used
 
       if (!instanceMap.has(key) && instanceMap.size !== 0) {
         // eslint-disable-next-line no-console
-        console.error("Bootstrap doesn't allow more than one instance per element. Bound instance: ".concat(Array.from(instanceMap.keys())[0], "."));
+        console.error(`Bootstrap doesn't allow more than one instance per element. Bound instance: ${Array.from(instanceMap.keys())[0]}.`);
         return;
       }
 
@@ -684,7 +655,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return;
       }
 
-      var instanceMap = elementMap.get(element);
+      const instanceMap = elementMap.get(element);
       instanceMap.delete(key); // free up element references if there are no instances left for an element
 
       if (instanceMap.size === 0) {
@@ -693,13 +664,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
 
   };
+
   /**
    * --------------------------------------------------------------------------
    * Bootstrap (v5.2.3): dom/manipulator.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
-
   function normalizeData(value) {
     if (value === 'true') {
       return true;
@@ -729,16 +700,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   }
 
   function normalizeDataKey(key) {
-    return key.replace(/[A-Z]/g, chr => "-".concat(chr.toLowerCase()));
+    return key.replace(/[A-Z]/g, chr => `-${chr.toLowerCase()}`);
   }
 
-  var Manipulator = {
+  const Manipulator = {
     setDataAttribute(element, key, value) {
-      element.setAttribute("data-bs-".concat(normalizeDataKey(key)), value);
+      element.setAttribute(`data-bs-${normalizeDataKey(key)}`, value);
     },
 
     removeDataAttribute(element, key) {
-      element.removeAttribute("data-bs-".concat(normalizeDataKey(key)));
+      element.removeAttribute(`data-bs-${normalizeDataKey(key)}`);
     },
 
     getDataAttributes(element) {
@@ -746,11 +717,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return {};
       }
 
-      var attributes = {};
-      var bsKeys = Object.keys(element.dataset).filter(key => key.startsWith('bs') && !key.startsWith('bsConfig'));
+      const attributes = {};
+      const bsKeys = Object.keys(element.dataset).filter(key => key.startsWith('bs') && !key.startsWith('bsConfig'));
 
-      for (var key of bsKeys) {
-        var pureKey = key.replace(/^bs/, '');
+      for (const key of bsKeys) {
+        let pureKey = key.replace(/^bs/, '');
         pureKey = pureKey.charAt(0).toLowerCase() + pureKey.slice(1, pureKey.length);
         attributes[pureKey] = normalizeData(element.dataset[key]);
       }
@@ -759,17 +730,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
 
     getDataAttribute(element, key) {
-      return normalizeData(element.getAttribute("data-bs-".concat(normalizeDataKey(key))));
+      return normalizeData(element.getAttribute(`data-bs-${normalizeDataKey(key)}`));
     }
 
   };
+
   /**
    * --------------------------------------------------------------------------
    * Bootstrap (v5.2.3): util/config.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
-
   /**
    * Class definition
    */
@@ -802,39 +773,40 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
 
     _mergeConfigObj(config, element) {
-      var jsonConfig = isElement(element) ? Manipulator.getDataAttribute(element, 'config') : {}; // try to parse
+      const jsonConfig = isElement(element) ? Manipulator.getDataAttribute(element, 'config') : {}; // try to parse
 
-      return _objectSpread(_objectSpread(_objectSpread(_objectSpread({}, this.constructor.Default), typeof jsonConfig === 'object' ? jsonConfig : {}), isElement(element) ? Manipulator.getDataAttributes(element) : {}), typeof config === 'object' ? config : {});
+      return { ...this.constructor.Default,
+        ...(typeof jsonConfig === 'object' ? jsonConfig : {}),
+        ...(isElement(element) ? Manipulator.getDataAttributes(element) : {}),
+        ...(typeof config === 'object' ? config : {})
+      };
     }
 
-    _typeCheckConfig(config) {
-      var configTypes = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.constructor.DefaultType;
-
-      for (var property of Object.keys(configTypes)) {
-        var expectedTypes = configTypes[property];
-        var value = config[property];
-        var valueType = isElement(value) ? 'element' : toType(value);
+    _typeCheckConfig(config, configTypes = this.constructor.DefaultType) {
+      for (const property of Object.keys(configTypes)) {
+        const expectedTypes = configTypes[property];
+        const value = config[property];
+        const valueType = isElement(value) ? 'element' : toType(value);
 
         if (!new RegExp(expectedTypes).test(valueType)) {
-          throw new TypeError("".concat(this.constructor.NAME.toUpperCase(), ": Option \"").concat(property, "\" provided type \"").concat(valueType, "\" but expected type \"").concat(expectedTypes, "\"."));
+          throw new TypeError(`${this.constructor.NAME.toUpperCase()}: Option "${property}" provided type "${valueType}" but expected type "${expectedTypes}".`);
         }
       }
     }
 
   }
+
   /**
    * --------------------------------------------------------------------------
    * Bootstrap (v5.2.3): base-component.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
-
   /**
    * Constants
    */
 
-
-  var VERSION = '5.2.3';
+  const VERSION = '5.2.3';
   /**
    * Class definition
    */
@@ -858,13 +830,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       Data.remove(this._element, this.constructor.DATA_KEY);
       EventHandler.off(this._element, this.constructor.EVENT_KEY);
 
-      for (var propertyName of Object.getOwnPropertyNames(this)) {
+      for (const propertyName of Object.getOwnPropertyNames(this)) {
         this[propertyName] = null;
       }
     }
 
-    _queueCallback(callback, element) {
-      var isAnimated = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+    _queueCallback(callback, element, isAnimated = true) {
       executeAfterTransition(callback, element, isAnimated);
     }
 
@@ -882,8 +853,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return Data.get(getElement(element), this.DATA_KEY);
     }
 
-    static getOrCreateInstance(element) {
-      var config = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    static getOrCreateInstance(element, config = {}) {
       return this.getInstance(element) || new this(element, typeof config === 'object' ? config : null);
     }
 
@@ -892,18 +862,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
 
     static get DATA_KEY() {
-      return "bs.".concat(this.NAME);
+      return `bs.${this.NAME}`;
     }
 
     static get EVENT_KEY() {
-      return ".".concat(this.DATA_KEY);
+      return `.${this.DATA_KEY}`;
     }
 
     static eventName(name) {
-      return "".concat(name).concat(this.EVENT_KEY);
+      return `${name}${this.EVENT_KEY}`;
     }
 
   }
+
   /**
    * --------------------------------------------------------------------------
    * Bootstrap (v5.2.3): util/component-functions.js
@@ -911,12 +882,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
    * --------------------------------------------------------------------------
    */
 
-
-  var enableDismissTrigger = function enableDismissTrigger(component) {
-    var method = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'hide';
-    var clickEvent = "click.dismiss".concat(component.EVENT_KEY);
-    var name = component.NAME;
-    EventHandler.on(document, clickEvent, "[data-bs-dismiss=\"".concat(name, "\"]"), function (event) {
+  const enableDismissTrigger = (component, method = 'hide') => {
+    const clickEvent = `click.dismiss${component.EVENT_KEY}`;
+    const name = component.NAME;
+    EventHandler.on(document, clickEvent, `[data-bs-dismiss="${name}"]`, function (event) {
       if (['A', 'AREA'].includes(this.tagName)) {
         event.preventDefault();
       }
@@ -925,31 +894,30 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return;
       }
 
-      var target = getElementFromSelector(this) || this.closest(".".concat(name));
-      var instance = component.getOrCreateInstance(target); // Method argument is left, for Alert and only, as it doesn't implement the 'hide' method
+      const target = getElementFromSelector(this) || this.closest(`.${name}`);
+      const instance = component.getOrCreateInstance(target); // Method argument is left, for Alert and only, as it doesn't implement the 'hide' method
 
       instance[method]();
     });
   };
+
   /**
    * --------------------------------------------------------------------------
    * Bootstrap (v5.2.3): alert.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
-
   /**
    * Constants
    */
 
-
-  var NAME$f = 'alert';
-  var DATA_KEY$a = 'bs.alert';
-  var EVENT_KEY$b = ".".concat(DATA_KEY$a);
-  var EVENT_CLOSE = "close".concat(EVENT_KEY$b);
-  var EVENT_CLOSED = "closed".concat(EVENT_KEY$b);
-  var CLASS_NAME_FADE$5 = 'fade';
-  var CLASS_NAME_SHOW$8 = 'show';
+  const NAME$f = 'alert';
+  const DATA_KEY$a = 'bs.alert';
+  const EVENT_KEY$b = `.${DATA_KEY$a}`;
+  const EVENT_CLOSE = `close${EVENT_KEY$b}`;
+  const EVENT_CLOSED = `closed${EVENT_KEY$b}`;
+  const CLASS_NAME_FADE$5 = 'fade';
+  const CLASS_NAME_SHOW$8 = 'show';
   /**
    * Class definition
    */
@@ -962,7 +930,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
     close() {
-      var closeEvent = EventHandler.trigger(this._element, EVENT_CLOSE);
+      const closeEvent = EventHandler.trigger(this._element, EVENT_CLOSE);
 
       if (closeEvent.defaultPrevented) {
         return;
@@ -970,7 +938,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       this._element.classList.remove(CLASS_NAME_SHOW$8);
 
-      var isAnimated = this._element.classList.contains(CLASS_NAME_FADE$5);
+      const isAnimated = this._element.classList.contains(CLASS_NAME_FADE$5);
 
       this._queueCallback(() => this._destroyElement(), this._element, isAnimated);
     } // Private
@@ -986,14 +954,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     static jQueryInterface(config) {
       return this.each(function () {
-        var data = Alert.getOrCreateInstance(this);
+        const data = Alert.getOrCreateInstance(this);
 
         if (typeof config !== 'string') {
           return;
         }
 
         if (data[config] === undefined || config.startsWith('_') || config === 'constructor') {
-          throw new TypeError("No method named \"".concat(config, "\""));
+          throw new TypeError(`No method named "${config}"`);
         }
 
         data[config](this);
@@ -1012,24 +980,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
    */
 
   defineJQueryPlugin(Alert);
+
   /**
    * --------------------------------------------------------------------------
    * Bootstrap (v5.2.3): button.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
-
   /**
    * Constants
    */
 
-  var NAME$e = 'button';
-  var DATA_KEY$9 = 'bs.button';
-  var EVENT_KEY$a = ".".concat(DATA_KEY$9);
-  var DATA_API_KEY$6 = '.data-api';
-  var CLASS_NAME_ACTIVE$3 = 'active';
-  var SELECTOR_DATA_TOGGLE$5 = '[data-bs-toggle="button"]';
-  var EVENT_CLICK_DATA_API$6 = "click".concat(EVENT_KEY$a).concat(DATA_API_KEY$6);
+  const NAME$e = 'button';
+  const DATA_KEY$9 = 'bs.button';
+  const EVENT_KEY$a = `.${DATA_KEY$9}`;
+  const DATA_API_KEY$6 = '.data-api';
+  const CLASS_NAME_ACTIVE$3 = 'active';
+  const SELECTOR_DATA_TOGGLE$5 = '[data-bs-toggle="button"]';
+  const EVENT_CLICK_DATA_API$6 = `click${EVENT_KEY$a}${DATA_API_KEY$6}`;
   /**
    * Class definition
    */
@@ -1049,7 +1017,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     static jQueryInterface(config) {
       return this.each(function () {
-        var data = Button.getOrCreateInstance(this);
+        const data = Button.getOrCreateInstance(this);
 
         if (config === 'toggle') {
           data[config]();
@@ -1065,8 +1033,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
   EventHandler.on(document, EVENT_CLICK_DATA_API$6, SELECTOR_DATA_TOGGLE$5, event => {
     event.preventDefault();
-    var button = event.target.closest(SELECTOR_DATA_TOGGLE$5);
-    var data = Button.getOrCreateInstance(button);
+    const button = event.target.closest(SELECTOR_DATA_TOGGLE$5);
+    const data = Button.getOrCreateInstance(button);
     data.toggle();
   });
   /**
@@ -1074,25 +1042,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
    */
 
   defineJQueryPlugin(Button);
+
   /**
    * --------------------------------------------------------------------------
    * Bootstrap (v5.2.3): dom/selector-engine.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
-
   /**
    * Constants
    */
 
-  var SelectorEngine = {
-    find(selector) {
-      var element = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : document.documentElement;
+  const SelectorEngine = {
+    find(selector, element = document.documentElement) {
       return [].concat(...Element.prototype.querySelectorAll.call(element, selector));
     },
 
-    findOne(selector) {
-      var element = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : document.documentElement;
+    findOne(selector, element = document.documentElement) {
       return Element.prototype.querySelector.call(element, selector);
     },
 
@@ -1101,8 +1067,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
 
     parents(element, selector) {
-      var parents = [];
-      var ancestor = element.parentNode.closest(selector);
+      const parents = [];
+      let ancestor = element.parentNode.closest(selector);
 
       while (ancestor) {
         parents.push(ancestor);
@@ -1113,7 +1079,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
 
     prev(element, selector) {
-      var previous = element.previousElementSibling;
+      let previous = element.previousElementSibling;
 
       while (previous) {
         if (previous.matches(selector)) {
@@ -1128,7 +1094,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     // TODO: this is now unused; remove later along with prev()
     next(element, selector) {
-      var next = element.nextElementSibling;
+      let next = element.nextElementSibling;
 
       while (next) {
         if (next.matches(selector)) {
@@ -1142,39 +1108,39 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
 
     focusableChildren(element) {
-      var focusables = ['a', 'button', 'input', 'textarea', 'select', 'details', '[tabindex]', '[contenteditable="true"]'].map(selector => "".concat(selector, ":not([tabindex^=\"-\"])")).join(',');
+      const focusables = ['a', 'button', 'input', 'textarea', 'select', 'details', '[tabindex]', '[contenteditable="true"]'].map(selector => `${selector}:not([tabindex^="-"])`).join(',');
       return this.find(focusables, element).filter(el => !isDisabled(el) && isVisible(el));
     }
 
   };
+
   /**
    * --------------------------------------------------------------------------
    * Bootstrap (v5.2.3): util/swipe.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
-
   /**
    * Constants
    */
 
-  var NAME$d = 'swipe';
-  var EVENT_KEY$9 = '.bs.swipe';
-  var EVENT_TOUCHSTART = "touchstart".concat(EVENT_KEY$9);
-  var EVENT_TOUCHMOVE = "touchmove".concat(EVENT_KEY$9);
-  var EVENT_TOUCHEND = "touchend".concat(EVENT_KEY$9);
-  var EVENT_POINTERDOWN = "pointerdown".concat(EVENT_KEY$9);
-  var EVENT_POINTERUP = "pointerup".concat(EVENT_KEY$9);
-  var POINTER_TYPE_TOUCH = 'touch';
-  var POINTER_TYPE_PEN = 'pen';
-  var CLASS_NAME_POINTER_EVENT = 'pointer-event';
-  var SWIPE_THRESHOLD = 40;
-  var Default$c = {
+  const NAME$d = 'swipe';
+  const EVENT_KEY$9 = '.bs.swipe';
+  const EVENT_TOUCHSTART = `touchstart${EVENT_KEY$9}`;
+  const EVENT_TOUCHMOVE = `touchmove${EVENT_KEY$9}`;
+  const EVENT_TOUCHEND = `touchend${EVENT_KEY$9}`;
+  const EVENT_POINTERDOWN = `pointerdown${EVENT_KEY$9}`;
+  const EVENT_POINTERUP = `pointerup${EVENT_KEY$9}`;
+  const POINTER_TYPE_TOUCH = 'touch';
+  const POINTER_TYPE_PEN = 'pen';
+  const CLASS_NAME_POINTER_EVENT = 'pointer-event';
+  const SWIPE_THRESHOLD = 40;
+  const Default$c = {
     endCallback: null,
     leftCallback: null,
     rightCallback: null
   };
-  var DefaultType$c = {
+  const DefaultType$c = {
     endCallback: '(function|null)',
     leftCallback: '(function|null)',
     rightCallback: '(function|null)'
@@ -1244,13 +1210,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
 
     _handleSwipe() {
-      var absDeltaX = Math.abs(this._deltaX);
+      const absDeltaX = Math.abs(this._deltaX);
 
       if (absDeltaX <= SWIPE_THRESHOLD) {
         return;
       }
 
-      var direction = absDeltaX / this._deltaX;
+      const direction = absDeltaX / this._deltaX;
       this._deltaX = 0;
 
       if (!direction) {
@@ -1283,57 +1249,56 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
 
   }
+
   /**
    * --------------------------------------------------------------------------
    * Bootstrap (v5.2.3): carousel.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
-
   /**
    * Constants
    */
 
+  const NAME$c = 'carousel';
+  const DATA_KEY$8 = 'bs.carousel';
+  const EVENT_KEY$8 = `.${DATA_KEY$8}`;
+  const DATA_API_KEY$5 = '.data-api';
+  const ARROW_LEFT_KEY$1 = 'ArrowLeft';
+  const ARROW_RIGHT_KEY$1 = 'ArrowRight';
+  const TOUCHEVENT_COMPAT_WAIT = 500; // Time for mouse compat events to fire after touch
 
-  var NAME$c = 'carousel';
-  var DATA_KEY$8 = 'bs.carousel';
-  var EVENT_KEY$8 = ".".concat(DATA_KEY$8);
-  var DATA_API_KEY$5 = '.data-api';
-  var ARROW_LEFT_KEY$1 = 'ArrowLeft';
-  var ARROW_RIGHT_KEY$1 = 'ArrowRight';
-  var TOUCHEVENT_COMPAT_WAIT = 500; // Time for mouse compat events to fire after touch
-
-  var ORDER_NEXT = 'next';
-  var ORDER_PREV = 'prev';
-  var DIRECTION_LEFT = 'left';
-  var DIRECTION_RIGHT = 'right';
-  var EVENT_SLIDE = "slide".concat(EVENT_KEY$8);
-  var EVENT_SLID = "slid".concat(EVENT_KEY$8);
-  var EVENT_KEYDOWN$1 = "keydown".concat(EVENT_KEY$8);
-  var EVENT_MOUSEENTER$1 = "mouseenter".concat(EVENT_KEY$8);
-  var EVENT_MOUSELEAVE$1 = "mouseleave".concat(EVENT_KEY$8);
-  var EVENT_DRAG_START = "dragstart".concat(EVENT_KEY$8);
-  var EVENT_LOAD_DATA_API$3 = "load".concat(EVENT_KEY$8).concat(DATA_API_KEY$5);
-  var EVENT_CLICK_DATA_API$5 = "click".concat(EVENT_KEY$8).concat(DATA_API_KEY$5);
-  var CLASS_NAME_CAROUSEL = 'carousel';
-  var CLASS_NAME_ACTIVE$2 = 'active';
-  var CLASS_NAME_SLIDE = 'slide';
-  var CLASS_NAME_END = 'carousel-item-end';
-  var CLASS_NAME_START = 'carousel-item-start';
-  var CLASS_NAME_NEXT = 'carousel-item-next';
-  var CLASS_NAME_PREV = 'carousel-item-prev';
-  var SELECTOR_ACTIVE = '.active';
-  var SELECTOR_ITEM = '.carousel-item';
-  var SELECTOR_ACTIVE_ITEM = SELECTOR_ACTIVE + SELECTOR_ITEM;
-  var SELECTOR_ITEM_IMG = '.carousel-item img';
-  var SELECTOR_INDICATORS = '.carousel-indicators';
-  var SELECTOR_DATA_SLIDE = '[data-bs-slide], [data-bs-slide-to]';
-  var SELECTOR_DATA_RIDE = '[data-bs-ride="carousel"]';
-  var KEY_TO_DIRECTION = {
+  const ORDER_NEXT = 'next';
+  const ORDER_PREV = 'prev';
+  const DIRECTION_LEFT = 'left';
+  const DIRECTION_RIGHT = 'right';
+  const EVENT_SLIDE = `slide${EVENT_KEY$8}`;
+  const EVENT_SLID = `slid${EVENT_KEY$8}`;
+  const EVENT_KEYDOWN$1 = `keydown${EVENT_KEY$8}`;
+  const EVENT_MOUSEENTER$1 = `mouseenter${EVENT_KEY$8}`;
+  const EVENT_MOUSELEAVE$1 = `mouseleave${EVENT_KEY$8}`;
+  const EVENT_DRAG_START = `dragstart${EVENT_KEY$8}`;
+  const EVENT_LOAD_DATA_API$3 = `load${EVENT_KEY$8}${DATA_API_KEY$5}`;
+  const EVENT_CLICK_DATA_API$5 = `click${EVENT_KEY$8}${DATA_API_KEY$5}`;
+  const CLASS_NAME_CAROUSEL = 'carousel';
+  const CLASS_NAME_ACTIVE$2 = 'active';
+  const CLASS_NAME_SLIDE = 'slide';
+  const CLASS_NAME_END = 'carousel-item-end';
+  const CLASS_NAME_START = 'carousel-item-start';
+  const CLASS_NAME_NEXT = 'carousel-item-next';
+  const CLASS_NAME_PREV = 'carousel-item-prev';
+  const SELECTOR_ACTIVE = '.active';
+  const SELECTOR_ITEM = '.carousel-item';
+  const SELECTOR_ACTIVE_ITEM = SELECTOR_ACTIVE + SELECTOR_ITEM;
+  const SELECTOR_ITEM_IMG = '.carousel-item img';
+  const SELECTOR_INDICATORS = '.carousel-indicators';
+  const SELECTOR_DATA_SLIDE = '[data-bs-slide], [data-bs-slide-to]';
+  const SELECTOR_DATA_RIDE = '[data-bs-ride="carousel"]';
+  const KEY_TO_DIRECTION = {
     [ARROW_LEFT_KEY$1]: DIRECTION_RIGHT,
     [ARROW_RIGHT_KEY$1]: DIRECTION_LEFT
   };
-  var Default$b = {
+  const Default$b = {
     interval: 5000,
     keyboard: true,
     pause: 'hover',
@@ -1341,7 +1306,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     touch: true,
     wrap: true
   };
-  var DefaultType$b = {
+  const DefaultType$b = {
     interval: '(number|boolean)',
     // TODO:v6 remove boolean support
     keyboard: 'boolean',
@@ -1432,7 +1397,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
 
     to(index) {
-      var items = this._getItems();
+      const items = this._getItems();
 
       if (index > items.length - 1 || index < 0) {
         return;
@@ -1443,13 +1408,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return;
       }
 
-      var activeIndex = this._getItemIndex(this._getActive());
+      const activeIndex = this._getItemIndex(this._getActive());
 
       if (activeIndex === index) {
         return;
       }
 
-      var order = index > activeIndex ? ORDER_NEXT : ORDER_PREV;
+      const order = index > activeIndex ? ORDER_NEXT : ORDER_PREV;
 
       this._slide(order, items[index]);
     }
@@ -1484,11 +1449,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
 
     _addTouchEventListeners() {
-      for (var img of SelectorEngine.find(SELECTOR_ITEM_IMG, this._element)) {
+      for (const img of SelectorEngine.find(SELECTOR_ITEM_IMG, this._element)) {
         EventHandler.on(img, EVENT_DRAG_START, event => event.preventDefault());
       }
 
-      var endCallBack = () => {
+      const endCallBack = () => {
         if (this._config.pause !== 'hover') {
           return;
         } // If it's a touch-enabled device, mouseenter/leave are fired as
@@ -1509,7 +1474,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         this.touchTimeout = setTimeout(() => this._maybeEnableCycle(), TOUCHEVENT_COMPAT_WAIT + this._config.interval);
       };
 
-      var swipeConfig = {
+      const swipeConfig = {
         leftCallback: () => this._slide(this._directionToOrder(DIRECTION_LEFT)),
         rightCallback: () => this._slide(this._directionToOrder(DIRECTION_RIGHT)),
         endCallback: endCallBack
@@ -1522,7 +1487,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return;
       }
 
-      var direction = KEY_TO_DIRECTION[event.key];
+      const direction = KEY_TO_DIRECTION[event.key];
 
       if (direction) {
         event.preventDefault();
@@ -1540,10 +1505,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return;
       }
 
-      var activeIndicator = SelectorEngine.findOne(SELECTOR_ACTIVE, this._indicatorsElement);
+      const activeIndicator = SelectorEngine.findOne(SELECTOR_ACTIVE, this._indicatorsElement);
       activeIndicator.classList.remove(CLASS_NAME_ACTIVE$2);
       activeIndicator.removeAttribute('aria-current');
-      var newActiveIndicator = SelectorEngine.findOne("[data-bs-slide-to=\"".concat(index, "\"]"), this._indicatorsElement);
+      const newActiveIndicator = SelectorEngine.findOne(`[data-bs-slide-to="${index}"]`, this._indicatorsElement);
 
       if (newActiveIndicator) {
         newActiveIndicator.classList.add(CLASS_NAME_ACTIVE$2);
@@ -1552,35 +1517,33 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
 
     _updateInterval() {
-      var element = this._activeElement || this._getActive();
+      const element = this._activeElement || this._getActive();
 
       if (!element) {
         return;
       }
 
-      var elementInterval = Number.parseInt(element.getAttribute('data-bs-interval'), 10);
+      const elementInterval = Number.parseInt(element.getAttribute('data-bs-interval'), 10);
       this._config.interval = elementInterval || this._config.defaultInterval;
     }
 
-    _slide(order) {
-      var element = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-
+    _slide(order, element = null) {
       if (this._isSliding) {
         return;
       }
 
-      var activeElement = this._getActive();
+      const activeElement = this._getActive();
 
-      var isNext = order === ORDER_NEXT;
-      var nextElement = element || getNextActiveElement(this._getItems(), activeElement, isNext, this._config.wrap);
+      const isNext = order === ORDER_NEXT;
+      const nextElement = element || getNextActiveElement(this._getItems(), activeElement, isNext, this._config.wrap);
 
       if (nextElement === activeElement) {
         return;
       }
 
-      var nextElementIndex = this._getItemIndex(nextElement);
+      const nextElementIndex = this._getItemIndex(nextElement);
 
-      var triggerEvent = eventName => {
+      const triggerEvent = eventName => {
         return EventHandler.trigger(this._element, eventName, {
           relatedTarget: nextElement,
           direction: this._orderToDirection(order),
@@ -1589,7 +1552,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         });
       };
 
-      var slideEvent = triggerEvent(EVENT_SLIDE);
+      const slideEvent = triggerEvent(EVENT_SLIDE);
 
       if (slideEvent.defaultPrevented) {
         return;
@@ -1601,21 +1564,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return;
       }
 
-      var isCycling = Boolean(this._interval);
+      const isCycling = Boolean(this._interval);
       this.pause();
       this._isSliding = true;
 
       this._setActiveIndicatorElement(nextElementIndex);
 
       this._activeElement = nextElement;
-      var directionalClassName = isNext ? CLASS_NAME_START : CLASS_NAME_END;
-      var orderClassName = isNext ? CLASS_NAME_NEXT : CLASS_NAME_PREV;
+      const directionalClassName = isNext ? CLASS_NAME_START : CLASS_NAME_END;
+      const orderClassName = isNext ? CLASS_NAME_NEXT : CLASS_NAME_PREV;
       nextElement.classList.add(orderClassName);
       reflow(nextElement);
       activeElement.classList.add(directionalClassName);
       nextElement.classList.add(directionalClassName);
 
-      var completeCallBack = () => {
+      const completeCallBack = () => {
         nextElement.classList.remove(directionalClassName, orderClassName);
         nextElement.classList.add(CLASS_NAME_ACTIVE$2);
         activeElement.classList.remove(CLASS_NAME_ACTIVE$2, orderClassName, directionalClassName);
@@ -1668,7 +1631,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     static jQueryInterface(config) {
       return this.each(function () {
-        var data = Carousel.getOrCreateInstance(this, config);
+        const data = Carousel.getOrCreateInstance(this, config);
 
         if (typeof config === 'number') {
           data.to(config);
@@ -1677,7 +1640,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         if (typeof config === 'string') {
           if (data[config] === undefined || config.startsWith('_') || config === 'constructor') {
-            throw new TypeError("No method named \"".concat(config, "\""));
+            throw new TypeError(`No method named "${config}"`);
           }
 
           data[config]();
@@ -1692,15 +1655,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
   EventHandler.on(document, EVENT_CLICK_DATA_API$5, SELECTOR_DATA_SLIDE, function (event) {
-    var target = getElementFromSelector(this);
+    const target = getElementFromSelector(this);
 
     if (!target || !target.classList.contains(CLASS_NAME_CAROUSEL)) {
       return;
     }
 
     event.preventDefault();
-    var carousel = Carousel.getOrCreateInstance(target);
-    var slideIndex = this.getAttribute('data-bs-slide-to');
+    const carousel = Carousel.getOrCreateInstance(target);
+    const slideIndex = this.getAttribute('data-bs-slide-to');
 
     if (slideIndex) {
       carousel.to(slideIndex);
@@ -1723,9 +1686,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     carousel._maybeEnableCycle();
   });
   EventHandler.on(window, EVENT_LOAD_DATA_API$3, () => {
-    var carousels = SelectorEngine.find(SELECTOR_DATA_RIDE);
+    const carousels = SelectorEngine.find(SELECTOR_DATA_RIDE);
 
-    for (var carousel of carousels) {
+    for (const carousel of carousels) {
       Carousel.getOrCreateInstance(carousel);
     }
   });
@@ -1734,41 +1697,41 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
    */
 
   defineJQueryPlugin(Carousel);
+
   /**
    * --------------------------------------------------------------------------
    * Bootstrap (v5.2.3): collapse.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
-
   /**
    * Constants
    */
 
-  var NAME$b = 'collapse';
-  var DATA_KEY$7 = 'bs.collapse';
-  var EVENT_KEY$7 = ".".concat(DATA_KEY$7);
-  var DATA_API_KEY$4 = '.data-api';
-  var EVENT_SHOW$6 = "show".concat(EVENT_KEY$7);
-  var EVENT_SHOWN$6 = "shown".concat(EVENT_KEY$7);
-  var EVENT_HIDE$6 = "hide".concat(EVENT_KEY$7);
-  var EVENT_HIDDEN$6 = "hidden".concat(EVENT_KEY$7);
-  var EVENT_CLICK_DATA_API$4 = "click".concat(EVENT_KEY$7).concat(DATA_API_KEY$4);
-  var CLASS_NAME_SHOW$7 = 'show';
-  var CLASS_NAME_COLLAPSE = 'collapse';
-  var CLASS_NAME_COLLAPSING = 'collapsing';
-  var CLASS_NAME_COLLAPSED = 'collapsed';
-  var CLASS_NAME_DEEPER_CHILDREN = ":scope .".concat(CLASS_NAME_COLLAPSE, " .").concat(CLASS_NAME_COLLAPSE);
-  var CLASS_NAME_HORIZONTAL = 'collapse-horizontal';
-  var WIDTH = 'width';
-  var HEIGHT = 'height';
-  var SELECTOR_ACTIVES = '.collapse.show, .collapse.collapsing';
-  var SELECTOR_DATA_TOGGLE$4 = '[data-bs-toggle="collapse"]';
-  var Default$a = {
+  const NAME$b = 'collapse';
+  const DATA_KEY$7 = 'bs.collapse';
+  const EVENT_KEY$7 = `.${DATA_KEY$7}`;
+  const DATA_API_KEY$4 = '.data-api';
+  const EVENT_SHOW$6 = `show${EVENT_KEY$7}`;
+  const EVENT_SHOWN$6 = `shown${EVENT_KEY$7}`;
+  const EVENT_HIDE$6 = `hide${EVENT_KEY$7}`;
+  const EVENT_HIDDEN$6 = `hidden${EVENT_KEY$7}`;
+  const EVENT_CLICK_DATA_API$4 = `click${EVENT_KEY$7}${DATA_API_KEY$4}`;
+  const CLASS_NAME_SHOW$7 = 'show';
+  const CLASS_NAME_COLLAPSE = 'collapse';
+  const CLASS_NAME_COLLAPSING = 'collapsing';
+  const CLASS_NAME_COLLAPSED = 'collapsed';
+  const CLASS_NAME_DEEPER_CHILDREN = `:scope .${CLASS_NAME_COLLAPSE} .${CLASS_NAME_COLLAPSE}`;
+  const CLASS_NAME_HORIZONTAL = 'collapse-horizontal';
+  const WIDTH = 'width';
+  const HEIGHT = 'height';
+  const SELECTOR_ACTIVES = '.collapse.show, .collapse.collapsing';
+  const SELECTOR_DATA_TOGGLE$4 = '[data-bs-toggle="collapse"]';
+  const Default$a = {
     parent: null,
     toggle: true
   };
-  var DefaultType$a = {
+  const DefaultType$a = {
     parent: '(null|element)',
     toggle: 'boolean'
   };
@@ -1781,11 +1744,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       super(element, config);
       this._isTransitioning = false;
       this._triggerArray = [];
-      var toggleList = SelectorEngine.find(SELECTOR_DATA_TOGGLE$4);
+      const toggleList = SelectorEngine.find(SELECTOR_DATA_TOGGLE$4);
 
-      for (var elem of toggleList) {
-        var selector = getSelectorFromElement(elem);
-        var filterElement = SelectorEngine.find(selector).filter(foundElement => foundElement === this._element);
+      for (const elem of toggleList) {
+        const selector = getSelectorFromElement(elem);
+        const filterElement = SelectorEngine.find(selector).filter(foundElement => foundElement === this._element);
 
         if (selector !== null && filterElement.length) {
           this._triggerArray.push(elem);
@@ -1830,7 +1793,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return;
       }
 
-      var activeChildren = []; // find active children
+      let activeChildren = []; // find active children
 
       if (this._config.parent) {
         activeChildren = this._getFirstLevelChildren(SELECTOR_ACTIVES).filter(element => element !== this._element).map(element => Collapse.getOrCreateInstance(element, {
@@ -1842,17 +1805,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return;
       }
 
-      var startEvent = EventHandler.trigger(this._element, EVENT_SHOW$6);
+      const startEvent = EventHandler.trigger(this._element, EVENT_SHOW$6);
 
       if (startEvent.defaultPrevented) {
         return;
       }
 
-      for (var activeInstance of activeChildren) {
+      for (const activeInstance of activeChildren) {
         activeInstance.hide();
       }
 
-      var dimension = this._getDimension();
+      const dimension = this._getDimension();
 
       this._element.classList.remove(CLASS_NAME_COLLAPSE);
 
@@ -1864,7 +1827,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       this._isTransitioning = true;
 
-      var complete = () => {
+      const complete = () => {
         this._isTransitioning = false;
 
         this._element.classList.remove(CLASS_NAME_COLLAPSING);
@@ -1875,12 +1838,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         EventHandler.trigger(this._element, EVENT_SHOWN$6);
       };
 
-      var capitalizedDimension = dimension[0].toUpperCase() + dimension.slice(1);
-      var scrollSize = "scroll".concat(capitalizedDimension);
+      const capitalizedDimension = dimension[0].toUpperCase() + dimension.slice(1);
+      const scrollSize = `scroll${capitalizedDimension}`;
 
       this._queueCallback(complete, this._element, true);
 
-      this._element.style[dimension] = "".concat(this._element[scrollSize], "px");
+      this._element.style[dimension] = `${this._element[scrollSize]}px`;
     }
 
     hide() {
@@ -1888,23 +1851,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return;
       }
 
-      var startEvent = EventHandler.trigger(this._element, EVENT_HIDE$6);
+      const startEvent = EventHandler.trigger(this._element, EVENT_HIDE$6);
 
       if (startEvent.defaultPrevented) {
         return;
       }
 
-      var dimension = this._getDimension();
+      const dimension = this._getDimension();
 
-      this._element.style[dimension] = "".concat(this._element.getBoundingClientRect()[dimension], "px");
+      this._element.style[dimension] = `${this._element.getBoundingClientRect()[dimension]}px`;
       reflow(this._element);
 
       this._element.classList.add(CLASS_NAME_COLLAPSING);
 
       this._element.classList.remove(CLASS_NAME_COLLAPSE, CLASS_NAME_SHOW$7);
 
-      for (var trigger of this._triggerArray) {
-        var element = getElementFromSelector(trigger);
+      for (const trigger of this._triggerArray) {
+        const element = getElementFromSelector(trigger);
 
         if (element && !this._isShown(element)) {
           this._addAriaAndCollapsedClass([trigger], false);
@@ -1913,7 +1876,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       this._isTransitioning = true;
 
-      var complete = () => {
+      const complete = () => {
         this._isTransitioning = false;
 
         this._element.classList.remove(CLASS_NAME_COLLAPSING);
@@ -1928,8 +1891,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this._queueCallback(complete, this._element, true);
     }
 
-    _isShown() {
-      var element = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this._element;
+    _isShown(element = this._element) {
       return element.classList.contains(CLASS_NAME_SHOW$7);
     } // Private
 
@@ -1950,10 +1912,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return;
       }
 
-      var children = this._getFirstLevelChildren(SELECTOR_DATA_TOGGLE$4);
+      const children = this._getFirstLevelChildren(SELECTOR_DATA_TOGGLE$4);
 
-      for (var element of children) {
-        var selected = getElementFromSelector(element);
+      for (const element of children) {
+        const selected = getElementFromSelector(element);
 
         if (selected) {
           this._addAriaAndCollapsedClass([element], this._isShown(selected));
@@ -1962,7 +1924,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
 
     _getFirstLevelChildren(selector) {
-      var children = SelectorEngine.find(CLASS_NAME_DEEPER_CHILDREN, this._config.parent); // remove children if greater depth
+      const children = SelectorEngine.find(CLASS_NAME_DEEPER_CHILDREN, this._config.parent); // remove children if greater depth
 
       return SelectorEngine.find(selector, this._config.parent).filter(element => !children.includes(element));
     }
@@ -1972,7 +1934,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return;
       }
 
-      for (var element of triggerArray) {
+      for (const element of triggerArray) {
         element.classList.toggle(CLASS_NAME_COLLAPSED, !isOpen);
         element.setAttribute('aria-expanded', isOpen);
       }
@@ -1980,18 +1942,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
     static jQueryInterface(config) {
-      var _config = {};
+      const _config = {};
 
       if (typeof config === 'string' && /show|hide/.test(config)) {
         _config.toggle = false;
       }
 
       return this.each(function () {
-        var data = Collapse.getOrCreateInstance(this, _config);
+        const data = Collapse.getOrCreateInstance(this, _config);
 
         if (typeof config === 'string') {
           if (typeof data[config] === 'undefined') {
-            throw new TypeError("No method named \"".concat(config, "\""));
+            throw new TypeError(`No method named "${config}"`);
           }
 
           data[config]();
@@ -2011,10 +1973,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       event.preventDefault();
     }
 
-    var selector = getSelectorFromElement(this);
-    var selectorElements = SelectorEngine.find(selector);
+    const selector = getSelectorFromElement(this);
+    const selectorElements = SelectorEngine.find(selector);
 
-    for (var element of selectorElements) {
+    for (const element of selectorElements) {
       Collapse.getOrCreateInstance(element, {
         toggle: false
       }).toggle();
@@ -2025,55 +1987,55 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
    */
 
   defineJQueryPlugin(Collapse);
+
   /**
    * --------------------------------------------------------------------------
    * Bootstrap (v5.2.3): dropdown.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
-
   /**
    * Constants
    */
 
-  var NAME$a = 'dropdown';
-  var DATA_KEY$6 = 'bs.dropdown';
-  var EVENT_KEY$6 = ".".concat(DATA_KEY$6);
-  var DATA_API_KEY$3 = '.data-api';
-  var ESCAPE_KEY$2 = 'Escape';
-  var TAB_KEY$1 = 'Tab';
-  var ARROW_UP_KEY$1 = 'ArrowUp';
-  var ARROW_DOWN_KEY$1 = 'ArrowDown';
-  var RIGHT_MOUSE_BUTTON = 2; // MouseEvent.button value for the secondary button, usually the right button
+  const NAME$a = 'dropdown';
+  const DATA_KEY$6 = 'bs.dropdown';
+  const EVENT_KEY$6 = `.${DATA_KEY$6}`;
+  const DATA_API_KEY$3 = '.data-api';
+  const ESCAPE_KEY$2 = 'Escape';
+  const TAB_KEY$1 = 'Tab';
+  const ARROW_UP_KEY$1 = 'ArrowUp';
+  const ARROW_DOWN_KEY$1 = 'ArrowDown';
+  const RIGHT_MOUSE_BUTTON = 2; // MouseEvent.button value for the secondary button, usually the right button
 
-  var EVENT_HIDE$5 = "hide".concat(EVENT_KEY$6);
-  var EVENT_HIDDEN$5 = "hidden".concat(EVENT_KEY$6);
-  var EVENT_SHOW$5 = "show".concat(EVENT_KEY$6);
-  var EVENT_SHOWN$5 = "shown".concat(EVENT_KEY$6);
-  var EVENT_CLICK_DATA_API$3 = "click".concat(EVENT_KEY$6).concat(DATA_API_KEY$3);
-  var EVENT_KEYDOWN_DATA_API = "keydown".concat(EVENT_KEY$6).concat(DATA_API_KEY$3);
-  var EVENT_KEYUP_DATA_API = "keyup".concat(EVENT_KEY$6).concat(DATA_API_KEY$3);
-  var CLASS_NAME_SHOW$6 = 'show';
-  var CLASS_NAME_DROPUP = 'dropup';
-  var CLASS_NAME_DROPEND = 'dropend';
-  var CLASS_NAME_DROPSTART = 'dropstart';
-  var CLASS_NAME_DROPUP_CENTER = 'dropup-center';
-  var CLASS_NAME_DROPDOWN_CENTER = 'dropdown-center';
-  var SELECTOR_DATA_TOGGLE$3 = '[data-bs-toggle="dropdown"]:not(.disabled):not(:disabled)';
-  var SELECTOR_DATA_TOGGLE_SHOWN = "".concat(SELECTOR_DATA_TOGGLE$3, ".").concat(CLASS_NAME_SHOW$6);
-  var SELECTOR_MENU = '.dropdown-menu';
-  var SELECTOR_NAVBAR = '.navbar';
-  var SELECTOR_NAVBAR_NAV = '.navbar-nav';
-  var SELECTOR_VISIBLE_ITEMS = '.dropdown-menu .dropdown-item:not(.disabled):not(:disabled)';
-  var PLACEMENT_TOP = isRTL() ? 'top-end' : 'top-start';
-  var PLACEMENT_TOPEND = isRTL() ? 'top-start' : 'top-end';
-  var PLACEMENT_BOTTOM = isRTL() ? 'bottom-end' : 'bottom-start';
-  var PLACEMENT_BOTTOMEND = isRTL() ? 'bottom-start' : 'bottom-end';
-  var PLACEMENT_RIGHT = isRTL() ? 'left-start' : 'right-start';
-  var PLACEMENT_LEFT = isRTL() ? 'right-start' : 'left-start';
-  var PLACEMENT_TOPCENTER = 'top';
-  var PLACEMENT_BOTTOMCENTER = 'bottom';
-  var Default$9 = {
+  const EVENT_HIDE$5 = `hide${EVENT_KEY$6}`;
+  const EVENT_HIDDEN$5 = `hidden${EVENT_KEY$6}`;
+  const EVENT_SHOW$5 = `show${EVENT_KEY$6}`;
+  const EVENT_SHOWN$5 = `shown${EVENT_KEY$6}`;
+  const EVENT_CLICK_DATA_API$3 = `click${EVENT_KEY$6}${DATA_API_KEY$3}`;
+  const EVENT_KEYDOWN_DATA_API = `keydown${EVENT_KEY$6}${DATA_API_KEY$3}`;
+  const EVENT_KEYUP_DATA_API = `keyup${EVENT_KEY$6}${DATA_API_KEY$3}`;
+  const CLASS_NAME_SHOW$6 = 'show';
+  const CLASS_NAME_DROPUP = 'dropup';
+  const CLASS_NAME_DROPEND = 'dropend';
+  const CLASS_NAME_DROPSTART = 'dropstart';
+  const CLASS_NAME_DROPUP_CENTER = 'dropup-center';
+  const CLASS_NAME_DROPDOWN_CENTER = 'dropdown-center';
+  const SELECTOR_DATA_TOGGLE$3 = '[data-bs-toggle="dropdown"]:not(.disabled):not(:disabled)';
+  const SELECTOR_DATA_TOGGLE_SHOWN = `${SELECTOR_DATA_TOGGLE$3}.${CLASS_NAME_SHOW$6}`;
+  const SELECTOR_MENU = '.dropdown-menu';
+  const SELECTOR_NAVBAR = '.navbar';
+  const SELECTOR_NAVBAR_NAV = '.navbar-nav';
+  const SELECTOR_VISIBLE_ITEMS = '.dropdown-menu .dropdown-item:not(.disabled):not(:disabled)';
+  const PLACEMENT_TOP = isRTL() ? 'top-end' : 'top-start';
+  const PLACEMENT_TOPEND = isRTL() ? 'top-start' : 'top-end';
+  const PLACEMENT_BOTTOM = isRTL() ? 'bottom-end' : 'bottom-start';
+  const PLACEMENT_BOTTOMEND = isRTL() ? 'bottom-start' : 'bottom-end';
+  const PLACEMENT_RIGHT = isRTL() ? 'left-start' : 'right-start';
+  const PLACEMENT_LEFT = isRTL() ? 'right-start' : 'left-start';
+  const PLACEMENT_TOPCENTER = 'top';
+  const PLACEMENT_BOTTOMCENTER = 'bottom';
+  const Default$9 = {
     autoClose: true,
     boundary: 'clippingParents',
     display: 'dynamic',
@@ -2081,7 +2043,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     popperConfig: null,
     reference: 'toggle'
   };
-  var DefaultType$9 = {
+  const DefaultType$9 = {
     autoClose: '(boolean|string)',
     boundary: '(string|element)',
     display: 'string',
@@ -2127,10 +2089,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return;
       }
 
-      var relatedTarget = {
+      const relatedTarget = {
         relatedTarget: this._element
       };
-      var showEvent = EventHandler.trigger(this._element, EVENT_SHOW$5, relatedTarget);
+      const showEvent = EventHandler.trigger(this._element, EVENT_SHOW$5, relatedTarget);
 
       if (showEvent.defaultPrevented) {
         return;
@@ -2143,7 +2105,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
       if ('ontouchstart' in document.documentElement && !this._parent.closest(SELECTOR_NAVBAR_NAV)) {
-        for (var element of [].concat(...document.body.children)) {
+        for (const element of [].concat(...document.body.children)) {
           EventHandler.on(element, 'mouseover', noop);
         }
       }
@@ -2164,7 +2126,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return;
       }
 
-      var relatedTarget = {
+      const relatedTarget = {
         relatedTarget: this._element
       };
 
@@ -2189,7 +2151,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
     _completeHide(relatedTarget) {
-      var hideEvent = EventHandler.trigger(this._element, EVENT_HIDE$5, relatedTarget);
+      const hideEvent = EventHandler.trigger(this._element, EVENT_HIDE$5, relatedTarget);
 
       if (hideEvent.defaultPrevented) {
         return;
@@ -2198,7 +2160,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
       if ('ontouchstart' in document.documentElement) {
-        for (var element of [].concat(...document.body.children)) {
+        for (const element of [].concat(...document.body.children)) {
           EventHandler.off(element, 'mouseover', noop);
         }
       }
@@ -2222,7 +2184,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       if (typeof config.reference === 'object' && !isElement(config.reference) && typeof config.reference.getBoundingClientRect !== 'function') {
         // Popper virtual elements require a getBoundingClientRect method
-        throw new TypeError("".concat(NAME$a.toUpperCase(), ": Option \"reference\" provided type \"object\" without a required \"getBoundingClientRect\" method."));
+        throw new TypeError(`${NAME$a.toUpperCase()}: Option "reference" provided type "object" without a required "getBoundingClientRect" method.`);
       }
 
       return config;
@@ -2233,7 +2195,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         throw new TypeError('Bootstrap\'s dropdowns require Popper (https://popper.js.org)');
       }
 
-      var referenceElement = this._element;
+      let referenceElement = this._element;
 
       if (this._config.reference === 'parent') {
         referenceElement = this._parent;
@@ -2243,7 +2205,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         referenceElement = this._config.reference;
       }
 
-      var popperConfig = this._getPopperConfig();
+      const popperConfig = this._getPopperConfig();
 
       this._popper = Popper__namespace.createPopper(referenceElement, this._menu, popperConfig);
     }
@@ -2253,7 +2215,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
 
     _getPlacement() {
-      var parentDropdown = this._parent;
+      const parentDropdown = this._parent;
 
       if (parentDropdown.classList.contains(CLASS_NAME_DROPEND)) {
         return PLACEMENT_RIGHT;
@@ -2272,7 +2234,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       } // We need to trim the value because custom properties can also include spaces
 
 
-      var isEnd = getComputedStyle(this._menu).getPropertyValue('--bs-position').trim() === 'end';
+      const isEnd = getComputedStyle(this._menu).getPropertyValue('--bs-position').trim() === 'end';
 
       if (parentDropdown.classList.contains(CLASS_NAME_DROPUP)) {
         return isEnd ? PLACEMENT_TOPEND : PLACEMENT_TOP;
@@ -2286,7 +2248,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
 
     _getOffset() {
-      var {
+      const {
         offset
       } = this._config;
 
@@ -2302,7 +2264,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
 
     _getPopperConfig() {
-      var defaultBsPopperConfig = {
+      const defaultBsPopperConfig = {
         placement: this._getPlacement(),
         modifiers: [{
           name: 'preventOverflow',
@@ -2326,15 +2288,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }];
       }
 
-      return _objectSpread(_objectSpread({}, defaultBsPopperConfig), typeof this._config.popperConfig === 'function' ? this._config.popperConfig(defaultBsPopperConfig) : this._config.popperConfig);
+      return { ...defaultBsPopperConfig,
+        ...(typeof this._config.popperConfig === 'function' ? this._config.popperConfig(defaultBsPopperConfig) : this._config.popperConfig)
+      };
     }
 
-    _selectMenuItem(_ref2) {
-      var {
-        key,
-        target
-      } = _ref2;
-      var items = SelectorEngine.find(SELECTOR_VISIBLE_ITEMS, this._menu).filter(element => isVisible(element));
+    _selectMenuItem({
+      key,
+      target
+    }) {
+      const items = SelectorEngine.find(SELECTOR_VISIBLE_ITEMS, this._menu).filter(element => isVisible(element));
 
       if (!items.length) {
         return;
@@ -2348,14 +2311,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     static jQueryInterface(config) {
       return this.each(function () {
-        var data = Dropdown.getOrCreateInstance(this, config);
+        const data = Dropdown.getOrCreateInstance(this, config);
 
         if (typeof config !== 'string') {
           return;
         }
 
         if (typeof data[config] === 'undefined') {
-          throw new TypeError("No method named \"".concat(config, "\""));
+          throw new TypeError(`No method named "${config}"`);
         }
 
         data[config]();
@@ -2367,17 +2330,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return;
       }
 
-      var openToggles = SelectorEngine.find(SELECTOR_DATA_TOGGLE_SHOWN);
+      const openToggles = SelectorEngine.find(SELECTOR_DATA_TOGGLE_SHOWN);
 
-      for (var toggle of openToggles) {
-        var context = Dropdown.getInstance(toggle);
+      for (const toggle of openToggles) {
+        const context = Dropdown.getInstance(toggle);
 
         if (!context || context._config.autoClose === false) {
           continue;
         }
 
-        var composedPath = event.composedPath();
-        var isMenuTarget = composedPath.includes(context._menu);
+        const composedPath = event.composedPath();
+        const isMenuTarget = composedPath.includes(context._menu);
 
         if (composedPath.includes(context._element) || context._config.autoClose === 'inside' && !isMenuTarget || context._config.autoClose === 'outside' && isMenuTarget) {
           continue;
@@ -2388,7 +2351,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           continue;
         }
 
-        var relatedTarget = {
+        const relatedTarget = {
           relatedTarget: context._element
         };
 
@@ -2403,9 +2366,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     static dataApiKeydownHandler(event) {
       // If not an UP | DOWN | ESCAPE key => not a dropdown command
       // If input/textarea && if key is other than ESCAPE => not a dropdown command
-      var isInput = /input|textarea/i.test(event.target.tagName);
-      var isEscapeEvent = event.key === ESCAPE_KEY$2;
-      var isUpOrDownEvent = [ARROW_UP_KEY$1, ARROW_DOWN_KEY$1].includes(event.key);
+      const isInput = /input|textarea/i.test(event.target.tagName);
+      const isEscapeEvent = event.key === ESCAPE_KEY$2;
+      const isUpOrDownEvent = [ARROW_UP_KEY$1, ARROW_DOWN_KEY$1].includes(event.key);
 
       if (!isUpOrDownEvent && !isEscapeEvent) {
         return;
@@ -2417,8 +2380,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       event.preventDefault(); // todo: v6 revert #37011 & change markup https://getbootstrap.com/docs/5.2/forms/input-group/
 
-      var getToggleButton = this.matches(SELECTOR_DATA_TOGGLE$3) ? this : SelectorEngine.prev(this, SELECTOR_DATA_TOGGLE$3)[0] || SelectorEngine.next(this, SELECTOR_DATA_TOGGLE$3)[0] || SelectorEngine.findOne(SELECTOR_DATA_TOGGLE$3, event.delegateTarget.parentNode);
-      var instance = Dropdown.getOrCreateInstance(getToggleButton);
+      const getToggleButton = this.matches(SELECTOR_DATA_TOGGLE$3) ? this : SelectorEngine.prev(this, SELECTOR_DATA_TOGGLE$3)[0] || SelectorEngine.next(this, SELECTOR_DATA_TOGGLE$3)[0] || SelectorEngine.findOne(SELECTOR_DATA_TOGGLE$3, event.delegateTarget.parentNode);
+      const instance = Dropdown.getOrCreateInstance(getToggleButton);
 
       if (isUpOrDownEvent) {
         event.stopPropagation();
@@ -2456,21 +2419,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
    */
 
   defineJQueryPlugin(Dropdown);
+
   /**
    * --------------------------------------------------------------------------
    * Bootstrap (v5.2.3): util/scrollBar.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
-
   /**
    * Constants
    */
 
-  var SELECTOR_FIXED_CONTENT = '.fixed-top, .fixed-bottom, .is-fixed, .sticky-top';
-  var SELECTOR_STICKY_CONTENT = '.sticky-top';
-  var PROPERTY_PADDING = 'padding-right';
-  var PROPERTY_MARGIN = 'margin-right';
+  const SELECTOR_FIXED_CONTENT = '.fixed-top, .fixed-bottom, .is-fixed, .sticky-top';
+  const SELECTOR_STICKY_CONTENT = '.sticky-top';
+  const PROPERTY_PADDING = 'padding-right';
+  const PROPERTY_MARGIN = 'margin-right';
   /**
    * Class definition
    */
@@ -2483,12 +2446,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     getWidth() {
       // https://developer.mozilla.org/en-US/docs/Web/API/Window/innerWidth#usage_notes
-      var documentWidth = document.documentElement.clientWidth;
+      const documentWidth = document.documentElement.clientWidth;
       return Math.abs(window.innerWidth - documentWidth);
     }
 
     hide() {
-      var width = this.getWidth();
+      const width = this.getWidth();
 
       this._disableOverFlow(); // give padding to element to balance the hidden scrollbar width
 
@@ -2523,24 +2486,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
 
     _setElementAttributes(selector, styleProperty, callback) {
-      var scrollbarWidth = this.getWidth();
+      const scrollbarWidth = this.getWidth();
 
-      var manipulationCallBack = element => {
+      const manipulationCallBack = element => {
         if (element !== this._element && window.innerWidth > element.clientWidth + scrollbarWidth) {
           return;
         }
 
         this._saveInitialAttribute(element, styleProperty);
 
-        var calculatedValue = window.getComputedStyle(element).getPropertyValue(styleProperty);
-        element.style.setProperty(styleProperty, "".concat(callback(Number.parseFloat(calculatedValue)), "px"));
+        const calculatedValue = window.getComputedStyle(element).getPropertyValue(styleProperty);
+        element.style.setProperty(styleProperty, `${callback(Number.parseFloat(calculatedValue))}px`);
       };
 
       this._applyManipulationCallback(selector, manipulationCallBack);
     }
 
     _saveInitialAttribute(element, styleProperty) {
-      var actualValue = element.style.getPropertyValue(styleProperty);
+      const actualValue = element.style.getPropertyValue(styleProperty);
 
       if (actualValue) {
         Manipulator.setDataAttribute(element, styleProperty, actualValue);
@@ -2548,8 +2511,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
 
     _resetElementAttributes(selector, styleProperty) {
-      var manipulationCallBack = element => {
-        var value = Manipulator.getDataAttribute(element, styleProperty); // We only want to remove the property if the value is `null`; the value can also be zero
+      const manipulationCallBack = element => {
+        const value = Manipulator.getDataAttribute(element, styleProperty); // We only want to remove the property if the value is `null`; the value can also be zero
 
         if (value === null) {
           element.style.removeProperty(styleProperty);
@@ -2569,29 +2532,28 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return;
       }
 
-      for (var sel of SelectorEngine.find(selector, this._element)) {
+      for (const sel of SelectorEngine.find(selector, this._element)) {
         callBack(sel);
       }
     }
 
   }
+
   /**
    * --------------------------------------------------------------------------
    * Bootstrap (v5.2.3): util/backdrop.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
-
   /**
    * Constants
    */
 
-
-  var NAME$9 = 'backdrop';
-  var CLASS_NAME_FADE$4 = 'fade';
-  var CLASS_NAME_SHOW$5 = 'show';
-  var EVENT_MOUSEDOWN = "mousedown.bs.".concat(NAME$9);
-  var Default$8 = {
+  const NAME$9 = 'backdrop';
+  const CLASS_NAME_FADE$4 = 'fade';
+  const CLASS_NAME_SHOW$5 = 'show';
+  const EVENT_MOUSEDOWN = `mousedown.bs.${NAME$9}`;
+  const Default$8 = {
     className: 'modal-backdrop',
     clickCallback: null,
     isAnimated: false,
@@ -2600,7 +2562,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     rootElement: 'body' // give the choice to place backdrop under different elements
 
   };
-  var DefaultType$8 = {
+  const DefaultType$8 = {
     className: 'string',
     clickCallback: '(function|null)',
     isAnimated: 'boolean',
@@ -2641,7 +2603,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       this._append();
 
-      var element = this._getElement();
+      const element = this._getElement();
 
       if (this._config.isAnimated) {
         reflow(element);
@@ -2683,7 +2645,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     _getElement() {
       if (!this._element) {
-        var backdrop = document.createElement('div');
+        const backdrop = document.createElement('div');
         backdrop.className = this._config.className;
 
         if (this._config.isAnimated) {
@@ -2707,7 +2669,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return;
       }
 
-      var element = this._getElement();
+      const element = this._getElement();
 
       this._config.rootElement.append(element);
 
@@ -2722,32 +2684,31 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
 
   }
+
   /**
    * --------------------------------------------------------------------------
    * Bootstrap (v5.2.3): util/focustrap.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
-
   /**
    * Constants
    */
 
-
-  var NAME$8 = 'focustrap';
-  var DATA_KEY$5 = 'bs.focustrap';
-  var EVENT_KEY$5 = ".".concat(DATA_KEY$5);
-  var EVENT_FOCUSIN$2 = "focusin".concat(EVENT_KEY$5);
-  var EVENT_KEYDOWN_TAB = "keydown.tab".concat(EVENT_KEY$5);
-  var TAB_KEY = 'Tab';
-  var TAB_NAV_FORWARD = 'forward';
-  var TAB_NAV_BACKWARD = 'backward';
-  var Default$7 = {
+  const NAME$8 = 'focustrap';
+  const DATA_KEY$5 = 'bs.focustrap';
+  const EVENT_KEY$5 = `.${DATA_KEY$5}`;
+  const EVENT_FOCUSIN$2 = `focusin${EVENT_KEY$5}`;
+  const EVENT_KEYDOWN_TAB = `keydown.tab${EVENT_KEY$5}`;
+  const TAB_KEY = 'Tab';
+  const TAB_NAV_FORWARD = 'forward';
+  const TAB_NAV_BACKWARD = 'backward';
+  const Default$7 = {
     autofocus: true,
     trapElement: null // The element to trap focus inside of
 
   };
-  var DefaultType$7 = {
+  const DefaultType$7 = {
     autofocus: 'boolean',
     trapElement: 'element'
   };
@@ -2804,7 +2765,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
     _handleFocusin(event) {
-      var {
+      const {
         trapElement
       } = this._config;
 
@@ -2812,7 +2773,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return;
       }
 
-      var elements = SelectorEngine.focusableChildren(trapElement);
+      const elements = SelectorEngine.focusableChildren(trapElement);
 
       if (elements.length === 0) {
         trapElement.focus();
@@ -2832,47 +2793,46 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
 
   }
+
   /**
    * --------------------------------------------------------------------------
    * Bootstrap (v5.2.3): modal.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
-
   /**
    * Constants
    */
 
-
-  var NAME$7 = 'modal';
-  var DATA_KEY$4 = 'bs.modal';
-  var EVENT_KEY$4 = ".".concat(DATA_KEY$4);
-  var DATA_API_KEY$2 = '.data-api';
-  var ESCAPE_KEY$1 = 'Escape';
-  var EVENT_HIDE$4 = "hide".concat(EVENT_KEY$4);
-  var EVENT_HIDE_PREVENTED$1 = "hidePrevented".concat(EVENT_KEY$4);
-  var EVENT_HIDDEN$4 = "hidden".concat(EVENT_KEY$4);
-  var EVENT_SHOW$4 = "show".concat(EVENT_KEY$4);
-  var EVENT_SHOWN$4 = "shown".concat(EVENT_KEY$4);
-  var EVENT_RESIZE$1 = "resize".concat(EVENT_KEY$4);
-  var EVENT_CLICK_DISMISS = "click.dismiss".concat(EVENT_KEY$4);
-  var EVENT_MOUSEDOWN_DISMISS = "mousedown.dismiss".concat(EVENT_KEY$4);
-  var EVENT_KEYDOWN_DISMISS$1 = "keydown.dismiss".concat(EVENT_KEY$4);
-  var EVENT_CLICK_DATA_API$2 = "click".concat(EVENT_KEY$4).concat(DATA_API_KEY$2);
-  var CLASS_NAME_OPEN = 'modal-open';
-  var CLASS_NAME_FADE$3 = 'fade';
-  var CLASS_NAME_SHOW$4 = 'show';
-  var CLASS_NAME_STATIC = 'modal-static';
-  var OPEN_SELECTOR$1 = '.modal.show';
-  var SELECTOR_DIALOG = '.modal-dialog';
-  var SELECTOR_MODAL_BODY = '.modal-body';
-  var SELECTOR_DATA_TOGGLE$2 = '[data-bs-toggle="modal"]';
-  var Default$6 = {
+  const NAME$7 = 'modal';
+  const DATA_KEY$4 = 'bs.modal';
+  const EVENT_KEY$4 = `.${DATA_KEY$4}`;
+  const DATA_API_KEY$2 = '.data-api';
+  const ESCAPE_KEY$1 = 'Escape';
+  const EVENT_HIDE$4 = `hide${EVENT_KEY$4}`;
+  const EVENT_HIDE_PREVENTED$1 = `hidePrevented${EVENT_KEY$4}`;
+  const EVENT_HIDDEN$4 = `hidden${EVENT_KEY$4}`;
+  const EVENT_SHOW$4 = `show${EVENT_KEY$4}`;
+  const EVENT_SHOWN$4 = `shown${EVENT_KEY$4}`;
+  const EVENT_RESIZE$1 = `resize${EVENT_KEY$4}`;
+  const EVENT_CLICK_DISMISS = `click.dismiss${EVENT_KEY$4}`;
+  const EVENT_MOUSEDOWN_DISMISS = `mousedown.dismiss${EVENT_KEY$4}`;
+  const EVENT_KEYDOWN_DISMISS$1 = `keydown.dismiss${EVENT_KEY$4}`;
+  const EVENT_CLICK_DATA_API$2 = `click${EVENT_KEY$4}${DATA_API_KEY$2}`;
+  const CLASS_NAME_OPEN = 'modal-open';
+  const CLASS_NAME_FADE$3 = 'fade';
+  const CLASS_NAME_SHOW$4 = 'show';
+  const CLASS_NAME_STATIC = 'modal-static';
+  const OPEN_SELECTOR$1 = '.modal.show';
+  const SELECTOR_DIALOG = '.modal-dialog';
+  const SELECTOR_MODAL_BODY = '.modal-body';
+  const SELECTOR_DATA_TOGGLE$2 = '[data-bs-toggle="modal"]';
+  const Default$6 = {
     backdrop: true,
     focus: true,
     keyboard: true
   };
-  var DefaultType$6 = {
+  const DefaultType$6 = {
     backdrop: '(boolean|string)',
     focus: 'boolean',
     keyboard: 'boolean'
@@ -2917,7 +2877,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return;
       }
 
-      var showEvent = EventHandler.trigger(this._element, EVENT_SHOW$4, {
+      const showEvent = EventHandler.trigger(this._element, EVENT_SHOW$4, {
         relatedTarget
       });
 
@@ -2942,7 +2902,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return;
       }
 
-      var hideEvent = EventHandler.trigger(this._element, EVENT_HIDE$4);
+      const hideEvent = EventHandler.trigger(this._element, EVENT_HIDE$4);
 
       if (hideEvent.defaultPrevented) {
         return;
@@ -2959,7 +2919,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
 
     dispose() {
-      for (var htmlElement of [window, this._dialog]) {
+      for (const htmlElement of [window, this._dialog]) {
         EventHandler.off(htmlElement, EVENT_KEY$4);
       }
 
@@ -3004,7 +2964,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this._element.setAttribute('role', 'dialog');
 
       this._element.scrollTop = 0;
-      var modalBody = SelectorEngine.findOne(SELECTOR_MODAL_BODY, this._dialog);
+      const modalBody = SelectorEngine.findOne(SELECTOR_MODAL_BODY, this._dialog);
 
       if (modalBody) {
         modalBody.scrollTop = 0;
@@ -3014,7 +2974,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       this._element.classList.add(CLASS_NAME_SHOW$4);
 
-      var transitionComplete = () => {
+      const transitionComplete = () => {
         if (this._config.focus) {
           this._focustrap.activate();
         }
@@ -3094,14 +3054,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
 
     _triggerBackdropTransition() {
-      var hideEvent = EventHandler.trigger(this._element, EVENT_HIDE_PREVENTED$1);
+      const hideEvent = EventHandler.trigger(this._element, EVENT_HIDE_PREVENTED$1);
 
       if (hideEvent.defaultPrevented) {
         return;
       }
 
-      var isModalOverflowing = this._element.scrollHeight > document.documentElement.clientHeight;
-      var initialOverflowY = this._element.style.overflowY; // return if the following background transition hasn't yet completed
+      const isModalOverflowing = this._element.scrollHeight > document.documentElement.clientHeight;
+      const initialOverflowY = this._element.style.overflowY; // return if the following background transition hasn't yet completed
 
       if (initialOverflowY === 'hidden' || this._element.classList.contains(CLASS_NAME_STATIC)) {
         return;
@@ -3129,21 +3089,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
     _adjustDialog() {
-      var isModalOverflowing = this._element.scrollHeight > document.documentElement.clientHeight;
+      const isModalOverflowing = this._element.scrollHeight > document.documentElement.clientHeight;
 
-      var scrollbarWidth = this._scrollBar.getWidth();
+      const scrollbarWidth = this._scrollBar.getWidth();
 
-      var isBodyOverflowing = scrollbarWidth > 0;
+      const isBodyOverflowing = scrollbarWidth > 0;
 
       if (isBodyOverflowing && !isModalOverflowing) {
-        var property = isRTL() ? 'paddingLeft' : 'paddingRight';
-        this._element.style[property] = "".concat(scrollbarWidth, "px");
+        const property = isRTL() ? 'paddingLeft' : 'paddingRight';
+        this._element.style[property] = `${scrollbarWidth}px`;
       }
 
       if (!isBodyOverflowing && isModalOverflowing) {
-        var _property = isRTL() ? 'paddingRight' : 'paddingLeft';
-
-        this._element.style[_property] = "".concat(scrollbarWidth, "px");
+        const property = isRTL() ? 'paddingRight' : 'paddingLeft';
+        this._element.style[property] = `${scrollbarWidth}px`;
       }
     }
 
@@ -3155,14 +3114,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     static jQueryInterface(config, relatedTarget) {
       return this.each(function () {
-        var data = Modal.getOrCreateInstance(this, config);
+        const data = Modal.getOrCreateInstance(this, config);
 
         if (typeof config !== 'string') {
           return;
         }
 
         if (typeof data[config] === 'undefined') {
-          throw new TypeError("No method named \"".concat(config, "\""));
+          throw new TypeError(`No method named "${config}"`);
         }
 
         data[config](relatedTarget);
@@ -3176,7 +3135,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
   EventHandler.on(document, EVENT_CLICK_DATA_API$2, SELECTOR_DATA_TOGGLE$2, function (event) {
-    var target = getElementFromSelector(this);
+    const target = getElementFromSelector(this);
 
     if (['A', 'AREA'].includes(this.tagName)) {
       event.preventDefault();
@@ -3195,13 +3154,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     }); // avoid conflict when clicking modal toggler while another one is open
 
-    var alreadyOpen = SelectorEngine.findOne(OPEN_SELECTOR$1);
+    const alreadyOpen = SelectorEngine.findOne(OPEN_SELECTOR$1);
 
     if (alreadyOpen) {
       Modal.getInstance(alreadyOpen).hide();
     }
 
-    var data = Modal.getOrCreateInstance(target);
+    const data = Modal.getOrCreateInstance(target);
     data.toggle(this);
   });
   enableDismissTrigger(Modal);
@@ -3210,43 +3169,43 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
    */
 
   defineJQueryPlugin(Modal);
+
   /**
    * --------------------------------------------------------------------------
    * Bootstrap (v5.2.3): offcanvas.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
-
   /**
    * Constants
    */
 
-  var NAME$6 = 'offcanvas';
-  var DATA_KEY$3 = 'bs.offcanvas';
-  var EVENT_KEY$3 = ".".concat(DATA_KEY$3);
-  var DATA_API_KEY$1 = '.data-api';
-  var EVENT_LOAD_DATA_API$2 = "load".concat(EVENT_KEY$3).concat(DATA_API_KEY$1);
-  var ESCAPE_KEY = 'Escape';
-  var CLASS_NAME_SHOW$3 = 'show';
-  var CLASS_NAME_SHOWING$1 = 'showing';
-  var CLASS_NAME_HIDING = 'hiding';
-  var CLASS_NAME_BACKDROP = 'offcanvas-backdrop';
-  var OPEN_SELECTOR = '.offcanvas.show';
-  var EVENT_SHOW$3 = "show".concat(EVENT_KEY$3);
-  var EVENT_SHOWN$3 = "shown".concat(EVENT_KEY$3);
-  var EVENT_HIDE$3 = "hide".concat(EVENT_KEY$3);
-  var EVENT_HIDE_PREVENTED = "hidePrevented".concat(EVENT_KEY$3);
-  var EVENT_HIDDEN$3 = "hidden".concat(EVENT_KEY$3);
-  var EVENT_RESIZE = "resize".concat(EVENT_KEY$3);
-  var EVENT_CLICK_DATA_API$1 = "click".concat(EVENT_KEY$3).concat(DATA_API_KEY$1);
-  var EVENT_KEYDOWN_DISMISS = "keydown.dismiss".concat(EVENT_KEY$3);
-  var SELECTOR_DATA_TOGGLE$1 = '[data-bs-toggle="offcanvas"]';
-  var Default$5 = {
+  const NAME$6 = 'offcanvas';
+  const DATA_KEY$3 = 'bs.offcanvas';
+  const EVENT_KEY$3 = `.${DATA_KEY$3}`;
+  const DATA_API_KEY$1 = '.data-api';
+  const EVENT_LOAD_DATA_API$2 = `load${EVENT_KEY$3}${DATA_API_KEY$1}`;
+  const ESCAPE_KEY = 'Escape';
+  const CLASS_NAME_SHOW$3 = 'show';
+  const CLASS_NAME_SHOWING$1 = 'showing';
+  const CLASS_NAME_HIDING = 'hiding';
+  const CLASS_NAME_BACKDROP = 'offcanvas-backdrop';
+  const OPEN_SELECTOR = '.offcanvas.show';
+  const EVENT_SHOW$3 = `show${EVENT_KEY$3}`;
+  const EVENT_SHOWN$3 = `shown${EVENT_KEY$3}`;
+  const EVENT_HIDE$3 = `hide${EVENT_KEY$3}`;
+  const EVENT_HIDE_PREVENTED = `hidePrevented${EVENT_KEY$3}`;
+  const EVENT_HIDDEN$3 = `hidden${EVENT_KEY$3}`;
+  const EVENT_RESIZE = `resize${EVENT_KEY$3}`;
+  const EVENT_CLICK_DATA_API$1 = `click${EVENT_KEY$3}${DATA_API_KEY$1}`;
+  const EVENT_KEYDOWN_DISMISS = `keydown.dismiss${EVENT_KEY$3}`;
+  const SELECTOR_DATA_TOGGLE$1 = '[data-bs-toggle="offcanvas"]';
+  const Default$5 = {
     backdrop: true,
     keyboard: true,
     scroll: false
   };
-  var DefaultType$5 = {
+  const DefaultType$5 = {
     backdrop: '(boolean|string)',
     keyboard: 'boolean',
     scroll: 'boolean'
@@ -3288,7 +3247,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return;
       }
 
-      var showEvent = EventHandler.trigger(this._element, EVENT_SHOW$3, {
+      const showEvent = EventHandler.trigger(this._element, EVENT_SHOW$3, {
         relatedTarget
       });
 
@@ -3310,7 +3269,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       this._element.classList.add(CLASS_NAME_SHOWING$1);
 
-      var completeCallBack = () => {
+      const completeCallBack = () => {
         if (!this._config.scroll || this._config.backdrop) {
           this._focustrap.activate();
         }
@@ -3332,7 +3291,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return;
       }
 
-      var hideEvent = EventHandler.trigger(this._element, EVENT_HIDE$3);
+      const hideEvent = EventHandler.trigger(this._element, EVENT_HIDE$3);
 
       if (hideEvent.defaultPrevented) {
         return;
@@ -3348,7 +3307,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       this._backdrop.hide();
 
-      var completeCallback = () => {
+      const completeCallback = () => {
         this._element.classList.remove(CLASS_NAME_SHOW$3, CLASS_NAME_HIDING);
 
         this._element.removeAttribute('aria-modal');
@@ -3375,7 +3334,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
     _initializeBackDrop() {
-      var clickCallback = () => {
+      const clickCallback = () => {
         if (this._config.backdrop === 'static') {
           EventHandler.trigger(this._element, EVENT_HIDE_PREVENTED);
           return;
@@ -3385,7 +3344,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }; // 'static' option will be translated to true, and booleans will keep their value
 
 
-      var isVisible = Boolean(this._config.backdrop);
+      const isVisible = Boolean(this._config.backdrop);
       return new Backdrop({
         className: CLASS_NAME_BACKDROP,
         isVisible,
@@ -3419,14 +3378,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     static jQueryInterface(config) {
       return this.each(function () {
-        var data = Offcanvas.getOrCreateInstance(this, config);
+        const data = Offcanvas.getOrCreateInstance(this, config);
 
         if (typeof config !== 'string') {
           return;
         }
 
         if (data[config] === undefined || config.startsWith('_') || config === 'constructor') {
-          throw new TypeError("No method named \"".concat(config, "\""));
+          throw new TypeError(`No method named "${config}"`);
         }
 
         data[config](this);
@@ -3440,7 +3399,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
   EventHandler.on(document, EVENT_CLICK_DATA_API$1, SELECTOR_DATA_TOGGLE$1, function (event) {
-    var target = getElementFromSelector(this);
+    const target = getElementFromSelector(this);
 
     if (['A', 'AREA'].includes(this.tagName)) {
       event.preventDefault();
@@ -3457,22 +3416,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     }); // avoid conflict when clicking a toggler of an offcanvas, while another is open
 
-    var alreadyOpen = SelectorEngine.findOne(OPEN_SELECTOR);
+    const alreadyOpen = SelectorEngine.findOne(OPEN_SELECTOR);
 
     if (alreadyOpen && alreadyOpen !== target) {
       Offcanvas.getInstance(alreadyOpen).hide();
     }
 
-    var data = Offcanvas.getOrCreateInstance(target);
+    const data = Offcanvas.getOrCreateInstance(target);
     data.toggle(this);
   });
   EventHandler.on(window, EVENT_LOAD_DATA_API$2, () => {
-    for (var selector of SelectorEngine.find(OPEN_SELECTOR)) {
+    for (const selector of SelectorEngine.find(OPEN_SELECTOR)) {
       Offcanvas.getOrCreateInstance(selector).show();
     }
   });
   EventHandler.on(window, EVENT_RESIZE, () => {
-    for (var element of SelectorEngine.find('[aria-modal][class*=show][class*=offcanvas-]')) {
+    for (const element of SelectorEngine.find('[aria-modal][class*=show][class*=offcanvas-]')) {
       if (getComputedStyle(element).position !== 'fixed') {
         Offcanvas.getOrCreateInstance(element).hide();
       }
@@ -3484,32 +3443,32 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
    */
 
   defineJQueryPlugin(Offcanvas);
+
   /**
    * --------------------------------------------------------------------------
    * Bootstrap (v5.2.3): util/sanitizer.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
-
-  var uriAttributes = new Set(['background', 'cite', 'href', 'itemtype', 'longdesc', 'poster', 'src', 'xlink:href']);
-  var ARIA_ATTRIBUTE_PATTERN = /^aria-[\w-]*$/i;
+  const uriAttributes = new Set(['background', 'cite', 'href', 'itemtype', 'longdesc', 'poster', 'src', 'xlink:href']);
+  const ARIA_ATTRIBUTE_PATTERN = /^aria-[\w-]*$/i;
   /**
    * A pattern that recognizes a commonly useful subset of URLs that are safe.
    *
    * Shout-out to Angular https://github.com/angular/angular/blob/12.2.x/packages/core/src/sanitization/url_sanitizer.ts
    */
 
-  var SAFE_URL_PATTERN = /^(?:(?:https?|mailto|ftp|tel|file|sms):|[^#&/:?]*(?:[#/?]|$))/i;
+  const SAFE_URL_PATTERN = /^(?:(?:https?|mailto|ftp|tel|file|sms):|[^#&/:?]*(?:[#/?]|$))/i;
   /**
    * A pattern that matches safe data URLs. Only matches image, video and audio types.
    *
    * Shout-out to Angular https://github.com/angular/angular/blob/12.2.x/packages/core/src/sanitization/url_sanitizer.ts
    */
 
-  var DATA_URL_PATTERN = /^data:(?:image\/(?:bmp|gif|jpeg|jpg|png|tiff|webp)|video\/(?:mpeg|mp4|ogg|webm)|audio\/(?:mp3|oga|ogg|opus));base64,[\d+/a-z]+=*$/i;
+  const DATA_URL_PATTERN = /^data:(?:image\/(?:bmp|gif|jpeg|jpg|png|tiff|webp)|video\/(?:mpeg|mp4|ogg|webm)|audio\/(?:mp3|oga|ogg|opus));base64,[\d+/a-z]+=*$/i;
 
-  var allowedAttribute = (attribute, allowedAttributeList) => {
-    var attributeName = attribute.nodeName.toLowerCase();
+  const allowedAttribute = (attribute, allowedAttributeList) => {
+    const attributeName = attribute.nodeName.toLowerCase();
 
     if (allowedAttributeList.includes(attributeName)) {
       if (uriAttributes.has(attributeName)) {
@@ -3523,7 +3482,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return allowedAttributeList.filter(attributeRegex => attributeRegex instanceof RegExp).some(regex => regex.test(attributeName));
   };
 
-  var DefaultAllowlist = {
+  const DefaultAllowlist = {
     // Global attributes allowed on any supplied element below.
     '*': ['class', 'dir', 'id', 'lang', 'role', ARIA_ATTRIBUTE_PATTERN],
     a: ['target', 'href', 'title', 'rel'],
@@ -3556,7 +3515,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     u: [],
     ul: []
   };
-
   function sanitizeHtml(unsafeHtml, allowList, sanitizeFunction) {
     if (!unsafeHtml.length) {
       return unsafeHtml;
@@ -3566,22 +3524,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return sanitizeFunction(unsafeHtml);
     }
 
-    var domParser = new window.DOMParser();
-    var createdDocument = domParser.parseFromString(unsafeHtml, 'text/html');
-    var elements = [].concat(...createdDocument.body.querySelectorAll('*'));
+    const domParser = new window.DOMParser();
+    const createdDocument = domParser.parseFromString(unsafeHtml, 'text/html');
+    const elements = [].concat(...createdDocument.body.querySelectorAll('*'));
 
-    for (var element of elements) {
-      var elementName = element.nodeName.toLowerCase();
+    for (const element of elements) {
+      const elementName = element.nodeName.toLowerCase();
 
       if (!Object.keys(allowList).includes(elementName)) {
         element.remove();
         continue;
       }
 
-      var attributeList = [].concat(...element.attributes);
-      var allowedAttributes = [].concat(allowList['*'] || [], allowList[elementName] || []);
+      const attributeList = [].concat(...element.attributes);
+      const allowedAttributes = [].concat(allowList['*'] || [], allowList[elementName] || []);
 
-      for (var attribute of attributeList) {
+      for (const attribute of attributeList) {
         if (!allowedAttribute(attribute, allowedAttributes)) {
           element.removeAttribute(attribute.nodeName);
         }
@@ -3590,20 +3548,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     return createdDocument.body.innerHTML;
   }
+
   /**
    * --------------------------------------------------------------------------
    * Bootstrap (v5.2.3): util/template-factory.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
-
   /**
    * Constants
    */
 
-
-  var NAME$5 = 'TemplateFactory';
-  var Default$4 = {
+  const NAME$5 = 'TemplateFactory';
+  const Default$4 = {
     allowList: DefaultAllowlist,
     content: {},
     // { selector : text ,  selector2 : text2 , }
@@ -3613,7 +3570,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     sanitizeFn: null,
     template: '<div></div>'
   };
-  var DefaultType$4 = {
+  const DefaultType$4 = {
     allowList: 'object',
     content: 'object',
     extraClass: '(string|function)',
@@ -3622,7 +3579,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     sanitizeFn: '(null|function)',
     template: 'string'
   };
-  var DefaultContentType = {
+  const DefaultContentType = {
     entry: '(string|element|function|null)',
     selector: '(string|element)'
   };
@@ -3661,21 +3618,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     changeContent(content) {
       this._checkContent(content);
 
-      this._config.content = _objectSpread(_objectSpread({}, this._config.content), content);
+      this._config.content = { ...this._config.content,
+        ...content
+      };
       return this;
     }
 
     toHtml() {
-      var templateWrapper = document.createElement('div');
+      const templateWrapper = document.createElement('div');
       templateWrapper.innerHTML = this._maybeSanitize(this._config.template);
 
-      for (var [selector, text] of Object.entries(this._config.content)) {
+      for (const [selector, text] of Object.entries(this._config.content)) {
         this._setContent(templateWrapper, text, selector);
       }
 
-      var template = templateWrapper.children[0];
+      const template = templateWrapper.children[0];
 
-      var extraClass = this._resolvePossibleFunction(this._config.extraClass);
+      const extraClass = this._resolvePossibleFunction(this._config.extraClass);
 
       if (extraClass) {
         template.classList.add(...extraClass.split(' '));
@@ -3692,7 +3651,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
 
     _checkContent(arg) {
-      for (var [selector, content] of Object.entries(arg)) {
+      for (const [selector, content] of Object.entries(arg)) {
         super._typeCheckConfig({
           selector,
           entry: content
@@ -3701,7 +3660,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
 
     _setContent(template, content, selector) {
-      var templateElement = SelectorEngine.findOne(selector, template);
+      const templateElement = SelectorEngine.findOne(selector, template);
 
       if (!templateElement) {
         return;
@@ -3747,48 +3706,47 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
 
   }
+
   /**
    * --------------------------------------------------------------------------
    * Bootstrap (v5.2.3): tooltip.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
-
   /**
    * Constants
    */
 
-
-  var NAME$4 = 'tooltip';
-  var DISALLOWED_ATTRIBUTES = new Set(['sanitize', 'allowList', 'sanitizeFn']);
-  var CLASS_NAME_FADE$2 = 'fade';
-  var CLASS_NAME_MODAL = 'modal';
-  var CLASS_NAME_SHOW$2 = 'show';
-  var SELECTOR_TOOLTIP_INNER = '.tooltip-inner';
-  var SELECTOR_MODAL = ".".concat(CLASS_NAME_MODAL);
-  var EVENT_MODAL_HIDE = 'hide.bs.modal';
-  var TRIGGER_HOVER = 'hover';
-  var TRIGGER_FOCUS = 'focus';
-  var TRIGGER_CLICK = 'click';
-  var TRIGGER_MANUAL = 'manual';
-  var EVENT_HIDE$2 = 'hide';
-  var EVENT_HIDDEN$2 = 'hidden';
-  var EVENT_SHOW$2 = 'show';
-  var EVENT_SHOWN$2 = 'shown';
-  var EVENT_INSERTED = 'inserted';
-  var EVENT_CLICK$1 = 'click';
-  var EVENT_FOCUSIN$1 = 'focusin';
-  var EVENT_FOCUSOUT$1 = 'focusout';
-  var EVENT_MOUSEENTER = 'mouseenter';
-  var EVENT_MOUSELEAVE = 'mouseleave';
-  var AttachmentMap = {
+  const NAME$4 = 'tooltip';
+  const DISALLOWED_ATTRIBUTES = new Set(['sanitize', 'allowList', 'sanitizeFn']);
+  const CLASS_NAME_FADE$2 = 'fade';
+  const CLASS_NAME_MODAL = 'modal';
+  const CLASS_NAME_SHOW$2 = 'show';
+  const SELECTOR_TOOLTIP_INNER = '.tooltip-inner';
+  const SELECTOR_MODAL = `.${CLASS_NAME_MODAL}`;
+  const EVENT_MODAL_HIDE = 'hide.bs.modal';
+  const TRIGGER_HOVER = 'hover';
+  const TRIGGER_FOCUS = 'focus';
+  const TRIGGER_CLICK = 'click';
+  const TRIGGER_MANUAL = 'manual';
+  const EVENT_HIDE$2 = 'hide';
+  const EVENT_HIDDEN$2 = 'hidden';
+  const EVENT_SHOW$2 = 'show';
+  const EVENT_SHOWN$2 = 'shown';
+  const EVENT_INSERTED = 'inserted';
+  const EVENT_CLICK$1 = 'click';
+  const EVENT_FOCUSIN$1 = 'focusin';
+  const EVENT_FOCUSOUT$1 = 'focusout';
+  const EVENT_MOUSEENTER = 'mouseenter';
+  const EVENT_MOUSELEAVE = 'mouseleave';
+  const AttachmentMap = {
     AUTO: 'auto',
     TOP: 'top',
     RIGHT: isRTL() ? 'left' : 'right',
     BOTTOM: 'bottom',
     LEFT: isRTL() ? 'right' : 'left'
   };
-  var Default$3 = {
+  const Default$3 = {
     allowList: DefaultAllowlist,
     animation: true,
     boundary: 'clippingParents',
@@ -3807,7 +3765,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     title: '',
     trigger: 'hover focus'
   };
-  var DefaultType$3 = {
+  const DefaultType$3 = {
     allowList: 'object',
     animation: 'boolean',
     boundary: '(string|element)',
@@ -3919,10 +3877,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return;
       }
 
-      var showEvent = EventHandler.trigger(this._element, this.constructor.eventName(EVENT_SHOW$2));
-      var shadowRoot = findShadowRoot(this._element);
+      const showEvent = EventHandler.trigger(this._element, this.constructor.eventName(EVENT_SHOW$2));
+      const shadowRoot = findShadowRoot(this._element);
 
-      var isInTheDom = (shadowRoot || this._element.ownerDocument.documentElement).contains(this._element);
+      const isInTheDom = (shadowRoot || this._element.ownerDocument.documentElement).contains(this._element);
 
       if (showEvent.defaultPrevented || !isInTheDom) {
         return;
@@ -3931,11 +3889,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       this._disposePopper();
 
-      var tip = this._getTipElement();
+      const tip = this._getTipElement();
 
       this._element.setAttribute('aria-describedby', tip.getAttribute('id'));
 
-      var {
+      const {
         container
       } = this._config;
 
@@ -3951,12 +3909,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       // https://www.quirksmode.org/blog/archives/2014/02/mouse_event_bub.html
 
       if ('ontouchstart' in document.documentElement) {
-        for (var element of [].concat(...document.body.children)) {
+        for (const element of [].concat(...document.body.children)) {
           EventHandler.on(element, 'mouseover', noop);
         }
       }
 
-      var complete = () => {
+      const complete = () => {
         EventHandler.trigger(this._element, this.constructor.eventName(EVENT_SHOWN$2));
 
         if (this._isHovered === false) {
@@ -3974,19 +3932,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return;
       }
 
-      var hideEvent = EventHandler.trigger(this._element, this.constructor.eventName(EVENT_HIDE$2));
+      const hideEvent = EventHandler.trigger(this._element, this.constructor.eventName(EVENT_HIDE$2));
 
       if (hideEvent.defaultPrevented) {
         return;
       }
 
-      var tip = this._getTipElement();
+      const tip = this._getTipElement();
 
       tip.classList.remove(CLASS_NAME_SHOW$2); // If this is a touch-enabled device we remove the extra
       // empty mouseover listeners we added for iOS support
 
       if ('ontouchstart' in document.documentElement) {
-        for (var element of [].concat(...document.body.children)) {
+        for (const element of [].concat(...document.body.children)) {
           EventHandler.off(element, 'mouseover', noop);
         }
       }
@@ -3996,7 +3954,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this._activeTrigger[TRIGGER_HOVER] = false;
       this._isHovered = null; // it is a trick to support manual triggering
 
-      var complete = () => {
+      const complete = () => {
         if (this._isWithActiveTrigger()) {
           return;
         }
@@ -4033,7 +3991,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
 
     _createTipElement(content) {
-      var tip = this._getTemplateFactory(content).toHtml(); // todo: remove this check on v6
+      const tip = this._getTemplateFactory(content).toHtml(); // todo: remove this check on v6
 
 
       if (!tip) {
@@ -4042,8 +4000,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       tip.classList.remove(CLASS_NAME_FADE$2, CLASS_NAME_SHOW$2); // todo: on v6 the following can be achieved with CSS only
 
-      tip.classList.add("bs-".concat(this.constructor.NAME, "-auto"));
-      var tipId = getUID(this.constructor.NAME).toString();
+      tip.classList.add(`bs-${this.constructor.NAME}-auto`);
+      const tipId = getUID(this.constructor.NAME).toString();
       tip.setAttribute('id', tipId);
 
       if (this._isAnimated()) {
@@ -4067,12 +4025,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       if (this._templateFactory) {
         this._templateFactory.changeContent(content);
       } else {
-        this._templateFactory = new TemplateFactory(_objectSpread(_objectSpread({}, this._config), {}, {
+        this._templateFactory = new TemplateFactory({ ...this._config,
           // the `content` var has to be after `this._config`
           // to override config.content in case of popover
           content,
           extraClass: this._resolvePossibleFunction(this._config.customClass)
-        }));
+        });
       }
 
       return this._templateFactory;
@@ -4102,13 +4060,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
 
     _createPopper(tip) {
-      var placement = typeof this._config.placement === 'function' ? this._config.placement.call(this, tip, this._element) : this._config.placement;
-      var attachment = AttachmentMap[placement.toUpperCase()];
+      const placement = typeof this._config.placement === 'function' ? this._config.placement.call(this, tip, this._element) : this._config.placement;
+      const attachment = AttachmentMap[placement.toUpperCase()];
       return Popper__namespace.createPopper(this._element, tip, this._getPopperConfig(attachment));
     }
 
     _getOffset() {
-      var {
+      const {
         offset
       } = this._config;
 
@@ -4128,7 +4086,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
 
     _getPopperConfig(attachment) {
-      var defaultBsPopperConfig = {
+      const defaultBsPopperConfig = {
         placement: attachment,
         modifiers: [{
           name: 'flip',
@@ -4148,7 +4106,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }, {
           name: 'arrow',
           options: {
-            element: ".".concat(this.constructor.NAME, "-arrow")
+            element: `.${this.constructor.NAME}-arrow`
           }
         }, {
           name: 'preSetPlacement',
@@ -4161,31 +4119,33 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           }
         }]
       };
-      return _objectSpread(_objectSpread({}, defaultBsPopperConfig), typeof this._config.popperConfig === 'function' ? this._config.popperConfig(defaultBsPopperConfig) : this._config.popperConfig);
+      return { ...defaultBsPopperConfig,
+        ...(typeof this._config.popperConfig === 'function' ? this._config.popperConfig(defaultBsPopperConfig) : this._config.popperConfig)
+      };
     }
 
     _setListeners() {
-      var triggers = this._config.trigger.split(' ');
+      const triggers = this._config.trigger.split(' ');
 
-      for (var trigger of triggers) {
+      for (const trigger of triggers) {
         if (trigger === 'click') {
           EventHandler.on(this._element, this.constructor.eventName(EVENT_CLICK$1), this._config.selector, event => {
-            var context = this._initializeOnDelegatedTarget(event);
+            const context = this._initializeOnDelegatedTarget(event);
 
             context.toggle();
           });
         } else if (trigger !== TRIGGER_MANUAL) {
-          var eventIn = trigger === TRIGGER_HOVER ? this.constructor.eventName(EVENT_MOUSEENTER) : this.constructor.eventName(EVENT_FOCUSIN$1);
-          var eventOut = trigger === TRIGGER_HOVER ? this.constructor.eventName(EVENT_MOUSELEAVE) : this.constructor.eventName(EVENT_FOCUSOUT$1);
+          const eventIn = trigger === TRIGGER_HOVER ? this.constructor.eventName(EVENT_MOUSEENTER) : this.constructor.eventName(EVENT_FOCUSIN$1);
+          const eventOut = trigger === TRIGGER_HOVER ? this.constructor.eventName(EVENT_MOUSELEAVE) : this.constructor.eventName(EVENT_FOCUSOUT$1);
           EventHandler.on(this._element, eventIn, this._config.selector, event => {
-            var context = this._initializeOnDelegatedTarget(event);
+            const context = this._initializeOnDelegatedTarget(event);
 
             context._activeTrigger[event.type === 'focusin' ? TRIGGER_FOCUS : TRIGGER_HOVER] = true;
 
             context._enter();
           });
           EventHandler.on(this._element, eventOut, this._config.selector, event => {
-            var context = this._initializeOnDelegatedTarget(event);
+            const context = this._initializeOnDelegatedTarget(event);
 
             context._activeTrigger[event.type === 'focusout' ? TRIGGER_FOCUS : TRIGGER_HOVER] = context._element.contains(event.relatedTarget);
 
@@ -4204,7 +4164,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
 
     _fixTitle() {
-      var title = this._element.getAttribute('title');
+      const title = this._element.getAttribute('title');
 
       if (!title) {
         return;
@@ -4259,15 +4219,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
 
     _getConfig(config) {
-      var dataAttributes = Manipulator.getDataAttributes(this._element);
+      const dataAttributes = Manipulator.getDataAttributes(this._element);
 
-      for (var dataAttribute of Object.keys(dataAttributes)) {
+      for (const dataAttribute of Object.keys(dataAttributes)) {
         if (DISALLOWED_ATTRIBUTES.has(dataAttribute)) {
           delete dataAttributes[dataAttribute];
         }
       }
 
-      config = _objectSpread(_objectSpread({}, dataAttributes), typeof config === 'object' && config ? config : {});
+      config = { ...dataAttributes,
+        ...(typeof config === 'object' && config ? config : {})
+      };
       config = this._mergeConfigObj(config);
       config = this._configAfterMerge(config);
 
@@ -4298,9 +4260,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
 
     _getDelegateConfig() {
-      var config = {};
+      const config = {};
 
-      for (var key in this._config) {
+      for (const key in this._config) {
         if (this.constructor.Default[key] !== this._config[key]) {
           config[key] = this._config[key];
         }
@@ -4330,14 +4292,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     static jQueryInterface(config) {
       return this.each(function () {
-        var data = Tooltip.getOrCreateInstance(this, config);
+        const data = Tooltip.getOrCreateInstance(this, config);
 
         if (typeof config !== 'string') {
           return;
         }
 
         if (typeof data[config] === 'undefined') {
-          throw new TypeError("No method named \"".concat(config, "\""));
+          throw new TypeError(`No method named "${config}"`);
         }
 
         data[config]();
@@ -4351,36 +4313,33 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
   defineJQueryPlugin(Tooltip);
+
   /**
    * --------------------------------------------------------------------------
    * Bootstrap (v5.2.3): popover.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
-
   /**
    * Constants
    */
 
-  var NAME$3 = 'popover';
-  var SELECTOR_TITLE = '.popover-header';
-  var SELECTOR_CONTENT = '.popover-body';
-
-  var Default$2 = _objectSpread(_objectSpread({}, Tooltip.Default), {}, {
+  const NAME$3 = 'popover';
+  const SELECTOR_TITLE = '.popover-header';
+  const SELECTOR_CONTENT = '.popover-body';
+  const Default$2 = { ...Tooltip.Default,
     content: '',
     offset: [0, 8],
     placement: 'right',
     template: '<div class="popover" role="tooltip">' + '<div class="popover-arrow"></div>' + '<h3 class="popover-header"></h3>' + '<div class="popover-body"></div>' + '</div>',
     trigger: 'click'
-  });
-
-  var DefaultType$2 = _objectSpread(_objectSpread({}, Tooltip.DefaultType), {}, {
+  };
+  const DefaultType$2 = { ...Tooltip.DefaultType,
     content: '(null|string|element|function)'
-  });
+  };
   /**
    * Class definition
    */
-
 
   class Popover extends Tooltip {
     // Getters
@@ -4416,14 +4375,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     static jQueryInterface(config) {
       return this.each(function () {
-        var data = Popover.getOrCreateInstance(this, config);
+        const data = Popover.getOrCreateInstance(this, config);
 
         if (typeof config !== 'string') {
           return;
         }
 
         if (typeof data[config] === 'undefined') {
-          throw new TypeError("No method named \"".concat(config, "\""));
+          throw new TypeError(`No method named "${config}"`);
         }
 
         data[config]();
@@ -4437,36 +4396,36 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
   defineJQueryPlugin(Popover);
+
   /**
    * --------------------------------------------------------------------------
    * Bootstrap (v5.2.3): scrollspy.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
-
   /**
    * Constants
    */
 
-  var NAME$2 = 'scrollspy';
-  var DATA_KEY$2 = 'bs.scrollspy';
-  var EVENT_KEY$2 = ".".concat(DATA_KEY$2);
-  var DATA_API_KEY = '.data-api';
-  var EVENT_ACTIVATE = "activate".concat(EVENT_KEY$2);
-  var EVENT_CLICK = "click".concat(EVENT_KEY$2);
-  var EVENT_LOAD_DATA_API$1 = "load".concat(EVENT_KEY$2).concat(DATA_API_KEY);
-  var CLASS_NAME_DROPDOWN_ITEM = 'dropdown-item';
-  var CLASS_NAME_ACTIVE$1 = 'active';
-  var SELECTOR_DATA_SPY = '[data-bs-spy="scroll"]';
-  var SELECTOR_TARGET_LINKS = '[href]';
-  var SELECTOR_NAV_LIST_GROUP = '.nav, .list-group';
-  var SELECTOR_NAV_LINKS = '.nav-link';
-  var SELECTOR_NAV_ITEMS = '.nav-item';
-  var SELECTOR_LIST_ITEMS = '.list-group-item';
-  var SELECTOR_LINK_ITEMS = "".concat(SELECTOR_NAV_LINKS, ", ").concat(SELECTOR_NAV_ITEMS, " > ").concat(SELECTOR_NAV_LINKS, ", ").concat(SELECTOR_LIST_ITEMS);
-  var SELECTOR_DROPDOWN = '.dropdown';
-  var SELECTOR_DROPDOWN_TOGGLE$1 = '.dropdown-toggle';
-  var Default$1 = {
+  const NAME$2 = 'scrollspy';
+  const DATA_KEY$2 = 'bs.scrollspy';
+  const EVENT_KEY$2 = `.${DATA_KEY$2}`;
+  const DATA_API_KEY = '.data-api';
+  const EVENT_ACTIVATE = `activate${EVENT_KEY$2}`;
+  const EVENT_CLICK = `click${EVENT_KEY$2}`;
+  const EVENT_LOAD_DATA_API$1 = `load${EVENT_KEY$2}${DATA_API_KEY}`;
+  const CLASS_NAME_DROPDOWN_ITEM = 'dropdown-item';
+  const CLASS_NAME_ACTIVE$1 = 'active';
+  const SELECTOR_DATA_SPY = '[data-bs-spy="scroll"]';
+  const SELECTOR_TARGET_LINKS = '[href]';
+  const SELECTOR_NAV_LIST_GROUP = '.nav, .list-group';
+  const SELECTOR_NAV_LINKS = '.nav-link';
+  const SELECTOR_NAV_ITEMS = '.nav-item';
+  const SELECTOR_LIST_ITEMS = '.list-group-item';
+  const SELECTOR_LINK_ITEMS = `${SELECTOR_NAV_LINKS}, ${SELECTOR_NAV_ITEMS} > ${SELECTOR_NAV_LINKS}, ${SELECTOR_LIST_ITEMS}`;
+  const SELECTOR_DROPDOWN = '.dropdown';
+  const SELECTOR_DROPDOWN_TOGGLE$1 = '.dropdown-toggle';
+  const Default$1 = {
     offset: null,
     // TODO: v6 @deprecated, keep it for backwards compatibility reasons
     rootMargin: '0px 0px -25%',
@@ -4474,7 +4433,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     target: null,
     threshold: [0.1, 0.5, 1]
   };
-  var DefaultType$1 = {
+  const DefaultType$1 = {
     offset: '(number|null)',
     // TODO v6 @deprecated, keep it for backwards compatibility reasons
     rootMargin: 'string',
@@ -4527,7 +4486,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         this._observer = this._getNewObserver();
       }
 
-      for (var section of this._observableSections.values()) {
+      for (const section of this._observableSections.values()) {
         this._observer.observe(section);
       }
     }
@@ -4543,7 +4502,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       // TODO: on v6 target should be given explicitly & remove the {target: 'ss-target'} case
       config.target = getElement(config.target) || document.body; // TODO: v6 Only for backwards compatibility reasons. Use rootMargin only
 
-      config.rootMargin = config.offset ? "".concat(config.offset, "px 0px -30%") : config.rootMargin;
+      config.rootMargin = config.offset ? `${config.offset}px 0px -30%` : config.rootMargin;
 
       if (typeof config.threshold === 'string') {
         config.threshold = config.threshold.split(',').map(value => Number.parseFloat(value));
@@ -4560,12 +4519,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       EventHandler.off(this._config.target, EVENT_CLICK);
       EventHandler.on(this._config.target, EVENT_CLICK, SELECTOR_TARGET_LINKS, event => {
-        var observableSection = this._observableSections.get(event.target.hash);
+        const observableSection = this._observableSections.get(event.target.hash);
 
         if (observableSection) {
           event.preventDefault();
-          var root = this._rootElement || window;
-          var height = observableSection.offsetTop - this._element.offsetTop;
+          const root = this._rootElement || window;
+          const height = observableSection.offsetTop - this._element.offsetTop;
 
           if (root.scrollTo) {
             root.scrollTo({
@@ -4582,7 +4541,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
 
     _getNewObserver() {
-      var options = {
+      const options = {
         root: this._rootElement,
         threshold: this._config.threshold,
         rootMargin: this._config.rootMargin
@@ -4592,19 +4551,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
     _observerCallback(entries) {
-      var targetElement = entry => this._targetLinks.get("#".concat(entry.target.id));
+      const targetElement = entry => this._targetLinks.get(`#${entry.target.id}`);
 
-      var activate = entry => {
+      const activate = entry => {
         this._previousScrollData.visibleEntryTop = entry.target.offsetTop;
 
         this._process(targetElement(entry));
       };
 
-      var parentScrollTop = (this._rootElement || document.documentElement).scrollTop;
-      var userScrollsDown = parentScrollTop >= this._previousScrollData.parentScrollTop;
+      const parentScrollTop = (this._rootElement || document.documentElement).scrollTop;
+      const userScrollsDown = parentScrollTop >= this._previousScrollData.parentScrollTop;
       this._previousScrollData.parentScrollTop = parentScrollTop;
 
-      for (var entry of entries) {
+      for (const entry of entries) {
         if (!entry.isIntersecting) {
           this._activeTarget = null;
 
@@ -4613,7 +4572,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           continue;
         }
 
-        var entryIsLowerThanPrevious = entry.target.offsetTop >= this._previousScrollData.visibleEntryTop; // if we are scrolling down, pick the bigger offsetTop
+        const entryIsLowerThanPrevious = entry.target.offsetTop >= this._previousScrollData.visibleEntryTop; // if we are scrolling down, pick the bigger offsetTop
 
         if (userScrollsDown && entryIsLowerThanPrevious) {
           activate(entry); // if parent isn't scrolled, let's keep the first visible item, breaking the iteration
@@ -4635,15 +4594,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     _initializeTargetsAndObservables() {
       this._targetLinks = new Map();
       this._observableSections = new Map();
-      var targetLinks = SelectorEngine.find(SELECTOR_TARGET_LINKS, this._config.target);
+      const targetLinks = SelectorEngine.find(SELECTOR_TARGET_LINKS, this._config.target);
 
-      for (var anchor of targetLinks) {
+      for (const anchor of targetLinks) {
         // ensure that the anchor has an id and is not disabled
         if (!anchor.hash || isDisabled(anchor)) {
           continue;
         }
 
-        var observableSection = SelectorEngine.findOne(anchor.hash, this._element); // ensure that the observableSection exists & is visible
+        const observableSection = SelectorEngine.findOne(anchor.hash, this._element); // ensure that the observableSection exists & is visible
 
         if (isVisible(observableSection)) {
           this._targetLinks.set(anchor.hash, anchor);
@@ -4677,10 +4636,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return;
       }
 
-      for (var listGroup of SelectorEngine.parents(target, SELECTOR_NAV_LIST_GROUP)) {
+      for (const listGroup of SelectorEngine.parents(target, SELECTOR_NAV_LIST_GROUP)) {
         // Set triggered links parents as active
         // With both <ul> and <nav> markup a parent is the previous sibling of any nav ancestor
-        for (var item of SelectorEngine.prev(listGroup, SELECTOR_LINK_ITEMS)) {
+        for (const item of SelectorEngine.prev(listGroup, SELECTOR_LINK_ITEMS)) {
           item.classList.add(CLASS_NAME_ACTIVE$1);
         }
       }
@@ -4688,9 +4647,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     _clearActiveClass(parent) {
       parent.classList.remove(CLASS_NAME_ACTIVE$1);
-      var activeNodes = SelectorEngine.find("".concat(SELECTOR_TARGET_LINKS, ".").concat(CLASS_NAME_ACTIVE$1), parent);
+      const activeNodes = SelectorEngine.find(`${SELECTOR_TARGET_LINKS}.${CLASS_NAME_ACTIVE$1}`, parent);
 
-      for (var node of activeNodes) {
+      for (const node of activeNodes) {
         node.classList.remove(CLASS_NAME_ACTIVE$1);
       }
     } // Static
@@ -4698,14 +4657,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     static jQueryInterface(config) {
       return this.each(function () {
-        var data = ScrollSpy.getOrCreateInstance(this, config);
+        const data = ScrollSpy.getOrCreateInstance(this, config);
 
         if (typeof config !== 'string') {
           return;
         }
 
         if (data[config] === undefined || config.startsWith('_') || config === 'constructor') {
-          throw new TypeError("No method named \"".concat(config, "\""));
+          throw new TypeError(`No method named "${config}"`);
         }
 
         data[config]();
@@ -4719,7 +4678,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
   EventHandler.on(window, EVENT_LOAD_DATA_API$1, () => {
-    for (var spy of SelectorEngine.find(SELECTOR_DATA_SPY)) {
+    for (const spy of SelectorEngine.find(SELECTOR_DATA_SPY)) {
       ScrollSpy.getOrCreateInstance(spy);
     }
   });
@@ -4728,45 +4687,45 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
    */
 
   defineJQueryPlugin(ScrollSpy);
+
   /**
    * --------------------------------------------------------------------------
    * Bootstrap (v5.2.3): tab.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
-
   /**
    * Constants
    */
 
-  var NAME$1 = 'tab';
-  var DATA_KEY$1 = 'bs.tab';
-  var EVENT_KEY$1 = ".".concat(DATA_KEY$1);
-  var EVENT_HIDE$1 = "hide".concat(EVENT_KEY$1);
-  var EVENT_HIDDEN$1 = "hidden".concat(EVENT_KEY$1);
-  var EVENT_SHOW$1 = "show".concat(EVENT_KEY$1);
-  var EVENT_SHOWN$1 = "shown".concat(EVENT_KEY$1);
-  var EVENT_CLICK_DATA_API = "click".concat(EVENT_KEY$1);
-  var EVENT_KEYDOWN = "keydown".concat(EVENT_KEY$1);
-  var EVENT_LOAD_DATA_API = "load".concat(EVENT_KEY$1);
-  var ARROW_LEFT_KEY = 'ArrowLeft';
-  var ARROW_RIGHT_KEY = 'ArrowRight';
-  var ARROW_UP_KEY = 'ArrowUp';
-  var ARROW_DOWN_KEY = 'ArrowDown';
-  var CLASS_NAME_ACTIVE = 'active';
-  var CLASS_NAME_FADE$1 = 'fade';
-  var CLASS_NAME_SHOW$1 = 'show';
-  var CLASS_DROPDOWN = 'dropdown';
-  var SELECTOR_DROPDOWN_TOGGLE = '.dropdown-toggle';
-  var SELECTOR_DROPDOWN_MENU = '.dropdown-menu';
-  var NOT_SELECTOR_DROPDOWN_TOGGLE = ':not(.dropdown-toggle)';
-  var SELECTOR_TAB_PANEL = '.list-group, .nav, [role="tablist"]';
-  var SELECTOR_OUTER = '.nav-item, .list-group-item';
-  var SELECTOR_INNER = ".nav-link".concat(NOT_SELECTOR_DROPDOWN_TOGGLE, ", .list-group-item").concat(NOT_SELECTOR_DROPDOWN_TOGGLE, ", [role=\"tab\"]").concat(NOT_SELECTOR_DROPDOWN_TOGGLE);
-  var SELECTOR_DATA_TOGGLE = '[data-bs-toggle="tab"], [data-bs-toggle="pill"], [data-bs-toggle="list"]'; // todo:v6: could be only `tab`
+  const NAME$1 = 'tab';
+  const DATA_KEY$1 = 'bs.tab';
+  const EVENT_KEY$1 = `.${DATA_KEY$1}`;
+  const EVENT_HIDE$1 = `hide${EVENT_KEY$1}`;
+  const EVENT_HIDDEN$1 = `hidden${EVENT_KEY$1}`;
+  const EVENT_SHOW$1 = `show${EVENT_KEY$1}`;
+  const EVENT_SHOWN$1 = `shown${EVENT_KEY$1}`;
+  const EVENT_CLICK_DATA_API = `click${EVENT_KEY$1}`;
+  const EVENT_KEYDOWN = `keydown${EVENT_KEY$1}`;
+  const EVENT_LOAD_DATA_API = `load${EVENT_KEY$1}`;
+  const ARROW_LEFT_KEY = 'ArrowLeft';
+  const ARROW_RIGHT_KEY = 'ArrowRight';
+  const ARROW_UP_KEY = 'ArrowUp';
+  const ARROW_DOWN_KEY = 'ArrowDown';
+  const CLASS_NAME_ACTIVE = 'active';
+  const CLASS_NAME_FADE$1 = 'fade';
+  const CLASS_NAME_SHOW$1 = 'show';
+  const CLASS_DROPDOWN = 'dropdown';
+  const SELECTOR_DROPDOWN_TOGGLE = '.dropdown-toggle';
+  const SELECTOR_DROPDOWN_MENU = '.dropdown-menu';
+  const NOT_SELECTOR_DROPDOWN_TOGGLE = ':not(.dropdown-toggle)';
+  const SELECTOR_TAB_PANEL = '.list-group, .nav, [role="tablist"]';
+  const SELECTOR_OUTER = '.nav-item, .list-group-item';
+  const SELECTOR_INNER = `.nav-link${NOT_SELECTOR_DROPDOWN_TOGGLE}, .list-group-item${NOT_SELECTOR_DROPDOWN_TOGGLE}, [role="tab"]${NOT_SELECTOR_DROPDOWN_TOGGLE}`;
+  const SELECTOR_DATA_TOGGLE = '[data-bs-toggle="tab"], [data-bs-toggle="pill"], [data-bs-toggle="list"]'; // todo:v6: could be only `tab`
 
-  var SELECTOR_INNER_ELEM = "".concat(SELECTOR_INNER, ", ").concat(SELECTOR_DATA_TOGGLE);
-  var SELECTOR_DATA_TOGGLE_ACTIVE = ".".concat(CLASS_NAME_ACTIVE, "[data-bs-toggle=\"tab\"], .").concat(CLASS_NAME_ACTIVE, "[data-bs-toggle=\"pill\"], .").concat(CLASS_NAME_ACTIVE, "[data-bs-toggle=\"list\"]");
+  const SELECTOR_INNER_ELEM = `${SELECTOR_INNER}, ${SELECTOR_DATA_TOGGLE}`;
+  const SELECTOR_DATA_TOGGLE_ACTIVE = `.${CLASS_NAME_ACTIVE}[data-bs-toggle="tab"], .${CLASS_NAME_ACTIVE}[data-bs-toggle="pill"], .${CLASS_NAME_ACTIVE}[data-bs-toggle="list"]`;
   /**
    * Class definition
    */
@@ -4795,19 +4754,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     show() {
       // Shows this elem and deactivate the active sibling if exists
-      var innerElem = this._element;
+      const innerElem = this._element;
 
       if (this._elemIsActive(innerElem)) {
         return;
       } // Search for active tab on same parent to deactivate it
 
 
-      var active = this._getActiveElem();
+      const active = this._getActiveElem();
 
-      var hideEvent = active ? EventHandler.trigger(active, EVENT_HIDE$1, {
+      const hideEvent = active ? EventHandler.trigger(active, EVENT_HIDE$1, {
         relatedTarget: innerElem
       }) : null;
-      var showEvent = EventHandler.trigger(innerElem, EVENT_SHOW$1, {
+      const showEvent = EventHandler.trigger(innerElem, EVENT_SHOW$1, {
         relatedTarget: active
       });
 
@@ -4831,7 +4790,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this._activate(getElementFromSelector(element)); // Search and activate/show the proper section
 
 
-      var complete = () => {
+      const complete = () => {
         if (element.getAttribute('role') !== 'tab') {
           element.classList.add(CLASS_NAME_SHOW$1);
           return;
@@ -4861,7 +4820,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this._deactivate(getElementFromSelector(element)); // Search and deactivate the shown section too
 
 
-      var complete = () => {
+      const complete = () => {
         if (element.getAttribute('role') !== 'tab') {
           element.classList.remove(CLASS_NAME_SHOW$1);
           return;
@@ -4888,8 +4847,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       event.stopPropagation(); // stopPropagation/preventDefault both added to support up/down keys without scrolling the page
 
       event.preventDefault();
-      var isNext = [ARROW_RIGHT_KEY, ARROW_DOWN_KEY].includes(event.key);
-      var nextActiveElement = getNextActiveElement(this._getChildren().filter(element => !isDisabled(element)), event.target, isNext, true);
+      const isNext = [ARROW_RIGHT_KEY, ARROW_DOWN_KEY].includes(event.key);
+      const nextActiveElement = getNextActiveElement(this._getChildren().filter(element => !isDisabled(element)), event.target, isNext, true);
 
       if (nextActiveElement) {
         nextActiveElement.focus({
@@ -4911,7 +4870,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     _setInitialAttributes(parent, children) {
       this._setAttributeIfNotExists(parent, 'role', 'tablist');
 
-      for (var child of children) {
+      for (const child of children) {
         this._setInitialAttributesOnChild(child);
       }
     }
@@ -4919,9 +4878,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     _setInitialAttributesOnChild(child) {
       child = this._getInnerElement(child);
 
-      var isActive = this._elemIsActive(child);
+      const isActive = this._elemIsActive(child);
 
-      var outerElem = this._getOuterElement(child);
+      const outerElem = this._getOuterElement(child);
 
       child.setAttribute('aria-selected', isActive);
 
@@ -4940,7 +4899,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
 
     _setInitialAttributesOnTargetPanel(child) {
-      var target = getElementFromSelector(child);
+      const target = getElementFromSelector(child);
 
       if (!target) {
         return;
@@ -4949,19 +4908,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this._setAttributeIfNotExists(target, 'role', 'tabpanel');
 
       if (child.id) {
-        this._setAttributeIfNotExists(target, 'aria-labelledby', "#".concat(child.id));
+        this._setAttributeIfNotExists(target, 'aria-labelledby', `#${child.id}`);
       }
     }
 
     _toggleDropDown(element, open) {
-      var outerElem = this._getOuterElement(element);
+      const outerElem = this._getOuterElement(element);
 
       if (!outerElem.classList.contains(CLASS_DROPDOWN)) {
         return;
       }
 
-      var toggle = (selector, className) => {
-        var element = SelectorEngine.findOne(selector, outerElem);
+      const toggle = (selector, className) => {
+        const element = SelectorEngine.findOne(selector, outerElem);
 
         if (element) {
           element.classList.toggle(className, open);
@@ -4996,14 +4955,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     static jQueryInterface(config) {
       return this.each(function () {
-        var data = Tab.getOrCreateInstance(this);
+        const data = Tab.getOrCreateInstance(this);
 
         if (typeof config !== 'string') {
           return;
         }
 
         if (data[config] === undefined || config.startsWith('_') || config === 'constructor') {
-          throw new TypeError("No method named \"".concat(config, "\""));
+          throw new TypeError(`No method named "${config}"`);
         }
 
         data[config]();
@@ -5032,7 +4991,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
    */
 
   EventHandler.on(window, EVENT_LOAD_DATA_API, () => {
-    for (var element of SelectorEngine.find(SELECTOR_DATA_TOGGLE_ACTIVE)) {
+    for (const element of SelectorEngine.find(SELECTOR_DATA_TOGGLE_ACTIVE)) {
       Tab.getOrCreateInstance(element);
     }
   });
@@ -5041,39 +5000,39 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
    */
 
   defineJQueryPlugin(Tab);
+
   /**
    * --------------------------------------------------------------------------
    * Bootstrap (v5.2.3): toast.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
-
   /**
    * Constants
    */
 
-  var NAME = 'toast';
-  var DATA_KEY = 'bs.toast';
-  var EVENT_KEY = ".".concat(DATA_KEY);
-  var EVENT_MOUSEOVER = "mouseover".concat(EVENT_KEY);
-  var EVENT_MOUSEOUT = "mouseout".concat(EVENT_KEY);
-  var EVENT_FOCUSIN = "focusin".concat(EVENT_KEY);
-  var EVENT_FOCUSOUT = "focusout".concat(EVENT_KEY);
-  var EVENT_HIDE = "hide".concat(EVENT_KEY);
-  var EVENT_HIDDEN = "hidden".concat(EVENT_KEY);
-  var EVENT_SHOW = "show".concat(EVENT_KEY);
-  var EVENT_SHOWN = "shown".concat(EVENT_KEY);
-  var CLASS_NAME_FADE = 'fade';
-  var CLASS_NAME_HIDE = 'hide'; // @deprecated - kept here only for backwards compatibility
+  const NAME = 'toast';
+  const DATA_KEY = 'bs.toast';
+  const EVENT_KEY = `.${DATA_KEY}`;
+  const EVENT_MOUSEOVER = `mouseover${EVENT_KEY}`;
+  const EVENT_MOUSEOUT = `mouseout${EVENT_KEY}`;
+  const EVENT_FOCUSIN = `focusin${EVENT_KEY}`;
+  const EVENT_FOCUSOUT = `focusout${EVENT_KEY}`;
+  const EVENT_HIDE = `hide${EVENT_KEY}`;
+  const EVENT_HIDDEN = `hidden${EVENT_KEY}`;
+  const EVENT_SHOW = `show${EVENT_KEY}`;
+  const EVENT_SHOWN = `shown${EVENT_KEY}`;
+  const CLASS_NAME_FADE = 'fade';
+  const CLASS_NAME_HIDE = 'hide'; // @deprecated - kept here only for backwards compatibility
 
-  var CLASS_NAME_SHOW = 'show';
-  var CLASS_NAME_SHOWING = 'showing';
-  var DefaultType = {
+  const CLASS_NAME_SHOW = 'show';
+  const CLASS_NAME_SHOWING = 'showing';
+  const DefaultType = {
     animation: 'boolean',
     autohide: 'boolean',
     delay: 'number'
   };
-  var Default = {
+  const Default = {
     animation: true,
     autohide: true,
     delay: 5000
@@ -5107,7 +5066,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
     show() {
-      var showEvent = EventHandler.trigger(this._element, EVENT_SHOW);
+      const showEvent = EventHandler.trigger(this._element, EVENT_SHOW);
 
       if (showEvent.defaultPrevented) {
         return;
@@ -5119,7 +5078,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         this._element.classList.add(CLASS_NAME_FADE);
       }
 
-      var complete = () => {
+      const complete = () => {
         this._element.classList.remove(CLASS_NAME_SHOWING);
 
         EventHandler.trigger(this._element, EVENT_SHOWN);
@@ -5142,13 +5101,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return;
       }
 
-      var hideEvent = EventHandler.trigger(this._element, EVENT_HIDE);
+      const hideEvent = EventHandler.trigger(this._element, EVENT_HIDE);
 
       if (hideEvent.defaultPrevented) {
         return;
       }
 
-      var complete = () => {
+      const complete = () => {
         this._element.classList.add(CLASS_NAME_HIDE); // @deprecated
 
 
@@ -5214,7 +5173,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return;
       }
 
-      var nextElement = event.relatedTarget;
+      const nextElement = event.relatedTarget;
 
       if (this._element === nextElement || this._element.contains(nextElement)) {
         return;
@@ -5238,11 +5197,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     static jQueryInterface(config) {
       return this.each(function () {
-        var data = Toast.getOrCreateInstance(this, config);
+        const data = Toast.getOrCreateInstance(this, config);
 
         if (typeof config === 'string') {
           if (typeof data[config] === 'undefined') {
-            throw new TypeError("No method named \"".concat(config, "\""));
+            throw new TypeError(`No method named "${config}"`);
           }
 
           data[config](this);
@@ -5262,14 +5221,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
    */
 
   defineJQueryPlugin(Toast);
+
   /**
    * --------------------------------------------------------------------------
    * Bootstrap (v5.2.3): index.umd.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
    * --------------------------------------------------------------------------
    */
-
-  var index_umd = {
+  const index_umd = {
     Alert,
     Button,
     Carousel,
@@ -5283,5 +5242,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     Toast,
     Tooltip
   };
+
   return index_umd;
-});
+
+}));
+//# sourceMappingURL=bootstrap.js.map

@@ -1,19 +1,18 @@
-"use strict";
-
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() : typeof define === 'function' && define.amd ? define(factory) : (global = global || self, global.GLightbox = factory());
-})(void 0, function () {
-  'use strict';
+  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+  typeof define === 'function' && define.amd ? define(factory) :
+  (global = global || self, global.GLightbox = factory());
+}(this, (function () { 'use strict';
 
   function _typeof(obj) {
     "@babel/helpers - typeof";
 
     if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-      _typeof = function _typeof(obj) {
+      _typeof = function (obj) {
         return typeof obj;
       };
     } else {
-      _typeof = function _typeof(obj) {
+      _typeof = function (obj) {
         return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
       };
     }
@@ -44,7 +43,6 @@
   }
 
   var uid = Date.now();
-
   function extend() {
     var extended = {};
     var deep = true;
@@ -75,7 +73,6 @@
 
     return extended;
   }
-
   function each(collection, callback) {
     if (isNode(collection) || collection === window || collection === document) {
       collection = [collection];
@@ -108,7 +105,6 @@
       }
     }
   }
-
   function getNodeEvents(node) {
     var name = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
     var fn = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
@@ -131,7 +127,6 @@
 
     return data;
   }
-
   function addEvent(eventName) {
     var _ref = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {},
         onElement = _ref.onElement,
@@ -187,23 +182,19 @@
     });
     return handler;
   }
-
   function addClass(node, name) {
     each(name.split(' '), function (cl) {
       return node.classList.add(cl);
     });
   }
-
   function removeClass(node, name) {
     each(name.split(' '), function (cl) {
       return node.classList.remove(cl);
     });
   }
-
   function hasClass(node, name) {
     return node.classList.contains(name);
   }
-
   function closest(elem, selector) {
     while (elem !== document.body) {
       elem = elem.parentElement;
@@ -219,7 +210,6 @@
       }
     }
   }
-
   function animateElement(element) {
     var animation = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
     var callback = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
@@ -256,7 +246,6 @@
       }
     });
   }
-
   function cssTransform(node) {
     var translate = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
 
@@ -275,15 +264,12 @@
     node.style.OTransform = translate;
     node.style.transform = translate;
   }
-
   function show(element) {
     element.style.display = 'block';
   }
-
   function hide(element) {
     element.style.display = 'none';
   }
-
   function createHTML(htmlStr) {
     var frag = document.createDocumentFragment(),
         temp = document.createElement('div');
@@ -295,14 +281,12 @@
 
     return frag;
   }
-
   function windowSize() {
     return {
       width: window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
       height: window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
     };
   }
-
   function whichAnimationEvent() {
     var t,
         el = document.createElement('fakeelement');
@@ -319,7 +303,6 @@
       }
     }
   }
-
   function whichTransitionEvent() {
     var t,
         el = document.createElement('fakeelement');
@@ -336,7 +319,6 @@
       }
     }
   }
-
   function createIframe(config) {
     var url = config.url,
         allow = config.allow,
@@ -367,7 +349,6 @@
 
     return iframe;
   }
-
   function waitUntil(check, onComplete, delay, timeout) {
     if (check()) {
       onComplete();
@@ -399,7 +380,6 @@
       }, timeout);
     }
   }
-
   function injectAssets(url, waitFor, callback) {
     if (isNil(url)) {
       console.error('Inject assets error');
@@ -493,49 +473,38 @@
 
     document.body.appendChild(script);
   }
-
   function isMobile() {
     return 'navigator' in window && window.navigator.userAgent.match(/(iPad)|(iPhone)|(iPod)|(Android)|(PlayBook)|(BB10)|(BlackBerry)|(Opera Mini)|(IEMobile)|(webOS)|(MeeGo)/i);
   }
-
   function isTouch() {
     return isMobile() !== null || document.createTouch !== undefined || 'ontouchstart' in window || 'onmsgesturechange' in window || navigator.msMaxTouchPoints;
   }
-
   function isFunction(f) {
     return typeof f === 'function';
   }
-
   function isString(s) {
     return typeof s === 'string';
   }
-
   function isNode(el) {
     return !!(el && el.nodeType && el.nodeType == 1);
   }
-
   function isArray(ar) {
     return Array.isArray(ar);
   }
-
   function isArrayLike(ar) {
     return ar && ar.length && isFinite(ar.length);
   }
-
   function isObject(o) {
     var type = _typeof(o);
 
     return type === 'object' && o != null && !isFunction(o) && !isArray(o);
   }
-
   function isNil(o) {
     return o == null;
   }
-
   function has(obj, key) {
     return obj !== null && hasOwnProperty.call(obj, key);
   }
-
   function size(o) {
     if (isObject(o)) {
       if (o.keys) {
@@ -555,7 +524,6 @@
       return o.length;
     }
   }
-
   function isNumber(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
   }
@@ -2421,8 +2389,11 @@
   }();
 
   var _version = '3.1.0';
+
   var isMobile$1 = isMobile();
+
   var isTouch$1 = isTouch();
+
   var html = document.getElementsByTagName('html')[0];
   var defaults = {
     selector: '.glightbox',
@@ -2589,7 +2560,9 @@
         }
 
         this.build();
+
         animateElement(this.overlay, this.settings.openEffect === 'none' ? 'none' : this.settings.cssEfects.fade["in"]);
+
         var body = document.body;
         var scrollBar = window.innerWidth - document.documentElement.clientWidth;
 
@@ -2599,14 +2572,17 @@
           styleSheet.className = 'gcss-styles';
           styleSheet.innerText = ".gscrollbar-fixer {margin-right: ".concat(scrollBar, "px}");
           document.head.appendChild(styleSheet);
+
           addClass(body, 'gscrollbar-fixer');
         }
 
         addClass(body, 'glightbox-open');
+
         addClass(html, 'glightbox-open');
 
         if (isMobile$1) {
           addClass(document.body, 'glightbox-mobile');
+
           this.settings.slideEffect = 'slide';
         }
 
@@ -2614,9 +2590,11 @@
 
         if (this.elements.length === 1) {
           addClass(this.prevButton, 'glightbox-button-hidden');
+
           addClass(this.nextButton, 'glightbox-button-hidden');
         } else {
           removeClass(this.prevButton, 'glightbox-button-hidden');
+
           removeClass(this.nextButton, 'glightbox-button-hidden');
         }
 
@@ -2648,7 +2626,9 @@
 
         var index = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
         var first = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
         show(this.loader);
+
         this.index = parseInt(index);
         var current = this.slidesContainer.querySelector('.current');
 
@@ -2661,9 +2641,11 @@
 
         if (hasClass(slideNode, 'loaded')) {
           this.slideAnimateIn(slideNode, first);
+
           hide(this.loader);
         } else {
           show(this.loader);
+
           var slide = this.elements[index];
           var slideData = {
             index: this.index,
@@ -2782,7 +2764,9 @@
 
         var slide = new Slide(config, this, index);
         var data = slide.getConfig();
+
         var slideInfo = extend({}, data);
+
         var newSlide = slide.create();
         var totalSlides = this.elements.length - 1;
         slideInfo.index = index;
@@ -2891,6 +2875,7 @@
 
         if (slideMedia.offsetWidth > 0 && slideDesc) {
           hide(slideDesc);
+
           slideDesc.style.display = '';
         }
 
@@ -2940,6 +2925,7 @@
         setTimeout(function () {
           _this4.resize(slide);
         }, 100);
+
         addClass(slide, 'current');
       }
     }, {
@@ -2950,8 +2936,11 @@
         }
 
         var prevSlide = this.prevActiveSlide;
+
         removeClass(prevSlide, this.effectsClasses);
+
         addClass(prevSlide, 'prev');
+
         var animation = this.settings.slideEffect;
         var animOut = animation !== 'none' ? this.settings.cssEfects[animation].out : animation;
         this.slidePlayerPause(prevSlide);
@@ -2998,7 +2987,9 @@
           var desc = prevSlide.querySelector('.gslide-description');
           container.style.transform = '';
           media.style.transform = '';
+
           removeClass(media, 'greset');
+
           media.style.opacity = '';
 
           if (desc) {
@@ -3117,7 +3108,9 @@
           each(elements, function (el, i) {
             var slide = new Slide(el, _this5, i);
             var data = slide.getConfig();
+
             var slideInfo = extend({}, data);
+
             slideInfo.slideConfig = data;
             slideInfo.instance = slide;
             slideInfo.index = i;
@@ -3136,6 +3129,7 @@
 
               _this5.slidesContainer.appendChild(slide);
             });
+
             this.showSlide(0, true);
           }
         }
@@ -3144,12 +3138,14 @@
       key: "getElementIndex",
       value: function getElementIndex(node) {
         var index = false;
+
         each(this.elements, function (el, i) {
           if (has(el, 'node') && el.node == node) {
             index = i;
             return true;
           }
         });
+
         return index;
       }
     }, {
@@ -3164,7 +3160,9 @@
           each(this.settings.elements, function (el, i) {
             var slide = new Slide(el, _this6, i);
             var elData = slide.getConfig();
+
             var slideInfo = extend({}, elData);
+
             slideInfo.node = false;
             slideInfo.index = i;
             slideInfo.instance = slide;
@@ -3187,7 +3185,9 @@
         each(nodes, function (el, i) {
           var slide = new Slide(el, _this6, i);
           var elData = slide.getConfig();
+
           var slideInfo = extend({}, elData);
+
           slideInfo.node = el;
           slideInfo.index = i;
           slideInfo.instance = slide;
@@ -3195,6 +3195,7 @@
           slideInfo.gallery = el.getAttribute('data-gallery');
           list.push(slideInfo);
         });
+
         return list;
       }
     }, {
@@ -3253,12 +3254,14 @@
 
         var children = document.body.childNodes;
         var bodyChildElms = [];
+
         each(children, function (el) {
           if (el.parentNode == document.body && el.nodeName.charAt(0) !== '#' && el.hasAttribute && !el.hasAttribute('aria-hidden')) {
             bodyChildElms.push(el);
             el.setAttribute('aria-hidden', 'true');
           }
         });
+
         var nextSVG = has(this.settings.svg, 'next') ? this.settings.svg.next : '';
         var prevSVG = has(this.settings.svg, 'prev') ? this.settings.svg.prev : '';
         var closeSVG = has(this.settings.svg, 'close') ? this.settings.svg.close : '';
@@ -3278,6 +3281,7 @@
         this.slidesContainer = document.getElementById('glightbox-slider');
         this.bodyHiddenChildElms = bodyChildElms;
         this.events = {};
+
         addClass(this.modal, 'glightbox-' + this.settings.skin);
 
         if (this.settings.closeButton && closeButton) {
@@ -3359,6 +3363,7 @@
         }
 
         var winSize = windowSize();
+
         var video = slide.querySelector('.gvideo-wrapper');
         var image = slide.querySelector('.gslide-image');
         var description = this.slideDescription;
@@ -3463,11 +3468,14 @@
       key: "updateNavigationClasses",
       value: function updateNavigationClasses() {
         var loop = this.loop();
+
         removeClass(this.nextButton, 'disabled');
+
         removeClass(this.prevButton, 'disabled');
 
         if (this.index == 0 && this.elements.length - 1 == 0) {
           addClass(this.prevButton, 'disabled');
+
           addClass(this.nextButton, 'disabled');
         } else if (this.index === 0 && !loop) {
           addClass(this.prevButton, 'disabled');
@@ -3519,7 +3527,9 @@
         }
 
         addClass(this.modal, 'glightbox-closing');
+
         animateElement(this.overlay, this.settings.openEffect == 'none' ? 'none' : this.settings.cssEfects.fade.out);
+
         animateElement(this.activeSlide, this.settings.cssEfects[this.settings.closeEffect].out, function () {
           _this8.activeSlide = null;
           _this8.prevActiveSlideIndex = null;
@@ -3537,7 +3547,9 @@
           }
 
           var body = document.body;
+
           removeClass(html, 'glightbox-open');
+
           removeClass(body, 'glightbox-open touching gdesc-open glightbox-touch glightbox-mobile gscrollbar-fixer');
 
           _this8.modal.parentNode.removeChild(_this8.modal);
@@ -3595,6 +3607,7 @@
 
         var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
         var onceTriggered = [];
+
         each(this.apiEvents, function (event, i) {
           var evt = event.evt,
               once = event.once,
@@ -3630,7 +3643,7 @@
     return GlightboxInit;
   }();
 
-  function glightbox() {
+  function glightbox () {
     var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     var instance = new GlightboxInit(options);
     instance.init();
@@ -3638,4 +3651,5 @@
   }
 
   return glightbox;
-});
+
+})));
