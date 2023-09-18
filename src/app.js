@@ -91,10 +91,10 @@ app.set('view engine', 'ejs');
 
 app.use(compression())
 //app.use('/uploads', express.static(__dirname +'../videos'));
-app.use('/uploads', express.static(path.join(__dirname, '..', 'videos')))
-app.use('/images', express.static(path.join(__dirname, '..', 'images')))
-//app.use(express.static(__dirname + '/public/assets'));
-app.use('/assets', express.static(__dirname + '/public/assets'))
+//app.use('/uploads', express.static(path.join(__dirname, '..', 'videos')))
+//app.use('/images', express.static(path.join(__dirname, '..', 'images')))
+app.use(express.static(__dirname + '/public'));
+//app.use('/assets', express.static(__dirname + '/public/assets'))
 app.use('/', publico);
 
 app.use("/api/auth", authRoutes);

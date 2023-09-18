@@ -114,7 +114,7 @@ var corsOptions = {
 
 };
 app.use((0, _cors.default)(corsOptions));
-//app.use((0, _morgan.default)("dev"));
+app.use((0, _morgan.default)("dev"));
 app.use(_express.default.json({
   limit: '50mb'
 }));
@@ -125,11 +125,11 @@ app.use(_express.default.urlencoded({
 app.set('views', path.join(__dirname, 'public/views'));
 app.set('view engine', 'ejs');
 app.use((0, _compression.default)()); //app.use('/uploads', express.static(__dirname +'../videos'));
+//app.use('/uploads', express.static(path.join(__dirname, '..', 'videos')))
+//app.use('/images', express.static(path.join(__dirname, '..', 'images')))
 
-app.use('/uploads', _express.default.static(path.join(__dirname, '..', 'videos')));
-app.use('/images', _express.default.static(path.join(__dirname, '..', 'images'))); //app.use(express.static(__dirname + '/public/assets'));
+app.use(_express.default.static(__dirname + '/public')); //app.use('/assets', express.static(__dirname + '/public/assets'))
 
-app.use('/assets', _express.default.static(__dirname + '/public/assets'));
 app.use('/', _index.default);
 app.use("/api/auth", _auth.default);
 app.use("/api/upload", _upload.default);
