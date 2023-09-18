@@ -246,7 +246,7 @@ exports.getDocentes = getDocentes;
 var getListasDocentes = /*#__PURE__*/function () {
   var _ref4 = _asyncToGenerator(function* (req, res) {
     try {
-      var products = yield _User.default.find({
+      var arg = yield _User.default.find({
         typo: {
           $in: ["DOCS"]
         }
@@ -254,7 +254,18 @@ var getListasDocentes = /*#__PURE__*/function () {
         fullname: 1,
         cedula: 1
       });
-      return res.json(products);
+
+      if (arg) {
+        arg.sort(function (a, b) {
+          var nameA = a.fullname.toLowerCase(),
+              nameB = b.fullname.toLowerCase();
+          if (nameA < nameB) return -1;
+          if (nameA > nameB) return 1;
+          return 0;
+        });
+      }
+
+      return res.json(arg);
     } catch (error) {
       return res.status(500).json(err);
     }

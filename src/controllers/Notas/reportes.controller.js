@@ -10,7 +10,7 @@ import { client } from "../../middlewares/rediss";
 const ejs = require("ejs");
 const { formatPromociones, formatMatricula, formatLibretas, formatJuntas, formatInforme, formatFinal, formatParcial,
     formatQuimestral, formatAnual, formarNomina, formatJuntasIndividual, formatJuntasFinal } = promedioReportes();
-const {juntasOnly} = reporteElement()
+const {juntasOnly, juntasFinal} = reporteElement()
 
 const {juntasExamProyec} = reporteSuper()
 
@@ -273,21 +273,32 @@ export default {
                 cursoNum = element.curso?.num
             }
             var result = [];
+
             if (arr.length > 0) {
                 const rowM = await Matriculas.findById(idMatricula)
                 const rowD = await Distributivo.findOne({ fkcurso: idCurso, paralelo });
-                result = juntasExamProyec(rowM, rowD, estudiantes,  paralelo, keymateria)
+                if(cursoNum==4||cursoNum==5||cursoNum==6) result = juntasFinal(rowM, rowD, estudiantes,  paralelo, keymateria)
+                else result = juntasExamProyec(rowM, rowD, estudiantes,  paralelo, keymateria)
             }
             const auth = await autoridad()
             let tema = ''
-            console.log(ops)
+           // console.log(ops)
+
+            //TODO check GENERAR HTML DE JUNTAS DE CURSO FINAL DE 2DO 3RO 4TO
+            
+            if(cursoNum==4||cursoNum==5)tema = await ejs.renderFile(__dirname + "/themes/elemental/juntasFinal.ejs", { result, auth: auth[0], ops });
+
+            else if(cursoNum==6) tema = await ejs.renderFile(__dirname + "/themes/elemental/juntasFinExam.ejs", { result, auth: auth[0], ops });
+
             //TODO check GENERAR HTML DE JUNTAS DE CURSO DE PROYECTOS
-            if(ops.tipo ==='PY'){
+            
+            else if(ops.tipo ==='PY'){
                 if(ops.subnivel==2) tema = await ejs.renderFile(__dirname + "/themes/superior/juntasExaProy.ejs", { result, auth: auth[0], ops });
                 else tema = await ejs.renderFile(__dirname + "/themes/superior/juntasExam.ejs", { result, auth: auth[0], ops });
             } 
             
             //TODO check GENERAR HTML DE SUPLETORIOS Y PROMEDIO FINAL
+           
             else {
                 if(ops.subnivel==2) tema = await ejs.renderFile(__dirname + "/themes/superior/juntasFinEP.ejs", { result, auth: auth[0],ops });
                 else tema = await ejs.renderFile(__dirname + "/themes/superior/juntasFinal.ejs", { result, auth: auth[0],ops });

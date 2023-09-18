@@ -11,6 +11,10 @@ var _Distributivo = _interopRequireDefault(require("../../models/distributivos/D
 
 var _promReporte = require("./helper/promReporte");
 
+var _reporteSuper = require("./helper/repo/reporteSuper");
+
+var _reporteElement = require("./helper/repo/reporteElement");
+
 var _Configure = _interopRequireDefault(require("../../models/Configure"));
 
 var _User = _interopRequireDefault(require("../../models/User"));
@@ -23,15 +27,8 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-var ejs = require("ejs"); //const pdf = require('html-pdf');
+var ejs = require("ejs");
 
-
-var fs = require('fs');
-
-var options = {
-  format: 'A4',
-  border: '23px'
-};
 var {
   formatPromociones,
   formatMatricula,
@@ -46,6 +43,13 @@ var {
   formatJuntasIndividual,
   formatJuntasFinal
 } = (0, _promReporte.promedioReportes)();
+var {
+  juntasOnly,
+  juntasFinal: _juntasFinal
+} = (0, _reporteElement.reporteElement)();
+var {
+  juntasExamProyec
+} = (0, _reporteSuper.reporteSuper)();
 
 function autoridad() {
   return _autoridad.apply(this, arguments);
@@ -370,9 +374,10 @@ var _default = {
         var paralelo = '';
         var keymateria = '';
         var estudiantes = [];
+        var cursoNum = '';
 
         for (var i = 0; i < arr.length; i++) {
-          var _element$curso5;
+          var _element$curso5, _element$curso6;
 
           var element = arr[i];
           idMatricula = element.key;
@@ -380,6 +385,7 @@ var _default = {
           paralelo = element.paralelo;
           estudiantes.push(element._id);
           keymateria = element.keymateria;
+          cursoNum = (_element$curso6 = element.curso) === null || _element$curso6 === void 0 ? void 0 : _element$curso6.num;
         }
 
         var result = [];
@@ -390,15 +396,27 @@ var _default = {
             fkcurso: idCurso,
             paralelo: paralelo
           });
-          result = formatJuntasIndividual(rowM, rowD, estudiantes, ops.quimestre, paralelo, keymateria);
+          if (cursoNum == 4 || cursoNum == 5 || cursoNum == 6) result = juntasOnly(rowM, rowD, estudiantes, ops.quimestre, paralelo, keymateria);else result = formatJuntasIndividual(rowM, rowD, estudiantes, ops.quimestre, paralelo, keymateria);
         }
 
         var auth = yield autoridad();
-        var tema = yield ejs.renderFile(__dirname + "/themes/juntas.ejs", {
-          result: result,
+        var tema = ''; //TODO check SI ES DE 2DO 3RO DE BASICA
+
+        if (cursoNum == 4 || cursoNum == 5) tema = yield ejs.renderFile(__dirname + "/themes/elemental/juntas.ejs", {
+          result,
           auth: auth[0],
-          ops: ops
-        });
+          ops
+        }); //TODO check SI ES DE 4TO DE BASICA
+        else if (cursoNum == 6) tema = yield ejs.renderFile(__dirname + "/themes/elemental/juntasCuarto.ejs", {
+            result,
+            auth: auth[0],
+            ops
+          }); //TODO check SI ES DE RESTO DE CURSO
+          else tema = yield ejs.renderFile(__dirname + "/themes/superior/juntas.ejs", {
+              result,
+              auth: auth[0],
+              ops
+            });
         res.status(200).json(tema);
       } catch (error) {
         console.log(error);
@@ -413,7 +431,7 @@ var _default = {
     return juntasIndividual;
   }(),
   juntasFinal: function () {
-    var _juntasFinal = _asyncToGenerator(function* (req, res) {
+    var _juntasFinal2 = _asyncToGenerator(function* (req, res) {
       try {
         var arr = req.body.data;
         var ops = req.body.ops;
@@ -421,17 +439,19 @@ var _default = {
         var idCurso = '';
         var paralelo = '';
         var keymateria = '';
+        var cursoNum = '';
         var estudiantes = [];
 
         for (var i = 0; i < arr.length; i++) {
-          var _element$curso6;
+          var _element$curso7, _element$curso8;
 
           var element = arr[i];
           idMatricula = element.key;
-          idCurso = (_element$curso6 = element.curso) === null || _element$curso6 === void 0 ? void 0 : _element$curso6._id;
+          idCurso = (_element$curso7 = element.curso) === null || _element$curso7 === void 0 ? void 0 : _element$curso7._id;
           paralelo = element.paralelo;
           estudiantes.push(element._id);
           keymateria = element.keymateria;
+          cursoNum = (_element$curso8 = element.curso) === null || _element$curso8 === void 0 ? void 0 : _element$curso8.num;
         }
 
         var result = [];
@@ -440,17 +460,46 @@ var _default = {
           var rowM = yield _Matriculas.default.findById(idMatricula);
           var rowD = yield _Distributivo.default.findOne({
             fkcurso: idCurso,
-            paralelo: paralelo
+            paralelo
           });
-          result = formatJuntasFinal(rowM, rowD, estudiantes, ops.quimestre, paralelo, keymateria);
+          if (cursoNum == 4 || cursoNum == 5 || cursoNum == 6) result = _juntasFinal(rowM, rowD, estudiantes, paralelo, keymateria);else result = juntasExamProyec(rowM, rowD, estudiantes, paralelo, keymateria);
         }
 
         var auth = yield autoridad();
-        var tema = yield ejs.renderFile(__dirname + "/themes/juntasAnual.ejs", {
-          result: result,
+        var tema = ''; // console.log(ops)
+        //TODO check GENERAR HTML DE JUNTAS DE CURSO FINAL DE 2DO 3RO 4TO
+
+        if (cursoNum == 4 || cursoNum == 5) tema = yield ejs.renderFile(__dirname + "/themes/elemental/juntasFinal.ejs", {
+          result,
           auth: auth[0],
-          ops: ops
-        });
+          ops
+        });else if (cursoNum == 6) tema = yield ejs.renderFile(__dirname + "/themes/elemental/juntasFinExam.ejs", {
+          result,
+          auth: auth[0],
+          ops
+        }); //TODO check GENERAR HTML DE JUNTAS DE CURSO DE PROYECTOS
+        else if (ops.tipo === 'PY') {
+            if (ops.subnivel == 2) tema = yield ejs.renderFile(__dirname + "/themes/superior/juntasExaProy.ejs", {
+              result,
+              auth: auth[0],
+              ops
+            });else tema = yield ejs.renderFile(__dirname + "/themes/superior/juntasExam.ejs", {
+              result,
+              auth: auth[0],
+              ops
+            });
+          } //TODO check GENERAR HTML DE SUPLETORIOS Y PROMEDIO FINAL
+          else {
+              if (ops.subnivel == 2) tema = yield ejs.renderFile(__dirname + "/themes/superior/juntasFinEP.ejs", {
+                result,
+                auth: auth[0],
+                ops
+              });else tema = yield ejs.renderFile(__dirname + "/themes/superior/juntasFinal.ejs", {
+                result,
+                auth: auth[0],
+                ops
+              });
+            }
         res.status(200).json(tema);
       } catch (error) {
         console.log(error);
@@ -459,7 +508,7 @@ var _default = {
     });
 
     function juntasFinal(_x15, _x16) {
-      return _juntasFinal.apply(this, arguments);
+      return _juntasFinal2.apply(this, arguments);
     }
 
     return juntasFinal;
@@ -474,11 +523,11 @@ var _default = {
         var estudiantes = [];
 
         for (var i = 0; i < arr.length; i++) {
-          var _element$curso7;
+          var _element$curso9;
 
           var element = arr[i];
           idMatricula = element.key;
-          idCurso = (_element$curso7 = element.curso) === null || _element$curso7 === void 0 ? void 0 : _element$curso7._id;
+          idCurso = (_element$curso9 = element.curso) === null || _element$curso9 === void 0 ? void 0 : _element$curso9._id;
           paralelo = element.paralelo;
           estudiantes.push(element._id);
         }
@@ -522,11 +571,11 @@ var _default = {
         var estudiantes = [];
 
         for (var i = 0; i < arr.length; i++) {
-          var _element$curso8;
+          var _element$curso10;
 
           var element = arr[i];
           idMatricula = element.key;
-          idCurso = (_element$curso8 = element.curso) === null || _element$curso8 === void 0 ? void 0 : _element$curso8._id;
+          idCurso = (_element$curso10 = element.curso) === null || _element$curso10 === void 0 ? void 0 : _element$curso10._id;
           paralelo = element.paralelo;
           estudiantes.push(element._id);
         }
@@ -571,11 +620,11 @@ var _default = {
         var estudiantes = [];
 
         for (var i = 0; i < arr.length; i++) {
-          var _element$curso9;
+          var _element$curso11;
 
           var element = arr[i];
           idMatricula = element.key;
-          idCurso = (_element$curso9 = element.curso) === null || _element$curso9 === void 0 ? void 0 : _element$curso9._id;
+          idCurso = (_element$curso11 = element.curso) === null || _element$curso11 === void 0 ? void 0 : _element$curso11._id;
           paralelo = element.paralelo;
           estudiantes.push(element._id);
         }
@@ -622,11 +671,11 @@ var _default = {
         var estudiantes = [];
 
         for (var i = 0; i < arr.length; i++) {
-          var _element$curso10;
+          var _element$curso12;
 
           var element = arr[i];
           idMatricula = element.key;
-          idCurso = (_element$curso10 = element.curso) === null || _element$curso10 === void 0 ? void 0 : _element$curso10._id;
+          idCurso = (_element$curso12 = element.curso) === null || _element$curso12 === void 0 ? void 0 : _element$curso12._id;
           paralelo = element.paralelo;
           estudiantes.push(element._id);
         }
@@ -673,11 +722,11 @@ var _default = {
         var estudiantes = [];
 
         for (var i = 0; i < arr.length; i++) {
-          var _element$curso11;
+          var _element$curso13;
 
           var element = arr[i];
           idMatricula = element.key;
-          idCurso = (_element$curso11 = element.curso) === null || _element$curso11 === void 0 ? void 0 : _element$curso11._id;
+          idCurso = (_element$curso13 = element.curso) === null || _element$curso13 === void 0 ? void 0 : _element$curso13._id;
           paralelo = element.paralelo;
           estudiantes.push(element._id);
         }

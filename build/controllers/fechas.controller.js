@@ -21,7 +21,7 @@ var _default = {
       try {
         var reply = yield _rediss.client.get("3000fechas");
         if (reply) return res.json(JSON.parse(reply));
-        var result = yield _AperturaNotas.default.find().lean();
+        var result = yield _AperturaNotas.default.findOne();
         yield _rediss.client.set('3000fechas', JSON.stringify(result), {
           EX: 36000
         });

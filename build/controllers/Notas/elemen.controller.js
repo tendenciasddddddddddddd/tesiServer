@@ -22,7 +22,9 @@ var {
 } = (0, _auditoria.auditoria)();
 var {
   convertirNum,
-  calcularPromedioInsumos
+  calcularPromedioInsumos,
+  calcPromInsFin,
+  calcPromInsFinCuartos
 } = (0, _promElement.promElement)();
 
 function primerIngresoNotas(_x, _x2, _x3) {
@@ -39,7 +41,7 @@ function _primerIngresoNotas() {
       var pr2 = convertirNum(Dto.b1, Dto.b2, Dto.b3, Dto.b4);
       var ppb = calcularPromedioInsumos(pr2[0], pr2[1], pr2[2], pr2[3]);
       var pr3 = convertirNum(ppa, ppb, Dto.pry1, '0');
-      var proAB = calcularPromedioInsumos(pr3[0], pr3[1], pr3[2], '');
+      var proAB = calcPromInsFin(pr3[0], pr3[1], pr3[2]);
       data.notas['ppa'] = ppa;
       data.notas['ppb'] = ppb;
       data.notas['proAB'] = proAB; //SEGUNDO QUIMESTRE ENTRA C y D
@@ -49,7 +51,7 @@ function _primerIngresoNotas() {
       var pr5 = convertirNum(Dto.d1, Dto.d2, Dto.d3, Dto.d4);
       var ppd = calcularPromedioInsumos(pr5[0], pr5[1], pr5[2], pr5[3]);
       var pr6 = convertirNum(ppc, ppd, Dto.pry2, '0');
-      var proCD = calcularPromedioInsumos(pr6[0], pr6[1], pr6[2], '');
+      var proCD = calcPromInsFin(pr6[0], pr6[1], pr6[2]);
       data.notas['ppc'] = ppc;
       data.notas['ppd'] = ppd;
       data.notas['proCD'] = proCD; //TERCER QUIMESTRE ENTRA E y F
@@ -58,8 +60,8 @@ function _primerIngresoNotas() {
       var ppe = calcularPromedioInsumos(pr7[0], pr7[1], pr7[2], pr7[3]);
       var pr8 = convertirNum(Dto.f1, Dto.f2, Dto.f3, Dto.f4);
       var ppf = calcularPromedioInsumos(pr8[0], pr8[1], pr8[2], pr8[3]);
-      var pr9 = convertirNum(ppe, ppf, Dto.pry2, '0');
-      var proEF = calcularPromedioInsumos(pr9[0], pr9[1], pr9[2], '');
+      var pr9 = convertirNum(ppe, ppf, Dto.pry3, '0');
+      var proEF = calcPromInsFin(pr9[0], pr9[1], pr9[2]);
       data.notas['ppe'] = ppe;
       data.notas['ppf'] = ppf;
       data.notas['proEF'] = proEF;
@@ -88,7 +90,70 @@ function _primerIngresoNotas() {
   return _primerIngresoNotas.apply(this, arguments);
 }
 
-function actualizarIngresoNotas(_x4, _x5, _x6, _x7) {
+function primerIngresoCuarto(_x4, _x5, _x6) {
+  return _primerIngresoCuarto.apply(this, arguments);
+}
+
+function _primerIngresoCuarto() {
+  _primerIngresoCuarto = _asyncToGenerator(function* (idcurso, idmatricula, data) {
+    try {
+      var Dto = data.notas; //PRIMER QUIMESTRE ENTRA A y B
+
+      var pr1 = convertirNum(Dto.a1, Dto.a2, Dto.a3, Dto.a4);
+      var ppa = calcularPromedioInsumos(pr1[0], pr1[1], pr1[2], pr1[3]);
+      var pr2 = convertirNum(Dto.b1, Dto.b2, Dto.b3, Dto.b4);
+      var ppb = calcularPromedioInsumos(pr2[0], pr2[1], pr2[2], pr2[3]);
+      var pr3 = convertirNum(ppa, ppb, Dto.pry1, Dto.exa1);
+      var proAB = calcPromInsFinCuartos(pr3[0], pr3[1], pr3[2], pr3[3]);
+      data.notas['ppa'] = ppa;
+      data.notas['ppb'] = ppb;
+      data.notas['proAB'] = proAB; //SEGUNDO QUIMESTRE ENTRA C y D
+
+      var pr4 = convertirNum(Dto.c1, Dto.c2, Dto.c3, Dto.c4);
+      var ppc = calcularPromedioInsumos(pr4[0], pr4[1], pr4[2], pr4[3]);
+      var pr5 = convertirNum(Dto.d1, Dto.d2, Dto.d3, Dto.d4);
+      var ppd = calcularPromedioInsumos(pr5[0], pr5[1], pr5[2], pr5[3]);
+      var pr6 = convertirNum(ppc, ppd, Dto.pry2, Dto.exa2);
+      var proCD = calcPromInsFinCuartos(pr6[0], pr6[1], pr6[2], pr6[3]);
+      data.notas['ppc'] = ppc;
+      data.notas['ppd'] = ppd;
+      data.notas['proCD'] = proCD; //TERCER QUIMESTRE ENTRA E y F
+
+      var pr7 = convertirNum(Dto.e1, Dto.e2, Dto.e3, Dto.e4);
+      var ppe = calcularPromedioInsumos(pr7[0], pr7[1], pr7[2], pr7[3]);
+      var pr8 = convertirNum(Dto.f1, Dto.f2, Dto.f3, Dto.f4);
+      var ppf = calcularPromedioInsumos(pr8[0], pr8[1], pr8[2], pr8[3]);
+      var pr9 = convertirNum(ppe, ppf, Dto.pry3, Dto.exa3);
+      var proEF = calcPromInsFinCuartos(pr9[0], pr9[1], pr9[2], pr9[3]);
+      data.notas['ppe'] = ppe;
+      data.notas['ppf'] = ppf;
+      data.notas['proEF'] = proEF;
+      var final = convertirNum(proAB, proCD, proEF, 'm');
+      var final2 = calcularPromedioInsumos(final[0], final[1], final[2], '');
+      data.resultados.notaFinal = final2;
+      yield _Matriculas.default.updateOne({
+        _id: idcurso
+      }, {
+        $push: {
+          "matriculas.$[perf].computo": data
+        }
+      }, {
+        arrayFilters: [{
+          "perf._id": {
+            $eq: idmatricula
+          }
+        }],
+        new: true
+      });
+    } catch (e) {
+      console.log(e);
+      res.status(500).json("error del servidor");
+    }
+  });
+  return _primerIngresoCuarto.apply(this, arguments);
+}
+
+function actualizarIngresoNotas(_x7, _x8, _x9, _x10) {
   return _actualizarIngresoNotas.apply(this, arguments);
 }
 
@@ -102,7 +167,7 @@ function _actualizarIngresoNotas() {
       var pr2 = convertirNum(Dto.b1, Dto.b2, Dto.b3, Dto.b4);
       var ppb = calcularPromedioInsumos(pr2[0], pr2[1], pr2[2], pr2[3]);
       var pr3 = convertirNum(ppa, ppb, Dto.pry1, '0');
-      var proAB = calcularPromedioInsumos(pr3[0], pr3[1], pr3[2], '');
+      var proAB = calcPromInsFin(pr3[0], pr3[1], pr3[2]);
       data.notas['ppa'] = ppa;
       data.notas['ppb'] = ppb;
       data.notas['proAB'] = proAB; //SEGUNDO QUIMESTRE ENTRA C y D
@@ -112,7 +177,7 @@ function _actualizarIngresoNotas() {
       var pr5 = convertirNum(Dto.d1, Dto.d2, Dto.d3, Dto.d4);
       var ppd = calcularPromedioInsumos(pr5[0], pr5[1], pr5[2], pr5[3]);
       var pr6 = convertirNum(ppc, ppd, Dto.pry2, '0');
-      var proCD = calcularPromedioInsumos(pr6[0], pr6[1], pr6[2], '');
+      var proCD = calcPromInsFin(pr6[0], pr6[1], pr6[2]);
       data.notas['ppc'] = ppc;
       data.notas['ppd'] = ppd;
       data.notas['proCD'] = proCD; //TERCER QUIMESTRE ENTRA E y F
@@ -121,8 +186,8 @@ function _actualizarIngresoNotas() {
       var ppe = calcularPromedioInsumos(pr7[0], pr7[1], pr7[2], pr7[3]);
       var pr8 = convertirNum(Dto.f1, Dto.f2, Dto.f3, Dto.f4);
       var ppf = calcularPromedioInsumos(pr8[0], pr8[1], pr8[2], pr8[3]);
-      var pr9 = convertirNum(ppe, ppf, Dto.pry2, '0');
-      var proEF = calcularPromedioInsumos(pr9[0], pr9[1], pr9[2], '');
+      var pr9 = convertirNum(ppe, ppf, Dto.pry3, '0');
+      var proEF = calcPromInsFin(pr9[0], pr9[1], pr9[2]);
       data.notas['ppe'] = ppe;
       data.notas['ppf'] = ppf;
       data.notas['proEF'] = proEF;
@@ -160,6 +225,78 @@ function _actualizarIngresoNotas() {
   return _actualizarIngresoNotas.apply(this, arguments);
 }
 
+function actualizarIngresoCuarto(_x11, _x12, _x13, _x14) {
+  return _actualizarIngresoCuarto.apply(this, arguments);
+}
+
+function _actualizarIngresoCuarto() {
+  _actualizarIngresoCuarto = _asyncToGenerator(function* (idcurso, idmatricula, fkmateria, data) {
+    try {
+      var Dto = data.notas; //PRIMER QUIMESTRE ENTRA A y B
+
+      var pr1 = convertirNum(Dto.a1, Dto.a2, Dto.a3, Dto.a4);
+      var ppa = calcularPromedioInsumos(pr1[0], pr1[1], pr1[2], pr1[3]);
+      var pr2 = convertirNum(Dto.b1, Dto.b2, Dto.b3, Dto.b4);
+      var ppb = calcularPromedioInsumos(pr2[0], pr2[1], pr2[2], pr2[3]);
+      var pr3 = convertirNum(ppa, ppb, Dto.pry1, Dto.exa1);
+      var proAB = calcPromInsFinCuartos(pr3[0], pr3[1], pr3[2], pr3[3]);
+      data.notas['ppa'] = ppa;
+      data.notas['ppb'] = ppb;
+      data.notas['proAB'] = proAB; //SEGUNDO QUIMESTRE ENTRA C y D
+
+      var pr4 = convertirNum(Dto.c1, Dto.c2, Dto.c3, Dto.c4);
+      var ppc = calcularPromedioInsumos(pr4[0], pr4[1], pr4[2], pr4[3]);
+      var pr5 = convertirNum(Dto.d1, Dto.d2, Dto.d3, Dto.d4);
+      var ppd = calcularPromedioInsumos(pr5[0], pr5[1], pr5[2], pr5[3]);
+      var pr6 = convertirNum(ppc, ppd, Dto.pry2, Dto.exa2);
+      var proCD = calcPromInsFinCuartos(pr6[0], pr6[1], pr6[2], pr6[3]);
+      data.notas['ppc'] = ppc;
+      data.notas['ppd'] = ppd;
+      data.notas['proCD'] = proCD; //TERCER QUIMESTRE ENTRA E y F
+
+      var pr7 = convertirNum(Dto.e1, Dto.e2, Dto.e3, Dto.e4);
+      var ppe = calcularPromedioInsumos(pr7[0], pr7[1], pr7[2], pr7[3]);
+      var pr8 = convertirNum(Dto.f1, Dto.f2, Dto.f3, Dto.f4);
+      var ppf = calcularPromedioInsumos(pr8[0], pr8[1], pr8[2], pr8[3]);
+      var pr9 = convertirNum(ppe, ppf, Dto.pry3, Dto.exa3);
+      var proEF = calcPromInsFinCuartos(pr9[0], pr9[1], pr9[2], pr9[3]);
+      data.notas['ppe'] = ppe;
+      data.notas['ppf'] = ppf;
+      data.notas['proEF'] = proEF;
+      var final = convertirNum(proAB, proCD, proEF, Dto.pytf);
+      var final2 = calcPromInsFinCuartos(final[0], final[1], final[2], final[3]);
+      data.resultados.notaFinal = final2;
+      yield _Matriculas.default.updateOne({
+        _id: idcurso
+      }, {
+        $set: {
+          "matriculas.$[perf].computo.$[est].notas": data.notas,
+          "matriculas.$[perf].computo.$[est].resultados": data.resultados,
+          "matriculas.$[perf].computo.$[est].fkdocente": data.fkdocente,
+          "matriculas.$[perf].computo.$[est].docente": data.docente,
+          "matriculas.$[perf].computo.$[est].orden": data.orden,
+          "matriculas.$[perf].computo.$[est].cualitativo": {}
+        }
+      }, {
+        arrayFilters: [{
+          "perf._id": {
+            $eq: idmatricula
+          }
+        }, {
+          "est.fkmateria": {
+            $eq: fkmateria
+          }
+        }],
+        new: true
+      });
+    } catch (e) {
+      console.log(e);
+      res.status(500).json("error del servidor");
+    }
+  });
+  return _actualizarIngresoCuarto.apply(this, arguments);
+}
+
 var _default = {
   create: function () {
     var _create = _asyncToGenerator(function* (req, res) {
@@ -187,11 +324,43 @@ var _default = {
       }
     });
 
-    function create(_x8, _x9) {
+    function create(_x15, _x16) {
       return _create.apply(this, arguments);
     }
 
     return create;
+  }(),
+  createCuarto: function () {
+    var _createCuarto = _asyncToGenerator(function* (req, res) {
+      try {
+        var {
+          id
+        } = req.params;
+        var array = req.body;
+
+        for (var i = 0; i < array.length; i++) {
+          var element = array[i];
+
+          if (element.isConfirm) {
+            yield actualizarIngresoCuarto(id, element.idMatricula, element.fkmateria, element);
+          } else {
+            yield primerIngresoCuarto(id, element.idMatricula, element);
+          }
+        }
+
+        sendProgress(req.body, id);
+        res.status(200).json({});
+      } catch (e) {
+        console.log(e);
+        res.status(500).json("error del servidor");
+      }
+    });
+
+    function createCuarto(_x17, _x18) {
+      return _createCuarto.apply(this, arguments);
+    }
+
+    return createCuarto;
   }(),
   ajustarPromedios: function () {
     var _ajustarPromedios = _asyncToGenerator(function* (req, res) {
@@ -219,7 +388,7 @@ var _default = {
       res.status(200).json({});
     });
 
-    function ajustarPromedios(_x10, _x11) {
+    function ajustarPromedios(_x19, _x20) {
       return _ajustarPromedios.apply(this, arguments);
     }
 

@@ -1296,6 +1296,8 @@ var promedioReportes = () => {
   }
 
   function formatParcial(rowM, rowD, estudiantes, quim, paralelo) {
+    console.log(quim);
+
     try {
       var _rowM$curso6, _rowM$periodo6;
 
@@ -1326,43 +1328,63 @@ var promedioReportes = () => {
               var reg = computo[k];
 
               if (subarray.fkmaterias == reg.fkmateria) {
-                if (quim.quimestre == 'PRIMER QUIMESTRE') {
-                  if (quim.q1 == 'PRIMER PARCIAL') {
+                if (quim.quimestre == 'PRIMER TRIMESTRE') {
+                  if (quim.qr == 'INSUMO INDIVIDUAL') {
                     var _subarray$materia, _reg$notas, _reg$cualitativo;
 
                     if (((_subarray$materia = subarray.materia) === null || _subarray$materia === void 0 ? void 0 : _subarray$materia.computo) == 2) nota = (_reg$notas = reg.notas) === null || _reg$notas === void 0 ? void 0 : _reg$notas.ppa;else nota = (_reg$cualitativo = reg.cualitativo) === null || _reg$cualitativo === void 0 ? void 0 : _reg$cualitativo.p1;
                   }
 
-                  if (quim.q1 == 'SEGUNDO PARCIAL') {
+                  if (quim.qr == 'INSUMO GRUPAL') {
                     var _subarray$materia2, _reg$notas2, _reg$cualitativo2;
 
                     if (((_subarray$materia2 = subarray.materia) === null || _subarray$materia2 === void 0 ? void 0 : _subarray$materia2.computo) == 2) nota = (_reg$notas2 = reg.notas) === null || _reg$notas2 === void 0 ? void 0 : _reg$notas2.ppb;else nota = (_reg$cualitativo2 = reg.cualitativo) === null || _reg$cualitativo2 === void 0 ? void 0 : _reg$cualitativo2.p2;
                   }
 
-                  if (quim.q1 == 'EXAMEN') {
+                  if (quim.qr == 'PROYECTO / EXAMEN') {
                     var _reg$notas3;
 
                     nota = (_reg$notas3 = reg.notas) === null || _reg$notas3 === void 0 ? void 0 : _reg$notas3.exa1;
                   }
                 }
 
-                if (quim.quimestre == 'SEGUNDO QUIMESTRE') {
-                  if (quim.q1 == 'PRIMER PARCIAL') {
+                if (quim.quimestre == 'SEGUNDO TRIMESTRE') {
+                  if (quim.qr == 'INSUMO INDIVIDUAL') {
                     var _subarray$materia3, _reg$notas4, _reg$cualitativo3;
 
                     if (((_subarray$materia3 = subarray.materia) === null || _subarray$materia3 === void 0 ? void 0 : _subarray$materia3.computo) == 2) nota = (_reg$notas4 = reg.notas) === null || _reg$notas4 === void 0 ? void 0 : _reg$notas4.ppc;else nota = (_reg$cualitativo3 = reg.cualitativo) === null || _reg$cualitativo3 === void 0 ? void 0 : _reg$cualitativo3.p3;
                   }
 
-                  if (quim.q1 == 'SEGUNDO PARCIAL') {
+                  if (quim.qr == 'INSUMO GRUPAL') {
                     var _subarray$materia4, _reg$notas5, _reg$cualitativo4;
 
                     if (((_subarray$materia4 = subarray.materia) === null || _subarray$materia4 === void 0 ? void 0 : _subarray$materia4.computo) == 2) nota = (_reg$notas5 = reg.notas) === null || _reg$notas5 === void 0 ? void 0 : _reg$notas5.ppd;else nota = (_reg$cualitativo4 = reg.cualitativo) === null || _reg$cualitativo4 === void 0 ? void 0 : _reg$cualitativo4.p4;
                   }
 
-                  if (quim.q1 == 'EXAMEN') {
+                  if (quim.qr == 'PROYECTO / EXAMEN') {
                     var _reg$notas6;
 
                     nota = (_reg$notas6 = reg.notas) === null || _reg$notas6 === void 0 ? void 0 : _reg$notas6.exa2;
+                  }
+                }
+
+                if (quim.quimestre == 'TERCER TRIMESTRE') {
+                  if (quim.qr == 'INSUMO INDIVIDUAL') {
+                    var _subarray$materia5, _reg$notas7, _reg$cualitativo5;
+
+                    if (((_subarray$materia5 = subarray.materia) === null || _subarray$materia5 === void 0 ? void 0 : _subarray$materia5.computo) == 2) nota = (_reg$notas7 = reg.notas) === null || _reg$notas7 === void 0 ? void 0 : _reg$notas7.ppe;else nota = (_reg$cualitativo5 = reg.cualitativo) === null || _reg$cualitativo5 === void 0 ? void 0 : _reg$cualitativo5.p5;
+                  }
+
+                  if (quim.qr == 'INSUMO GRUPAL') {
+                    var _subarray$materia6, _reg$notas8, _reg$cualitativo6;
+
+                    if (((_subarray$materia6 = subarray.materia) === null || _subarray$materia6 === void 0 ? void 0 : _subarray$materia6.computo) == 2) nota = (_reg$notas8 = reg.notas) === null || _reg$notas8 === void 0 ? void 0 : _reg$notas8.ppf;else nota = (_reg$cualitativo6 = reg.cualitativo) === null || _reg$cualitativo6 === void 0 ? void 0 : _reg$cualitativo6.p6;
+                  }
+
+                  if (quim.qr == 'PROYECTO / EXAMEN') {
+                    var _reg$notas9;
+
+                    nota = (_reg$notas9 = reg.notas) === null || _reg$notas9 === void 0 ? void 0 : _reg$notas9.exa3;
                   }
                 }
               }
@@ -1425,16 +1447,22 @@ var promedioReportes = () => {
               var reg = computo[k];
 
               if (subarray.fkmaterias == reg.fkmateria) {
-                if (quim.quimestre == 'PRIMER QUIMESTRE') {
-                  var _reg$notas7;
+                if (quim.quimestre == 'PRIMER TRIMESTRE') {
+                  var _reg$notas10;
 
-                  nota = (_reg$notas7 = reg.notas) === null || _reg$notas7 === void 0 ? void 0 : _reg$notas7.proAB;
+                  nota = (_reg$notas10 = reg.notas) === null || _reg$notas10 === void 0 ? void 0 : _reg$notas10.proAB;
                 }
 
-                if (quim.quimestre == 'SEGUNDO QUIMESTRE') {
-                  var _reg$notas8;
+                if (quim.quimestre == 'SEGUNDO TRIMESTRE') {
+                  var _reg$notas11;
 
-                  nota = (_reg$notas8 = reg.notas) === null || _reg$notas8 === void 0 ? void 0 : _reg$notas8.proCD;
+                  nota = (_reg$notas11 = reg.notas) === null || _reg$notas11 === void 0 ? void 0 : _reg$notas11.proCD;
+                }
+
+                if (quim.quimestre == 'TERCER TRIMESTRE') {
+                  var _reg$notas12;
+
+                  nota = (_reg$notas12 = reg.notas) === null || _reg$notas12 === void 0 ? void 0 : _reg$notas12.proEF;
                 }
               }
             }

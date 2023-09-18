@@ -99,13 +99,48 @@ var promElement = () => {
     var sumatoria = array.reduce(function (acumulador, siguienteValor) {
       return acumulador + parseInt(siguienteValor);
     }, 0);
-    var par = (sumatoria / array.length).toFixed(0);
-    promedio = parseInt(par);
+    var par = sumatoria / array.length;
+    promedio = Math.round(par);
     if (promedio == 0) return '';
     if (isNaN(promedio) || promedio == '') promedio = '';
     var salida = numbToletters(promedio);
     return salida;
   }
+
+  var calcPromInsFin = (n1, n2, n3) => {
+    var array = [];
+    var promedio = 0;
+    if (n1 != '' && n1) array.push(n1);
+    if (n2 != '' && n2) array.push(n2);
+    if (n3 != '' && n3) array.push(n3);else return '';
+    var sumatoria = array.reduce(function (acumulador, siguienteValor) {
+      return acumulador + parseInt(siguienteValor);
+    }, 0);
+    var par = sumatoria / array.length;
+    promedio = Math.round(par);
+    if (promedio == 0) return '';
+    if (isNaN(promedio) || promedio == '') promedio = '';
+    var salida = numbToletters(promedio);
+    return salida;
+  };
+
+  var calcPromInsFinCuartos = (n1, n2, n3, n4) => {
+    var array = [];
+    var promedio = 0;
+    if (n1 != '' && n1) array.push(n1);
+    if (n2 != '' && n2) array.push(n2);
+    if (n3 != '' && n3) array.push(n3);
+    if (n4 != '' && n4) array.push(n4);else return '';
+    var sumatoria = array.reduce(function (acumulador, siguienteValor) {
+      return acumulador + parseInt(siguienteValor);
+    }, 0);
+    var par = sumatoria / array.length;
+    promedio = Math.round(par);
+    if (promedio == 0) return '';
+    if (isNaN(promedio) || promedio == '') promedio = '';
+    var salida = numbToletters(promedio);
+    return salida;
+  };
 
   function numbToletters(numb) {
     var letra = '';
@@ -133,7 +168,9 @@ var promElement = () => {
 
   return {
     convertirNum,
-    calcularPromedioInsumos
+    calcularPromedioInsumos,
+    calcPromInsFin,
+    calcPromInsFinCuartos
   };
 };
 

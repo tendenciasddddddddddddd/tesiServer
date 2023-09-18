@@ -199,18 +199,84 @@ export const reporteElement = () => {
             console.log(error)
         }
     }
-   
+    const juntasFinal = (rowM, rowD, estudiantes, paralelo, keymateria) => {
+        try {
+            const matriculas = rowM?.matriculas
+            const distributivo = rowD?.carga
+            const help = []
+            var fechaA = fechaActual()
+            matriculas.sort(function (a, b) {
+                var nameA = a.estudiante.fullname.toLowerCase(), nameB = b.estudiante.fullname.toLowerCase();
+                if (nameA < nameB)
+                    return -1;
+                if (nameA > nameB)
+                    return 1;
+                return 0;
+            });
+            for (let j = 0; j < distributivo?.length; j++) {
+                if (keymateria == distributivo[j].fkmaterias) {
+                    const aux = []
+                    const materias = distributivo[j]
+                    const promAB = []; const promCD = []; const promEF = [];const promF = []
+                    for (let k = 0; k < matriculas.length; k++) {
+                        const res = matriculas[k];
+                        if (estudiantes.includes(res.fkestudiante)) {
+                            const computo = matriculas[k].computo
+                            let proAB, proCD,proEF, final, pytf = ''
+                            for (let i = 0; i < computo.length; i++) {
+                                const element = computo[i];
+                                if (element.fkmateria == materias.fkmaterias) {
+                                    const res = element.resultados
+                                    proAB = element.notas?.proAB
+                                    proCD = element.notas?.proCD
+                                    proEF = element.notas?.proEF
+                                    pytf = element.notas?.pytf
+                                    final = res?.notaFinal
+                                }
+                            }
+                            promAB.push(proAB)
+                            promCD.push(proCD)
+                            promEF.push(proEF)
+                            promF.push(final)
+                            aux.push({
+                                estudiante: res.estudiante?.fullname,
+                                proAB,proCD,proEF,pytf, final, 
+                            })
+                        }
+                    }
+                    const medAB = calcMedia(promAB)
+                    const medCD = calcMedia(promCD)
+                    const medEF = calcMedia(promEF)
+                    const medF = calcMedia(promF)
+                    const pPPA = calcProm(promAB)
+                    const pPPB = calcProm(promCD)
+                    const pPPC = calcProm(promEF)
+                    const prAB = calcProm(promF)
+                    //console.log(mediaPPA)
+                    //console.log(aux)
+                    help.push({
+                        materia: materias.materia?.nombre,
+                        docente: materias.docente?.fullname,
+                        curso: rowD?.curso.nombre,
+                        paralelo,
+                        data: aux,
+                        fechaA,
+                        medF, medCD,medEF, medAB,
+                        periodo: rowM?.periodo.nombre,
+                        pPPA, pPPB,pPPC, prAB
+                    })
+                }
+            }
+           // console.log('es100',help)
+            return help
+        } catch (error) {
+            console.log(error)
+        }
+    }
     return {
-        juntasOnly
+        juntasOnly, juntasFinal
     }
 };
-
-function trunc(x, posiciones = 0) {
-    var s = x.toString()
-    var decimalLength = s.indexOf('.') + 1
-    var numStr = s.substr(0, decimalLength + posiciones)
-    return Number(numStr)
-}
 
 function retornNumber(letra) {
     let aux = 0;

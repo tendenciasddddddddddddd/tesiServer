@@ -150,6 +150,9 @@ var _default = {
           num,
           subnivel
         });
+
+        _rediss.client.del('3000cursos');
+
         var dataSaved = yield newData.save();
         res.status(201).json(dataSaved);
       } catch (error) {
@@ -196,7 +199,8 @@ var _default = {
         if (reply) return res.json(JSON.parse(reply));
         var result = yield _Cursos.default.find().lean().select({
           nombre: 1,
-          num: 1
+          num: 1,
+          subnivel: 1
         });
         yield _rediss.client.set('3000cursos', JSON.stringify(result), {
           EX: 36000
