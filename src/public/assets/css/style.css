@@ -132,7 +132,7 @@ a:focus {
   height: 35px;
   padding: 0;
   border: none;
-  color: #ffffff;
+  color: #262626;
 }
 
 .custom_nav-container .nav_search-btn:hover {
@@ -165,7 +165,7 @@ a:focus {
   display: block;
   width: 35px;
   height: 4px;
-  background-color: #ffffff;
+  background-color: #262626;
   margin: 7px 0;
   -webkit-transition: all 0.3s;
   transition: all 0.3s;
@@ -181,7 +181,7 @@ a:focus {
   left: 0;
   height: 100%;
   width: 100%;
-  background-color: #ffffff;
+  background-color: #262626;
   top: -10px;
   border-radius: 5px;
   -webkit-transition: all .3s;
