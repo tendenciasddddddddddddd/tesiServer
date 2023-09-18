@@ -13,7 +13,7 @@ router.get("/", function(req, res, next) {
         today = today.format("YYYY-MM-DD");
         //add site root url
         const rootUrl = {};
-        rootUrl.loc = "https://uecam.net/";
+        rootUrl.loc = "https://uecam.online/";
         rootUrl.lastmod = today;
         rootUrl.changefreq = "daily";
         rootUrl.priority = "1.0";
@@ -57,14 +57,14 @@ function getRecordsFromDataSource() {
     //so let's just define two records hard-coded
  
     const record1 = {
-        url: "https://uecam.net/",
+        url: "https://uecam.online/",
         description:
             "Unidad Educativa Céasar Antonio Mosquera",
         featured_image_url: "https://res.cloudinary.com/dnnwjfm9m/image/upload/v1668111988/cesar_nhmg8l.jpg",
         updated_at: "2022-10-12",
     };
     const record2 = {
-        url: "https://uecam.net/",
+        url: "https://uecam.online/",
         description: "Colegio Céasar Antonio Mosquera",
         featured_image_url: "https://res.cloudinary.com/dnnwjfm9m/image/upload/v1668111988/cesar_nhmg8l.jpg",
         updated_at: "2022-10-12",
