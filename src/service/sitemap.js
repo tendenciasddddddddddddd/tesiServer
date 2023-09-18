@@ -13,14 +13,14 @@ router.get("/", function(req, res, next) {
         today = today.format("YYYY-MM-DD");
         //add site root url
         const rootUrl = {};
-        rootUrl.loc = "https://uelibertad.online/";
+        rootUrl.loc = "https://uecam.net/";
         rootUrl.lastmod = today;
         rootUrl.changefreq = "daily";
         rootUrl.priority = "1.0";
         rootUrl["image:image"] = {
-            "image:loc": "https://res.cloudinary.com/eulib/image/upload/v1668606284/libertad_vjihqu.jpg",
+            "image:loc": "https://res.cloudinary.com/dnnwjfm9m/image/upload/v1668111988/cesar_nhmg8l.jpg",
             "image:caption":
-                "UEMAH Unidad Educativa Libertad",
+                "UECAM Unidad Educativa Céasar Antonio Mosquera",
         };
         collection.push(rootUrl);
  
@@ -57,17 +57,17 @@ function getRecordsFromDataSource() {
     //so let's just define two records hard-coded
  
     const record1 = {
-        url: "https://uelibertad.online/",
+        url: "https://uecam.net/",
         description:
-            "Unidad Educativa Libertad",
-        featured_image_url: "https://res.cloudinary.com/eulib/image/upload/v1668606284/libertad_vjihqu.jpg",
-        updated_at: "2022-11-16",
+            "Unidad Educativa Céasar Antonio Mosquera",
+        featured_image_url: "https://res.cloudinary.com/dnnwjfm9m/image/upload/v1668111988/cesar_nhmg8l.jpg",
+        updated_at: "2022-10-12",
     };
     const record2 = {
-        url: "https://uelibertad.online/",
-        description: "Colegio Libertad",
-        featured_image_url: "https://res.cloudinary.com/eulib/image/upload/v1668606284/libertad_vjihqu.jpg",
-        updated_at: "2022-11-16",
+        url: "https://uecam.net/",
+        description: "Colegio Céasar Antonio Mosquera",
+        featured_image_url: "https://res.cloudinary.com/dnnwjfm9m/image/upload/v1668111988/cesar_nhmg8l.jpg",
+        updated_at: "2022-10-12",
     };
     return [record1, record2];
 }

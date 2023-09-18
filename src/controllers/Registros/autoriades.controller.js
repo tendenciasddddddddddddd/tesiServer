@@ -5,10 +5,10 @@ export default {
 
   getListas: async (req, res) => {
     try {
-      const reply = await client.get("3000autoridades");
+      const reply = await client.get("4000autoridades");
       if (reply) return res.json(JSON.parse(reply));
       const result = await Configure.find().lean();
-      await client.set('3000autoridades',JSON.stringify(result), { EX: 36000});
+      await client.set('4000autoridades',JSON.stringify(result), { EX: 36000});
       return res.json(result);
     } catch (error) {
       console.log(error);
@@ -25,7 +25,7 @@ export default {
           new: true,
         }
       );
-      client.del('3000autoridades');
+      client.del('4000autoridades');
       res.status(200).json(result);
     } catch (error) {
       console.log(error);

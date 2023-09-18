@@ -19,10 +19,10 @@ var _default = {
   getListas: function () {
     var _getListas = _asyncToGenerator(function* (req, res) {
       try {
-        var reply = yield _rediss.client.get("3000fechas");
+        var reply = yield _rediss.client.get("4000fechas");
         if (reply) return res.json(JSON.parse(reply));
         var result = yield _AperturaNotas.default.findOne();
-        yield _rediss.client.set('3000fechas', JSON.stringify(result), {
+        yield _rediss.client.set('4000fechas', JSON.stringify(result), {
           EX: 36000
         });
         return res.json(result);
@@ -44,7 +44,7 @@ var _default = {
           new: true
         });
 
-        _rediss.client.del('3000fechas');
+        _rediss.client.del('4000fechas');
 
         res.status(200).json(result);
       } catch (error) {

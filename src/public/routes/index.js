@@ -6,22 +6,5 @@ router.get('/', async (req, res) => {
   });
 });
 
-router.get('/about', async (req, res) => {
-    res.render('about', {
-    });
-  });
-
-
-
-  router.get('/event', async (req, res) => {
-    res.render('event', {
-    });
-  });
-
- 
-  router.get('/galeria', async (req, res) => {
-    res.render('galeria', {
-    });
-  });
 
 module.exports = router;

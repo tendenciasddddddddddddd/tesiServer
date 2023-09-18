@@ -1,29 +1,29 @@
 <?xml version='1.0'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9' xmlns:image='http://www.google.com/schemas/sitemap-image/1.1'>
     <url>
-        <loc>https://uelibertad.online/</loc>
-        <lastmod>2022-11-16</lastmod>
+        <loc>https://uecam.net/</loc>
+        <lastmod>2022-10-12</lastmod>
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
         <image:image>
-            <image:loc>https://res.cloudinary.com/eulib/image/upload/v1668606284/libertad_vjihqu.jpg</image:loc>
-            <image:caption>UEMAH Unidad Educativa Libertad</image:caption>
+            <image:loc>https://res.cloudinary.com/dnnwjfm9m/image/upload/v1668111988/cesar_nhmg8l.jpg</image:loc>
+            <image:caption>Unidad Educativa Céasar Antonio Mosquera</image:caption>
         </image:image>
     </url>
     <url>
-        <loc>https://uelibertad.online/</loc>
-        <lastmod>2022-11-16</lastmod>
+        <loc>https://uecam.net/</loc>
+        <lastmod>2022-10-12</lastmod>
         <image:image>
-            <image:loc>https://res.cloudinary.com/eulib/image/upload/v1668606284/libertad_vjihqu.jpg</image:loc>
-            <image:caption>Unidad Educativa Libertad</image:caption>
+            <image:loc>https://res.cloudinary.com/dnnwjfm9m/image/upload/v1668111988/cesar_nhmg8l.jpg</image:loc>
+            <image:caption>Unidad Educativa UECAM</image:caption>
         </image:image>
     </url>
     <url>
-        <loc>https://uelibertad.online/</loc>
-        <lastmod>2022-11-16</lastmod>
+        <loc>https://uecam.net/</loc>
+        <lastmod>2022-10-12</lastmod>
         <image:image>
-            <image:loc>https://res.cloudinary.com/eulib/image/upload/v1668606284/libertad_vjihqu.jpg</image:loc>
-            <image:caption>Colegio Libertad</image:caption>
+            <image:loc>https://res.cloudinary.com/dnnwjfm9m/image/upload/v1668111988/cesar_nhmg8l.jpg</image:loc>
+            <image:caption>Colegio Céasar Antonio Mosquera</image:caption>
         </image:image>
     </url>
 </urlset>

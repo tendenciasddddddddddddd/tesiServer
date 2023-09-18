@@ -17,13 +17,13 @@ router.get("/", function (req, res, next) {
     today = today.format("YYYY-MM-DD"); //add site root url
 
     var rootUrl = {};
-    rootUrl.loc = "https://uelibertad.online/";
+    rootUrl.loc = "https://uecam.net/";
     rootUrl.lastmod = today;
     rootUrl.changefreq = "daily";
     rootUrl.priority = "1.0";
     rootUrl["image:image"] = {
-      "image:loc": "https://res.cloudinary.com/eulib/image/upload/v1668606284/libertad_vjihqu.jpg",
-      "image:caption": "UEMAH Unidad Educativa Libertad"
+      "image:loc": "https://res.cloudinary.com/dnnwjfm9m/image/upload/v1668111988/cesar_nhmg8l.jpg",
+      "image:caption": "UECAM Unidad Educativa Céasar Antonio Mosquera"
     };
     collection.push(rootUrl); //add recipes urls
 
@@ -58,16 +58,16 @@ function getRecordsFromDataSource() {
   //these records will have our own structure, we return as they are and later we convert them to the xml standard format
   //so let's just define two records hard-coded
   var record1 = {
-    url: "https://uelibertad.online/",
-    description: "Unidad Educativa Libertad",
-    featured_image_url: "https://res.cloudinary.com/eulib/image/upload/v1668606284/libertad_vjihqu.jpg",
-    updated_at: "2022-11-16"
+    url: "https://uecam.net/",
+    description: "Unidad Educativa Céasar Antonio Mosquera",
+    featured_image_url: "https://res.cloudinary.com/dnnwjfm9m/image/upload/v1668111988/cesar_nhmg8l.jpg",
+    updated_at: "2022-10-12"
   };
   var record2 = {
-    url: "https://uelibertad.online/",
-    description: "Colegio Libertad",
-    featured_image_url: "https://res.cloudinary.com/eulib/image/upload/v1668606284/libertad_vjihqu.jpg",
-    updated_at: "2022-11-16"
+    url: "https://uecam.net/",
+    description: "Colegio Céasar Antonio Mosquera",
+    featured_image_url: "https://res.cloudinary.com/dnnwjfm9m/image/upload/v1668111988/cesar_nhmg8l.jpg",
+    updated_at: "2022-10-12"
   };
   return [record1, record2];
 }
