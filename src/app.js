@@ -50,7 +50,6 @@ import uploads from "./routes/Archivos/upload"
 import repositorioRoutes from "./routes/repositorio.routes"
 
 import notificacionRoutes from "./routes/Notifications/notificacion.routes"
-import telegramRoutes from "./routes/Notifications/telegram.routes"
 import logsRoutes from "./routes/logs.routes"
 //PUBLIC
 import publico from "./public/routes/index"
@@ -116,7 +115,6 @@ app.use("/api/respaldos", respaldosRoutes)
 app.use("/api/notas", notasRoutes)
 app.use("/api/repositorio",repositorioRoutes)
 app.use("/api/fechas",fechasRoutes)
-app.use("/api/telegram",telegramRoutes)
 app.use("/api/horarios",horariosRoutes)
 app.use("/api/hora",horaRoutes)
 app.use("/api/aulas",aulasRoutes)

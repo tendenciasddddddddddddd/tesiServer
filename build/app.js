@@ -79,8 +79,6 @@ var _repositorio = _interopRequireDefault(require("./routes/repositorio.routes")
 
 var _notificacion = _interopRequireDefault(require("./routes/Notifications/notificacion.routes"));
 
-var _telegram = _interopRequireDefault(require("./routes/Notifications/telegram.routes"));
-
 var _logs = _interopRequireDefault(require("./routes/logs.routes"));
 
 var _index = _interopRequireDefault(require("./public/routes/index"));
@@ -151,7 +149,6 @@ app.use("/api/respaldos", _respaldos.default);
 app.use("/api/notas", _notas.default);
 app.use("/api/repositorio", _repositorio.default);
 app.use("/api/fechas", _fechas.default);
-app.use("/api/telegram", _telegram.default);
 app.use("/api/horarios", _horarios.default);
 app.use("/api/hora", _hora.default);
 app.use("/api/aulas", _aulas.default);
