@@ -6,5 +6,19 @@ router.get('/', async (req, res) => {
   });
 });
 
+router.get('/about', async (req, res) => {
+    res.render('about', {
+    });
+  });
+
+  router.get('/contact', async (req, res) => {
+    res.render('contact', {
+    });
+  });
+
+  router.get('/cats', async (req, res) => {
+    res.render('cats', {
+    });
+  });
 
 module.exports = router;

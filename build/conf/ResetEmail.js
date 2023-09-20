@@ -28,7 +28,7 @@ var sendMail = /*#__PURE__*/function () {
         codigo: code
       });
       yield transporter.sendMail({
-        from: '"symtech" <weswebsystem@gmail.com>',
+        from: '"WYS-WEB" <weswebsystem@gmail.com>',
         to: "".concat(user),
         subject: "Restablece tu contraseña de plataforma",
         html: data
@@ -51,7 +51,7 @@ var sendMail2 = /*#__PURE__*/function () {
         name: name
       });
       yield transporter.sendMail({
-        from: '"symtech" <weswebsystem@gmail.com>',
+        from: '"WYS-WEB" <weswebsystem@gmail.com>',
         to: "".concat(user),
         subject: "Recuperar contraseña de plataforma",
         html: data

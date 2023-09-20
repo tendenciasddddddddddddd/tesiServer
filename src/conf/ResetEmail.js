@@ -17,7 +17,7 @@ const sendMail = async (user, code) => {
     try {
         const data = await ejs.renderFile(__dirname + "/resetTemplate.ejs", { codigo: code });
         await transporter.sendMail({
-            from: '"symtech" <weswebsystem@gmail.com>', 
+            from: '"WYS-WEB" <weswebsystem@gmail.com>', 
             to : `${user}`,
             subject: "Restablece tu contraseña de plataforma", 
             html : data
@@ -34,7 +34,7 @@ const sendMail2 = async (user, code, name) => {
   try {
       const data = await ejs.renderFile(__dirname + "/resetPassWord.ejs", { codigo: code, name:name });
       await transporter.sendMail({
-          from: '"symtech" <weswebsystem@gmail.com>', 
+          from: '"WYS-WEB" <weswebsystem@gmail.com>', 
           to : `${user}`,
           subject: "Recuperar contraseña de plataforma", 
           html : data

@@ -12,7 +12,7 @@ var _dotenv = require("dotenv");
 
 var _default = {
   MONGODB_URI: process.env.MONGODB_URI || "mongodb+srv://steban:Medid100.@uecam.olnwazy.mongodb.net/sistema?retryWrites=true&w=majority",
-  PORT: process.env.PORT || 4000,
-  SECRET: 'system-unidad-educativa-cesar-antonio'
+  PORT: process.env.PORT || 5000,
+  SECRET: 'system-unidad-educativa-leonidas-proaño.'
 };
 exports.default = _default;

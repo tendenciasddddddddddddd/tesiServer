@@ -13,14 +13,14 @@ router.get("/", function(req, res, next) {
         today = today.format("YYYY-MM-DD");
         //add site root url
         const rootUrl = {};
-        rootUrl.loc = "https://uecam.online/";
+        rootUrl.loc = "https://pcei-tulcan.com/";
         rootUrl.lastmod = today;
         rootUrl.changefreq = "daily";
         rootUrl.priority = "1.0";
         rootUrl["image:image"] = {
-            "image:loc": "https://res.cloudinary.com/dnnwjfm9m/image/upload/v1668111988/cesar_nhmg8l.jpg",
+            "image:loc": "https://res.cloudinary.com/stebann/image/upload/v1635615961/LOGO_COLEGIO_bgfeoz.webp",
             "image:caption":
-                "UECAM Unidad Educativa Céasar Antonio Mosquera",
+                "PCEI-tulcan Unidad Educativa Fiscomisional Mons. Leonidas Proaño",
         };
         collection.push(rootUrl);
  
@@ -57,17 +57,17 @@ function getRecordsFromDataSource() {
     //so let's just define two records hard-coded
  
     const record1 = {
-        url: "https://uecam.online/",
+        url: "https://pcei-tulcan.com/",
         description:
-            "Unidad Educativa Céasar Antonio Mosquera",
-        featured_image_url: "https://res.cloudinary.com/dnnwjfm9m/image/upload/v1668111988/cesar_nhmg8l.jpg",
-        updated_at: "2022-10-12",
+            "Unidad Educativa Monsenor Leonidas Proaño tulcan",
+        featured_image_url: "https://res.cloudinary.com/stebann/image/upload/v1635615961/LOGO_COLEGIO_bgfeoz.webp",
+        updated_at: "2021-08-06",
     };
     const record2 = {
-        url: "https://uecam.online/",
-        description: "Colegio Céasar Antonio Mosquera",
-        featured_image_url: "https://res.cloudinary.com/dnnwjfm9m/image/upload/v1668111988/cesar_nhmg8l.jpg",
-        updated_at: "2022-10-12",
+        url: "https://pcei-tulcan.com/",
+        description: "Unidad Educativa Fiscomisional Mons. Leonidas Proaño tulcan",
+        featured_image_url: "https://res.cloudinary.com/stebann/image/upload/v1635615961/LOGO_COLEGIO_bgfeoz.webp",
+        updated_at: "2021-08-06",
     };
     return [record1, record2];
 }

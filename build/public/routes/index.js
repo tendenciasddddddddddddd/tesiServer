@@ -16,4 +16,31 @@ router.get('/', /*#__PURE__*/function () {
     return _ref.apply(this, arguments);
   };
 }());
+router.get('/about', /*#__PURE__*/function () {
+  var _ref2 = _asyncToGenerator(function* (req, res) {
+    res.render('about', {});
+  });
+
+  return function (_x3, _x4) {
+    return _ref2.apply(this, arguments);
+  };
+}());
+router.get('/contact', /*#__PURE__*/function () {
+  var _ref3 = _asyncToGenerator(function* (req, res) {
+    res.render('contact', {});
+  });
+
+  return function (_x5, _x6) {
+    return _ref3.apply(this, arguments);
+  };
+}());
+router.get('/cats', /*#__PURE__*/function () {
+  var _ref4 = _asyncToGenerator(function* (req, res) {
+    res.render('cats', {});
+  });
+
+  return function (_x7, _x8) {
+    return _ref4.apply(this, arguments);
+  };
+}());
 module.exports = router;
