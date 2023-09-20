@@ -55,6 +55,8 @@ var _elemental = _interopRequireDefault(require("./routes/Notas/elemental.routes
 
 var _ = _interopRequireDefault(require("./routes/History/2023.routes"));
 
+var _2 = _interopRequireDefault(require("./routes/History/2022.routes"));
+
 var _aulas = _interopRequireDefault(require("./routes/Aulas/aulas.routes"));
 
 var _tareas = _interopRequireDefault(require("./routes/Aulas/tareas.routes"));
@@ -167,7 +169,8 @@ app.use("/api/cualitativo", _cualitativo.default);
 app.use("/api/elemental", _elemental.default);
 /* HISTORIAL REPORTES */
 
-app.use("/api/rep2023", _.default); //sitemap
+app.use("/api/rep2023", _.default);
+app.use("/api/rep2022", _2.default); //sitemap
 
 app.use("/sitemap.xml", _sitemap.default);
 var _default = app;

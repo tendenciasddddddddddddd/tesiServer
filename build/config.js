@@ -8,7 +8,6 @@ exports.default = void 0;
 var _dotenv = require("dotenv");
 
 (0, _dotenv.config)(); //mongodb://127.0.0.1/sistema-symtech
-//mongodb+srv://steban:Medid100.@face-1.ubvfiwd.mongodb.net/sistema-mons-tulcan?retryWrites=true&w=majority
 //mongodb+srv://steban:Medid100.@pcei-tulcan.2xf8enw.mongodb.net/sistema-mons-tulcan?retryWrites=true&w=majority
 
 var _default = {
