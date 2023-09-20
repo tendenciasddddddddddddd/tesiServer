@@ -34,6 +34,7 @@ import elementalRoutes from './routes/Notas/elemental.routes';
 
 /*  HISTORIAL REPORTES  */
 import r2023Routes from './routes/History/2023.routes';
+import r2022Routes from './routes/History/2022.routes';
 
 //---------------------AULAS VIRTUALES--------------------
 import aulasRoutes from './routes/Aulas/aulas.routes';
@@ -137,6 +138,7 @@ app.use("/api/elemental",elementalRoutes)
 
 /* HISTORIAL REPORTES */
 app.use("/api/rep2023",r2023Routes)
+app.use("/api/rep2022",r2022Routes)
 
 //sitemap
 app.use("/sitemap.xml", sitemapRouter);
