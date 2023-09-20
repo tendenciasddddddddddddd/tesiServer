@@ -58,10 +58,10 @@ function autoridad() {
 function _autoridad() {
   _autoridad = _asyncToGenerator(function* () {
     try {
-      var reply = yield _rediss.client.get("3000autoridades");
+      var reply = yield _rediss.client.get("5000autoridades");
       if (reply) return JSON.parse(reply);
       var result = yield _Configure.default.find().lean();
-      yield _rediss.client.set('3000autoridades', JSON.stringify(result), {
+      yield _rediss.client.set('5000autoridades', JSON.stringify(result), {
         EX: 36000
       });
       return result;

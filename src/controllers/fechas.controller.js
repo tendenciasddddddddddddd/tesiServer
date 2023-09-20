@@ -4,10 +4,10 @@ import { client } from "../middlewares/rediss";
 export default {
   getListas: async (req, res) => {
     try {
-      const reply = await client.get("4000fechas");
+      const reply = await client.get("5000fechas");
       if (reply) return res.json(JSON.parse(reply));
       const result = await AperturaNotas.findOne()
-      await client.set('4000fechas', JSON.stringify(result), { EX: 36000});
+      await client.set('5000fechas', JSON.stringify(result), { EX: 36000});
       return res.json(result);
     } catch (error) {
       return res.status(500).json(error);
@@ -23,7 +23,7 @@ export default {
             new: true,
           }
         );
-        client.del('4000fechas');
+        client.del('5000fechas');
         res.status(200).json(result);
       } catch (error) {
         return res.status(500).json(error);

@@ -8,10 +8,10 @@ const { formatPromociones, formatMatricula, formatLibretas, formatJuntas, format
     formatQuimestral, formatAnual, formatJuntasIndividual, formatJuntasFinal } = promedioReportes();
 async function autoridad() {
     try {
-        const reply = await client.get("3000autoridades");
+        const reply = await client.get("5000autoridades");
         if (reply) return JSON.parse(reply);
         const result = await Configure.find().lean();
-        await client.set('3000autoridades', JSON.stringify(result), { EX: 36000 });
+        await client.set('5000autoridades', JSON.stringify(result), { EX: 36000 });
         return result
     } catch (error) {
         console.log(error);
