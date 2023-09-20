@@ -1,0 +1,131 @@
+<% result.forEach(function (item) { %>
+    <div  class="s-hojas"
+        style="margin-top: 0.5rem;color: #13161c; font-family: Arial, Helvetica, sans-serif;background: #fff;">
+        <div style="text-align: center;" class="p-4">
+            <table style="width: 100%;">
+                <tbody>
+                    <tr>
+                        <td style="width: 15%;">
+                            <img style="height: 60px" src="https://res.cloudinary.com/stebann/image/upload/v1681418309/logo-ministerio-educacion_fvcptq.png" alt="Logo" />
+                        </td>
+                        <td style="width: 70%;">
+                            <div style="text-align: center;">
+                                <span style="color:#000;font-weight: 700;font-size: 16px;line-height: 1.375;">
+                                    <%= auth.unidadeducativa %>
+                                </span><br>
+                                <p style="margin-top:-1px;text-align: center;font-size: .8rem;">
+                                    INFORME DE VALORACIOES QUIMESTRALES 
+                                </p>
+                            </div>
+                        </td>
+                        <td style="width: 15%;">
+                            <img style="width: 60px;" src="<%=auth.logo%>" alt="Logo" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <hr>
+            <table style="width: 100%;">
+                <tbody>
+                    <tr style="font-size: .75rem">
+                        <td style="width: 45%;text-align: left;">
+                            <span>CURSO : <b><%= item.curso.nombre %> / <%= item.paralelo %></b></span> <br>
+                            <span>ESTUDIANTE: <b><%= item.fullname %></b></span>
+                        </td>
+                        <td style="width: 10%;">
+                            <div style="text-align: center;">
+                                CÓDIGO : <%= item.nmatricula %>
+                            </div>
+                        </td>
+                        <td style="width: 45%;text-align: right;">
+                            <span>PERIODO: <b><%= item.periodo.nombre %></b></span><br>
+                            <span>FECHA: <%= fechaA %></span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table
+                style="margin-top: 28px; border-color: #000;border-style: solid;border-width: 0px 1px 1px;max-width: 100%; width: 100%; border-spacing: 0; border-collapse: separate;">
+                <thead>
+                    <tr style="border-width: 1px 0px 0px;">
+                        <th
+                            style="border-top: 1px solid #000;border-bottom: 1px solid #000;padding: 8px 10px;font-size: .65rem;">
+                            ÁMBITO
+                        </th>
+                        <th
+                            style="border-top: 1px solid #000;border-bottom: 1px solid #000;padding: 8px 10px;font-size: .65rem;">
+                            DESTEZAS
+                        </th>
+                        <th
+                            style="border-top: 1px solid #000;border-bottom: 1px solid #000;padding: 8px 10px;font-size: .65rem;">
+                            1° TRIM
+                        </th>
+                        <th
+                            style="border-top: 1px solid #000;border-bottom: 1px solid #000;padding: 8px 10px;font-size: .65rem;">
+                            2° TRIM
+                        </th>
+                        <th
+                            style="border-top: 1px solid #000;border-bottom: 1px solid #000;padding: 8px 10px;font-size: .65rem;">
+                            3° TRIM
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% item.destrezas[0].notas.forEach(function (subItems, index) { %>
+                        <tr >
+                            <td
+                                style="border-right: 1px solid #000;font-size: .65rem;border-bottom: 1px solid rgb(0, 0, 0);">
+                                <%= subItems.amb.substring(0, 15) %> </td>
+                            <td
+                                style="border-right: 1px solid #000;font-size: .65rem;border-bottom: 1px solid rgb(0, 0, 0);">
+                                <%= subItems.des %>
+                            </td>
+                            <td style="font-size: .65rem;border-right: 1px solid #000;border-bottom: 1px solid rgb(0, 0, 0);">
+                                <%= subItems.p1 %>
+                            </td>
+                            <td style="font-size: .65rem;border-right: 1px solid #000;border-bottom: 1px solid rgb(0, 0, 0);">
+                                <%= subItems.p2 %>
+                            </td>
+                            <td style="font-size: .65rem;border-bottom: 1px solid rgb(0, 0, 0);">
+                                <%= subItems.p3 %>
+                            </td>
+                        </tr>
+                    <% }) %>
+                    
+                </tbody>
+            </table>
+            <div style="margin-top: 5rem;">
+                <table style="    width: 100%;">
+                    <tbody>
+                        <tr>
+                            <td style="width: 5%;"></td>
+                            <td style="width: 45%;">
+                                <div style="text-align: center;">
+                                    <span>
+                                        <b>______________________________</b>
+                                    </span> <br>
+                                    <p style=" font-size: .875rem;">
+                                        <b><%= auth.rector %></b><br>
+                                        RECTOR/A
+                                    </p>
+                                </div>
+                            </td>
+                            <td style="width: 45%;">
+                                <div style="text-align: center;">
+                                    <span>
+                                        <b>_____________________________</b>
+                                    </span> <br>
+                                    <p style="font-size: .875rem;">
+                                        TUTOR/A
+                                    </p>
+                                </div>
+                            </td>
+                            <td style="width: 5%;"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div style="page-break-before:always;"></div>
+    </div>
+    <% }) %>
