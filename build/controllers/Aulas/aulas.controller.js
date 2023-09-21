@@ -257,8 +257,10 @@ var _default = {
     var _deleteEstudiante = _asyncToGenerator(function* (req, res) {
       try {
         var {
-          id
+          id,
+          foranea
         } = req.body;
+        yield clearDataStudiantes(req.params.paramId, foranea);
         yield _Aulasvirtuales.default.updateOne({
           _id: req.params.paramId
         }, {
@@ -340,3 +342,74 @@ var _default = {
   }()
 };
 exports.default = _default;
+
+function clearDataStudiantes(_x27, _x28) {
+  return _clearDataStudiantes.apply(this, arguments);
+}
+
+function _clearDataStudiantes() {
+  _clearDataStudiantes = _asyncToGenerator(function* (idKey, id) {
+    try {
+      var _result$tareas, _result$evaluacion, _result$foros;
+
+      var result = yield _Aulasvirtuales.default.findById(idKey);
+      if (!result) return;
+      result === null || result === void 0 ? void 0 : (_result$tareas = result.tareas) === null || _result$tareas === void 0 ? void 0 : _result$tareas.forEach(res => {
+        var _res$entrega;
+
+        res === null || res === void 0 ? void 0 : (_res$entrega = res.entrega) === null || _res$entrega === void 0 ? void 0 : _res$entrega.forEach((ent, index) => {
+          if (ent.fkestudiante == id) {
+            var _res$entrega2;
+
+            res === null || res === void 0 ? void 0 : (_res$entrega2 = res.entrega) === null || _res$entrega2 === void 0 ? void 0 : _res$entrega2.splice(index, 1);
+          }
+        });
+        var foros = [];
+
+        for (var i = 0; i < (res === null || res === void 0 ? void 0 : (_res$foro = res.foro) === null || _res$foro === void 0 ? void 0 : _res$foro.length); i++) {
+          var _res$foro;
+
+          var element = res.foro[i];
+          if (element.fkestudiante != id) foros.push(element);
+        }
+
+        res.foro = foros;
+      });
+      result === null || result === void 0 ? void 0 : (_result$evaluacion = result.evaluacion) === null || _result$evaluacion === void 0 ? void 0 : _result$evaluacion.forEach(res => {
+        var respuestas = [];
+
+        for (var i = 0; i < (res === null || res === void 0 ? void 0 : (_res$answers = res.answers) === null || _res$answers === void 0 ? void 0 : _res$answers.length); i++) {
+          var _res$answers;
+
+          var element = res.answers[i];
+          if (element.fkestudiante != id) respuestas.push(element);
+        }
+
+        res.answers = respuestas;
+      });
+      result === null || result === void 0 ? void 0 : (_result$foros = result.foros) === null || _result$foros === void 0 ? void 0 : _result$foros.forEach(res => {
+        var foro = [];
+
+        for (var i = 0; i < (res === null || res === void 0 ? void 0 : (_res$foro2 = res.foro) === null || _res$foro2 === void 0 ? void 0 : _res$foro2.length); i++) {
+          var _res$foro2;
+
+          var element = res.foro[i];
+
+          if (element.fkestudiante != id) {
+            var _element$subForo;
+
+            var subForo = element === null || element === void 0 ? void 0 : (_element$subForo = element.subForo) === null || _element$subForo === void 0 ? void 0 : _element$subForo.filter(x => x.fkestudiante != id);
+            if (subForo.length > 0) element.subForo = subForo;
+            foro.push(element);
+          }
+        }
+
+        res.foro = foro;
+      });
+      yield _Aulasvirtuales.default.findByIdAndUpdate(idKey, result);
+    } catch (error) {
+      console.log(error);
+    }
+  });
+  return _clearDataStudiantes.apply(this, arguments);
+}

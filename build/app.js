@@ -73,6 +73,8 @@ var _evaluacion = _interopRequireDefault(require("./routes/Aulas/evaluacion.rout
 
 var _foros = _interopRequireDefault(require("./routes/Aulas/foros.routes"));
 
+var _copyDescar = _interopRequireDefault(require("./routes/Aulas/copyDescar.routes"));
+
 var _user = _interopRequireDefault(require("./routes/user.routes"));
 
 var _upload = _interopRequireDefault(require("./routes/Archivos/upload"));
@@ -161,6 +163,7 @@ app.use("/api/eva", _evaluacion.default);
 app.use("/api/foros", _foros.default);
 app.use("/api/logs", _logs.default);
 app.use("/api/reportes", _reportes.default);
+app.use("/api/copyDescar", _copyDescar.default);
 /* CALIFICACIONES */
 
 app.use("/api/common", _common.default);

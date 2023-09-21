@@ -45,6 +45,7 @@ import videosRoutes from './routes/Aulas/videos.routes';
 import youtubeRoutes from './routes/Aulas/youtube.routes';
 import evaluacionRoutes from './routes/Aulas/evaluacion.routes';
 import forosRoutes from './routes/Aulas/foros.routes';
+import copyDescarRoutes from './routes/Aulas/copyDescar.routes';
 
 import usuarios from "./routes/user.routes"
 import uploads from "./routes/Archivos/upload"
@@ -129,6 +130,7 @@ app.use("/api/eva",evaluacionRoutes)
 app.use("/api/foros",forosRoutes)
 app.use("/api/logs",logsRoutes)
 app.use("/api/reportes",reportesRoutes)
+app.use("/api/copyDescar",copyDescarRoutes)
 
 /* CALIFICACIONES */
 app.use("/api/common",commonRoutes)

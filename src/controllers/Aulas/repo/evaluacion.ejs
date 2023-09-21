@@ -1,0 +1,167 @@
+<div class="s-hojas"
+style="margin-top: 0.5rem;color: #000; font-family: Arial, Helvetica, sans-serif;background: #fff;">
+<div style="text-align: center;padding: 1rem;">
+    <table style="width: 100%;">
+        <tbody>
+            <tr>
+                <td style="width: 100%;">
+                    <img style="width: 100%;" src="https://res.cloudinary.com/stebann/image/upload/v1695227587/wbokkhnkhjcy2txx17li.jpg"
+                        alt="Logo" />
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table style="margin-top: 15px; max-width: 100%; width: 100%;border: 1px solid #000;">
+        <tbody>
+            <tr>
+                <td style="width: 100%;font-size: 12px;text-align: center;">
+                    <%= auth.unidadeducativa %>
+                </td>
+            </tr>
+            <tr>
+                <table style="width: 100%;border: 1px solid #000;">
+                    <tbody>
+                        <tr>
+                            <td
+                                style="width: 50%;font-size: 12px;text-align: left; border-right: 1px solid #000;">
+                                <b>CURSO:</b> <%= result.nombres %>
+                            </td>
+                            <td style="width: 50%;font-size: 12px;text-align: left">
+                                <b>FECHA:</b>  <%= fecha %>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </tr>
+            <tr>
+                <table style="width: 100%;border: 1px solid #000;">
+                    <tbody >
+                        <tr>
+                            <td
+                                style="width: 50%;font-size: 12px;text-align: left;border-right: 1px solid #000;">
+                              <b>Asignatura:</b>   <%= result.materia %></td>
+                            <td style="width: 50%;font-size: 12px;text-align: left">
+                                <b>TEMA:</b>  <%= result.title %>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </tr>
+            <tr>
+                <table style="width: 100%;border: 1px solid #000;">
+                    <tbody >
+                        <tr>
+                            <td
+                                style="width: 50%;font-size: 12px;text-align: left; border-right: 1px solid #000;">
+                                Refuerzo Académico </td>
+                            <td style="width: 50%;font-size: 12px;text-align: left">
+                                <b>Nombre estudiante: </b>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </tr>
+        </tbody>
+    </table>
+    <table
+        style="margin-top: 32px; border-color: #000;border-style: solid;border-width: 0px 1px 1px;max-width: 100%; width: 100%; border-spacing: 0; border-collapse: separate;">
+
+        <tbody>
+            <tr>
+                <td style="width: 100%;font-size: 12px;text-align: center;border-top: 1px solid #000;">
+                    <b>DESCRIPCION DE LA EVALUACIÓN</b> 
+                </td>
+            </tr>
+            <tr>
+                <td
+                    style="border-top: 1px solid #000;border-bottom-width: 0px; font-size: 10.4px;text-align: left;">
+                    <table style="width: 100%;">
+                        <tbody>
+                            <tr style="font-size: 10.4px;">
+                                <td style="width: 10%;">
+                                  <b>DETALLE</b>  <%- result.descripcion %>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 100%;font-size: 12px;text-align: center;border-top: 1px solid #000;">
+                   <b>ARCHIVOS ENTREGADOS</b> 
+                </td>
+            </tr>
+            <% result?.archivo?.forEach(function (item) { %>
+            <tr >
+                <td
+                    style="border-top: 1px solid #000;border-bottom-width: 0px; font-size: 10.4px;text-align: left;">
+                   <a  href="<%=item.link%>" target="_blank" style="cursor: pointer;color: #1192ee;"> <%= item.link %></a> 
+                </td>
+            </tr>
+            <% }) %>
+            <tr>
+                <td style="width: 100%;font-size: 12px;text-align: center;border-top: 1px solid #000;">
+                    PREGUNTAS DE LA EVALUACION
+                </td>
+            </tr>
+            <% result?.surveys?.forEach(function (item) { %>
+            <tr >
+                <% if (item.tipo == 1 || item.tipo == 2) { %>
+                <td style="border-top: 1px solid #000;border-bottom-width: 0px; font-size: 10.4px;text-align: left;">
+                    <div style="padding: 10px;"> <%- item.question %></div>
+                    <% item?.options?.forEach(function (subitem) { %>
+                    <div style="margin-left: 15px;">
+                        <input type="radio" name="" id="" style="height: 15px; width: 15px;">
+                        <span style="margin-left: 10px;"> <%= subitem.text %></span>
+                        <% if (subitem.link != '') { %>
+                        <div >
+                            <img style="height: 50px;" src="<%=subitem.link%>" alt="">
+                        </div>
+                        <% } %>
+                    </div>
+                    <% }) %>
+                    <br>
+                </td>
+
+                <% } else {%>
+                <td  style="border-top: 1px solid #000;border-bottom-width: 0px; font-size: 10.4px;text-align: left;">
+                    <div style="padding: 10px;"> <%- item.question %></div>
+                    <% item?.options?.forEach(function (subitem) { %>
+                    <div style="margin-left: 15px;">
+                        <input type="checkbox" name="" id="" style="height: 15px; width: 15px;">
+                        <span style="margin-left: 10px;"> <%= subitem.text %></span>
+                        <% if (subitem.link != '') { %>
+                        <div >
+                            <img style="height: 50px;" src="<%=subitem.link%>" alt="">
+                        </div>
+                        <% } %>
+                    </div>
+                    <% }) %>
+                    <br>
+                </td>
+                <% } %>
+            </tr>
+            <% }) %>
+        </tbody>
+    </table>
+    <div style="margin-top: 80px;">
+        <table style="    width: 100%;">
+            <tbody>
+              <tr>
+                <td style="width: 100%;">
+                  <div style="text-align: center;">
+                    <span>
+                      <b>______________________________</b>
+                    </span> <br>
+                    <p style=" font-size: .875rem;">
+                      <b><%= result.docente %></b><br>
+                      DOCENTE
+                    </p>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+</div><br> <br>
+</div>
