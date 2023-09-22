@@ -105,7 +105,7 @@ export const submitVideos = async (req, res) => {
 export const eliminar = async (req, res) => {
   try {
     const {nombre} = req.body
-    const deleteFile = './videos/'+nombre
+    const deleteFile = './archivoss/vid2024/'+nombre
     fs.unlink(deleteFile, (err) => {
       if (err) {
       }
@@ -121,7 +121,7 @@ export const eliminar = async (req, res) => {
 
 const storage3 = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'images')
+    cb(null, 'archivoss/img2024')
   },
   filename: function (req, file, cb) {
     cb(null, `${Date.now()}-${file.originalname}`)
@@ -139,7 +139,7 @@ export const submitImages = async (req, res) => {
       res.send(req.file)
     }
     else {
-      const deleteFile = './images/' + req.file.filename
+      const deleteFile = './archivoss/img2024/' + req.file.filename
       fs.unlink(deleteFile, (err) => {
       })
       res.send(null)

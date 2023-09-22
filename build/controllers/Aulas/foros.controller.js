@@ -1206,7 +1206,8 @@ var _default = {
               "foros.$[perf].start": req.body.foros.start,
               "foros.$[perf].fechad": req.body.foros.fechad,
               "foros.$[perf].disponibilidad": req.body.foros.disponibilidad,
-              "foros.$[perf].descripcion": req.body.foros.descripcion
+              "foros.$[perf].descripcion": req.body.foros.descripcion,
+              "foros.$[perf].participacion": req.body.foros.participacion
             }
           }, {
             arrayFilters: [{
@@ -1231,6 +1232,68 @@ var _default = {
     }
 
     return update;
+  }(),
+  calificar: function () {
+    var _calificar = _asyncToGenerator(function* (req, res) {
+      try {
+        var array = req.body; // console.log(req.params.paramId)
+
+        var result = [];
+        var idForo = '';
+
+        for (var i = 0; i < array.length; i++) {
+          var element = array[i];
+          idForo = element.idTarea;
+          result.push({
+            nota: element.nota,
+            fkestudiante: element._id
+          });
+        } //console.log(idForo)
+        //console.log(result)
+
+
+        yield revisarConEntrega(req.params.paramId, idForo, result);
+        res.status(200).json("ok");
+      } catch (e) {
+        console.log(e);
+        res.status(500).json("error del servidor");
+      }
+    });
+
+    function calificar(_x77, _x78) {
+      return _calificar.apply(this, arguments);
+    }
+
+    return calificar;
   }()
-};
+}; //TODO: implement REGISTRAMOS NOTA DEL FORO
+
 exports.default = _default;
+
+function revisarConEntrega(_x79, _x80, _x81) {
+  return _revisarConEntrega.apply(this, arguments);
+}
+
+function _revisarConEntrega() {
+  _revisarConEntrega = _asyncToGenerator(function* (id, idForo, item) {
+    try {
+      yield _Aulasvirtuales.default.updateOne({
+        _id: id
+      }, {
+        $set: {
+          "foros.$[perf].participacion": item
+        }
+      }, {
+        arrayFilters: [{
+          "perf._id": {
+            $eq: idForo
+          }
+        }],
+        new: true
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  });
+  return _revisarConEntrega.apply(this, arguments);
+}

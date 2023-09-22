@@ -129,7 +129,7 @@ app.use(_express.default.urlencoded({
 app.set('views', path.join(__dirname, 'public/views'));
 app.set('view engine', 'ejs');
 app.use((0, _compression.default)());
-app.use('/uploads', _express.default.static(path.join(__dirname, '..', 'videos')));
+app.use('/uploads', _express.default.static(path.join(__dirname, '..', 'archivoss')));
 app.use('/assets', _express.default.static(path.join(__dirname, '/public/assets'))); //app.use(express.static(path.join(__dirname, "public")));
 
 app.use('/', _index.default);

@@ -53,6 +53,10 @@ var AulasSchema = new _mongoose.Schema({
     descripcion: String,
     parcial: String,
     ofIndex: String,
+    participacion: [{
+      fkestudiante: String,
+      nota: String
+    }],
     foro: [{
       fkestudiante: String,
       nombre: String,
@@ -85,6 +89,7 @@ var AulasSchema = new _mongoose.Schema({
     fechOrden: String,
     parcial: String,
     ofIndex: String,
+    descripcion: String,
     foro: [{
       fkestudiante: String,
       nombre: String,
@@ -110,6 +115,7 @@ var AulasSchema = new _mongoose.Schema({
     fechOrden: String,
     parcial: String,
     ofIndex: String,
+    descripcion: String,
     foro: [{
       fkestudiante: String,
       nombre: String,

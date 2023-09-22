@@ -83,7 +83,8 @@ var _default = {
               "youtube.$[perf].title": req.body.youtube.title,
               "youtube.$[perf].archivo": req.body.youtube.archivo,
               "youtube.$[perf].disponibilidad": req.body.youtube.disponibilidad,
-              "youtube.$[perf].fechad": req.body.youtube.fechad
+              "youtube.$[perf].fechad": req.body.youtube.fechad,
+              "youtube.$[perf].descripcion": req.body.videos.descripcion
             }
           }, {
             arrayFilters: [{

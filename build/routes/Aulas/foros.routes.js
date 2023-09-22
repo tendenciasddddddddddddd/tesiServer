@@ -25,5 +25,6 @@ router.put("/removeLike/:paramId", [_middlewares.authJwt.verifyToken], _foros.de
 router.put("/removeNoLike/:paramId", [_middlewares.authJwt.verifyToken], _foros.default.removeNoLike);
 router.put("/removeForoOne/:paramId", [_middlewares.authJwt.verifyToken], _foros.default.removeForoOne);
 router.put("/removeForoTwo/:paramId", [_middlewares.authJwt.verifyToken], _foros.default.removeForoTwo);
+router.put("/calificar/:paramId", [_middlewares.authJwt.verifyToken], _foros.default.calificar);
 var _default = router;
 exports.default = _default;

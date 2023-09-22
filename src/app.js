@@ -93,7 +93,7 @@ app.set('view engine', 'ejs');
 
 app.use(compression())
 
-app.use('/uploads', express.static(path.join(__dirname, '..', 'videos')))
+app.use('/uploads', express.static(path.join(__dirname, '..', 'archivoss')))
 
 app.use('/assets', express.static(path.join(__dirname, '/public/assets')))
 

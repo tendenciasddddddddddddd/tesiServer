@@ -26,4 +26,6 @@ router.put("/removeForoOne/:paramId",[authJwt.verifyToken], Ctrl.removeForoOne);
 
 router.put("/removeForoTwo/:paramId",[authJwt.verifyToken], Ctrl.removeForoTwo);
 
+router.put("/calificar/:paramId",[authJwt.verifyToken], Ctrl.calificar); 
+
 export default router;

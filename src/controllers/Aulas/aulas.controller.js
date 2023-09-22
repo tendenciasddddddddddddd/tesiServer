@@ -217,6 +217,8 @@ async function clearDataStudiantes(idKey, id) {
         }
       }
       res.foro = foro
+      const filter = res?.participacion?.filter(x => x.fkestudiante != id)
+      if(filter.length > 0) res.participacion = filter
     })
     await Aulasvirtuales.findByIdAndUpdate(idKey, result);
   } catch (error) {

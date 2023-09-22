@@ -58,6 +58,7 @@ export default {
               "videos.$[perf].archivo": req.body.videos.archivo,
               "videos.$[perf].disponibilidad": req.body.videos.disponibilidad,
               "videos.$[perf].fechad": req.body.videos.fechad,
+              //"videos.$[perf].descripcion": req.body.videos.descripcion,
             }
           },
           {

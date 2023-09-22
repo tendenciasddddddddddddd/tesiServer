@@ -45,6 +45,7 @@ export default {
               "youtube.$[perf].archivo": req.body.youtube.archivo,
               "youtube.$[perf].disponibilidad": req.body.youtube.disponibilidad,
               "youtube.$[perf].fechad": req.body.youtube.fechad,
+              "youtube.$[perf].descripcion": req.body.videos.descripcion,
             }
           },
           {

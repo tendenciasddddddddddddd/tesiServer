@@ -388,6 +388,8 @@ function _clearDataStudiantes() {
         res.answers = respuestas;
       });
       result === null || result === void 0 ? void 0 : (_result$foros = result.foros) === null || _result$foros === void 0 ? void 0 : _result$foros.forEach(res => {
+        var _res$participacion;
+
         var foro = [];
 
         for (var i = 0; i < (res === null || res === void 0 ? void 0 : (_res$foro2 = res.foro) === null || _res$foro2 === void 0 ? void 0 : _res$foro2.length); i++) {
@@ -405,6 +407,8 @@ function _clearDataStudiantes() {
         }
 
         res.foro = foro;
+        var filter = res === null || res === void 0 ? void 0 : (_res$participacion = res.participacion) === null || _res$participacion === void 0 ? void 0 : _res$participacion.filter(x => x.fkestudiante != id);
+        if (filter.length > 0) res.participacion = filter;
       });
       yield _Aulasvirtuales.default.findByIdAndUpdate(idKey, result);
     } catch (error) {

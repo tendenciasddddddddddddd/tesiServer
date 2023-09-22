@@ -635,7 +635,7 @@ export default {
 
 
 
-//====================================================================================================================
+    //====================================================================================================================
 
     //======================ENUNCIADO DEL FORO=================================
     create: async (req, res) => {
@@ -668,6 +668,7 @@ export default {
                             "foros.$[perf].fechad": req.body.foros.fechad,
                             "foros.$[perf].disponibilidad": req.body.foros.disponibilidad,
                             "foros.$[perf].descripcion": req.body.foros.descripcion,
+                            "foros.$[perf].participacion": req.body.foros.participacion,
                         }
                     },
                     {
@@ -686,4 +687,49 @@ export default {
             res.status(500).json("error del servidor");
         }
     },
+    calificar: async (req, res) => {
+        try {
+            const array = req.body
+           // console.log(req.params.paramId)
+            const result = []
+            let idForo = ''
+            for (let i = 0; i < array.length; i++) {
+                const element = array[i];
+                idForo = element.idTarea
+                result.push({
+                    nota : element.nota,
+                    fkestudiante : element._id,
+                })
+            }
+            //console.log(idForo)
+            //console.log(result)
+            await revisarConEntrega(req.params.paramId,idForo, result )
+            res.status(200).json("ok");
+        } catch (e) {
+            console.log(e);
+            res.status(500).json("error del servidor");
+        }
+    },
 }
+
+//TODO: implement REGISTRAMOS NOTA DEL FORO
+async function revisarConEntrega(id, idForo, item) {
+    try {
+        await Aulasvirtuales.updateOne(
+          { _id: id },
+          {
+            $set: {
+              "foros.$[perf].participacion": item,
+            }
+          },
+          {
+            arrayFilters: [{
+              "perf._id": { $eq: idForo }
+            }],
+            new: true,
+          }
+        );
+    } catch (e) {
+      console.log(e)
+    }
+  }

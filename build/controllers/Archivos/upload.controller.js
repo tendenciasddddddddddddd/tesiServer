@@ -170,7 +170,7 @@ var eliminar = /*#__PURE__*/function () {
       var {
         nombre
       } = req.body;
-      var deleteFile = './videos/' + nombre;
+      var deleteFile = './archivoss/vid2024/' + nombre;
       fs.unlink(deleteFile, err => {
         if (err) {}
       });
@@ -191,7 +191,7 @@ exports.eliminar = eliminar;
 
 var storage3 = _multer.default.diskStorage({
   destination: function destination(req, file, cb) {
-    cb(null, 'images');
+    cb(null, 'archivoss/img2024');
   },
   filename: function filename(req, file, cb) {
     cb(null, "".concat(Date.now(), "-").concat(file.originalname));
@@ -211,7 +211,7 @@ var submitImages = /*#__PURE__*/function () {
       if (ext === '.png' || ext === '.jpg' || ext === '.jpeg' || ext === '.svg') {
         res.send(req.file);
       } else {
-        var deleteFile = './images/' + req.file.filename;
+        var deleteFile = './archivoss/img2024/' + req.file.filename;
         fs.unlink(deleteFile, err => {});
         res.send(null);
       }

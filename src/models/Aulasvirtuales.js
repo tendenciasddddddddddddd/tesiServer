@@ -50,6 +50,10 @@ const AulasSchema = new Schema(
             descripcion: String,
             parcial : String,
             ofIndex : String,
+            participacion : [{
+                fkestudiante: String,
+                nota: String
+            }],
             foro : [{
                 fkestudiante: String,
                 nombre: String,
@@ -82,6 +86,7 @@ const AulasSchema = new Schema(
             fechOrden: String,
             parcial : String,
             ofIndex : String,
+            descripcion : String,
             foro : [{
                 fkestudiante: String,
                 nombre: String,
@@ -107,6 +112,7 @@ const AulasSchema = new Schema(
             fechOrden: String,
             parcial : String,
             ofIndex : String,
+            descripcion : String,
             foro : [{
                 fkestudiante: String,
                 nombre: String,
