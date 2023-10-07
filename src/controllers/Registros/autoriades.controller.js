@@ -1,14 +1,14 @@
 import Configure from "../../models/Configure";
-import { client } from "../../middlewares/rediss";
+import { client, claveOnPort } from "../../middlewares/rediss";
 
 export default {
 
   getListas: async (req, res) => {
     try {
-      const reply = await client.get("5000autoridades");
+      const reply = await client.get(`${claveOnPort}autoridades`);
       if (reply) return res.json(JSON.parse(reply));
       const result = await Configure.find().lean();
-      await client.set('5000autoridades',JSON.stringify(result), { EX: 36000});
+      await client.set(`${claveOnPort}autoridades`,JSON.stringify(result), { EX: 36000});
       return res.json(result);
     } catch (error) {
       console.log(error);
@@ -25,7 +25,7 @@ export default {
           new: true,
         }
       );
-      client.del('5000autoridades');
+      client.del(`${claveOnPort}autoridades`);
       res.status(200).json(result);
     } catch (error) {
       console.log(error);

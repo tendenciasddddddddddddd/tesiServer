@@ -1,0 +1,232 @@
+<style>
+     .s-contenedor{
+        margin-top: 0.5rem;color: #000; font-family: Arial, Helvetica, sans-serif;background: #fff;
+    }
+    .s-centro{
+        text-align: center
+    }
+    .s-derecha{
+        text-align: right
+    }
+    .s-izquierda{
+        text-align: left
+    }
+    .sf-12{
+        font-size: 12px;
+    }
+    .sf-14{
+        font-size: 14px;
+    }
+    .sf-16{
+        font-size: 16px;
+    }
+    .sf-20{
+        font-size: 20px;
+    }
+    .sf-104{
+        font-size: 10.4px;
+    }
+    .sfz-600{
+        font-weight: 600;
+    }
+    .s-parrafo{
+        text-align: justify ;line-height: 1.5;
+    }
+    .s-tabla{
+        width: 100%;
+    }
+    .s-p-justify{
+        width: 85%; margin-right: auto; margin-left: auto;
+    }
+    .s-first { width: 15%; }
+    .s-last { width: 70%; }
+    .s-fill { width: 15%; }
+    .s-img{
+        height: 60px
+    }
+    .s-img2{
+        width: 60px
+    }
+    .s-contenido{
+        flex: 0 0 auto; width: 91%;  margin-top: 13px;  margin-right: auto; margin-left: auto;
+    }
+    .s-tabla-base{
+        border-color: #000;border-style: solid;border-width: 0px 1px 1px;max-width: 100%; width: 100%; border-spacing: 0; border-collapse: separate;
+    }
+    .sb-button{
+        border-bottom: 1px solid #000;
+    }
+    .sb-top {
+        border-top: 1px solid #000;
+    }
+    .sb-right {
+        border-right: 1px solid #000;
+    }
+    .s-pading {
+        padding: 8px 10px;
+    }
+    .s-pading3 {
+        padding: 3px 3px;
+    }
+</style>
+<% result.forEach(function (item) { %>
+<div class="s-hojas s-contenedor">
+    <div class="s-centro" style="padding: 1rem;">
+        <table style="width: 100%;">
+            <tbody>
+                <tr>
+                    <td class="s-first">
+                        <img class="s-img" src="https://res.cloudinary.com/stebann/image/upload/v1681418309/logo-ministerio-educacion_fvcptq.png" alt="Logo" />
+                    </td>
+                    <td class="s-last">
+                        <div class="s-centro">
+                            <span class="sf-12">COORDINACIÓN
+                                ZONAL</span><br>
+                            <span class="sfz-600 sf-16">
+                                <%= auth.unidadeducativa %>
+                            </span><br>
+                            <p class="sf-12 s-centro">
+                                CERTIFICADO ANUAL DE PROMOCIÓN <br>
+                                <span class="sf-12">AÑO LECTIVO <b> <%= item.periodo %>
+                                    </b></span>
+                            </p>
+                        </div>
+                    </td>
+                    <td class="s-fill s-centro">
+                        <img class="s-img2" src="<%=auth.logo%>" alt="Logo" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="s-contenido">
+            <div style="width: 670px;margin-top: 28px;">
+                <p class="sf-14 s-parrafo">
+                    De conformidad con lo prescrito en el Art. 197 del Reglamento
+                    General a la Ley Orgánica de
+                    Educación Intercultural y demás normativas vigentes, certifica
+                    que el/la estudiante <b><%= item.nombre %> </b>
+                    del <b><%= item.curso %> <%= item.paralelo %></b> obtuvo
+                    las siguientes calificaciones
+                    durante el presente año lectivo: <b> <%= item.periodo %></b>
+                </p>
+            </div>
+            <div style="width: 670px;margin-top: 1.5rem;">
+                <table class="s-tabla-base">
+                    <thead>
+                        <tr>
+                            <th class="sf-104 sb-button sb-top s-pading">
+                                ÁREAS
+                            </th>
+                            <th class="sf-104 sb-button sb-top s-pading">
+                                ASIGNATURAS
+                            </th>
+                            <th class="sf-104 sb-button sb-top s-pading">
+                                PROMEDIO (NUMEROS Y LETRAS)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% item?.data?.forEach(function (subItems) { %>
+                        <tr >
+                            <td class="sf-104 sb-button sb-right s-pading3 s-izquierda">
+                                <%= subItems.area.slice(0, 25) %>    </td>
+                            <td class="sf-104 sb-button sb-right s-pading3 s-izquierda">
+                                 <%= subItems.materia %> 
+                            </td>
+                            <td class="sf-104 sb-button s-pading3 s-izquierda sfz-600">
+                                <%= subItems.promLetra %> &nbsp; <%= subItems.letras %> 
+                            </td>
+                        </tr>
+                        <% }) %>
+                        <tr>
+                            <td class="sf-104 sb-button sb-top s-pading3" >
+                            </td>
+                            <td class="sf-104 sb-button sb-top s-pading3 s-izquierda">
+                                <b>PROMEDIO GENERAL</b>
+                            </td>
+                            <td class="sf-104 sb-button sb-top s-pading3 s-izquierda">
+                                <b>
+                                    <%= item.promFinLetra%> &nbsp; <%=item.letrasFinal %>
+                                </b>
+                            </td>
+                        </tr>
+                        <% item?.data3?.forEach(function (subItems) { %>
+                            <tr >
+                                <td class="sf-104 sb-top sb-right s-pading3 s-izquierda">
+                                    <%= subItems.area.slice(0, 25) %>    </td>
+                                <td class="sf-104 sb-top sb-right s-pading3 s-izquierda">
+                                     <%= subItems.materia %> 
+                                </td>
+                                <td class="sf-104 sb-top s-pading3 s-izquierda">
+                                    <%= subItems.letras %> 
+                                </td>
+                            </tr>
+                            <% }) %>
+                        <% item?.data2?.forEach(function (subItems) { %>
+                            <tr >
+                                <td class="sf-104 sb-right sb-top s-pading3 s-izquierda">
+                                    <%= subItems.area.slice(0, 25) %>    </td>
+                                <td class="sf-104 sb-right sb-top s-pading3 s-izquierda">
+                                     <%= subItems.materia %> 
+                                </td>
+                                <td class="sf-104 s-pading3 sb-top s-izquierda">
+                                    <%= subItems.promedio %> &nbsp;  <%= subItems.letras %> 
+                                </td>
+                            </tr>
+                            <% }) %>
+                    </tbody>
+                </table>
+            </div>
+            <div style="width: 670px;margin-top: 1.5rem;">
+                <% if (nextCourse!= 'No Promoción') { %>
+                <p  class="sf-14 s-parrafo">
+                    Por lo tanto es promovido/a al <b> <%= nextCourse %>.</b> Para
+                    certificar
+                    suscriben
+                    en unidad de acto el Rector/a con el/ la Secretario/a General
+                    del Plantel.
+                </p>
+                <% } else {%>
+                <p  class="sf-14 s-parrafo">
+                    Por lo tanto cumple con todo el pensúm académico de <b>
+                        <%= item.curso %> .</b> Para
+                    certificar
+                    suscriben
+                    en unidad de acto el Rector/a con el/ la Secretario/a General
+                    del Plantel.
+                </p>
+                <% } %>
+            </div>
+        </div>
+        <div style="margin-top: 3rem;">
+            <table class="s-tabla">
+                <tbody>
+                  <tr>
+                    <td colspan="6">
+                      <div class="s-centro">
+                        <b>______________________________</b><br>
+                        <p class="sf-14">
+                          <b><%= auth.rector %></b><br>
+                          RECTOR/A
+                        </p>
+                      </div>
+                    </td>
+                    <td colspan="6">
+                      <div class="s-centro">
+                        <b>_____________________________</b><br>
+                        <p class="sf-14">
+                          <b><%= auth.secretario %></b><br>
+                          SECRETARIO/A
+                        </p>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+        </div>
+    </div>
+    <div style="page-break-before:always;"></div>
+    <br>
+</div>
+<% }) %>

@@ -21,7 +21,9 @@ function _runRedis() {
   return _runRedis.apply(this, arguments);
 }
 
+var claveOnPort = '5000';
 runRedis();
 module.exports = {
-  client
+  client,
+  claveOnPort
 };

@@ -279,63 +279,24 @@ var sendProgress = (data, idcurso) => {
   for (var i = 0; i < data.length; i++) {
     var element = data[i].notas;
     var proy = data[i].resultados;
-
-    if ((element === null || element === void 0 ? void 0 : element.a1) != '' || (element === null || element === void 0 ? void 0 : element.a2) != '' || (element === null || element === void 0 ? void 0 : element.a3) != '' || (element === null || element === void 0 ? void 0 : element.a4) != '') {
-      isA = 10;
-    }
-
-    if ((element === null || element === void 0 ? void 0 : element.b1) != '' || (element === null || element === void 0 ? void 0 : element.b2) != '' || (element === null || element === void 0 ? void 0 : element.b3) != '' || (element === null || element === void 0 ? void 0 : element.b4) != '') {
-      isB = 10;
-    }
-
-    if ((element === null || element === void 0 ? void 0 : element.pry1) != '') {
-      isPY1 = 5;
-    }
-
-    if ((element === null || element === void 0 ? void 0 : element.exa1) != '') {
-      isEX1 = 5;
-    }
-
-    if ((element === null || element === void 0 ? void 0 : element.c1) != '' || (element === null || element === void 0 ? void 0 : element.c2) != '' || (element === null || element === void 0 ? void 0 : element.c3) != '' || (element === null || element === void 0 ? void 0 : element.c4) != '') {
-      isC = 10;
-    }
-
-    if ((element === null || element === void 0 ? void 0 : element.d1) != '' || (element === null || element === void 0 ? void 0 : element.d2) != '' || (element === null || element === void 0 ? void 0 : element.d3) != '' || (element === null || element === void 0 ? void 0 : element.d4) != '') {
-      isD = 10;
-    }
-
-    if ((element === null || element === void 0 ? void 0 : element.pry2) != '') {
-      isPY2 = 5;
-    }
-
-    if ((element === null || element === void 0 ? void 0 : element.exa2) != '') {
-      isEX2 = 5;
-    }
-
-    if ((element === null || element === void 0 ? void 0 : element.e1) != '' || (element === null || element === void 0 ? void 0 : element.e2) != '' || (element === null || element === void 0 ? void 0 : element.e3) != '' || (element === null || element === void 0 ? void 0 : element.e4) != '') {
-      isE = 10;
-    }
-
-    if ((element === null || element === void 0 ? void 0 : element.f1) != '' || (element === null || element === void 0 ? void 0 : element.f2) != '' || (element === null || element === void 0 ? void 0 : element.f3) != '' || (element === null || element === void 0 ? void 0 : element.f4) != '') {
-      isF = 10;
-    }
-
-    if ((element === null || element === void 0 ? void 0 : element.pry3) != '') {
-      isPY3 = 5;
-    }
-
-    if ((element === null || element === void 0 ? void 0 : element.exa3) != '') {
-      isEX3 = 5;
-    }
-
-    if ((proy === null || proy === void 0 ? void 0 : proy.pytf) != '') {
-      isPROY = 10;
-    }
+    if ((element === null || element === void 0 ? void 0 : element.a1) != '' || (element === null || element === void 0 ? void 0 : element.a2) != '' || (element === null || element === void 0 ? void 0 : element.a3) != '' || (element === null || element === void 0 ? void 0 : element.a4) != '') isA = 10;
+    if ((element === null || element === void 0 ? void 0 : element.b1) != '' || (element === null || element === void 0 ? void 0 : element.b2) != '' || (element === null || element === void 0 ? void 0 : element.b3) != '' || (element === null || element === void 0 ? void 0 : element.b4) != '') isB = 10;
+    if ((element === null || element === void 0 ? void 0 : element.pry1) != '') isPY1 = 5;
+    if ((element === null || element === void 0 ? void 0 : element.exa1) != '') isEX1 = 5;
+    if ((element === null || element === void 0 ? void 0 : element.c1) != '' || (element === null || element === void 0 ? void 0 : element.c2) != '' || (element === null || element === void 0 ? void 0 : element.c3) != '' || (element === null || element === void 0 ? void 0 : element.c4) != '') isC = 10;
+    if ((element === null || element === void 0 ? void 0 : element.d1) != '' || (element === null || element === void 0 ? void 0 : element.d2) != '' || (element === null || element === void 0 ? void 0 : element.d3) != '' || (element === null || element === void 0 ? void 0 : element.d4) != '') isD = 10;
+    if ((element === null || element === void 0 ? void 0 : element.pry2) != '') isPY2 = 5;
+    if ((element === null || element === void 0 ? void 0 : element.exa2) != '') isEX2 = 5;
+    if ((element === null || element === void 0 ? void 0 : element.e1) != '' || (element === null || element === void 0 ? void 0 : element.e2) != '' || (element === null || element === void 0 ? void 0 : element.e3) != '' || (element === null || element === void 0 ? void 0 : element.e4) != '') isE = 10;
+    if ((element === null || element === void 0 ? void 0 : element.f1) != '' || (element === null || element === void 0 ? void 0 : element.f2) != '' || (element === null || element === void 0 ? void 0 : element.f3) != '' || (element === null || element === void 0 ? void 0 : element.f4) != '') isF = 10;
+    if ((element === null || element === void 0 ? void 0 : element.pry3) != '') isPY3 = 5;
+    if ((element === null || element === void 0 ? void 0 : element.exa3) != '') isEX3 = 5;
+    if ((proy === null || proy === void 0 ? void 0 : proy.pytf) != '') isPROY = 10;
   }
 
   var idDistributivo = data[0].idDistributivo;
   var idCarga = data[0].idCarga;
-  var ip = data[0].ip;
+  var term = data[0].ip;
   var navegador = data[0].nav;
   total = isA + isB + isPY1 + isEX1 + isC + isD + isPY2 + isEX2 + isE + isF + isPY3 + isEX3 + isPROY;
 
@@ -344,8 +305,8 @@ var sendProgress = (data, idcurso) => {
       reg: total,
       materia: data[0].materia,
       fkcurso: idcurso,
-      term: ip,
-      navegador: navegador,
+      term,
+      navegador,
       usuario: data[0].usuario
     };
     saveProgreso(idDistributivo, model, idCarga);

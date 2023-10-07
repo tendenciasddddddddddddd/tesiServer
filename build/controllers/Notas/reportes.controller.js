@@ -30,25 +30,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 var ejs = require("ejs");
 
 var {
-  formatPromociones,
-  formatMatricula,
-  formatLibretas,
-  formatJuntas,
-  formatInforme,
-  formatFinal,
-  formatParcial,
-  formatQuimestral,
-  formatAnual,
   formarNomina,
-  formatJuntasIndividual,
-  formatJuntasFinal
+  formatJuntasIndividual
 } = (0, _promReporte.promedioReportes)();
 var {
   juntasOnly,
-  juntasFinal: _juntasFinal
-} = (0, _reporteElement.reporteElement)();
+  juntasFinal: _juntasFinal,
+  juntasGeneral,
+  promJuntaComportamiento,
+  promLibretasElem,
+  promFinalElem,
+  promPromocionElem
+} = (0, _reporteElement.reporteElement)(); //TODO: check CALCULOS DE COMPUTO
+
 var {
-  juntasExamProyec
+  juntasExamProyec,
+  promParcial,
+  promQuimestral,
+  promAnual,
+  promPromociones,
+  promMatricula,
+  promLibretas,
+  promJuntas,
+  promInforme,
+  promFinal
 } = (0, _reporteSuper.reporteSuper)();
 
 function autoridad() {
@@ -58,10 +63,10 @@ function autoridad() {
 function _autoridad() {
   _autoridad = _asyncToGenerator(function* () {
     try {
-      var reply = yield _rediss.client.get("5000autoridades");
+      var reply = yield _rediss.client.get("".concat(_rediss.claveOnPort, "autoridades"));
       if (reply) return JSON.parse(reply);
-      var result = yield _Configure.default.find().lean();
-      yield _rediss.client.set('5000autoridades', JSON.stringify(result), {
+      var result = yield _Configure.default.findOne();
+      yield _rediss.client.set("".concat(_rediss.claveOnPort, "autoridades"), JSON.stringify(result), {
         EX: 36000
       });
       return result;
@@ -72,57 +77,51 @@ function _autoridad() {
   return _autoridad.apply(this, arguments);
 }
 
-function makeid(length) {
-  var result = '';
-  var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  var charactersLength = characters.length;
-  var counter = 0;
-
-  while (counter < length) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    counter += 1;
-  }
-
-  return result;
-}
-
 var _default = {
   promocion: function () {
     var _promocion = _asyncToGenerator(function* (req, res) {
       try {
-        var arr = req.body.data;
-        var nextCourse = req.body.nextCourse;
-        var idMatricula = '';
-        var idCurso = '';
-        var paralelo = '';
+        var _data$0$curso, _data$0$curso2;
+
+        var {
+          nextCourse,
+          data
+        } = req.body;
+        if ((data === null || data === void 0 ? void 0 : data.length) == 0) return res.status(200).json('Sin calificaciones');
+        var idMatricula = data[0].key;
+        var idCurso = (_data$0$curso = data[0].curso) === null || _data$0$curso === void 0 ? void 0 : _data$0$curso._id;
+        var paralelo = data[0].paralelo;
+        var cursoNum = (_data$0$curso2 = data[0].curso) === null || _data$0$curso2 === void 0 ? void 0 : _data$0$curso2.num;
         var estudiantes = [];
 
-        for (var i = 0; i < arr.length; i++) {
-          var _element$curso;
-
-          var element = arr[i];
-          idMatricula = element.key;
-          idCurso = (_element$curso = element.curso) === null || _element$curso === void 0 ? void 0 : _element$curso._id;
-          paralelo = element.paralelo;
-          estudiantes.push(element._id);
+        for (var i = 0; i < data.length; i++) {
+          estudiantes.push(data[i]._id);
         }
 
-        var result = [];
-
-        if (arr) {
-          var rowM = yield _Matriculas.default.findById(idMatricula);
-          var rowD = yield _Distributivo.default.findOne({
-            fkcurso: idCurso,
-            paralelo: paralelo
-          });
-          result = formatPromociones(rowM, rowD, estudiantes);
-        }
-
+        var rowM = yield _Matriculas.default.findById(idMatricula);
+        var rowD = yield _Distributivo.default.findOne({
+          fkcurso: idCurso,
+          paralelo
+        });
         var auth = yield autoridad();
-        var tema = yield ejs.renderFile(__dirname + "/themes/promocion.ejs", {
-          result: result,
-          auth: auth[0],
-          nextCourse: nextCourse
+        var tema = '';
+
+        if (cursoNum == 4 || cursoNum == 5 || cursoNum == 6) {
+          var _result = promPromocionElem(rowM, rowD, estudiantes);
+
+          tema = yield ejs.renderFile(__dirname + "/themes/elemental/promocion.ejs", {
+            result: _result,
+            auth,
+            nextCourse
+          });
+          return res.status(200).json(tema);
+        }
+
+        var result = promPromociones(rowM, rowD, estudiantes);
+        tema = yield ejs.renderFile(__dirname + "/themes/promocion.ejs", {
+          result,
+          auth,
+          nextCourse
         });
         res.status(200).json(tema);
       } catch (error) {
@@ -137,80 +136,24 @@ var _default = {
 
     return promocion;
   }(),
-  promocionPdf: function () {
-    var _promocionPdf = _asyncToGenerator(function* (req, res) {
-      try {
-        var arr = req.body.data;
-        var nextCourse = req.body.nextCourse;
-        var idMatricula = '';
-        var idCurso = '';
-        var paralelo = '';
-        var estudiantes = [];
-
-        for (var i = 0; i < arr.length; i++) {
-          var _element$curso2;
-
-          var element = arr[i];
-          idMatricula = element.key;
-          idCurso = (_element$curso2 = element.curso) === null || _element$curso2 === void 0 ? void 0 : _element$curso2._id;
-          paralelo = element.paralelo;
-          estudiantes.push(element._id);
-        }
-
-        var result = [];
-
-        if (arr) {
-          var rowM = yield _Matriculas.default.findById(idMatricula);
-          var rowD = yield _Distributivo.default.findOne({
-            fkcurso: idCurso,
-            paralelo: paralelo
-          });
-          result = formatPromociones(rowM, rowD, estudiantes);
-        }
-
-        var auth = yield autoridad(); //const tema = await ejs.renderFile(__dirname + "/themes/promocion.ejs", { result: result,auth: auth[0],nextCourse:nextCourse });
-
-        var name = makeid(10);
-        res.send(name); // pdf.create(tema, options).toFile('./document/'+name+'.pdf', function(err, data) {
-        //     if (err) return res.send(err);
-        //     res.send(name);
-        // });
-      } catch (error) {
-        console.log(error);
-        return res.status(500).json(error);
-      }
-    });
-
-    function promocionPdf(_x3, _x4) {
-      return _promocionPdf.apply(this, arguments);
-    }
-
-    return promocionPdf;
-  }(),
   matricula: function () {
     var _matricula = _asyncToGenerator(function* (req, res) {
       try {
-        var arr = req.body;
-        var idMatricula = '';
+        var data = req.body;
+        if ((data === null || data === void 0 ? void 0 : data.length) == 0) return res.status(200).json('Sin calificaciones');
+        var idMatricula = data[0].key;
         var estudiantes = [];
 
-        for (var i = 0; i < arr.length; i++) {
-          var element = arr[i];
-          idMatricula = element.key;
-          estudiantes.push(element._id);
+        for (var i = 0; i < data.length; i++) {
+          estudiantes.push(data[i]._id);
         }
 
-        var result = [];
-
-        if (arr) {
-          var rowM = yield _Matriculas.default.findById(idMatricula);
-          result = formatMatricula(rowM, estudiantes);
-        }
-
+        var rowM = yield _Matriculas.default.findById(idMatricula);
         var auth = yield autoridad();
+        var result = promMatricula(rowM, estudiantes);
         var tema = yield ejs.renderFile(__dirname + "/themes/matricula.ejs", {
-          result: result,
-          auth: auth[0]
+          result,
+          auth
         });
         res.status(200).json(tema);
       } catch (error) {
@@ -219,86 +162,59 @@ var _default = {
       }
     });
 
-    function matricula(_x5, _x6) {
+    function matricula(_x3, _x4) {
       return _matricula.apply(this, arguments);
     }
 
     return matricula;
   }(),
-  matriculaPdf: function () {
-    var _matriculaPdf = _asyncToGenerator(function* (req, res) {
-      try {
-        var arr = req.body;
-        var idMatricula = '';
-        var estudiantes = [];
-
-        for (var i = 0; i < arr.length; i++) {
-          var element = arr[i];
-          idMatricula = element.key;
-          estudiantes.push(element._id);
-        }
-
-        var result = [];
-
-        if (arr) {
-          var rowM = yield _Matriculas.default.findById(idMatricula);
-          result = formatMatricula(rowM, estudiantes);
-        }
-
-        var auth = yield autoridad(); //const tema = await ejs.renderFile(__dirname + "/themes/promocion.ejs", { result: result,auth: auth[0],nextCourse:nextCourse });
-
-        var name = makeid(10);
-        res.send(name); // pdf.create(tema, options).toFile('./document/'+name+'.pdf', function(err, data) {
-        //     if (err) return res.send(err);
-        //     res.send(name);
-        // });
-      } catch (error) {
-        console.log(error);
-        return res.status(500).json(error);
-      }
-    });
-
-    function matriculaPdf(_x7, _x8) {
-      return _matriculaPdf.apply(this, arguments);
-    }
-
-    return matriculaPdf;
-  }(),
   libretas: function () {
     var _libretas = _asyncToGenerator(function* (req, res) {
       try {
-        var arr = req.body.data;
-        var ops = req.body.ops;
-        var idMatricula = '';
-        var idCurso = '';
-        var paralelo = '';
+        var _data$0$curso3, _data$0$curso4;
+
+        var {
+          ops,
+          data
+        } = req.body;
+        if ((data === null || data === void 0 ? void 0 : data.length) == 0) return res.status(200).json('Sin calificaciones');
+        var idMatricula = data[0].key;
+        var idCurso = (_data$0$curso3 = data[0].curso) === null || _data$0$curso3 === void 0 ? void 0 : _data$0$curso3._id;
+        var paralelo = data[0].paralelo;
+        var cursoNum = (_data$0$curso4 = data[0].curso) === null || _data$0$curso4 === void 0 ? void 0 : _data$0$curso4.num;
         var estudiantes = [];
 
-        for (var i = 0; i < arr.length; i++) {
-          var _element$curso3;
-
-          var element = arr[i];
-          idMatricula = element.key;
-          idCurso = (_element$curso3 = element.curso) === null || _element$curso3 === void 0 ? void 0 : _element$curso3._id;
-          paralelo = element.paralelo;
-          estudiantes.push(element._id);
+        for (var i = 0; i < data.length; i++) {
+          estudiantes.push(data[i]._id);
         }
 
-        var result = [];
-
-        if (arr) {
-          var rowM = yield _Matriculas.default.findById(idMatricula);
-          var rowD = yield _Distributivo.default.findOne({
-            fkcurso: idCurso,
-            paralelo: paralelo
-          });
-          result = formatLibretas(rowM, rowD, estudiantes, ops.quimestre);
-        }
-
+        var rowM = yield _Matriculas.default.findById(idMatricula);
+        var rowD = yield _Distributivo.default.findOne({
+          fkcurso: idCurso,
+          paralelo
+        });
         var auth = yield autoridad();
-        var tema = yield ejs.renderFile(__dirname + "/themes/libretas.ejs", {
-          result: result,
-          auth: auth[0],
+        var tema = '';
+
+        if (cursoNum == 4 || cursoNum == 5 || cursoNum == 6) {
+          var _result2 = promLibretasElem(rowM, rowD, estudiantes, ops.quimestre);
+
+          if (cursoNum != 6) tema = yield ejs.renderFile(__dirname + "/themes/elemental/libretas.ejs", {
+            result: _result2,
+            auth,
+            ops
+          });else tema = yield ejs.renderFile(__dirname + "/themes/elemental/libretaCuarto.ejs", {
+            result: _result2,
+            auth,
+            ops
+          });
+          return res.status(200).json(tema);
+        }
+
+        var result = promLibretas(rowM, rowD, estudiantes, ops.quimestre);
+        tema = yield ejs.renderFile(__dirname + "/themes/superior/libretas.ejs", {
+          result,
+          auth,
           ops: ops
         });
         res.status(200).json(tema);
@@ -308,7 +224,7 @@ var _default = {
       }
     });
 
-    function libretas(_x9, _x10) {
+    function libretas(_x5, _x6) {
       return _libretas.apply(this, arguments);
     }
 
@@ -317,39 +233,53 @@ var _default = {
   juntas: function () {
     var _juntas = _asyncToGenerator(function* (req, res) {
       try {
-        var arr = req.body.data;
-        var ops = req.body.ops;
-        var idMatricula = '';
-        var idCurso = '';
-        var paralelo = '';
+        var _data$0$curso5, _data$0$curso6;
+
+        var {
+          ops,
+          data
+        } = req.body;
+        if ((data === null || data === void 0 ? void 0 : data.length) == 0) return res.status(200).json('Sin calificaciones');
+        var idMatricula = data[0].key;
+        var idCurso = (_data$0$curso5 = data[0].curso) === null || _data$0$curso5 === void 0 ? void 0 : _data$0$curso5._id;
+        var paralelo = data[0].paralelo;
+        var keymateria = data[0].keymateria;
+        var cursoNum = (_data$0$curso6 = data[0].curso) === null || _data$0$curso6 === void 0 ? void 0 : _data$0$curso6.num;
         var estudiantes = [];
 
-        for (var i = 0; i < arr.length; i++) {
-          var _element$curso4;
-
-          var element = arr[i];
-          idMatricula = element.key;
-          idCurso = (_element$curso4 = element.curso) === null || _element$curso4 === void 0 ? void 0 : _element$curso4._id;
-          paralelo = element.paralelo;
-          estudiantes.push(element._id);
+        for (var i = 0; i < data.length; i++) {
+          estudiantes.push(data[i]._id);
         }
 
-        var result = [];
-
-        if (arr) {
-          var rowM = yield _Matriculas.default.findById(idMatricula);
-          var rowD = yield _Distributivo.default.findOne({
-            fkcurso: idCurso,
-            paralelo: paralelo
-          });
-          result = formatJuntas(rowM, rowD, estudiantes, ops.quimestre, paralelo);
-        }
-
+        var rowM = yield _Matriculas.default.findById(idMatricula);
+        var rowD = yield _Distributivo.default.findOne({
+          fkcurso: idCurso,
+          paralelo
+        });
         var auth = yield autoridad();
-        var tema = yield ejs.renderFile(__dirname + "/themes/juntas.ejs", {
-          result: result,
-          auth: auth[0],
-          ops: ops
+        var tema = ''; //TODO check SI ES DE 2DO 3RO DE BASICA 4TO
+
+        if (cursoNum == 4 || cursoNum == 5 || cursoNum == 6) {
+          var _result3 = juntasGeneral(rowM, rowD, estudiantes, ops.quimestre, paralelo, keymateria);
+
+          if (cursoNum != 6) tema = yield ejs.renderFile(__dirname + "/themes/elemental/juntas.ejs", {
+            result: _result3,
+            auth,
+            ops
+          });else tema = yield ejs.renderFile(__dirname + "/themes/elemental/juntasCuarto.ejs", {
+            result: _result3,
+            auth,
+            ops
+          });
+          return res.status(200).json(tema);
+        } //TODO check TODOS LOS CURSOS CUALITATIVOS Y CUANTITATIVO
+
+
+        var result = promJuntas(rowM, rowD, estudiantes, ops.quimestre, paralelo);
+        tema = yield ejs.renderFile(__dirname + "/themes/superior/juntas.ejs", {
+          result,
+          auth,
+          ops
         });
         res.status(200).json(tema);
       } catch (error) {
@@ -358,7 +288,7 @@ var _default = {
       }
     });
 
-    function juntas(_x11, _x12) {
+    function juntas(_x7, _x8) {
       return _juntas.apply(this, arguments);
     }
 
@@ -367,56 +297,54 @@ var _default = {
   juntasIndividual: function () {
     var _juntasIndividual = _asyncToGenerator(function* (req, res) {
       try {
-        var arr = req.body.data;
-        var ops = req.body.ops;
-        var idMatricula = '';
-        var idCurso = '';
-        var paralelo = '';
-        var keymateria = '';
+        var _data$0$curso7, _data$0$curso8;
+
+        var {
+          ops,
+          data
+        } = req.body;
+        if ((data === null || data === void 0 ? void 0 : data.length) == 0) return res.status(200).json('Sin calificaciones');
+        var idMatricula = data[0].key;
+        var idCurso = (_data$0$curso7 = data[0].curso) === null || _data$0$curso7 === void 0 ? void 0 : _data$0$curso7._id;
+        var paralelo = data[0].paralelo;
+        var keymateria = data[0].keymateria;
+        var cursoNum = (_data$0$curso8 = data[0].curso) === null || _data$0$curso8 === void 0 ? void 0 : _data$0$curso8.num;
         var estudiantes = [];
-        var cursoNum = '';
 
-        for (var i = 0; i < arr.length; i++) {
-          var _element$curso5, _element$curso6;
-
-          var element = arr[i];
-          idMatricula = element.key;
-          idCurso = (_element$curso5 = element.curso) === null || _element$curso5 === void 0 ? void 0 : _element$curso5._id;
-          paralelo = element.paralelo;
-          estudiantes.push(element._id);
-          keymateria = element.keymateria;
-          cursoNum = (_element$curso6 = element.curso) === null || _element$curso6 === void 0 ? void 0 : _element$curso6.num;
+        for (var i = 0; i < data.length; i++) {
+          estudiantes.push(data[i]._id);
         }
 
-        var result = [];
-
-        if (arr.length > 0) {
-          var rowM = yield _Matriculas.default.findById(idMatricula);
-          var rowD = yield _Distributivo.default.findOne({
-            fkcurso: idCurso,
-            paralelo: paralelo
-          });
-          if (cursoNum == 4 || cursoNum == 5 || cursoNum == 6) result = juntasOnly(rowM, rowD, estudiantes, ops.quimestre, paralelo, keymateria);else result = formatJuntasIndividual(rowM, rowD, estudiantes, ops.quimestre, paralelo, keymateria);
-        }
-
+        var rowM = yield _Matriculas.default.findById(idMatricula);
+        var rowD = yield _Distributivo.default.findOne({
+          fkcurso: idCurso,
+          paralelo: paralelo
+        });
         var auth = yield autoridad();
-        var tema = ''; //TODO check SI ES DE 2DO 3RO DE BASICA
+        var tema = ''; //TODO check SI ES DE 2DO 3RO DE BASICA 4TO
 
-        if (cursoNum == 4 || cursoNum == 5) tema = yield ejs.renderFile(__dirname + "/themes/elemental/juntas.ejs", {
-          result,
-          auth: auth[0],
-          ops
-        }); //TODO check SI ES DE 4TO DE BASICA
-        else if (cursoNum == 6) tema = yield ejs.renderFile(__dirname + "/themes/elemental/juntasCuarto.ejs", {
-            result,
-            auth: auth[0],
+        if (cursoNum == 4 || cursoNum == 5 || cursoNum == 6) {
+          var _result4 = juntasOnly(rowM, rowD, estudiantes, ops.quimestre, paralelo, keymateria);
+
+          if (cursoNum != 6) tema = yield ejs.renderFile(__dirname + "/themes/elemental/juntas.ejs", {
+            result: _result4,
+            auth,
             ops
-          }); //TODO check SI ES DE RESTO DE CURSO
-          else tema = yield ejs.renderFile(__dirname + "/themes/superior/juntas.ejs", {
-              result,
-              auth: auth[0],
-              ops
-            });
+          });else tema = yield ejs.renderFile(__dirname + "/themes/elemental/juntasCuarto.ejs", {
+            result: _result4,
+            auth,
+            ops
+          });
+          return res.status(200).json(tema);
+        } //TODO check TODOS LOS CURSOS CUALITATIVOS Y CUANTITATIVO
+
+
+        var result = formatJuntasIndividual(rowM, rowD, estudiantes, ops.quimestre, paralelo, keymateria);
+        tema = yield ejs.renderFile(__dirname + "/themes/superior/juntas.ejs", {
+          result,
+          auth: auth,
+          ops
+        });
         res.status(200).json(tema);
       } catch (error) {
         console.log(error);
@@ -424,7 +352,7 @@ var _default = {
       }
     });
 
-    function juntasIndividual(_x13, _x14) {
+    function juntasIndividual(_x9, _x10) {
       return _juntasIndividual.apply(this, arguments);
     }
 
@@ -433,73 +361,85 @@ var _default = {
   juntasFinal: function () {
     var _juntasFinal2 = _asyncToGenerator(function* (req, res) {
       try {
-        var arr = req.body.data;
-        var ops = req.body.ops;
-        var idMatricula = '';
-        var idCurso = '';
-        var paralelo = '';
-        var keymateria = '';
-        var cursoNum = '';
+        var _data$0$curso9, _data$0$curso10;
+
+        var {
+          ops,
+          data
+        } = req.body;
+        if ((data === null || data === void 0 ? void 0 : data.length) == 0) return res.status(200).json('Sin calificaciones');
+        var idMatricula = data[0].key;
+        var idCurso = (_data$0$curso9 = data[0].curso) === null || _data$0$curso9 === void 0 ? void 0 : _data$0$curso9._id;
+        var paralelo = data[0].paralelo;
+        var keymateria = data[0].keymateria;
+        var cursoNum = (_data$0$curso10 = data[0].curso) === null || _data$0$curso10 === void 0 ? void 0 : _data$0$curso10.num;
         var estudiantes = [];
 
-        for (var i = 0; i < arr.length; i++) {
-          var _element$curso7, _element$curso8;
-
-          var element = arr[i];
-          idMatricula = element.key;
-          idCurso = (_element$curso7 = element.curso) === null || _element$curso7 === void 0 ? void 0 : _element$curso7._id;
-          paralelo = element.paralelo;
-          estudiantes.push(element._id);
-          keymateria = element.keymateria;
-          cursoNum = (_element$curso8 = element.curso) === null || _element$curso8 === void 0 ? void 0 : _element$curso8.num;
+        for (var i = 0; i < data.length; i++) {
+          estudiantes.push(data[i]._id);
         }
 
-        var result = [];
-
-        if (arr.length > 0) {
-          var rowM = yield _Matriculas.default.findById(idMatricula);
-          var rowD = yield _Distributivo.default.findOne({
-            fkcurso: idCurso,
-            paralelo
-          });
-          if (cursoNum == 4 || cursoNum == 5 || cursoNum == 6) result = _juntasFinal(rowM, rowD, estudiantes, paralelo, keymateria);else result = juntasExamProyec(rowM, rowD, estudiantes, paralelo, keymateria);
-        }
-
+        var rowM = yield _Matriculas.default.findById(idMatricula);
+        var rowD = yield _Distributivo.default.findOne({
+          fkcurso: idCurso,
+          paralelo: paralelo
+        });
         var auth = yield autoridad();
-        var tema = ''; // console.log(ops)
-        //TODO check GENERAR HTML DE JUNTAS DE CURSO FINAL DE 2DO 3RO 4TO
+        var tema = ''; //TODO check SI ES COMPORTAMIENTO DE TODOS 
 
-        if (cursoNum == 4 || cursoNum == 5) tema = yield ejs.renderFile(__dirname + "/themes/elemental/juntasFinal.ejs", {
+        if (ops.tipo === 'COMP') {
+          var _result5 = promJuntaComportamiento(rowM, rowD, estudiantes, paralelo, keymateria);
+
+          tema = yield ejs.renderFile(__dirname + "/themes/comportamiento.ejs", {
+            result: _result5,
+            auth,
+            ops
+          });
+          return res.status(200).json(tema);
+        } //TODO check SI ES DE 2DO 3RO DE BASICA 4TO
+
+
+        if (cursoNum == 4 || cursoNum == 5 || cursoNum == 6) {
+          var _result6 = _juntasFinal(rowM, rowD, estudiantes, paralelo, keymateria);
+
+          if (cursoNum != 6) tema = yield ejs.renderFile(__dirname + "/themes/elemental/juntasFinal.ejs", {
+            result: _result6,
+            auth,
+            ops
+          });else tema = yield ejs.renderFile(__dirname + "/themes/elemental/juntasFinExam.ejs", {
+            result: _result6,
+            auth,
+            ops
+          });
+          return res.status(200).json(tema);
+        } //TODO check PROMEDIO FINAL CON PROYECTOS SUPERIOS
+
+
+        var result = juntasExamProyec(rowM, rowD, estudiantes, paralelo, keymateria);
+
+        if (ops.tipo === 'PY') {
+          if (ops.subnivel == 2) tema = yield ejs.renderFile(__dirname + "/themes/superior/juntasExaProy.ejs", {
+            result,
+            auth,
+            ops
+          });else tema = yield ejs.renderFile(__dirname + "/themes/superior/juntasExam.ejs", {
+            result,
+            auth,
+            ops
+          });
+          return res.status(200).json(tema);
+        } //TODO check GENERAR HTML DE SUPLETORIOS Y PROMEDIO FINAL
+
+
+        if (ops.subnivel == 2) tema = yield ejs.renderFile(__dirname + "/themes/superior/juntasFinEP.ejs", {
           result,
-          auth: auth[0],
+          auth,
           ops
-        });else if (cursoNum == 6) tema = yield ejs.renderFile(__dirname + "/themes/elemental/juntasFinExam.ejs", {
+        });else tema = yield ejs.renderFile(__dirname + "/themes/superior/juntasFinal.ejs", {
           result,
-          auth: auth[0],
+          auth,
           ops
-        }); //TODO check GENERAR HTML DE JUNTAS DE CURSO DE PROYECTOS
-        else if (ops.tipo === 'PY') {
-            if (ops.subnivel == 2) tema = yield ejs.renderFile(__dirname + "/themes/superior/juntasExaProy.ejs", {
-              result,
-              auth: auth[0],
-              ops
-            });else tema = yield ejs.renderFile(__dirname + "/themes/superior/juntasExam.ejs", {
-              result,
-              auth: auth[0],
-              ops
-            });
-          } //TODO check GENERAR HTML DE SUPLETORIOS Y PROMEDIO FINAL
-          else {
-              if (ops.subnivel == 2) tema = yield ejs.renderFile(__dirname + "/themes/superior/juntasFinEP.ejs", {
-                result,
-                auth: auth[0],
-                ops
-              });else tema = yield ejs.renderFile(__dirname + "/themes/superior/juntasFinal.ejs", {
-                result,
-                auth: auth[0],
-                ops
-              });
-            }
+        });
         res.status(200).json(tema);
       } catch (error) {
         console.log(error);
@@ -507,7 +447,7 @@ var _default = {
       }
     });
 
-    function juntasFinal(_x15, _x16) {
+    function juntasFinal(_x11, _x12) {
       return _juntasFinal2.apply(this, arguments);
     }
 
@@ -516,37 +456,33 @@ var _default = {
   informe: function () {
     var _informe = _asyncToGenerator(function* (req, res) {
       try {
-        var arr = req.body.data;
-        var idMatricula = '';
-        var idCurso = '';
-        var paralelo = '';
+        var _data$0$curso11, _data$0$curso12;
+
+        var {
+          data
+        } = req.body;
+        if ((data === null || data === void 0 ? void 0 : data.length) == 0) return res.status(200).json('Sin calificaciones');
+        var idMatricula = data[0].key;
+        var idCurso = (_data$0$curso11 = data[0].curso) === null || _data$0$curso11 === void 0 ? void 0 : _data$0$curso11._id;
+        var paralelo = data[0].paralelo;
+        var keymateria = data[0].keymateria;
+        var cursoNum = (_data$0$curso12 = data[0].curso) === null || _data$0$curso12 === void 0 ? void 0 : _data$0$curso12.num;
         var estudiantes = [];
 
-        for (var i = 0; i < arr.length; i++) {
-          var _element$curso9;
-
-          var element = arr[i];
-          idMatricula = element.key;
-          idCurso = (_element$curso9 = element.curso) === null || _element$curso9 === void 0 ? void 0 : _element$curso9._id;
-          paralelo = element.paralelo;
-          estudiantes.push(element._id);
+        for (var i = 0; i < data.length; i++) {
+          estudiantes.push(data[i]._id);
         }
 
-        var result = [];
-
-        if (arr) {
-          var rowM = yield _Matriculas.default.findById(idMatricula);
-          var rowD = yield _Distributivo.default.findOne({
-            fkcurso: idCurso,
-            paralelo: paralelo
-          });
-          result = formatInforme(rowM, rowD, estudiantes);
-        }
-
+        var rowM = yield _Matriculas.default.findById(idMatricula);
+        var rowD = yield _Distributivo.default.findOne({
+          fkcurso: idCurso,
+          paralelo
+        });
         var auth = yield autoridad();
+        var result = promInforme(rowM, rowD, estudiantes);
         var tema = yield ejs.renderFile(__dirname + "/themes/informe.ejs", {
-          result: result,
-          auth: auth[0]
+          result,
+          auth
         });
         res.status(200).json(tema);
       } catch (error) {
@@ -555,7 +491,7 @@ var _default = {
       }
     });
 
-    function informe(_x17, _x18) {
+    function informe(_x13, _x14) {
       return _informe.apply(this, arguments);
     }
 
@@ -564,37 +500,47 @@ var _default = {
   final: function () {
     var _final = _asyncToGenerator(function* (req, res) {
       try {
-        var arr = req.body.data;
-        var idMatricula = '';
-        var idCurso = '';
-        var paralelo = '';
+        var _data$0$curso13, _data$0$curso14;
+
+        var {
+          data
+        } = req.body;
+        if ((data === null || data === void 0 ? void 0 : data.length) == 0) return res.status(200).json('Sin calificaciones');
+        var idMatricula = data[0].key;
+        var idCurso = (_data$0$curso13 = data[0].curso) === null || _data$0$curso13 === void 0 ? void 0 : _data$0$curso13._id;
+        var paralelo = data[0].paralelo;
+        var cursoNum = (_data$0$curso14 = data[0].curso) === null || _data$0$curso14 === void 0 ? void 0 : _data$0$curso14.num;
         var estudiantes = [];
 
-        for (var i = 0; i < arr.length; i++) {
-          var _element$curso10;
-
-          var element = arr[i];
-          idMatricula = element.key;
-          idCurso = (_element$curso10 = element.curso) === null || _element$curso10 === void 0 ? void 0 : _element$curso10._id;
-          paralelo = element.paralelo;
-          estudiantes.push(element._id);
+        for (var i = 0; i < data.length; i++) {
+          estudiantes.push(data[i]._id);
         }
 
-        var result = [];
-
-        if (arr) {
-          var rowM = yield _Matriculas.default.findById(idMatricula);
-          var rowD = yield _Distributivo.default.findOne({
-            fkcurso: idCurso,
-            paralelo: paralelo
-          });
-          result = formatFinal(rowM, rowD, estudiantes);
-        }
-
+        var rowM = yield _Matriculas.default.findById(idMatricula);
+        var rowD = yield _Distributivo.default.findOne({
+          fkcurso: idCurso,
+          paralelo
+        });
         var auth = yield autoridad();
-        var tema = yield ejs.renderFile(__dirname + "/themes/final.ejs", {
-          result: result,
-          auth: auth[0]
+        var tema = '';
+
+        if (cursoNum == 4 || cursoNum == 5 || cursoNum == 6) {
+          var _result7 = promFinalElem(rowM, rowD, estudiantes);
+
+          if (cursoNum != 6) tema = yield ejs.renderFile(__dirname + "/themes/elemental/final.ejs", {
+            result: _result7,
+            auth
+          });else tema = yield ejs.renderFile(__dirname + "/themes/elemental/finalCuarto.ejs", {
+            result: _result7,
+            auth
+          });
+          return res.status(200).json(tema);
+        }
+
+        var result = promFinal(rowM, rowD, estudiantes);
+        tema = yield ejs.renderFile(__dirname + "/themes/superior/final.ejs", {
+          result,
+          auth
         });
         res.status(200).json(tema);
       } catch (error) {
@@ -603,7 +549,7 @@ var _default = {
       }
     });
 
-    function final(_x19, _x20) {
+    function final(_x15, _x16) {
       return _final.apply(this, arguments);
     }
 
@@ -612,40 +558,34 @@ var _default = {
   parcial: function () {
     var _parcial = _asyncToGenerator(function* (req, res) {
       try {
-        var arr = req.body.data;
-        var ops = req.body.ops;
-        var idMatricula = '';
-        var idCurso = '';
-        var paralelo = '';
+        var _data$0$curso15;
+
+        var {
+          ops,
+          data
+        } = req.body;
+        if ((data === null || data === void 0 ? void 0 : data.length) == 0) return res.status(200).json('Sin calificaciones');
+        var idMatricula = data[0].key;
+        var idCurso = (_data$0$curso15 = data[0].curso) === null || _data$0$curso15 === void 0 ? void 0 : _data$0$curso15._id;
+        var paralelo = data[0].paralelo;
         var estudiantes = [];
 
-        for (var i = 0; i < arr.length; i++) {
-          var _element$curso11;
-
-          var element = arr[i];
-          idMatricula = element.key;
-          idCurso = (_element$curso11 = element.curso) === null || _element$curso11 === void 0 ? void 0 : _element$curso11._id;
-          paralelo = element.paralelo;
-          estudiantes.push(element._id);
+        for (var i = 0; i < data.length; i++) {
+          estudiantes.push(data[i]._id);
         }
 
-        var result = [];
-
-        if (arr) {
-          var rowM = yield _Matriculas.default.findById(idMatricula);
-          var rowD = yield _Distributivo.default.findOne({
-            fkcurso: idCurso,
-            paralelo: paralelo
-          });
-          result = formatParcial(rowM, rowD, estudiantes, ops);
-        }
-
+        var rowM = yield _Matriculas.default.findById(idMatricula);
+        var rowD = yield _Distributivo.default.findOne({
+          fkcurso: idCurso,
+          paralelo
+        });
         var auth = yield autoridad();
+        var result = promParcial(rowM, rowD, estudiantes, ops);
         var tema = yield ejs.renderFile(__dirname + "/themes/parcial.ejs", {
-          result: result,
-          auth: auth[0],
-          ops: ops,
-          paralelo: paralelo
+          result,
+          auth,
+          ops,
+          paralelo
         });
         res.status(200).json(tema);
       } catch (error) {
@@ -654,7 +594,7 @@ var _default = {
       }
     });
 
-    function parcial(_x21, _x22) {
+    function parcial(_x17, _x18) {
       return _parcial.apply(this, arguments);
     }
 
@@ -663,40 +603,34 @@ var _default = {
   quimestral: function () {
     var _quimestral = _asyncToGenerator(function* (req, res) {
       try {
-        var arr = req.body.data;
-        var ops = req.body.ops;
-        var idMatricula = '';
-        var idCurso = '';
-        var paralelo = '';
+        var _data$0$curso16;
+
+        var {
+          ops,
+          data
+        } = req.body;
+        if ((data === null || data === void 0 ? void 0 : data.length) == 0) return res.status(200).json('Sin calificaciones');
+        var idMatricula = data[0].key;
+        var idCurso = (_data$0$curso16 = data[0].curso) === null || _data$0$curso16 === void 0 ? void 0 : _data$0$curso16._id;
+        var paralelo = data[0].paralelo;
         var estudiantes = [];
 
-        for (var i = 0; i < arr.length; i++) {
-          var _element$curso12;
-
-          var element = arr[i];
-          idMatricula = element.key;
-          idCurso = (_element$curso12 = element.curso) === null || _element$curso12 === void 0 ? void 0 : _element$curso12._id;
-          paralelo = element.paralelo;
-          estudiantes.push(element._id);
+        for (var i = 0; i < data.length; i++) {
+          estudiantes.push(data[i]._id);
         }
 
-        var result = [];
-
-        if (arr) {
-          var rowM = yield _Matriculas.default.findById(idMatricula);
-          var rowD = yield _Distributivo.default.findOne({
-            fkcurso: idCurso,
-            paralelo: paralelo
-          });
-          result = formatQuimestral(rowM, rowD, estudiantes, ops);
-        }
-
+        var rowM = yield _Matriculas.default.findById(idMatricula);
+        var rowD = yield _Distributivo.default.findOne({
+          fkcurso: idCurso,
+          paralelo
+        });
         var auth = yield autoridad();
+        var result = promQuimestral(rowM, rowD, estudiantes, ops);
         var tema = yield ejs.renderFile(__dirname + "/themes/quimestral.ejs", {
-          result: result,
-          auth: auth[0],
-          ops: ops,
-          paralelo: paralelo
+          result,
+          auth,
+          ops,
+          paralelo
         });
         res.status(200).json(tema);
       } catch (error) {
@@ -705,7 +639,7 @@ var _default = {
       }
     });
 
-    function quimestral(_x23, _x24) {
+    function quimestral(_x19, _x20) {
       return _quimestral.apply(this, arguments);
     }
 
@@ -714,39 +648,32 @@ var _default = {
   anual: function () {
     var _anual = _asyncToGenerator(function* (req, res) {
       try {
-        var arr = req.body.data;
-        var ops = req.body.ops;
-        var idMatricula = '';
-        var idCurso = '';
-        var paralelo = '';
+        var _data$0$curso17;
+
+        var {
+          data
+        } = req.body;
+        if ((data === null || data === void 0 ? void 0 : data.length) == 0) return res.status(200).json('Sin calificaciones');
+        var idMatricula = data[0].key;
+        var idCurso = (_data$0$curso17 = data[0].curso) === null || _data$0$curso17 === void 0 ? void 0 : _data$0$curso17._id;
+        var paralelo = data[0].paralelo;
         var estudiantes = [];
 
-        for (var i = 0; i < arr.length; i++) {
-          var _element$curso13;
-
-          var element = arr[i];
-          idMatricula = element.key;
-          idCurso = (_element$curso13 = element.curso) === null || _element$curso13 === void 0 ? void 0 : _element$curso13._id;
-          paralelo = element.paralelo;
-          estudiantes.push(element._id);
+        for (var i = 0; i < data.length; i++) {
+          estudiantes.push(data[i]._id);
         }
 
-        var result = [];
-
-        if (arr) {
-          var rowM = yield _Matriculas.default.findById(idMatricula);
-          var rowD = yield _Distributivo.default.findOne({
-            fkcurso: idCurso,
-            paralelo: paralelo
-          });
-          result = formatAnual(rowM, rowD, estudiantes);
-        }
-
+        var rowM = yield _Matriculas.default.findById(idMatricula);
+        var rowD = yield _Distributivo.default.findOne({
+          fkcurso: idCurso,
+          paralelo
+        });
         var auth = yield autoridad();
+        var result = promAnual(rowM, rowD, estudiantes);
         var tema = yield ejs.renderFile(__dirname + "/themes/anual.ejs", {
           result: result,
-          auth: auth[0],
-          paralelo: paralelo
+          auth,
+          paralelo
         });
         res.status(200).json(tema);
       } catch (error) {
@@ -755,7 +682,7 @@ var _default = {
       }
     });
 
-    function anual(_x25, _x26) {
+    function anual(_x21, _x22) {
       return _anual.apply(this, arguments);
     }
 
@@ -764,18 +691,18 @@ var _default = {
   getNomina: function () {
     var _getNomina = _asyncToGenerator(function* (req, res) {
       try {
-        var result = yield _Matriculas.default.find().lean().select({
+        var reg = yield _Matriculas.default.find().lean().select({
           curso: 1,
           periodo: 1,
           paralelo: 1,
           'matriculas.estudiante': 1,
           'matriculas.nmatricula': 1
         });
-        var reg = formarNomina(result);
+        var result = formarNomina(reg);
         var auth = yield autoridad();
-        var tema = yield ejs.renderFile(__dirname + "/themes/nomina.ejs", {
-          result: reg,
-          auth: auth[0]
+        var tema = yield ejs.renderFile(__dirname + "/themes/nomina/nomina.ejs", {
+          result,
+          auth
         });
         return res.json(tema);
       } catch (error) {
@@ -784,7 +711,7 @@ var _default = {
       }
     });
 
-    function getNomina(_x27, _x28) {
+    function getNomina(_x23, _x24) {
       return _getNomina.apply(this, arguments);
     }
 
@@ -809,9 +736,9 @@ var _default = {
           return 0;
         });
         var auth = yield autoridad();
-        var tema = yield ejs.renderFile(__dirname + "/themes/nominaDocente.ejs", {
-          result: result,
-          auth: auth[0]
+        var tema = yield ejs.renderFile(__dirname + "/themes/nomina/nominaDocente.ejs", {
+          result,
+          auth
         });
         return res.json(tema);
       } catch (error) {
@@ -820,7 +747,7 @@ var _default = {
       }
     });
 
-    function getNominaDocente(_x29, _x30) {
+    function getNominaDocente(_x25, _x26) {
       return _getNominaDocente.apply(this, arguments);
     }
 
@@ -829,13 +756,13 @@ var _default = {
   Ambitos: function () {
     var _Ambitos = _asyncToGenerator(function* (req, res) {
       try {
-        var arr = req.body;
+        var result = req.body;
         var fechaA = fechaActual();
         var auth = yield autoridad();
-        var tema = yield ejs.renderFile(__dirname + "/themes/ambitos.ejs", {
-          result: arr,
-          auth: auth[0],
-          fechaA: fechaA
+        var tema = yield ejs.renderFile(__dirname + "/themes/inicial/ambitos.ejs", {
+          result,
+          auth,
+          fechaA
         });
         res.status(200).json(tema);
       } catch (error) {
@@ -844,7 +771,7 @@ var _default = {
       }
     });
 
-    function Ambitos(_x31, _x32) {
+    function Ambitos(_x27, _x28) {
       return _Ambitos.apply(this, arguments);
     }
 
@@ -853,13 +780,13 @@ var _default = {
   Destrezas: function () {
     var _Destrezas = _asyncToGenerator(function* (req, res) {
       try {
-        var arr = req.body;
+        var result = req.body;
         var fechaA = fechaActual();
         var auth = yield autoridad();
-        var tema = yield ejs.renderFile(__dirname + "/themes/destrezas.ejs", {
-          result: arr,
-          auth: auth[0],
-          fechaA: fechaA
+        var tema = yield ejs.renderFile(__dirname + "/themes/inicial/destrezas.ejs", {
+          result,
+          auth,
+          fechaA
         });
         res.status(200).json(tema);
       } catch (error) {
@@ -868,7 +795,7 @@ var _default = {
       }
     });
 
-    function Destrezas(_x33, _x34) {
+    function Destrezas(_x29, _x30) {
       return _Destrezas.apply(this, arguments);
     }
 

@@ -108,6 +108,7 @@ export const updateEstudianteById = async (req, res) => {
     await editarMatricula(req.params.usuariosId, req.body)
     res.status(200).json(updatedUsuarios);
   } catch (error) {
+    console.log(error);
     return res.status(500).json(error);
   }
 }

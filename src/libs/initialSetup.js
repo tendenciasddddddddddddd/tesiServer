@@ -4,6 +4,7 @@ import Configure from "../models/Configure";
 import Apps from "../models/Apps";
 import AperturaNotas from "../models/AperturaNotas";
 import Secuencia from "../models/Secuencia";
+import { client, claveOnPort } from "../middlewares/rediss";
 
 import bcrypt from "bcryptjs";
 
@@ -96,3 +97,12 @@ export const iniciarSecuencia = async () => {
   });
   console.log('secuencia creada');
 };
+
+export const clearCache = async () => {
+  client.del(`${claveOnPort}cursos`);
+  client.del(`${claveOnPort}fechas`);
+  client.del(`${claveOnPort}autoridades`);
+  console.log('cache cleared');
+};
+
+//TODO LIMPIAR LA BASE DE DATOS REDIS CACHE

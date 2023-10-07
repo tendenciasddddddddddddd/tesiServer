@@ -183,7 +183,8 @@ var promedio = () => {
 
   var finalAnual = function finalAnual(pr1, pr2, pr3) {
     var sum = (parseFloat(pr1) + parseFloat(pr2) + parseFloat(pr3)) / 3;
-    if (sum == 0) return '0.00';
+    if (sum == 0) return ''; //TODO PARA CAMBIAR 0.00
+
     var suma = trunc(sum, 2);
     if (isNaN(suma) || suma == '') suma = '';
     var salida = ifDecimal3(sum);

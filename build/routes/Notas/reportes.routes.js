@@ -16,8 +16,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var router = (0, _express.Router)();
 router.post("/", [_middlewares.authJwt.verifyToken], _reportes.default.promocion);
 router.post("/matricula/", [_middlewares.authJwt.verifyToken], _reportes.default.matricula);
-router.post("/matriculaPdf/", [_middlewares.authJwt.verifyToken], _reportes.default.matriculaPdf);
-router.post("/promocionPdf/", [_middlewares.authJwt.verifyToken], _reportes.default.promocionPdf);
 router.post("/libretas/", [_middlewares.authJwt.verifyToken], _reportes.default.libretas);
 router.post("/juntas/", [_middlewares.authJwt.verifyToken], _reportes.default.juntas);
 router.post("/juntasIndividual/", [_middlewares.authJwt.verifyToken], _reportes.default.juntasIndividual);

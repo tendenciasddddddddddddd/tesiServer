@@ -44,10 +44,10 @@ function autoridad() {
 function _autoridad() {
   _autoridad = _asyncToGenerator(function* () {
     try {
-      var reply = yield _rediss.client.get("5000autoridades");
+      var reply = yield _rediss.client.get("".concat(_rediss.claveOnPort, "autoridades"));
       if (reply) return JSON.parse(reply);
       var result = yield _Configure.default.find().lean();
-      yield _rediss.client.set('5000autoridades', JSON.stringify(result), {
+      yield _rediss.client.set("".concat(_rediss.claveOnPort, "autoridades"), JSON.stringify(result), {
         EX: 36000
       });
       return result;
@@ -126,7 +126,7 @@ var _default = {
         var auth = yield autoridad();
         var tema = yield ejs.renderFile(__dirname + "/themes/promocion.ejs", {
           result: result,
-          auth: auth[0],
+          auth,
           nextCourse: nextCourse
         });
         res.status(200).json(tema);
@@ -165,7 +165,7 @@ var _default = {
         var auth = yield autoridad();
         var tema = yield ejs.renderFile(__dirname + "/themes/matricula.ejs", {
           result: result,
-          auth: auth[0]
+          auth
         }); // console.log(tema)
 
         res.status(200).json(tema);
@@ -215,7 +215,7 @@ var _default = {
         var auth = yield autoridad();
         var tema = yield ejs.renderFile(__dirname + "/themes/libretas.ejs", {
           result: result,
-          auth: auth[0],
+          auth,
           ops: ops
         });
         res.status(200).json(tema);
@@ -265,7 +265,7 @@ var _default = {
         var auth = yield autoridad();
         var tema = yield ejs.renderFile(__dirname + "/themes/juntas.ejs", {
           result: result,
-          auth: auth[0],
+          auth,
           ops: ops
         });
         res.status(200).json(tema);
@@ -317,7 +317,7 @@ var _default = {
         var auth = yield autoridad();
         var tema = yield ejs.renderFile(__dirname + "/themes/juntas.ejs", {
           result: result,
-          auth: auth[0],
+          auth,
           ops: ops
         });
         res.status(200).json(tema);
@@ -369,7 +369,7 @@ var _default = {
         var auth = yield autoridad();
         var tema = yield ejs.renderFile(__dirname + "/themes/juntasAnual.ejs", {
           result: result,
-          auth: auth[0],
+          auth,
           ops: ops
         });
         res.status(200).json(tema);
@@ -418,7 +418,7 @@ var _default = {
         var auth = yield autoridad();
         var tema = yield ejs.renderFile(__dirname + "/themes/informe.ejs", {
           result: result,
-          auth: auth[0]
+          auth
         });
         res.status(200).json(tema);
       } catch (error) {
@@ -466,7 +466,7 @@ var _default = {
         var auth = yield autoridad();
         var tema = yield ejs.renderFile(__dirname + "/themes/final.ejs", {
           result: result,
-          auth: auth[0]
+          auth
         });
         res.status(200).json(tema);
       } catch (error) {
@@ -515,7 +515,7 @@ var _default = {
         var auth = yield autoridad();
         var tema = yield ejs.renderFile(__dirname + "/themes/parcial.ejs", {
           result: result,
-          auth: auth[0],
+          auth,
           ops: ops,
           paralelo: paralelo
         });
@@ -566,7 +566,7 @@ var _default = {
         var auth = yield autoridad();
         var tema = yield ejs.renderFile(__dirname + "/themes/quimestral.ejs", {
           result: result,
-          auth: auth[0],
+          auth,
           ops: ops,
           paralelo: paralelo
         });
@@ -617,7 +617,7 @@ var _default = {
         var auth = yield autoridad();
         var tema = yield ejs.renderFile(__dirname + "/themes/anual.ejs", {
           result: result,
-          auth: auth[0],
+          auth,
           paralelo: paralelo
         });
         res.status(200).json(tema);
@@ -641,7 +641,7 @@ var _default = {
         var auth = yield autoridad();
         var tema = yield ejs.renderFile(__dirname + "/themes/ambitos.ejs", {
           result: arr,
-          auth: auth[0],
+          auth,
           fechaA: fechaA
         });
         res.status(200).json(tema);
@@ -665,7 +665,7 @@ var _default = {
         var auth = yield autoridad();
         var tema = yield ejs.renderFile(__dirname + "/themes/destrezas.ejs", {
           result: arr,
-          auth: auth[0],
+          auth,
           fechaA: fechaA
         });
         res.status(200).json(tema);

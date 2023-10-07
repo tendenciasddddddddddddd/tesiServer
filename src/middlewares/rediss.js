@@ -4,5 +4,6 @@ const client = createClient();
 async function runRedis () {
     await client.connect()
 }
+const claveOnPort = '5000'
 runRedis()
-module.exports = { client }
+module.exports = { client, claveOnPort }

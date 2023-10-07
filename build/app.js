@@ -105,6 +105,7 @@ var app = (0, _express.default)(); //createRoles();
 //config()
 //apertura()
 //iniciarSecuencia()
+//clearCache()
 //TODO ===========0=PELIGRO =================================
 //migracionMatricula();
 //migracionDistributivo()

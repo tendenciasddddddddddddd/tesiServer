@@ -156,7 +156,7 @@ export const promedio = () => {
 
   var finalAnual = function (pr1, pr2, pr3) {
     let sum = (parseFloat(pr1) + parseFloat(pr2) + parseFloat(pr3)) / 3;
-    if (sum == 0) return '0.00'
+    if (sum == 0) return '' //TODO PARA CAMBIAR 0.00
     let suma = trunc(sum, 2)
     if (isNaN(suma) || suma == '') suma = ''
     let salida = ifDecimal3(sum)

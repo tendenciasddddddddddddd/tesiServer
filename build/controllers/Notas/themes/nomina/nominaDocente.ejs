@@ -1,39 +1,80 @@
-<div id="box" class="PaymentDetails" style="max-width: 200mm;">
-    <div class="s-hojas"
-        style="margin-top: 0.5rem;color: #000; font-family: Arial, Helvetica, sans-serif;background: #fff;">
-        <div style="text-align: center;padding: 1rem;">
-            <table style="width: 100%;">
+<style>
+    .s-contenedor{
+        margin-top: 0.5rem;color: #000; font-family: Arial, Helvetica, sans-serif;background: #fff;
+    }
+    .s-centro{
+        text-align: center
+    }
+    .s-derecha{
+        text-align: right
+    }
+    .s-izquierda{
+        text-align: left
+    }
+    .sf-12{
+        font-size: 12px;
+    }
+    .sf-16{
+        font-size: 16px;
+    }
+    .sf-104{
+        font-size: 10.4px;
+    }
+    .sfz-600{
+        font-weight: 600;
+    }
+    .s-tabla{
+        width: 100%;
+    }
+    .s-first { width: 15%; }
+    .s-last { width: 70%; }
+    .s-fill { width: 15%; }
+    .s-img{
+        height: 60px
+    }
+    .s-img2{
+        width: 60px
+    }
+    .s-base-tb{
+        border-color: #000;border-style: solid;border-width: 0px 1px 1px;max-width: 100%; width: 100%; border-spacing: 0; border-collapse: separate;
+    }
+    .sb-top {
+        border-top: 1px solid #000;
+    }
+</style>
+<div class="s-hojas s-contenedor">
+        <div class="s-centro" style="padding: 1rem;">
+            <table class="s-tabla">
                 <tbody>
                     <tr>
-                        <td style="width: 15%;">
-                            <img style="height: 60px" src="https://res.cloudinary.com/stebann/image/upload/v1681418309/logo-ministerio-educacion_fvcptq.png" alt="Logo" />
+                        <td class="s-first">
+                            <img class="s-img" src="https://res.cloudinary.com/stebann/image/upload/v1681418309/logo-ministerio-educacion_fvcptq.png" alt="Logo" />
                         </td>
-                        <td style="width: 70%;">
-                            <div style="text-align: center;">
-                                <span style="color:#000;font-weight: 700;font-size: 16px;line-height: 1.375;">
+                        <td class="s-last">
+                            <div class="s-centro">
+                                <span class="sfz-600 sf-16">
                                     <%= auth.unidadeducativa %>
                                 </span><br>
-                                <p style="margin-top:-1px;text-align: center;font-size: 12px;">
+                                <p class="s-centro sf-12">
                                     Dirección:  <%= auth.direccion %>  Teléf: <%= auth.telefono %>  <br>
                                     <%= auth.ubicacion %> 
                                 </p>
                             </div>
                         </td>
-                        <td style="width: 15%;">
-                            <img style="width: 60px;" src="<%=auth.logo%>" alt="Logo" />
+                        <td class="s-fill">
+                            <img class="s-img2" src="<%=auth.logo%>" alt="Logo" />
                         </td>
                     </tr>
                 </tbody>
             </table>
             <br>
-            <table
-                style=" border-color: #000;border-style: solid;border-width: 0px 1px 1px;max-width: 100%; width: 100%; border-spacing: 0; border-collapse: separate;">
+            <table class="s-tabla s-base-tb">
                 <thead>
                     <tr>
-                        <th style="padding: 4px 5px;border-top: 1px solid #000;">
-                            <table style="width: 100%;">
+                        <th class="sb-top" style="padding: 4px 5px;">
+                            <table class="s-tabla">
                                 <tbody>
-                                    <tr style="font-size: 10.4px;">
+                                    <tr class="s-izquierda sf-104">
                                         <td style="width: 10%;">
                                             <div>Núm.</div>
                                         </td>
@@ -52,11 +93,10 @@
                 <tbody>
                     <% result.forEach(function (subItems, index) { %>
                     <tr >
-                        <td
-                            style="border-top: 1px solid #000;border-bottom-width: 0px; text-align: left;">
-                            <table style="width: 100%;">
+                        <td class="s-izquierda sb-top">
+                            <table class="s-tabla">
                                 <tbody>
-                                    <tr style="font-size: 10.4px;">
+                                    <tr class="sf-104">
                                         <td style="width: 10%;">
                                             <%= index + 1 %>
                                         </td>
@@ -76,4 +116,3 @@
             </table>
         </div>
     </div>
-</div>

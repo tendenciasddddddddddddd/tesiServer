@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.iniciarSecuencia = exports.apertura = exports.aplicaciones = exports.config = exports.createAdmin = exports.createRoles = void 0;
+exports.clearCache = exports.iniciarSecuencia = exports.apertura = exports.aplicaciones = exports.config = exports.createAdmin = exports.createRoles = void 0;
 
 var _Role = _interopRequireDefault(require("../models/Role"));
 
@@ -16,6 +16,8 @@ var _Apps = _interopRequireDefault(require("../models/Apps"));
 var _AperturaNotas = _interopRequireDefault(require("../models/AperturaNotas"));
 
 var _Secuencia = _interopRequireDefault(require("../models/Secuencia"));
+
+var _rediss = require("../middlewares/rediss");
 
 var _bcryptjs = _interopRequireDefault(require("bcryptjs"));
 
@@ -175,3 +177,22 @@ var iniciarSecuencia = /*#__PURE__*/function () {
 }();
 
 exports.iniciarSecuencia = iniciarSecuencia;
+
+var clearCache = /*#__PURE__*/function () {
+  var _ref7 = _asyncToGenerator(function* () {
+    _rediss.client.del("".concat(_rediss.claveOnPort, "cursos"));
+
+    _rediss.client.del("".concat(_rediss.claveOnPort, "fechas"));
+
+    _rediss.client.del("".concat(_rediss.claveOnPort, "autoridades"));
+
+    console.log('cache cleared');
+  });
+
+  return function clearCache() {
+    return _ref7.apply(this, arguments);
+  };
+}(); //TODO LIMPIAR LA BASE DE DATOS REDIS CACHE
+
+
+exports.clearCache = clearCache;

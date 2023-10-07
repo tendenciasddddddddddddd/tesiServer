@@ -202,6 +202,7 @@ var updateEstudianteById = /*#__PURE__*/function () {
       yield editarMatricula(req.params.usuariosId, req.body);
       res.status(200).json(updatedUsuarios);
     } catch (error) {
+      console.log(error);
       return res.status(500).json(error);
     }
   });

@@ -1,0 +1,1078 @@
+<% result.help?.forEach(function (item) { %>
+    <div class="s-hojas page"
+        style="margin-top: 0.5rem;color: #13161c; font-family: Arial, Helvetica, sans-serif;background: #fff;">
+        <div style="text-align: center;" class="p-4">
+            <table style="width: 100%;">
+                <tbody>
+                    <tr>
+                        <td style="width: 15%;">
+                            <img style="height: 60px" src="https://res.cloudinary.com/stebann/image/upload/v1681418309/logo-ministerio-educacion_fvcptq.png" alt="Logo" />
+                        </td>
+                        <td style="width: 70%;">
+                            <div style="text-align: center;">
+                                <span style="color:#000;font-weight: 700;font-size: 16px;line-height: 1.375;">
+                                    <%= auth.unidadeducativa %>
+                                </span><br>
+                                <p style="margin-top:-1px;text-align: center;font-size: 12px;">
+                                    Dirección:  <%= auth.direccion %>  Teléf: <%= auth.telefono %>  <br>
+                                    <%= auth.ubicacion %> 
+                                </p>
+                            </div>
+                        </td>
+                        <td style="width: 15%;">
+                            <img style="width: 60px;" src="<%=auth.logo%>" alt="Logo" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <hr>
+            <table style="width: 100%;">
+                <tbody>
+                    <tr>
+                        <td style="width: 50%;text-align: left;font-family: Arial, Helvetica, sans-serif;font-size: 12px">
+                            <span>Curso : <b><%= item.curso %> / <%= item.paralelo
+                                    %></b></span>
+                            <br>
+                            <span>Asignatura: <b><%= item.materia %></b></span> <br>
+                            <span>Profesor(a): <b><%= item.docente %></b></span>
+                        </td>
+                        <td style="width: 50%;text-align: right;font-size: 12px">
+                            <span>PERIODO: <b><%= item.periodo %></b></span><br>
+                            <span>FECHA: <%= item.fechaA %></span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <% if (item.computo== 2) { %>
+            <table
+                style="margin-top: 5px; border-color: #000;border-style: solid;border-width: 0px 1px 1px;max-width: 100%; width: 100%; border-spacing: 0; border-collapse: separate;">
+                <thead>
+                    <tr>
+                        <th
+                            style="padding: 0px 2px;border-top: 1px solid #000;border-bottom: 0px;border-right: 1px solid #000;">
+                        </th>
+                        <th
+                            style="padding: 0px 2px;border-top: 1px solid #000;border-bottom: 0px;border-right: 1px solid #000;">
+                        </th>
+                        <th style="padding: 0px 2px;border-top: 1px solid #000;">
+                        </th>
+                        <th
+                            style="padding: 0px 2px;border-top: 1px solid #000;    font-size: 10.4px;font-weight: 700;text-transform: uppercase;    text-align: center;">
+                            <span> <%= ops.quimestre %> </span>
+                        </th>
+                        <th style="padding: 0px 2px;border-top: 1px solid #000;">
+                        </th>
+                    </tr>
+                    <tr>
+                        <th style="padding: 1px 3px;border-bottom: 0px;border-right: 1px solid #000;">
+                        </th>
+                        <th style="padding: 1px 3px;border-bottom: 0px;border-right: 1px solid #000;">
+                        </th>
+                        <th style="padding: 1px 3px;"></th>
+                        <th style="padding: 1px 3px; font-size: 10.4px;font-weight: 700;  text-align: center;">
+                        </th>
+                        <th style="padding: 1px 3px;font-size: 10.4px;font-weight: 700;  text-align: center;">
+                        </th>
+                    </tr>
+                    <tr>
+                        <th
+                            style="padding: 1px 3px;border-bottom: 0px;border-right: 1px solid #000;font-size: 10.4px;font-weight: 700;  text-align: center;">
+                            N°
+                        </th>
+                        <th
+                            style="padding: 1px 3px;border-bottom: 0px;border-right: 1px solid #000;font-size: 10.4px;font-weight: 700;  text-align: center;">
+                            ESTUDIANTES
+                        </th>
+                        <th style="padding: 1px 3px;font-size: 10.4px;font-weight: 700;  text-align: center;">
+                            ACT. INDIVIDUALES
+                        </th>
+                        <th style="padding: 1px 3px;font-size: 10.4px;font-weight: 700;  text-align: center;">
+                            ACT. GRUPALES
+                        </th>
+                        <th style="padding: 1px 3px;font-size: 10.4px;font-weight: 700;  text-align: center;">
+                            RESULTADOS
+                        </th>
+                    </tr>
+                    <tr>
+                        <th style="padding: 2px 3px;border-right: 1px solid #000;border-bottom: 1px solid #000;">
+                        </th>
+                        <th style="padding: 2px 3px;border-right: 1px solid #000;border-bottom: 1px solid #000;">
+                        </th>
+                        <th style="min-width: 125px;border-bottom: 1px solid #000;padding: 2px 3px; text-align: center;">
+                            <table style="width: 100%;font-size: 10.4px;font-weight: 700;">
+                                <tbody>
+                                    <tr>
+                                        <td>Ins.1</td>
+                                        <td>Ins.2</td>
+                                        <td>Ins.3</td>
+                                        <td>Ins.4</td>
+                                        <td><b>PR</b></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </th>
+                        <th style="min-width: 125px;border-bottom: 1px solid #000;padding: 2px 3px; text-align: center;">
+                            <table style="width: 100%;font-size: 10.4px;font-weight: 700;">
+                                <tbody>
+                                    <tr>
+                                        <td>Ins.1</td>
+                                        <td>Ins.2</td>
+                                        <td>Ins.3</td>
+                                        <td>Ins.4</td>
+                                        <td><b>PR</b></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </th>
+                        <th
+                            style="min-width: 125px;border-bottom: 1px solid #000;padding: 2px 3px;text-transform: uppercase;    text-align: center;">
+                            <table style="width: 100%;font-size: 10.4px;font-weight: 700;">
+                                <tbody>
+                                    <tr>
+                                        <td>90%</td>
+                                        <td>PY</td>
+                                        <td>EX</td>
+                                        <td>10%</td>
+                                        <td style="font-weight: 800;">PR</td>
+                                        <td>CU</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% item.data.forEach(function (subItems, index) { %>
+                    <tr
+                        v-bind:style="[index == 33 ? { 'page-break-before': 'always' } : { 'page-break-before': 'none' }]">
+                        <td
+                            style="padding: 1px 3px;border-bottom-width: 0px;border-right: 1px solid #000;  font-size: 10.4px;border-bottom: 1px solid rgb(0, 0, 0);">
+                            <%= index + 1 %></td>
+                        <td
+                            style="padding: 1px 3px;border-bottom-width: 0px;text-align: left;border-right: 1px solid #000;font-family: Arial, Helvetica, sans-serif; font-size: 10.4px;border-bottom: 1px solid rgb(0, 0, 0);">
+                            <%= subItems.estudiante %></td>
+                        <td
+                            style="padding: 1px 3px;border-bottom-width: 0px;border-right: 1px solid #000;text-align: center;border-bottom: 1px solid rgb(0, 0, 0);">
+                            <% if (ops.q1) { %>
+                            <table style="width: 100%;">
+                                <tbody>
+                                    <tr>
+                                        <td style="padding: 0px 1px;width: 25%;font-size: 10.4px;">
+                                            <%=
+                                            subItems.n1
+                                            %></td>
+                                        <td style="padding: 0px 1px;width: 20%;font-size: 10.4px;">
+                                            <%=
+                                            subItems.n2
+                                            %></td>
+                                        <td style="padding: 0px 1px;width: 20%;font-size: 10.4px;">
+                                            <%=
+                                            subItems.n3
+                                            %></td>
+                                         <td style="padding: 0px 1px;width: 20%;font-size: 10.4px;">
+                                            <%=
+                                            subItems.n4
+                                            %></td>
+                                        <td style="padding: 0px 1px; text-align: center;width: 20%;font-size: 10.4px;">
+                                            <b><%= subItems.ppa %></b>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <% } %>
+                        </td>
+                        <td
+                            style="padding: 1px 3px;border-bottom-width: 0px;border-right: 1px solid #000;text-align: center;border-bottom: 1px solid rgb(0, 0, 0);">
+                            <% if (ops.q2) { %>
+                            <table style="width: 100%;">
+                                <tbody>
+                                    <tr>
+                                        <td style="padding: 0px 1px;width: 20%;font-size: 10.4px;">
+                                            <%=
+                                            subItems.n6 %></td>
+                                        <td style="padding: 0px 1px;width: 20%;font-size: 10.4px;">
+                                            <%=
+                                            subItems.n7 %></td>
+                                        <td style="padding: 0px 1px;width: 20%;font-size: 10.4px;">
+                                            <%=
+                                            subItems.n8
+                                            %></td>
+                                        <td style="padding: 0px 1px;width: 20%;font-size: 10.4px;">
+                                            <%=
+                                            subItems.n9
+                                            %></td>
+                                        <td style="padding: 0px 1px; text-align: center;width: 20%;font-size: 10.4px;">
+                                            <b><%= subItems.ppb %></b>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <% } %>
+                        </td>
+                        <td
+                            style="padding: 1px 3px;border-bottom-width: 0px;text-align: center;border-bottom: 1px solid rgb(0, 0, 0);">
+                            <% if (ops.q2 &&ops.q1) { %>
+                            <table style="width: 100%;">
+                                <tbody>
+                                    <tr>
+                                        <td
+                                            style="width: 16.5%; border-bottom-width: 0px;padding: 0px 1px;font-size: 10.4px;">
+                                            <%=
+                                            subItems.sumAB90 %></td>
+                                        <td style="width: 16.5%;border-bottom-width: 0px;padding: 0px 1px;font-size: 10.4px;">
+                                            <%=
+                                            subItems.pry1 %></td>
+                                        <td style="width: 16.5%;border-bottom-width: 0px;padding: 0px 1px;font-size: 10.4px;">
+                                            <%=
+                                            subItems.exa1 %></td>
+                                        <td style="width: 16.5%;border-bottom-width: 0px;padding: 0px 1px;font-size: 10.4px;">
+                                            <%=
+                                            subItems.sumAB10 %></td>
+                                        <td style="width: 16.5%;border-bottom-width: 0px;padding: 0px 1px;font-size: 10.4px;font-weight: 800;">
+                                            <%= subItems.proAB %>
+                                        </td>
+                                        <td style="width: 16.5%;border-bottom-width: 0px;padding: 0px 1px;font-size: 10.4px;">
+                                            <%=
+                                            subItems.letras %></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <% } %>
+                        </td>
+                    </tr>
+                    <% }) %>
+                    <tr>
+                        <td style="padding: 1px 3px;border-top: 1px solid #000;">
+    
+                        </td>
+                        <td style="padding: 1px 3px;border-top: 1px solid #000;font-size: 9.6px;">
+                            <b>PROMEDIO</b>
+                        </td>
+                        <td style="padding: 1px 3px;border-top: 1px solid #000;font-size: 10.4px;text-align: right ;">
+                            <span><% if (ops.q1) { %> <b><%=item.pPPA %></b>&nbsp; <% } %></span>
+                        </td>
+                        <td style="padding: 1px 3px;border-top: 1px solid #000;font-size: 10.4px;text-align: right  ;">
+                            <span><% if (ops.q2) { %>  <b><%=item.pPPB %></b> &nbsp;<% } %></span>
+                        </td>
+                        <td style="padding: 1px 3px;border-top: 1px solid #000;font-size: 10.4px;text-align: right  ;">
+                            <% if (ops.q2 &&ops.q1) { %>
+                            <table style="width: 100%;" v-if="props.ops.q1 && props.ops.q2">
+                                <tbody>
+                                    <tr>
+                                        <td style="width: 20%;"></td>
+                                        <td style="width: 20%;"></td>
+                                        <td style="width: 20%;"></td>
+                                        <td style="width: 25%;text-align: center;font-size: 10.4px;">
+                                            <b>
+                                                <b><%=item.prAB %></b>
+                                            </b>
+                                        </td>
+                                        <td style="width: 15%;"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <% } %>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <% } else {%>
+                <table
+                style="margin-top: 5px; border-color: #000;border-style: solid;border-width: 0px 1px 1px;max-width: 100%; width: 100%; border-spacing: 0; border-collapse: separate;">
+                <thead>
+                    <tr>
+                        <th
+                            style="padding: 0px 2px;border-top: 1px solid #000;border-bottom: 0px;border-right: 1px solid #000;">
+                        </th>
+                        <th
+                            style="padding: 0px 2px;border-top: 1px solid #000;border-bottom: 0px;border-right: 1px solid #000;">
+                        </th>
+                        <th style="padding: 0px 2px;border-top: 1px solid #000;">
+                        </th>
+                        <th
+                            style="padding: 0px 2px;border-top: 1px solid #000;    font-size: 10.4px;font-weight: 700;text-transform: uppercase;    text-align: center;">
+                            <span> <%= ops.quimestre %> </span>
+                        </th>
+                        <th style="padding: 0px 2px;border-top: 1px solid #000;">
+                        </th>
+                    </tr>
+                    <tr>
+                        <th style="padding: 1px 3px;border-bottom: 0px;border-right: 1px solid #000;">
+                        </th>
+                        <th style="padding: 1px 3px;border-bottom: 0px;border-right: 1px solid #000;">
+                        </th>
+                        <th style="padding: 1px 3px;"></th>
+                        <th style="padding: 1px 3px; font-size: 10.4px;font-weight: 700;  text-align: center;">
+                        </th>
+                        <th style="padding: 1px 3px;font-size: 10.4px;font-weight: 700;  text-align: center;">
+                        </th>
+                    </tr>
+                    <tr>
+                        <th
+                            style="padding: 1px 3px;border-bottom: 0px;border-right: 1px solid #000;font-size: 10.4px;font-weight: 700;  text-align: center;">
+                            N°
+                        </th>
+                        <th
+                            style="padding: 1px 3px;border-bottom: 0px;border-right: 1px solid #000;font-size: 10.4px;font-weight: 700;  text-align: center;">
+                            ESTUDIANTES
+                        </th>
+                        <th style="padding: 1px 3px;font-size: 10.4px;font-weight: 700;  text-align: center;">
+                            ACT. INDIVIDUALES
+                        </th>
+                        <th style="padding: 1px 3px;font-size: 10.4px;font-weight: 700;  text-align: center;">
+                            ACT. GRUPALES
+                        </th>
+                        <th style="padding: 1px 3px;font-size: 10.4px;font-weight: 700;  text-align: center;">
+                            RESULTADOS
+                        </th>
+                    </tr>
+                    <tr>
+                        <th style="padding: 2px 3px;border-right: 1px solid #000;border-bottom: 1px solid #000;">
+                        </th>
+                        <th style="padding: 2px 3px;border-right: 1px solid #000;border-bottom: 1px solid #000;">
+                        </th>
+                        <th style="min-width: 125px;border-bottom: 1px solid #000;padding: 2px 3px; text-align: center;">
+                            <table style="width: 100%;font-size: 10.4px;font-weight: 700;">
+                                <tbody>
+                                    <tr>
+                                        <td>Ins.1</td>
+                                        <td>Ins.2</td>
+                                        <td>Ins.3</td>
+                                        <td>PR</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </th>
+                        <th style="min-width: 125px;border-bottom: 1px solid #000;padding: 2px 3px; text-align: center;">
+                            <table style="width: 100%;font-size: 10.4px;font-weight: 700;">
+                                <tbody>
+                                    <tr>
+                                        <td>Ins.1</td>
+                                        <td>Ins.2</td>
+                                        <td>Ins.3</td>
+                                        <td>PR</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </th>
+                        <th
+                            style="min-width: 125px;border-bottom: 1px solid #000;padding: 2px 3px;text-transform: uppercase;    text-align: center;">
+                            <table style="width: 100%;font-size: 10.4px;font-weight: 700;">
+                                <tbody>
+                                    <tr>
+                                        <td>90%</td>
+                                        <td>PY</td>
+                                        <td>EX</td>
+                                        <td>10%</td>
+                                        <td>PR</td>
+                                        <td><b>ES</b></td>
+                                        <td>CU</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% item.data.forEach(function (subItems, index) { %>
+                    <tr
+                        v-bind:style="[index == 33 ? { 'page-break-before': 'always' } : { 'page-break-before': 'none' }]">
+                        <td
+                            style="padding: 1px 3px;border-bottom-width: 0px;border-right: 1px solid #000;  font-size: 10.4px;border-bottom: 1px solid rgb(0, 0, 0);">
+                            <%= index + 1 %></td>
+                        <td
+                            style="padding: 1px 3px;border-bottom-width: 0px;text-align: left;border-right: 1px solid #000;font-family: Arial, Helvetica, sans-serif; font-size: 10.4px;border-bottom: 1px solid rgb(0, 0, 0);">
+                            <%= subItems.estudiante %></td>
+                        <td
+                            style="padding: 1px 3px;border-bottom-width: 0px;border-right: 1px solid #000;text-align: center;border-bottom: 1px solid rgb(0, 0, 0);">
+                            <% if (ops.q1) { %>
+                            <table style="width: 100%;">
+                                <tbody>
+                                    <tr>
+                                        <td style="padding: 0px 1px;width: 25%;font-size: 10.4px;">
+                                            <%=
+                                            subItems.n1
+                                            %></td>
+                                        <td style="padding: 0px 1px;width: 20%;font-size: 10.4px;">
+                                            <%=
+                                            subItems.n2
+                                            %></td>
+                                        <td style="padding: 0px 1px;width: 20%;font-size: 10.4px;">
+                                            <%=
+                                            subItems.n3
+                                            %></td>
+                                        <td style="padding: 0px 1px; text-align: center;width: 20%;font-size: 10.4px;">
+                                            <b><%= subItems.ppa %></b>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <% } %>
+                        </td>
+                        <td
+                            style="padding: 1px 3px;border-bottom-width: 0px;border-right: 1px solid #000;text-align: center;border-bottom: 1px solid rgb(0, 0, 0);">
+                            <% if (ops.q2) { %>
+                            <table style="width: 100%;">
+                                <tbody>
+                                    <tr>
+                                        <td style="padding: 0px 1px;width: 20%;font-size: 10.4px;">
+                                            <%=
+                                            subItems.n6 %></td>
+                                        <td style="padding: 0px 1px;width: 20%;font-size: 10.4px;">
+                                            <%=
+                                            subItems.n7 %></td>
+                                        <td style="padding: 0px 1px;width: 20%;font-size: 10.4px;">
+                                            <%=
+                                            subItems.n8
+                                            %></td>
+                                        <td style="padding: 0px 1px; text-align: center;width: 20%;font-size: 10.4px;">
+                                            <b><%= subItems.ppb %></b>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <% } %>
+                        </td>
+                        <td
+                            style="padding: 1px 3px;border-bottom-width: 0px;text-align: center;border-bottom: 1px solid rgb(0, 0, 0);">
+                            <% if (ops.q2 &&ops.q1) { %>
+                            <table style="width: 100%;">
+                                <tbody>
+                                    <tr>
+                                        <td
+                                            style="width: 14.2%; border-bottom-width: 0px;padding: 0px 1px;font-size: 10.4px;">
+                                            <%=
+                                            subItems.sumAB90 %></td>
+                                        <td style="width: 14.2%;border-bottom-width: 0px;padding: 0px 1px;font-size: 10.4px;">
+                                            <%=
+                                            subItems.pry1 %></td>
+                                        <td style="width: 14.2%;border-bottom-width: 0px;padding: 0px 1px;font-size: 10.4px;">
+                                            <%=
+                                            subItems.exa1 %></td>
+                                        <td style="width: 14.2%;border-bottom-width: 0px;padding: 0px 1px;font-size: 10.4px;">
+                                            <%=
+                                            subItems.sumAB10 %></td>
+                                        <td style="width: 14.2%;border-bottom-width: 0px;padding: 0px 1px;font-size: 10.4px;">
+                                            <b><%= subItems.proAB %></b>
+                                        </td>
+                                        <td style="width: 14.2%;border-bottom-width: 0px;padding: 0px 1px;font-size: 10.4px;font-weight: 800;">
+                                            <%=
+                                            subItems.letras2 %></td>
+                                        <td style="width: 14.2%;border-bottom-width: 0px;padding: 0px 1px;font-size: 10.4px;font-weight: 700;">
+                                            <%=
+                                            subItems.letras %></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <% } %>
+                        </td>
+                    </tr>
+                    <% }) %>
+                    <tr>
+                        <td style="padding: 1px 3px;border-top: 1px solid #000;">
+    
+                        </td>
+                        <td style="padding: 1px 3px;border-top: 1px solid #000;font-size: 9.6px;">
+                            <b>PROMEDIO</b>
+                        </td>
+                        <td style="padding: 1px 3px;border-top: 1px solid #000;font-size: 10.4px;text-align: right ;">
+                            <span><% if (ops.q1) { %> <b><%=item.pPPA %></b>&nbsp; <% } %></span>
+                        </td>
+                        <td style="padding: 1px 3px;border-top: 1px solid #000;font-size: 10.4px;text-align: right  ;">
+                            <span><% if (ops.q2) { %>  <b><%=item.pPPB %></b> &nbsp;<% } %></span>
+                        </td>
+                        <td style="padding: 1px 3px;border-top: 1px solid #000;font-size: 10.4px;text-align: right  ;">
+                            <% if (ops.q2 &&ops.q1) { %>
+                            <table style="width: 100%;" v-if="props.ops.q1 && props.ops.q2">
+                                <tbody>
+                                    <tr>
+                                        <td style="width: 14.2%;"></td>
+                                        <td style="width: 14.2%;"></td>
+                                        <td style="width: 14.2%;"></td>
+                                        <td style="width: 14.2%;"></td>
+                                        <td style="width: 14.2%;text-align: center;font-size: 10.4px;">
+                                            <b>
+                                                <b><%=item.prAB %></b>
+                                            </b>
+                                        </td>
+                                        <td style="width: 14.2%;text-align: center;font-size: 10.4px;">
+                                            <b>
+                                                <b><%=item.lettras %></b>
+                                            </b>
+                                        </td>
+                                        <td style="width: 14.2%;"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <% } %>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <% } %>
+            <table style="width: 100%;">
+                <tbody>
+                    <tr>
+                        <td style="width: 28%;">
+                            <table
+                                style="margin-top: 8px; border-color: #000;border-style: solid;border-width: 1px 1px 1px;max-width: 100%; width: 100%; border-spacing: 0; border-collapse: separate;">
+                                <thead style="font-size: 10.4px;text-align: center;">
+                                    <th></th>
+                                    <th>DA</th>
+                                    <th>AA</th>
+                                    <th>PA</th>
+                                    <th>NA</th>
+                                </thead>
+                                <% if (ops.q1) { %>
+                                <tbody>
+                                    <tr style="font-size: 10.4px;text-align: center;">
+                                        <td style="border-top: 1px solid #000;">
+                                            <b>Ʃ</b>
+                                        </td>
+                                        <td style="border-top: 1px solid #000;"><%=
+                                            item.medPPA[0]
+                                            %></td>
+                                        <td style="border-top: 1px solid #000;"><%=
+                                            item.medPPA[1]
+                                            %> </td>
+                                        <td style="border-top: 1px solid #000;"> <%=
+                                            item.medPPA[2]
+                                            %></td>
+                                        <td style="border-top: 1px solid #000;"> <%=
+                                            item.medPPA[3]
+                                            %></td>
+                                    </tr>
+                                    <tr style="font-size: 10.4px;text-align: center;">
+                                        <td style="border-top: 1px solid #000;">
+                                            <b>%</b>
+                                        </td>
+                                        <td style="border-top: 1px solid #000;"><span><%=
+                                                Math.round((item.medPPA[0] /item.data.length) *100)
+                                                %>%</span> </td>
+                                        <td style="border-top: 1px solid #000;"><span><%=
+                                                Math.round((item.medPPA[1] /item.data.length) *100)
+                                                %>%</span> </td>
+                                        <td style="border-top: 1px solid #000;"><span><%=
+                                                Math.round((item.medPPA[2] /item.data.length) *100)
+                                                %>%</span> </td>
+                                        <td style="border-top: 1px solid #000;"><span><%=
+                                                Math.round((item.medPPA[3] /item.data.length) *100)
+                                                %>%</span> </td>
+                                    </tr>
+                                </tbody>
+                                <% } %>
+                            </table>
+                        </td>
+                        <td style="width: 28%;">
+                            <% if (ops.q2) { %>
+                            <table
+                                style="margin-top: 8px; border-color: #000;border-style: solid;border-width: 1px 1px 1px;max-width: 100%; width: 100%; border-spacing: 0; border-collapse: separate;">
+                                <thead style="font-size: 10.4px;text-align: center;">
+                                    <th></th>
+                                    <th>DA</th>
+                                    <th>AA</th>
+                                    <th>PA</th>
+                                    <th>NA</th>
+                                </thead>
+                                <tbody>
+                                    <tr style="font-size: 10.4px;text-align: center;">
+                                        <td style="border-top: 1px solid #000;">
+                                            <b>Ʃ</b>
+                                        </td>
+                                        <td style="border-top: 1px solid #000;"><%=
+                                            item.medPPB[0]
+                                            %></td>
+                                        <td style="border-top: 1px solid #000;"><%=
+                                            item.medPPB[1]
+                                            %> </td>
+                                        <td style="border-top: 1px solid #000;"> <%=
+                                            item.medPPB[2]
+                                            %></td>
+                                        <td style="border-top: 1px solid #000;"> <%=
+                                            item.medPPB[3]
+                                            %></td>
+                                    </tr>
+                                    <tr style="font-size: 10.4px;text-align: center;">
+                                        <td style="border-top: 1px solid #000;">
+                                            <b>%</b>
+                                        </td>
+                                        <td style="border-top: 1px solid #000;"><span><%=
+                                                Math.round((item.medPPB[0] /item.data.length) *100)
+                                                %>%</span> </td>
+                                        <td style="border-top: 1px solid #000;"><span><%=
+                                                Math.round((item.medPPB[1] /item.data.length) *100)
+                                                %>%</span> </td>
+                                        <td style="border-top: 1px solid #000;"><span><%=
+                                                Math.round((item.medPPB[2] /item.data.length) *100)
+                                                %>%</span> </td>
+                                        <td style="border-top: 1px solid #000;"><span><%=
+                                                Math.round((item.medPPB[3] /item.data.length) *100)
+                                                %>%</span> </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <% } %>
+                        </td>
+                        <td style="width: 28%;">
+                            <% if (ops.q2 &&ops.q1) { %>
+                            <table
+                                style="margin-top: 8px; border-color: #000;border-style: solid;border-width: 1px 1px 1px;max-width: 100%; width: 100%; border-spacing: 0; border-collapse: separate;">
+                                <thead style="font-size: 10.4px;text-align: center;">
+                                    <th></th>
+                                    <th>DA</th>
+                                    <th>AA</th>
+                                    <th>PA</th>
+                                    <th>NA</th>
+                                </thead>
+                                <tbody>
+                                    <tr style="font-size: 10.4px;text-align: center;">
+                                        <td style="border-top: 1px solid #000;">
+                                            <b>Ʃ</b>
+                                        </td>
+                                        <td style="border-top: 1px solid #000;"><%=
+                                            item.medAB[0]
+                                            %></td>
+                                        <td style="border-top: 1px solid #000;"><%=
+                                            item.medAB[1]
+                                            %> </td>
+                                        <td style="border-top: 1px solid #000;"> <%=
+                                            item.medAB[2]
+                                            %></td>
+                                        <td style="border-top: 1px solid #000;"> <%=
+                                            item.medAB[3]
+                                            %></td>
+                                    </tr>
+                                    <tr style="font-size: 10.4px;text-align: center;">
+                                        <td style="border-top: 1px solid #000;">
+                                            <b>%</b>
+                                        </td>
+                                        <td style="border-top: 1px solid #000;"><span><%=
+                                                Math.round((item.medAB[0] /item.data.length) *100)
+                                                %>%</span> </td>
+                                        <td style="border-top: 1px solid #000;"><span><%=
+                                                Math.round((item.medAB[1] /item.data.length) *100)
+                                                %>%</span> </td>
+                                        <td style="border-top: 1px solid #000;"><span><%=
+                                                Math.round((item.medAB[2] /item.data.length) *100)
+                                                %>%</span> </td>
+                                        <td style="border-top: 1px solid #000;"><span><%=
+                                                Math.round((item.medAB[3] /item.data.length) *100)
+                                                %>%</span> </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <% } %>
+                        </td>
+                        <td style="width: 15%;">
+                            <br>
+                            _______________________ <br>
+                            <span style="font-size: 12px;">FIRMA TUTOR</span>
+                        </td>
+                    </tr>
+                    <br>
+                </tbody>
+                <CuanCual />
+            </table>
+        </div>
+        <div style="page-break-before:always;"></div>
+    </div>
+    <% }) %>
+    <% result.help2?.forEach(function (item) { %>
+        <div class="s-hojas page"
+            style="margin-top: 0.5rem;color: #13161c; font-family: Arial, Helvetica, sans-serif;background: #fff;">
+            <div style="text-align: center;" class="p-4">
+                <table style="width: 100%;">
+                    <tbody>
+                        <tr>
+                            <td style="width: 15%;">
+                                <img style="height: 60px" src="https://res.cloudinary.com/stebann/image/upload/v1681418309/logo-ministerio-educacion_fvcptq.png" alt="Logo" />
+                            </td>
+                            <td style="width: 70%;">
+                                <div style="text-align: center;">
+                                    <span style="color:#000;font-weight: 700;font-size: 16px;line-height: 1.375;">
+                                        <%= auth.unidadeducativa %>
+                                    </span><br>
+                                    <p style="margin-top:-1px;text-align: center;font-size: 12px;">
+                                        Dirección:  <%= auth.direccion %>  Teléf: <%= auth.telefono %>  <br>
+                                        <%= auth.ubicacion %> 
+                                    </p>
+                                </div>
+                            </td>
+                            <td style="width: 15%;">
+                                <img style="width: 60px;" src="<%=auth.logo%>" alt="Logo" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <hr>
+                <table style="width: 100%;">
+                    <tbody>
+                        <tr>
+                            <td style="width: 50%;text-align: left;font-family: Arial, Helvetica, sans-serif;font-size: 12px">
+                                <span>Curso : <b><%= item.curso %> / <%= item.paralelo
+                                        %></b></span>
+                                <br>
+                                <span>Asignatura: <b><%= item.materia %></b></span> <br>
+                                <span>Profesor(a): <b><%= item.docente %></b></span>
+                            </td>
+                            <td style="width: 50%;text-align: right;font-size: 12px">
+                                <span>PERIODO: <b><%= item.periodo %></b></span><br>
+                                <span>FECHA: <%= item.fechaA %></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+    
+                <table
+                    style="margin-top: 5px; border-color: #000;border-style: solid;border-width: 0px 1px 1px;max-width: 100%; width: 100%; border-spacing: 0; border-collapse: separate;">
+                    <thead>
+                        <tr>
+                            <th
+                                style="padding: 0px 2px;border-top: 1px solid #000;border-bottom: 0px;border-right: 1px solid #000;">
+                            </th>
+                            <th
+                                style="padding: 0px 2px;border-top: 1px solid #000;border-bottom: 0px;border-right: 1px solid #000;">
+                            </th>
+                            <th style="padding: 0px 2px;border-top: 1px solid #000;">
+                            </th>
+                            <th
+                                style="padding: 0px 2px;border-top: 1px solid #000;    font-size: 10.4px;font-weight: 700;text-transform: uppercase;    text-align: center;">
+                                <span> <%= ops.quimestre %> </span>
+                            </th>
+                            <th style="padding: 0px 2px;border-top: 1px solid #000;">
+                            </th>
+                        </tr>
+                        <tr>
+                            <th
+                                style="padding: 1px 3px;border-bottom: 0px;border-right: 1px solid #000;font-size: 10.4px;font-weight: 700;  text-align: center;border-bottom: 1px solid #000;">
+                                N°
+                            </th>
+                            <th
+                                style="padding: 1px 3px;border-bottom: 0px;border-right: 1px solid #000;font-size: 10.4px;font-weight: 700;  text-align: center;border-bottom: 1px solid #000;">
+                                ESTUDIANTES
+                            </th>
+                            <th style="padding: 1px 3px;font-size: 10.4px;font-weight: 700;  text-align: center;border-bottom: 1px solid #000;">
+                               NN
+                            </th>
+                            <th style="padding: 1px 3px;font-size: 10.4px;font-weight: 700;  text-align: center;border-bottom: 1px solid #000;">
+                                RESULTADOS
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% item.data.forEach(function (subItems, index) { %>
+                        <tr
+                            v-bind:style="[index == 33 ? { 'page-break-before': 'always' } : { 'page-break-before': 'none' }]">
+                            <td
+                                style="padding: 1px 3px;border-bottom-width: 0px;border-right: 1px solid #000;  font-size: 10.4px;border-bottom: 1px solid rgb(0, 0, 0);">
+                                <%= index + 1 %></td>
+                            <td
+                                style="padding: 1px 3px;border-bottom-width: 0px;text-align: left;border-right: 1px solid #000;font-family: Arial, Helvetica, sans-serif; font-size: 10.4px;border-bottom: 1px solid rgb(0, 0, 0);">
+                                <%= subItems.estudiante %></td>
+                            <td
+                                style="padding: 1px 3px;border-bottom-width: 0px;border-right: 1px solid #000;text-align: center;border-bottom: 1px solid rgb(0, 0, 0);">
+                                <span style="font-size: 10.4px;"> <%=subItems.p1%></span>
+                            </td>
+                            <td
+                                style="padding: 1px 3px;border-bottom-width: 0px;text-align: center;border-bottom: 1px solid rgb(0, 0, 0);">
+                                <% if (ops.q2 &&ops.q1) { %>
+                                    <b style="font-size: 10.4px;"> <%=subItems.letras%></b>
+                                <% } %>
+                            </td>
+                        </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+                <% if (item.materia!= 'COMPORTAMIENTO') { %>
+                <table style="width: 100%;">
+                    <tbody>
+                        <tr>
+                            <td style="width: 28%;">
+                                <table
+                                    style="margin-top: 8px; border-color: #000;border-style: solid;border-width: 1px 1px 1px;max-width: 100%; width: 100%; border-spacing: 0; border-collapse: separate;">
+                                    <thead style="font-size: 10.4px;text-align: center;">
+                                        <th></th>
+                                        <th>EX</th>
+                                        <th>MB </th>
+                                        <th>B</th>
+                                        <th>R</th>
+                                    </thead>
+                                    <% if (ops.q1) { %>
+                                    <tbody>
+                                        <tr style="font-size: 10.4px;text-align: center;">
+                                            <td style="border-top: 1px solid #000;">
+                                                <b>Ʃ</b>
+                                            </td>
+                                            <td style="border-top: 1px solid #000;"><%=
+                                                item.medPPA[0]
+                                                %></td>
+                                            <td style="border-top: 1px solid #000;"><%=
+                                                item.medPPA[1]
+                                                %> </td>
+                                            <td style="border-top: 1px solid #000;"> <%=
+                                                item.medPPA[2]
+                                                %></td>
+                                            <td style="border-top: 1px solid #000;"> <%=
+                                                item.medPPA[3]
+                                                %></td>
+                                        </tr>
+                                        <tr style="font-size: 10.4px;text-align: center;">
+                                            <td style="border-top: 1px solid #000;">
+                                                <b>%</b>
+                                            </td>
+                                            <td style="border-top: 1px solid #000;"><span><%=
+                                                    Math.round((item.medPPA[0] /item.data.length) *100)
+                                                    %>%</span> </td>
+                                            <td style="border-top: 1px solid #000;"><span><%=
+                                                    Math.round((item.medPPA[1] /item.data.length) *100)
+                                                    %>%</span> </td>
+                                            <td style="border-top: 1px solid #000;"><span><%=
+                                                    Math.round((item.medPPA[2] /item.data.length) *100)
+                                                    %>%</span> </td>
+                                            <td style="border-top: 1px solid #000;"><span><%=
+                                                    Math.round((item.medPPA[3] /item.data.length) *100)
+                                                    %>%</span> </td>
+                                        </tr>
+                                    </tbody>
+                                    <% } %>
+                                </table>
+                            </td>
+                            <td style="width: 28%;">
+                                <% if (ops.q2) { %>
+                                <table
+                                    style="margin-top: 8px; border-color: #000;border-style: solid;border-width: 1px 1px 1px;max-width: 100%; width: 100%; border-spacing: 0; border-collapse: separate;">
+                                    <thead style="font-size: 10.4px;text-align: center;">
+                                        <th></th>
+                                        <th>EX</th>
+                                        <th>MB </th>
+                                        <th>B</th>
+                                        <th>R</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr style="font-size: 10.4px;text-align: center;">
+                                            <td style="border-top: 1px solid #000;">
+                                                <b>Ʃ</b>
+                                            </td>
+                                            <td style="border-top: 1px solid #000;"><%=
+                                                item.medPPB[0]
+                                                %></td>
+                                            <td style="border-top: 1px solid #000;"><%=
+                                                item.medPPB[1]
+                                                %> </td>
+                                            <td style="border-top: 1px solid #000;"> <%=
+                                                item.medPPB[2]
+                                                %></td>
+                                            <td style="border-top: 1px solid #000;"> <%=
+                                                item.medPPB[3]
+                                                %></td>
+                                        </tr>
+                                        <tr style="font-size: 10.4px;text-align: center;">
+                                            <td style="border-top: 1px solid #000;">
+                                                <b>%</b>
+                                            </td>
+                                            <td style="border-top: 1px solid #000;"><span><%=
+                                                    Math.round((item.medPPB[0] /item.data.length) *100)
+                                                    %>%</span> </td>
+                                            <td style="border-top: 1px solid #000;"><span><%=
+                                                    Math.round((item.medPPB[1] /item.data.length) *100)
+                                                    %>%</span> </td>
+                                            <td style="border-top: 1px solid #000;"><span><%=
+                                                    Math.round((item.medPPB[2] /item.data.length) *100)
+                                                    %>%</span> </td>
+                                            <td style="border-top: 1px solid #000;"><span><%=
+                                                    Math.round((item.medPPB[3] /item.data.length) *100)
+                                                    %>%</span> </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <% } %>
+                            </td>
+                            <td style="width: 28%;">
+                                <% if (ops.q2 &&ops.q1) { %>
+                                <table
+                                    style="margin-top: 8px; border-color: #000;border-style: solid;border-width: 1px 1px 1px;max-width: 100%; width: 100%; border-spacing: 0; border-collapse: separate;">
+                                    <thead style="font-size: 10.4px;text-align: center;">
+                                        <th></th>
+                                        <th>EX</th>
+                                        <th>MB </th>
+                                        <th>B</th>
+                                        <th>R</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr style="font-size: 10.4px;text-align: center;">
+                                            <td style="border-top: 1px solid #000;">
+                                                <b>Ʃ</b>
+                                            </td>
+                                            <td style="border-top: 1px solid #000;"><%=
+                                                item.medAB[0]
+                                                %></td>
+                                            <td style="border-top: 1px solid #000;"><%=
+                                                item.medAB[1]
+                                                %> </td>
+                                            <td style="border-top: 1px solid #000;"> <%=
+                                                item.medAB[2]
+                                                %></td>
+                                            <td style="border-top: 1px solid #000;"> <%=
+                                                item.medAB[3]
+                                                %></td>
+                                        </tr>
+                                        <tr style="font-size: 10.4px;text-align: center;">
+                                            <td style="border-top: 1px solid #000;">
+                                                <b>%</b>
+                                            </td>
+                                            <td style="border-top: 1px solid #000;"><span><%=
+                                                    Math.round((item.medAB[0] /item.data.length) *100)
+                                                    %>%</span> </td>
+                                            <td style="border-top: 1px solid #000;"><span><%=
+                                                    Math.round((item.medAB[1] /item.data.length) *100)
+                                                    %>%</span> </td>
+                                            <td style="border-top: 1px solid #000;"><span><%=
+                                                    Math.round((item.medAB[2] /item.data.length) *100)
+                                                    %>%</span> </td>
+                                            <td style="border-top: 1px solid #000;"><span><%=
+                                                    Math.round((item.medAB[3] /item.data.length) *100)
+                                                    %>%</span> </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <% } %>
+                            </td>
+                            <td style="width: 15%;">
+                                <br>
+                                _______________________ <br>
+                                <span style="font-size: 12px;">FIRMA TUTOR</span>
+                            </td>
+                        </tr>
+                        <br>
+                    </tbody>
+                    <CuanCual />
+                </table>
+                <% } else { %>
+                    <table style="width: 100%;">
+                        <tbody>
+                            <tr>
+                                <td style="width: 40%;">
+                                    <table
+                                        style="margin-top: 8px; border-color: #000;border-style: solid;border-width: 1px 1px 1px;max-width: 100%; width: 100%; border-spacing: 0; border-collapse: separate;">
+                                        <thead style="font-size: 10.4px;text-align: center;">
+                                            <th></th>
+                                            <th>A</th>
+                                            <th>B</th>
+                                            <th>C</th>
+                                            <th>D</th>
+                                            <th>E</th>
+                                        </thead>
+                                        <tbody>
+                                            <tr style="font-size: 10.4px;text-align: center;">
+                                                <td style="border-top: 1px solid #000;">
+                                                    <b>Ʃ</b>
+                                                </td>
+                                                <td style="border-top: 1px solid #000;"><%=
+                                                    item.medPPA[0]
+                                                    %></td>
+                                                <td style="border-top: 1px solid #000;"><%=
+                                                    item.medPPA[1]
+                                                    %> </td>
+                                                <td style="border-top: 1px solid #000;"> <%=
+                                                    item.medPPA[2]
+                                                    %></td>
+                                                <td style="border-top: 1px solid #000;"> <%=
+                                                    item.medPPA[3]
+                                                    %></td>
+                                                <td style="border-top: 1px solid #000;"> <%=
+                                                    item.medPPA[4]
+                                                    %></td>
+                                            </tr>
+                                            <tr style="font-size: 10.4px;text-align: center;">
+                                                <td style="border-top: 1px solid #000;">
+                                                    <b>%</b>
+                                                </td>
+                                                <td style="border-top: 1px solid #000;"><span><%=
+                                                        Math.round((item.medPPA[0] /item.data.length) *100)
+                                                        %>%</span> </td>
+                                                <td style="border-top: 1px solid #000;"><span><%=
+                                                        Math.round((item.medPPA[1] /item.data.length) *100)
+                                                        %>%</span> </td>
+                                                <td style="border-top: 1px solid #000;"><span><%=
+                                                        Math.round((item.medPPA[2] /item.data.length) *100)
+                                                        %>%</span> </td>
+                                                <td style="border-top: 1px solid #000;"><span><%=
+                                                        Math.round((item.medPPA[3] /item.data.length) *100)
+                                                        %>%</span> </td>
+                                             <td style="border-top: 1px solid #000;"><span><%=
+                                                Math.round((item.medPPA[4] /item.data.length) *100)
+                                                %>%</span> </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                                <td style="width: 40%;">
+                                    <table
+                                        style="margin-top: 8px; border-color: #000;border-style: solid;border-width: 1px 1px 1px;max-width: 100%; width: 100%; border-spacing: 0; border-collapse: separate;">
+                                        <thead style="font-size: 10.4px;text-align: center;">
+                                            <th></th>
+                                                <th>A</th>
+                                                <th>B</th>
+                                                <th>C</th>
+                                                <th>D</th>
+                                                <th>E</th>
+                                        </thead>
+                                        <tbody>
+                                            <tr style="font-size: 10.4px;text-align: center;">
+                                                <td style="border-top: 1px solid #000;">
+                                                    <b>Ʃ</b>
+                                                </td>
+                                                <td style="border-top: 1px solid #000;"><%=
+                                                    item.medAB[0]
+                                                    %></td>
+                                                <td style="border-top: 1px solid #000;"><%=
+                                                    item.medAB[1]
+                                                    %> </td>
+                                                <td style="border-top: 1px solid #000;"> <%=
+                                                    item.medAB[2]
+                                                    %></td>
+                                                <td style="border-top: 1px solid #000;"> <%=
+                                                    item.medAB[3]
+                                                    %></td>
+                                                    <td style="border-top: 1px solid #000;"> <%=
+                                                        item.medAB[4]
+                                                        %></td>
+                                            </tr>
+                                            <tr style="font-size: 10.4px;text-align: center;">
+                                                <td style="border-top: 1px solid #000;">
+                                                    <b>%</b>
+                                                </td>
+                                                <td style="border-top: 1px solid #000;"><span><%=
+                                                        Math.round((item.medAB[0] /item.data.length) *100)
+                                                        %>%</span> </td>
+                                                <td style="border-top: 1px solid #000;"><span><%=
+                                                        Math.round((item.medAB[1] /item.data.length) *100)
+                                                        %>%</span> </td>
+                                                <td style="border-top: 1px solid #000;"><span><%=
+                                                        Math.round((item.medAB[2] /item.data.length) *100)
+                                                        %>%</span> </td>
+                                                <td style="border-top: 1px solid #000;"><span><%=
+                                                        Math.round((item.medAB[3] /item.data.length) *100)
+                                                        %>%</span> </td>
+                                                        <td style="border-top: 1px solid #000;"><span><%=
+                                                            Math.round((item.medAB[4] /item.data.length) *100)
+                                                            %>%</span> </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                                <td style="width: 20%;">
+                                    <br>
+                                    _______________________ <br>
+                                    <span style="font-size: 12px;">FIRMA TUTOR</span>
+                                </td>
+                            </tr>
+                            <br>
+                        </tbody>
+                        <CuanCual />
+                    </table>
+                <% } %>
+            </div>
+            <div style="page-break-before:always;"></div>
+        </div>
+    <% }) %>

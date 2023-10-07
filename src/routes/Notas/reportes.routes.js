@@ -8,10 +8,6 @@ router.post("/",[ authJwt.verifyToken], Ctrl.promocion);
 
 router.post("/matricula/",[ authJwt.verifyToken], Ctrl.matricula);
 
-router.post("/matriculaPdf/",[ authJwt.verifyToken], Ctrl.matriculaPdf);
-
-router.post("/promocionPdf/",[ authJwt.verifyToken], Ctrl.promocionPdf);
-
 router.post("/libretas/",[ authJwt.verifyToken], Ctrl.libretas);
 
 router.post("/juntas/",[ authJwt.verifyToken], Ctrl.juntas);

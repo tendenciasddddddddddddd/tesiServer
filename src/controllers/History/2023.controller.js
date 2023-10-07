@@ -2,16 +2,16 @@ import Matriculas from "../../models/history/Mat2023";
 import Distributivo from "../../models/history/Dis2023";
 import { promedioReportes } from "./helper/promReporte";
 import Configure from "../../models/Configure";
-import { client } from "../../middlewares/rediss";
+import { client,claveOnPort } from "../../middlewares/rediss";
 const ejs = require("ejs");
 const { formatPromociones, formatMatricula, formatLibretas, formatJuntas, formatInforme, formatFinal, formatParcial,
     formatQuimestral, formatAnual, formatJuntasIndividual, formatJuntasFinal } = promedioReportes();
 async function autoridad() {
     try {
-        const reply = await client.get("5000autoridades");
+        const reply = await client.get(`${claveOnPort}autoridades`);
         if (reply) return JSON.parse(reply);
         const result = await Configure.find().lean();
-        await client.set('5000autoridades', JSON.stringify(result), { EX: 36000 });
+        await client.set(`${claveOnPort}autoridades`, JSON.stringify(result), { EX: 36000 });
         return result
     } catch (error) {
         console.log(error);
@@ -58,7 +58,7 @@ export default {
                 result = formatPromociones(rowM, rowD, estudiantes)
             }
             const auth = await autoridad()
-            const tema = await ejs.renderFile(__dirname + "/themes/promocion.ejs", { result: result, auth: auth[0], nextCourse: nextCourse });
+            const tema = await ejs.renderFile(__dirname + "/themes/promocion.ejs", { result: result, auth, nextCourse: nextCourse });
             res.status(200).json(tema);
         } catch (error) {
             console.log(error);
@@ -84,8 +84,8 @@ export default {
                 
             }
             const auth = await autoridad()
-            const tema = await ejs.renderFile(__dirname + "/themes/matricula.ejs", { result: result, auth: auth[0] });
-           // console.log(tema)
+            const tema = await ejs.renderFile(__dirname + "/themes/matricula.ejs", { result: result, auth });
+            console.log(tema)
             res.status(200).json(tema);
         } catch (error) {
             console.log(error);
@@ -114,7 +114,7 @@ export default {
                 result = formatLibretas(rowM, rowD, estudiantes, ops.quimestre)
             }
             const auth = await autoridad()
-            const tema = await ejs.renderFile(__dirname + "/themes/libretas.ejs", { result: result, auth: auth[0], ops: ops });
+            const tema = await ejs.renderFile(__dirname + "/themes/libretas.ejs", { result: result, auth, ops: ops });
             res.status(200).json(tema);
         } catch (error) {
             console.log(error);
@@ -143,7 +143,7 @@ export default {
                 result = formatJuntas(rowM, rowD, estudiantes, ops.quimestre, paralelo)
             }
             const auth = await autoridad()
-            const tema = await ejs.renderFile(__dirname + "/themes/juntas.ejs", { result: result, auth: auth[0], ops: ops });
+            const tema = await ejs.renderFile(__dirname + "/themes/juntas.ejs", { result: result, auth, ops: ops });
             res.status(200).json(tema);
         } catch (error) {
             console.log(error);
@@ -174,7 +174,7 @@ export default {
                 result = formatJuntasIndividual(rowM, rowD, estudiantes, ops.quimestre, paralelo, keymateria)
             }
             const auth = await autoridad()
-            const tema = await ejs.renderFile(__dirname + "/themes/juntas.ejs", { result: result, auth: auth[0], ops: ops });
+            const tema = await ejs.renderFile(__dirname + "/themes/juntas.ejs", { result: result, auth, ops: ops });
             res.status(200).json(tema);
         } catch (error) {
             console.log(error);
@@ -205,7 +205,7 @@ export default {
                 result = formatJuntasFinal(rowM, rowD, estudiantes, ops.quimestre, paralelo, keymateria)
             }
             const auth = await autoridad()
-            const tema = await ejs.renderFile(__dirname + "/themes/juntasAnual.ejs", { result: result, auth: auth[0], ops: ops });
+            const tema = await ejs.renderFile(__dirname + "/themes/juntasAnual.ejs", { result: result, auth, ops: ops });
             res.status(200).json(tema);
         } catch (error) {
             console.log(error);
@@ -233,7 +233,7 @@ export default {
                 result = formatInforme(rowM, rowD, estudiantes,)
             }
             const auth = await autoridad()
-            const tema = await ejs.renderFile(__dirname + "/themes/informe.ejs", { result: result, auth: auth[0] });
+            const tema = await ejs.renderFile(__dirname + "/themes/informe.ejs", { result: result, auth });
             res.status(200).json(tema);
         } catch (error) {
             console.log(error);
@@ -261,7 +261,7 @@ export default {
                 result = formatFinal(rowM, rowD, estudiantes,)
             }
             const auth = await autoridad()
-            const tema = await ejs.renderFile(__dirname + "/themes/final.ejs", { result: result, auth: auth[0] });
+            const tema = await ejs.renderFile(__dirname + "/themes/final.ejs", { result: result, auth });
             res.status(200).json(tema);
         } catch (error) {
             console.log(error);
@@ -290,7 +290,7 @@ export default {
                 result = formatParcial(rowM, rowD, estudiantes, ops)
             }
             const auth = await autoridad()
-            const tema = await ejs.renderFile(__dirname + "/themes/parcial.ejs", { result: result, auth: auth[0], ops: ops, paralelo: paralelo });
+            const tema = await ejs.renderFile(__dirname + "/themes/parcial.ejs", { result: result, auth, ops: ops, paralelo: paralelo });
             res.status(200).json(tema);
         } catch (error) {
             console.log(error);
@@ -319,7 +319,7 @@ export default {
                 result = formatQuimestral(rowM, rowD, estudiantes, ops)
             }
             const auth = await autoridad()
-            const tema = await ejs.renderFile(__dirname + "/themes/quimestral.ejs", { result: result, auth: auth[0], ops: ops, paralelo: paralelo });
+            const tema = await ejs.renderFile(__dirname + "/themes/quimestral.ejs", { result: result, auth, ops: ops, paralelo: paralelo });
             res.status(200).json(tema);
         } catch (error) {
             console.log(error);
@@ -348,7 +348,7 @@ export default {
                 result = formatAnual(rowM, rowD, estudiantes)
             }
             const auth = await autoridad()
-            const tema = await ejs.renderFile(__dirname + "/themes/anual.ejs", { result: result, auth: auth[0], paralelo: paralelo });
+            const tema = await ejs.renderFile(__dirname + "/themes/anual.ejs", { result: result, auth, paralelo: paralelo });
             res.status(200).json(tema);
         } catch (error) {
             console.log(error);
@@ -360,7 +360,7 @@ export default {
             const arr = req.body
             var fechaA = fechaActual()
             const auth = await autoridad()
-            const tema = await ejs.renderFile(__dirname + "/themes/ambitos.ejs", { result: arr, auth: auth[0], fechaA:fechaA });
+            const tema = await ejs.renderFile(__dirname + "/themes/ambitos.ejs", { result: arr, auth, fechaA:fechaA });
             res.status(200).json(tema);
         } catch (error) {
             console.log(error);
@@ -372,7 +372,7 @@ export default {
             const arr = req.body
             var fechaA = fechaActual()
             const auth = await autoridad()
-            const tema = await ejs.renderFile(__dirname + "/themes/destrezas.ejs", { result: arr, auth: auth[0], fechaA:fechaA });
+            const tema = await ejs.renderFile(__dirname + "/themes/destrezas.ejs", { result: arr, auth, fechaA:fechaA });
             res.status(200).json(tema);
         } catch (error) {
             console.log(error);

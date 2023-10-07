@@ -59,7 +59,7 @@ import publico from "./public/routes/index"
 //SITEMA
 import sitemapRouter from "./service/sitemap"
 
-import { createRoles, createAdmin, config, aplicaciones, apertura, iniciarSecuencia} from "./libs/initialSetup";
+import { createRoles, createAdmin, config, aplicaciones, apertura, iniciarSecuencia, clearCache} from "./libs/initialSetup";
 import {migracionMatricula,migracionDistributivo, temporalMatricula, deleteMatriculasMany } from "./libs/migrarDB";
 const app = express();
 //createRoles();
@@ -68,6 +68,7 @@ const app = express();
 //config()
 //apertura()
 //iniciarSecuencia()
+//clearCache()
 
 //TODO ===========0=PELIGRO =================================
 //migracionMatricula();

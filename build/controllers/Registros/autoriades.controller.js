@@ -19,10 +19,10 @@ var _default = {
   getListas: function () {
     var _getListas = _asyncToGenerator(function* (req, res) {
       try {
-        var reply = yield _rediss.client.get("5000autoridades");
+        var reply = yield _rediss.client.get("".concat(_rediss.claveOnPort, "autoridades"));
         if (reply) return res.json(JSON.parse(reply));
         var result = yield _Configure.default.find().lean();
-        yield _rediss.client.set('5000autoridades', JSON.stringify(result), {
+        yield _rediss.client.set("".concat(_rediss.claveOnPort, "autoridades"), JSON.stringify(result), {
           EX: 36000
         });
         return res.json(result);
@@ -45,7 +45,7 @@ var _default = {
           new: true
         });
 
-        _rediss.client.del('5000autoridades');
+        _rediss.client.del("".concat(_rediss.claveOnPort, "autoridades"));
 
         res.status(200).json(result);
       } catch (error) {

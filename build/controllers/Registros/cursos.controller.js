@@ -151,7 +151,7 @@ var _default = {
           subnivel
         });
 
-        _rediss.client.del('5000cursos');
+        _rediss.client.del("".concat(_rediss.claveOnPort, "cursos"));
 
         var dataSaved = yield newData.save();
         res.status(201).json(dataSaved);
@@ -195,14 +195,14 @@ var _default = {
   getListas: function () {
     var _getListas = _asyncToGenerator(function* (req, res) {
       try {
-        var reply = yield _rediss.client.get("5000cursos");
+        var reply = yield _rediss.client.get("".concat(_rediss.claveOnPort, "cursos"));
         if (reply) return res.json(JSON.parse(reply));
         var result = yield _Cursos.default.find().lean().select({
           nombre: 1,
           num: 1,
           subnivel: 1
         });
-        yield _rediss.client.set('5000cursos', JSON.stringify(result), {
+        yield _rediss.client.set("".concat(_rediss.claveOnPort, "cursos"), JSON.stringify(result), {
           EX: 36000
         });
         return res.json(result);
@@ -246,7 +246,7 @@ var _default = {
         editarDistributivo(req.params.paramsId, req.body);
         editarMatricula(req.params.paramsId, req.body);
 
-        _rediss.client.del('5000cursos');
+        _rediss.client.del("".concat(_rediss.claveOnPort, "cursos"));
 
         res.status(200).json(result);
       } catch (error) {
@@ -274,7 +274,7 @@ var _default = {
         eliminarDistributivo(array);
         eliminarMatricula(array);
 
-        _rediss.client.del('5000cursos');
+        _rediss.client.del("".concat(_rediss.claveOnPort, "cursos"));
 
         res.status(200).json();
       } catch (e) {

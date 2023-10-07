@@ -5,469 +5,406 @@ import { reporteSuper } from "./helper/repo/reporteSuper";
 import { reporteElement } from "./helper/repo/reporteElement";
 import Configure from "../../models/Configure";
 import User from "../../models/User";
-import { client } from "../../middlewares/rediss";
+import { client, claveOnPort } from "../../middlewares/rediss";
 
 const ejs = require("ejs");
-const { formatPromociones, formatMatricula, formatLibretas, formatJuntas, formatInforme, formatFinal, formatParcial,
-    formatQuimestral, formatAnual, formarNomina, formatJuntasIndividual, formatJuntasFinal } = promedioReportes();
-const {juntasOnly, juntasFinal} = reporteElement()
+const { formarNomina, formatJuntasIndividual } = promedioReportes();
+const { juntasOnly, juntasFinal, juntasGeneral, promJuntaComportamiento, promLibretasElem,
+    promFinalElem, promPromocionElem } = reporteElement()
 
-const {juntasExamProyec} = reporteSuper()
+//TODO: check CALCULOS DE COMPUTO
+
+const { juntasExamProyec, promParcial, promQuimestral, promAnual, promPromociones, promMatricula,
+    promLibretas, promJuntas, promInforme, promFinal } = reporteSuper()
 
 async function autoridad() {
     try {
-        const reply = await client.get("5000autoridades");
+        const reply = await client.get(`${claveOnPort}autoridades`);
         if (reply) return JSON.parse(reply);
-        const result = await Configure.find().lean();
-        await client.set('5000autoridades', JSON.stringify(result), { EX: 36000 });
+        const result = await Configure.findOne()
+        await client.set(`${claveOnPort}autoridades`, JSON.stringify(result), { EX: 36000 });
         return result
     } catch (error) {
         console.log(error);
     }
 }
-function makeid(length) {
-    let result = '';
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    const charactersLength = characters.length;
-    let counter = 0;
-    while (counter < length) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
-        counter += 1;
-    }
-    return result;
-}
 export default {
     promocion: async (req, res) => {
         try {
-            const arr = req.body.data
-            const nextCourse = req.body.nextCourse
-            let idMatricula = '';
-            let idCurso = '';
-            let paralelo = '';
+            const { nextCourse, data } = req.body;
+            if (data?.length == 0) return res.status(200).json('Sin calificaciones');
+
+            const idMatricula = data[0].key;
+            const idCurso = data[0].curso?._id
+            const paralelo = data[0].paralelo;
+            const cursoNum = data[0].curso?.num
             const estudiantes = [];
-            for (let i = 0; i < arr.length; i++) {
-                const element = arr[i];
-                idMatricula = element.key;
-                idCurso = element.curso?._id
-                paralelo = element.paralelo
-                estudiantes.push(element._id)
-            }
-            var result = [];
-            if (arr) {
-                const rowM = await Matriculas.findById(idMatricula)
-                const rowD = await Distributivo.findOne({ fkcurso: idCurso, paralelo: paralelo });
-                result = formatPromociones(rowM, rowD, estudiantes)
-            }
+
+            for (let i = 0; i < data.length; i++) 
+                estudiantes.push(data[i]._id)
+
+            const rowM = await Matriculas.findById(idMatricula)
+            const rowD = await Distributivo.findOne({ fkcurso: idCurso, paralelo });
             const auth = await autoridad()
-            const tema = await ejs.renderFile(__dirname + "/themes/promocion.ejs", { result: result, auth: auth[0], nextCourse: nextCourse });
+            let tema = ''
+
+            if (cursoNum == 4 || cursoNum == 5 || cursoNum == 6){
+                const result = promPromocionElem(rowM, rowD, estudiantes)
+                tema = await ejs.renderFile(__dirname + "/themes/elemental/promocion.ejs", { result, auth, nextCourse });
+                return res.status(200).json(tema);
+            }
+
+            const result = promPromociones(rowM, rowD, estudiantes)
+            tema = await ejs.renderFile(__dirname + "/themes/promocion.ejs", { result, auth, nextCourse });
             res.status(200).json(tema);
         } catch (error) {
             console.log(error);
             return res.status(500).json(error);
         }
     },
-    promocionPdf: async (req, res) => {
-        try {
-            const arr = req.body.data
-            const nextCourse = req.body.nextCourse
-            let idMatricula = '';
-            let idCurso = '';
-            let paralelo = '';
-            const estudiantes = [];
-            for (let i = 0; i < arr.length; i++) {
-                const element = arr[i];
-                idMatricula = element.key;
-                idCurso = element.curso?._id
-                paralelo = element.paralelo
-                estudiantes.push(element._id)
-            }
-            var result = [];
-            if (arr) {
-                const rowM = await Matriculas.findById(idMatricula)
-                const rowD = await Distributivo.findOne({ fkcurso: idCurso, paralelo: paralelo });
-                result = formatPromociones(rowM, rowD, estudiantes)
-            }
-            const auth = await autoridad()
-            //const tema = await ejs.renderFile(__dirname + "/themes/promocion.ejs", { result: result,auth: auth[0],nextCourse:nextCourse });
-            var name = makeid(10)
-            res.send(name);
-            // pdf.create(tema, options).toFile('./document/'+name+'.pdf', function(err, data) {
-            //     if (err) return res.send(err);
-            //     res.send(name);
-            // });
-        } catch (error) {
-            console.log(error);
-            return res.status(500).json(error);
-        }
-    },
+
     matricula: async (req, res) => {
         try {
-            const arr = req.body
-            let idMatricula = '';
+            const data = req.body;
+            if (data?.length == 0) return res.status(200).json('Sin calificaciones');
+            const idMatricula = data[0].key;
             const estudiantes = [];
-            for (let i = 0; i < arr.length; i++) {
-                const element = arr[i];
-                idMatricula = element.key;
-                estudiantes.push(element._id)
-            }
-            var result = [];
-            if (arr) {
-                const rowM = await Matriculas.findById(idMatricula)
-                result = formatMatricula(rowM, estudiantes)
-            }
+            for (let i = 0; i < data.length; i++) 
+                estudiantes.push(data[i]._id)
+            
+            const rowM = await Matriculas.findById(idMatricula)
             const auth = await autoridad()
-            const tema = await ejs.renderFile(__dirname + "/themes/matricula.ejs", { result: result, auth: auth[0] });
+            const result = promMatricula(rowM, estudiantes)
+           
+            const tema = await ejs.renderFile(__dirname + "/themes/matricula.ejs", { result, auth });
             res.status(200).json(tema);
         } catch (error) {
             console.log(error);
             return res.status(500).json(error);
         }
     },
-    matriculaPdf: async (req, res) => {
-        try {
-            const arr = req.body
-            let idMatricula = '';
-            const estudiantes = [];
-            for (let i = 0; i < arr.length; i++) {
-                const element = arr[i];
-                idMatricula = element.key;
-                estudiantes.push(element._id)
-            }
-            var result = [];
-            if (arr) {
-                const rowM = await Matriculas.findById(idMatricula)
-                result = formatMatricula(rowM, estudiantes)
-            }
-            const auth = await autoridad()
-            //const tema = await ejs.renderFile(__dirname + "/themes/promocion.ejs", { result: result,auth: auth[0],nextCourse:nextCourse });
-            var name = makeid(10)
-            res.send(name);
-            // pdf.create(tema, options).toFile('./document/'+name+'.pdf', function(err, data) {
-            //     if (err) return res.send(err);
-            //     res.send(name);
-            // });
-        } catch (error) {
-            console.log(error);
-            return res.status(500).json(error);
-        }
-    },
+
     libretas: async (req, res) => {
         try {
-            const arr = req.body.data
-            const ops = req.body.ops;
-            let idMatricula = '';
-            let idCurso = '';
-            let paralelo = '';
+            const { ops, data } = req.body;
+            if (data?.length == 0) return res.status(200).json('Sin calificaciones');
+  
+            const idMatricula = data[0].key;
+            const idCurso = data[0].curso?._id
+            const paralelo = data[0].paralelo;
+            const cursoNum = data[0].curso?.num
             const estudiantes = [];
-            for (let i = 0; i < arr.length; i++) {
-                const element = arr[i];
-                idMatricula = element.key;
-                idCurso = element.curso?._id
-                paralelo = element.paralelo
-                estudiantes.push(element._id)
-            }
-            var result = [];
-            if (arr) {
-                const rowM = await Matriculas.findById(idMatricula)
-                const rowD = await Distributivo.findOne({ fkcurso: idCurso, paralelo: paralelo });
-                result = formatLibretas(rowM, rowD, estudiantes, ops.quimestre)
-            }
+
+            for (let i = 0; i < data.length; i++) 
+                estudiantes.push(data[i]._id)
+            
+            const rowM = await Matriculas.findById(idMatricula)
+            const rowD = await Distributivo.findOne({ fkcurso: idCurso, paralelo });
             const auth = await autoridad()
-            const tema = await ejs.renderFile(__dirname + "/themes/libretas.ejs", { result: result, auth: auth[0], ops: ops });
+            let tema = ''
+            if (cursoNum == 4 || cursoNum == 5 || cursoNum == 6){
+                const result = promLibretasElem(rowM, rowD, estudiantes, ops.quimestre)
+                if (cursoNum != 6) tema = await ejs.renderFile(__dirname + "/themes/elemental/libretas.ejs", { result, auth, ops });
+                else tema = await ejs.renderFile(__dirname + "/themes/elemental/libretaCuarto.ejs", { result, auth, ops });
+                return  res.status(200).json(tema);
+            }
+
+            const result = promLibretas(rowM, rowD, estudiantes, ops.quimestre)
+            tema = await ejs.renderFile(__dirname + "/themes/superior/libretas.ejs", { result, auth, ops: ops });
             res.status(200).json(tema);
         } catch (error) {
             console.log(error);
             return res.status(500).json(error);
         }
     },
+
     juntas: async (req, res) => {
         try {
-            const arr = req.body.data
-            const ops = req.body.ops;
-            let idMatricula = '';
-            let idCurso = '';
-            let paralelo = '';
+            const { ops, data } = req.body;
+            if (data?.length == 0) return res.status(200).json('Sin calificaciones');
+            
+            const idMatricula = data[0].key;
+            const idCurso = data[0].curso?._id
+            const paralelo = data[0].paralelo;
+            const keymateria = data[0].keymateria
+            const cursoNum = data[0].curso?.num
             const estudiantes = [];
-            for (let i = 0; i < arr.length; i++) {
-                const element = arr[i];
-                idMatricula = element.key;
-                idCurso = element.curso?._id
-                paralelo = element.paralelo
-                estudiantes.push(element._id)
-            }
-            var result = [];
-            if (arr) {
-                const rowM = await Matriculas.findById(idMatricula)
-                const rowD = await Distributivo.findOne({ fkcurso: idCurso, paralelo: paralelo });
-                result = formatJuntas(rowM, rowD, estudiantes, ops.quimestre, paralelo)
-            }
+
+            for (let i = 0; i < data.length; i++) 
+                estudiantes.push(data[i]._id)
+
+            const rowM = await Matriculas.findById(idMatricula)
+            const rowD = await Distributivo.findOne({ fkcurso: idCurso, paralelo });
             const auth = await autoridad()
-            const tema = await ejs.renderFile(__dirname + "/themes/juntas.ejs", { result: result, auth: auth[0], ops: ops });
+            let tema = ''
+            //TODO check SI ES DE 2DO 3RO DE BASICA 4TO
+            if (cursoNum == 4 || cursoNum == 5 || cursoNum == 6){
+              const result = juntasGeneral(rowM, rowD, estudiantes, ops.quimestre, paralelo, keymateria)
+              if (cursoNum != 6) tema = await ejs.renderFile(__dirname + "/themes/elemental/juntas.ejs", { result, auth, ops });
+              else tema = await ejs.renderFile(__dirname + "/themes/elemental/juntasCuarto.ejs", { result, auth, ops });
+              return  res.status(200).json(tema);
+            }
+
+            //TODO check TODOS LOS CURSOS CUALITATIVOS Y CUANTITATIVO
+            const result = promJuntas(rowM, rowD, estudiantes, ops.quimestre, paralelo)
+            tema = await ejs.renderFile(__dirname + "/themes/superior/juntas.ejs", { result, auth, ops });
             res.status(200).json(tema);
         } catch (error) {
             console.log(error);
             return res.status(500).json(error);
         }
     },
+
     juntasIndividual: async (req, res) => {
         try {
-            const arr = req.body.data
-            const ops = req.body.ops;
-            let idMatricula = '';
-            let idCurso = '';
-            let paralelo = '';
-            let keymateria = '';
+            const { ops, data } = req.body;
+            if (data?.length == 0) return res.status(200).json('Sin calificaciones');
+
+            const idMatricula = data[0].key;
+            const idCurso = data[0].curso?._id
+            const paralelo = data[0].paralelo;
+            const keymateria = data[0].keymateria
+            const cursoNum = data[0].curso?.num
             const estudiantes = [];
-            let cursoNum = ''
-            for (let i = 0; i < arr.length; i++) {
-                const element = arr[i];
-                idMatricula = element.key;
-                idCurso = element.curso?._id
-                paralelo = element.paralelo
-                estudiantes.push(element._id)
-                keymateria = element.keymateria
-                cursoNum = element.curso?.num
+
+            for (let i = 0; i < data.length; i++) {
+                estudiantes.push(data[i]._id)
             }
-            var result = [];
-            if (arr.length > 0) {
-                const rowM = await Matriculas.findById(idMatricula)
-                const rowD = await Distributivo.findOne({ fkcurso: idCurso, paralelo: paralelo });
-               if(cursoNum==4||cursoNum==5||cursoNum==6)  result = juntasOnly(rowM, rowD, estudiantes, ops.quimestre, paralelo, keymateria)
-               else result = formatJuntasIndividual(rowM, rowD, estudiantes, ops.quimestre, paralelo, keymateria)
-            }
+            
+            const rowM = await Matriculas.findById(idMatricula)
+            const rowD = await Distributivo.findOne({ fkcurso: idCurso, paralelo: paralelo });
             const auth = await autoridad()
             let tema = ''
+            //TODO check SI ES DE 2DO 3RO DE BASICA 4TO
+            if (cursoNum == 4 || cursoNum == 5 || cursoNum == 6){
+              const result = juntasOnly(rowM, rowD, estudiantes, ops.quimestre, paralelo, keymateria)
+              if (cursoNum != 6) tema = await ejs.renderFile(__dirname + "/themes/elemental/juntas.ejs", { result, auth, ops });
+              else tema = await ejs.renderFile(__dirname + "/themes/elemental/juntasCuarto.ejs", { result, auth, ops });
+              return  res.status(200).json(tema);
+            }
 
-            //TODO check SI ES DE 2DO 3RO DE BASICA
-            if(cursoNum==4||cursoNum==5) tema = await ejs.renderFile(__dirname + "/themes/elemental/juntas.ejs", { result, auth: auth[0], ops });
-            
-            //TODO check SI ES DE 4TO DE BASICA
-            else if(cursoNum==6) tema = await ejs.renderFile(__dirname + "/themes/elemental/juntasCuarto.ejs", { result, auth: auth[0], ops });
-           
-            //TODO check SI ES DE RESTO DE CURSO
-            else tema = await ejs.renderFile(__dirname + "/themes/superior/juntas.ejs", { result, auth: auth[0], ops });
-           
+            //TODO check TODOS LOS CURSOS CUALITATIVOS Y CUANTITATIVO
+            const result = formatJuntasIndividual(rowM, rowD, estudiantes, ops.quimestre, paralelo, keymateria)
+            tema = await ejs.renderFile(__dirname + "/themes/superior/juntas.ejs", { result, auth: auth, ops })
             res.status(200).json(tema);
         } catch (error) {
             console.log(error);
             return res.status(500).json(error);
         }
     },
+
     juntasFinal: async (req, res) => {
         try {
-            const arr = req.body.data
-            const ops = req.body.ops;
-            let idMatricula = '';
-            let idCurso = '';
-            let paralelo = '';
-            let keymateria = '';
-            let cursoNum = ''
-            const estudiantes = [];
-            for (let i = 0; i < arr.length; i++) {
-                const element = arr[i];
-                idMatricula = element.key;
-                idCurso = element.curso?._id
-                paralelo = element.paralelo
-                estudiantes.push(element._id)
-                keymateria = element.keymateria
-                cursoNum = element.curso?.num
-            }
-            var result = [];
+            const { ops, data } = req.body;
+            if (data?.length == 0) return res.status(200).json('Sin calificaciones');
 
-            if (arr.length > 0) {
-                const rowM = await Matriculas.findById(idMatricula)
-                const rowD = await Distributivo.findOne({ fkcurso: idCurso, paralelo });
-                if(cursoNum==4||cursoNum==5||cursoNum==6) result = juntasFinal(rowM, rowD, estudiantes,  paralelo, keymateria)
-                else result = juntasExamProyec(rowM, rowD, estudiantes,  paralelo, keymateria)
-            }
+            const idMatricula = data[0].key;
+            const idCurso = data[0].curso?._id
+            const paralelo = data[0].paralelo;
+            const keymateria = data[0].keymateria
+            const cursoNum = data[0].curso?.num
+            const estudiantes = [];
+
+            for (let i = 0; i < data.length; i++)
+                estudiantes.push(data[i]._id)
+
+            const rowM = await Matriculas.findById(idMatricula)
+            const rowD = await Distributivo.findOne({ fkcurso: idCurso, paralelo: paralelo });
             const auth = await autoridad()
             let tema = ''
-           // console.log(ops)
 
-            //TODO check GENERAR HTML DE JUNTAS DE CURSO FINAL DE 2DO 3RO 4TO
-            
-            if(cursoNum==4||cursoNum==5)tema = await ejs.renderFile(__dirname + "/themes/elemental/juntasFinal.ejs", { result, auth: auth[0], ops });
+            //TODO check SI ES COMPORTAMIENTO DE TODOS 
+            if(ops.tipo === 'COMP'){
+                const result = promJuntaComportamiento(rowM, rowD, estudiantes, paralelo, keymateria)
+                tema = await ejs.renderFile(__dirname + "/themes/comportamiento.ejs", { result, auth, ops });
+                return  res.status(200).json(tema);
+            }
 
-            else if(cursoNum==6) tema = await ejs.renderFile(__dirname + "/themes/elemental/juntasFinExam.ejs", { result, auth: auth[0], ops });
+            //TODO check SI ES DE 2DO 3RO DE BASICA 4TO
+            if (cursoNum == 4 || cursoNum == 5 || cursoNum == 6){
+                const result = juntasFinal(rowM, rowD, estudiantes, paralelo, keymateria)
+                if (cursoNum != 6) tema = await ejs.renderFile(__dirname + "/themes/elemental/juntasFinal.ejs", { result, auth, ops });
+                else tema = await ejs.renderFile(__dirname + "/themes/elemental/juntasFinExam.ejs", { result, auth, ops });
+                return  res.status(200).json(tema);
+            }
 
-            //TODO check GENERAR HTML DE JUNTAS DE CURSO DE PROYECTOS
-            
-            else if(ops.tipo ==='PY'){
-                if(ops.subnivel==2) tema = await ejs.renderFile(__dirname + "/themes/superior/juntasExaProy.ejs", { result, auth: auth[0], ops });
-                else tema = await ejs.renderFile(__dirname + "/themes/superior/juntasExam.ejs", { result, auth: auth[0], ops });
-            } 
-            
+            //TODO check PROMEDIO FINAL CON PROYECTOS SUPERIOS
+            const result = juntasExamProyec(rowM, rowD, estudiantes, paralelo, keymateria)
+            if (ops.tipo === 'PY') {
+                if (ops.subnivel == 2) tema = await ejs.renderFile(__dirname + "/themes/superior/juntasExaProy.ejs", { result, auth, ops });
+                else tema = await ejs.renderFile(__dirname + "/themes/superior/juntasExam.ejs", { result, auth, ops });
+                return  res.status(200).json(tema);
+            }
+
             //TODO check GENERAR HTML DE SUPLETORIOS Y PROMEDIO FINAL
-           
-            else {
-                if(ops.subnivel==2) tema = await ejs.renderFile(__dirname + "/themes/superior/juntasFinEP.ejs", { result, auth: auth[0],ops });
-                else tema = await ejs.renderFile(__dirname + "/themes/superior/juntasFinal.ejs", { result, auth: auth[0],ops });
-            } 
+            if (ops.subnivel == 2) tema = await ejs.renderFile(__dirname + "/themes/superior/juntasFinEP.ejs", { result, auth, ops });
+            else tema = await ejs.renderFile(__dirname + "/themes/superior/juntasFinal.ejs", { result, auth, ops });
             res.status(200).json(tema);
         } catch (error) {
             console.log(error);
             return res.status(500).json(error);
         }
     },
+
     informe: async (req, res) => {
         try {
-            const arr = req.body.data
-            let idMatricula = '';
-            let idCurso = '';
-            let paralelo = '';
+            const { data } = req.body;
+            if (data?.length == 0) return res.status(200).json('Sin calificaciones');
+  
+            const idMatricula = data[0].key;
+            const idCurso = data[0].curso?._id
+            const paralelo = data[0].paralelo;
+            const keymateria = data[0].keymateria
+            const cursoNum = data[0].curso?.num
             const estudiantes = [];
-            for (let i = 0; i < arr.length; i++) {
-                const element = arr[i];
-                idMatricula = element.key;
-                idCurso = element.curso?._id
-                paralelo = element.paralelo
-                estudiantes.push(element._id)
-            }
-            var result = [];
-            if (arr) {
-                const rowM = await Matriculas.findById(idMatricula)
-                const rowD = await Distributivo.findOne({ fkcurso: idCurso, paralelo: paralelo });
-                result = formatInforme(rowM, rowD, estudiantes,)
-            }
+
+            for (let i = 0; i < data.length; i++) 
+                estudiantes.push(data[i]._id)
+
+            const rowM = await Matriculas.findById(idMatricula)
+            const rowD = await Distributivo.findOne({ fkcurso: idCurso, paralelo });
             const auth = await autoridad()
-            const tema = await ejs.renderFile(__dirname + "/themes/informe.ejs", { result: result, auth: auth[0] });
+            const result = promInforme(rowM, rowD, estudiantes,)
+            
+            const tema = await ejs.renderFile(__dirname + "/themes/informe.ejs", { result, auth });
             res.status(200).json(tema);
         } catch (error) {
             console.log(error);
             return res.status(500).json(error);
         }
     },
+
     final: async (req, res) => {
         try {
-            const arr = req.body.data
-            let idMatricula = '';
-            let idCurso = '';
-            let paralelo = '';
+            const { data } = req.body;
+            if (data?.length == 0) return res.status(200).json('Sin calificaciones');
+  
+            const idMatricula = data[0].key;
+            const idCurso = data[0].curso?._id
+            const paralelo = data[0].paralelo;
+            const cursoNum = data[0].curso?.num
             const estudiantes = [];
-            for (let i = 0; i < arr.length; i++) {
-                const element = arr[i];
-                idMatricula = element.key;
-                idCurso = element.curso?._id
-                paralelo = element.paralelo
-                estudiantes.push(element._id)
-            }
-            var result = [];
-            if (arr) {
-                const rowM = await Matriculas.findById(idMatricula)
-                const rowD = await Distributivo.findOne({ fkcurso: idCurso, paralelo: paralelo });
-                result = formatFinal(rowM, rowD, estudiantes,)
-            }
+
+            for (let i = 0; i < data.length; i++) 
+                estudiantes.push(data[i]._id)
+
+            const rowM = await Matriculas.findById(idMatricula)
+            const rowD = await Distributivo.findOne({ fkcurso: idCurso, paralelo });
             const auth = await autoridad()
-            const tema = await ejs.renderFile(__dirname + "/themes/final.ejs", { result: result, auth: auth[0] });
+            let tema = ''
+            if (cursoNum == 4 || cursoNum == 5 || cursoNum == 6){
+                const result = promFinalElem(rowM, rowD, estudiantes)
+                if (cursoNum != 6) tema = await ejs.renderFile(__dirname + "/themes/elemental/final.ejs", { result, auth});
+                else tema = await ejs.renderFile(__dirname + "/themes/elemental/finalCuarto.ejs", { result, auth});
+                return res.status(200).json(tema);
+            }
+
+            const result = promFinal(rowM, rowD, estudiantes,)
+            tema = await ejs.renderFile(__dirname + "/themes/superior/final.ejs", { result, auth});
             res.status(200).json(tema);
         } catch (error) {
             console.log(error);
             return res.status(500).json(error);
         }
     },
+
     parcial: async (req, res) => {
         try {
-            const arr = req.body.data
-            const ops = req.body.ops;
-            let idMatricula = '';
-            let idCurso = '';
-            let paralelo = '';
+            const { ops, data } = req.body;
+            if (data?.length == 0) return res.status(200).json('Sin calificaciones');
+           
+            const idMatricula = data[0].key;
+            const idCurso = data[0].curso?._id
+            const paralelo = data[0].paralelo;
             const estudiantes = [];
-            for (let i = 0; i < arr.length; i++) {
-                const element = arr[i];
-                idMatricula = element.key;
-                idCurso = element.curso?._id
-                paralelo = element.paralelo
-                estudiantes.push(element._id)
+
+            for (let i = 0; i < data.length; i++) {
+                estudiantes.push(data[i]._id)
             }
-            var result = [];
-            if (arr) {
-                const rowM = await Matriculas.findById(idMatricula)
-                const rowD = await Distributivo.findOne({ fkcurso: idCurso, paralelo: paralelo });
-                result = formatParcial(rowM, rowD, estudiantes, ops)
-            }
+
+            const rowM = await Matriculas.findById(idMatricula)
+            const rowD = await Distributivo.findOne({ fkcurso: idCurso, paralelo });
             const auth = await autoridad()
-            const tema = await ejs.renderFile(__dirname + "/themes/parcial.ejs", { result: result, auth: auth[0], ops: ops, paralelo: paralelo });
+            
+            const result = promParcial(rowM, rowD, estudiantes, ops)
+            const tema = await ejs.renderFile(__dirname + "/themes/parcial.ejs", { result, auth, ops, paralelo });
             res.status(200).json(tema);
         } catch (error) {
             console.log(error);
             return res.status(500).json(error);
         }
     },
+
     quimestral: async (req, res) => {
         try {
-            const arr = req.body.data
-            const ops = req.body.ops;
-            let idMatricula = '';
-            let idCurso = '';
-            let paralelo = '';
+           const { ops, data } = req.body;
+            if (data?.length == 0) return res.status(200).json('Sin calificaciones');
+            
+            const idMatricula = data[0].key;
+            const idCurso = data[0].curso?._id
+            const paralelo = data[0].paralelo;
             const estudiantes = [];
-            for (let i = 0; i < arr.length; i++) {
-                const element = arr[i];
-                idMatricula = element.key;
-                idCurso = element.curso?._id
-                paralelo = element.paralelo
-                estudiantes.push(element._id)
+
+            for (let i = 0; i < data.length; i++) {
+                estudiantes.push(data[i]._id)
             }
-            var result = [];
-            if (arr) {
-                const rowM = await Matriculas.findById(idMatricula)
-                const rowD = await Distributivo.findOne({ fkcurso: idCurso, paralelo: paralelo });
-                result = formatQuimestral(rowM, rowD, estudiantes, ops)
-            }
+
+            const rowM = await Matriculas.findById(idMatricula)
+            const rowD = await Distributivo.findOne({ fkcurso: idCurso, paralelo });
             const auth = await autoridad()
-            const tema = await ejs.renderFile(__dirname + "/themes/quimestral.ejs", { result: result, auth: auth[0], ops: ops, paralelo: paralelo });
+            const result = promQuimestral(rowM, rowD, estudiantes, ops)
+            const tema = await ejs.renderFile(__dirname + "/themes/quimestral.ejs", { result, auth, ops, paralelo });
             res.status(200).json(tema);
         } catch (error) {
             console.log(error);
             return res.status(500).json(error);
         }
     },
+
     anual: async (req, res) => {
         try {
-            const arr = req.body.data
-            const ops = req.body.ops;
-            let idMatricula = '';
-            let idCurso = '';
-            let paralelo = '';
+            const { data } = req.body;
+            if (data?.length == 0) return res.status(200).json('Sin calificaciones');
+
+            const idMatricula = data[0].key;
+            const idCurso = data[0].curso?._id
+            const paralelo = data[0].paralelo;
             const estudiantes = [];
-            for (let i = 0; i < arr.length; i++) {
-                const element = arr[i];
-                idMatricula = element.key;
-                idCurso = element.curso?._id
-                paralelo = element.paralelo
-                estudiantes.push(element._id)
+
+            for (let i = 0; i < data.length; i++) {
+                estudiantes.push(data[i]._id)
             }
-            var result = [];
-            if (arr) {
-                const rowM = await Matriculas.findById(idMatricula)
-                const rowD = await Distributivo.findOne({ fkcurso: idCurso, paralelo: paralelo });
-                result = formatAnual(rowM, rowD, estudiantes)
-            }
+
+            const rowM = await Matriculas.findById(idMatricula)
+            const rowD = await Distributivo.findOne({ fkcurso: idCurso, paralelo });
             const auth = await autoridad()
-            const tema = await ejs.renderFile(__dirname + "/themes/anual.ejs", { result: result, auth: auth[0], paralelo: paralelo });
+            const result = promAnual(rowM, rowD, estudiantes)
+
+            const tema = await ejs.renderFile(__dirname + "/themes/anual.ejs", { result: result, auth, paralelo});
             res.status(200).json(tema);
         } catch (error) {
             console.log(error);
             return res.status(500).json(error);
         }
     },
+
     getNomina: async (req, res) => {
         try {
-            const result = await Matriculas.find()
+            const reg = await Matriculas.find()
                 .lean().select({
                     curso: 1, periodo: 1, paralelo: 1,
                     'matriculas.estudiante': 1, 'matriculas.nmatricula': 1
                 });
-            const reg = formarNomina(result)
+            const result = formarNomina(reg)
             const auth = await autoridad()
-            const tema = await ejs.renderFile(__dirname + "/themes/nomina.ejs", { result: reg, auth: auth[0], });
+            const tema = await ejs.renderFile(__dirname + "/themes/nomina/nomina.ejs", { result, auth });
             return res.json(tema);
         } catch (error) {
             console.log(error);
             return res.status(500).json(error);
         }
     },
+
     getNominaDocente: async (req, res) => {
         try {
             const result = await User.find({ typo: { $in: ["DOCS"] } }).lean().select({ fullname: 1, cedula: 1 });
@@ -480,31 +417,33 @@ export default {
                 return 0;
             });
             const auth = await autoridad()
-            const tema = await ejs.renderFile(__dirname + "/themes/nominaDocente.ejs", { result: result, auth: auth[0], });
+            const tema = await ejs.renderFile(__dirname + "/themes/nomina/nominaDocente.ejs", { result, auth });
             return res.json(tema);
         } catch (error) {
             console.log(error);
             return res.status(500).json(error);
         }
     },
+
     Ambitos: async (req, res) => {
         try {
-            const arr = req.body
+            const result = req.body
             var fechaA = fechaActual()
             const auth = await autoridad()
-            const tema = await ejs.renderFile(__dirname + "/themes/ambitos.ejs", { result: arr, auth: auth[0], fechaA:fechaA });
+            const tema = await ejs.renderFile(__dirname + "/themes/inicial/ambitos.ejs", { result, auth, fechaA });
             res.status(200).json(tema);
         } catch (error) {
             console.log(error);
             return res.status(500).json(error);
         }
     },
+
     Destrezas: async (req, res) => {
         try {
-            const arr = req.body
+            const result = req.body
             var fechaA = fechaActual()
             const auth = await autoridad()
-            const tema = await ejs.renderFile(__dirname + "/themes/destrezas.ejs", { result: arr, auth: auth[0], fechaA:fechaA });
+            const tema = await ejs.renderFile(__dirname + "/themes/inicial/destrezas.ejs", { result, auth, fechaA });
             res.status(200).json(tema);
         } catch (error) {
             console.log(error);

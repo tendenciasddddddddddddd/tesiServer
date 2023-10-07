@@ -172,6 +172,7 @@ async function saveNotas(idcurso, idmatricula, data) {
 }
 
 const sendProgress = (data, idcurso) => {
+  
   let total = 0
   let isA = 0
   let isB = 0
@@ -189,52 +190,26 @@ const sendProgress = (data, idcurso) => {
   for (let i = 0; i < data.length; i++) {
     const element = data[i].notas;
     const proy = data[i].resultados;
-    if (element?.a1 != '' || element?.a2 != '' || element?.a3 != '' || element?.a4 != '') {
-      isA = 10
-    }
-    if (element?.b1 != '' || element?.b2 != '' || element?.b3 != '' || element?.b4 != '') {
-      isB = 10
-    }
-    if (element?.pry1 != '') {
-      isPY1 = 5
-    }
-    if (element?.exa1 != '') {
-      isEX1 = 5
-    }
+    if (element?.a1 != '' || element?.a2 != '' || element?.a3 != '' || element?.a4 != '') isA = 10
+    if (element?.b1 != '' || element?.b2 != '' || element?.b3 != '' || element?.b4 != '') isB = 10
+    if (element?.pry1 != '') isPY1 = 5
+    if (element?.exa1 != '') isEX1 = 5
 
-    if (element?.c1 != '' || element?.c2 != '' || element?.c3 != '' || element?.c4 != '') {
-      isC = 10
-    }
-    if (element?.d1 != '' || element?.d2 != '' || element?.d3 != '' || element?.d4 != '') {
-      isD = 10
-    }
-    if (element?.pry2 != '') {
-      isPY2 = 5
-    }
-    if (element?.exa2 != '') {
-      isEX2 = 5
-    }
+    if (element?.c1 != '' || element?.c2 != '' || element?.c3 != '' || element?.c4 != '') isC = 10
+    if (element?.d1 != '' || element?.d2 != '' || element?.d3 != '' || element?.d4 != '') isD = 10
+    if (element?.pry2 != '') isPY2 = 5
+    if (element?.exa2 != '') isEX2 = 5
 
-    if (element?.e1 != '' || element?.e2 != '' || element?.e3 != '' || element?.e4 != '') {
-      isE = 10
-    }
-    if (element?.f1 != '' || element?.f2 != '' || element?.f3 != '' || element?.f4 != '') {
-      isF = 10
-    }
-    if (element?.pry3 != '') {
-      isPY3 = 5
-    }
-    if (element?.exa3 != '') {
-      isEX3 = 5
-    }
+    if (element?.e1 != '' || element?.e2 != '' || element?.e3 != '' || element?.e4 != '') isE = 10
+    if (element?.f1 != '' || element?.f2 != '' || element?.f3 != '' || element?.f4 != '') isF = 10
 
-    if (proy?.pytf != '') {
-      isPROY = 10
-    }
+    if (element?.pry3 != '')  isPY3 = 5
+    if (element?.exa3 != '') isEX3 = 5
+    if (proy?.pytf != '') isPROY = 10
   }
   const idDistributivo = data[0].idDistributivo
   const idCarga = data[0].idCarga
-  const ip = data[0].ip
+  const term = data[0].ip
   const navegador = data[0].nav
   total = isA + isB + isPY1 + isEX1 + isC + isD + isPY2 + isEX2 + isE + isF + isPY3 + isEX3 + isPROY;
   try {
@@ -242,8 +217,8 @@ const sendProgress = (data, idcurso) => {
       reg: total,
       materia: data[0].materia,
       fkcurso: idcurso,
-      term: ip,
-      navegador : navegador,
+      term,
+      navegador,
       usuario: data[0].usuario
     }
     saveProgreso(idDistributivo, model, idCarga)

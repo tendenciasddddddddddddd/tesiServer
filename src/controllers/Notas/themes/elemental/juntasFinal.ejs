@@ -78,6 +78,62 @@
                             <b>PROMEDIO FINAL</b>
                         </th>
                     </tr>
+                    <tr>
+                        <th style="padding: 2px 3px;border-right: 1px solid #000;">
+                        </th>
+                        <th
+                            style="min-width: 120px;border-right: 1px solid #000;border-top: 1px solid #000;padding: 2px 3px; font-weight: 700;text-align: center;">
+                            <table style="width: 100%;">
+                                <tbody>
+                                    <tr style="font-size: 10.4px;">
+                                        <td style="width: 50%;text-align: center;">Prom
+                                        </td>
+                                        <td style="width: 50%;text-align: center;">Cual
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </th>
+                        <th
+                            style="min-width: 120px;border-right: 1px solid #000;border-top: 1px solid #000;padding: 2px 3px; font-weight: 700;text-align: center;">
+                            <table style="width: 100%;">
+                                <tbody>
+                                    <tr style="font-size: 10.4px;">
+                                        <td style="width: 50%;text-align: center;">Prom
+                                        </td>
+                                        <td style="width: 50%;text-align: center;">Cual
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </th>
+                        <th
+                            style="min-width: 120px;border-right: 1px solid #000;border-top: 1px solid #000;padding: 2px 3px;font-weight: 700;text-align: center;">
+                            <table style="width: 100%;">
+                                <tbody>
+                                    <tr style="font-size: 10.4px;">
+                                        <td style="width: 50%;text-align: center;">Prom
+                                        </td>
+                                        <td style="width: 50%;text-align: center;">Cual
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </th>
+                        <th
+                            style="min-width: 120px;border-top: 1px solid #000;padding: 2px 3px;font-weight: 700;text-align: center;">
+                            <table style="width: 100%;">
+                                <tbody>
+                                    <tr style="font-size: 10.4px;"> 
+                                        <td style="width: 40%;text-align: center;">Prom
+                                        </td>
+                                        <td style="width: 60%;text-align: center;">Cualitativo
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </th>
+                    </tr>
                 </thead>
                 <tbody>
                     <% item.data.forEach(function (subItems, index) { %>
@@ -87,22 +143,70 @@
                                 <%= subItems.estudiante %>
                             </td>
                             <td
-                                style="border-right: 1px solid #000;border-top: 1px solid #000; font-size: 10.4px;text-align: center;">
-                                <%= subItems.proAB %>
+                                style="padding: 1px 3px;border-bottom-width: 0px;border-right: 1px solid #000;border-top: 1px solid #000; text-align: center;">
+                                <table style="width: 100%;">
+                                    <tbody>
+                                        <tr style="font-size: 10.4px;">
+                                            <td style="padding: 0px 1px; text-align: center;width: 50%;">
+                                                <%= subItems.proAB %>
+                                            </td>
+                                            <td style="padding: 0px 1px; text-align: center;width: 50%;">
+                                                <%= subItems.ll1 %>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </td>
                             <td
-                                style="border-right: 1px solid #000;border-top: 1px solid #000;font-size: 10.4px;text-align: center;">
-                                <%= subItems.proCD %>
+                                style="padding: 1px 3px;border-bottom-width: 0px;border-right: 1px solid #000;border-top: 1px solid #000; text-align: center;">
+                                <table style="width: 100%;">
+                                    <tbody>
+                                        <tr style="font-size: 10.4px;">
+                                            <td style="padding: 0px 1px; text-align: center;width: 50%;">
+                                                <%= subItems.proCD %>
+                                            </td>
+                                            <td style="padding: 0px 1px; text-align: center;width: 50%;">
+                                                <%= subItems.ll2 %>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </td>
                             <td
-                                style="border-right: 1px solid #000;border-top: 1px solid #000;font-size: 10.4px;text-align: center;">
-                                <%= subItems.proEF %>
+                                style="padding: 1px 3px;border-bottom-width: 0px;border-right: 1px solid #000;border-top: 1px solid #000; text-align: center;">
+                                <table style="width: 100%;">
+                                    <tbody>
+                                        <tr style="font-size: 10.4px;">
+                                            <td style="padding: 0px 1px; text-align: center;width: 50%;">
+                                                <%= subItems.proEF %>
+                                            </td>
+                                            <td style="padding: 0px 1px; text-align: center;width: 50%;">
+                                                <%= subItems.ll3 %>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </td>
-                            <td style="text-align: center;font-size: 10.4px;border-top: 1px solid #000;">
-                                <b>
-                                    <%= subItems.final %>
-                                </b>
+                            <td
+                                style="padding: 1px 3px;border-bottom-width: 0px;border-top: 1px solid #000; text-align: center;">
+                                <table style="width: 100%;">
+                                    <tbody>
+                                        <tr style="font-size: 10.4px;">
+                                            <td style="padding: 0px 1px; text-align: center;width: 40%;">
+                                                <b>
+                                                    <%= subItems.final %>
+                                                </b>
+                                            </td>
+                                            <td style="padding: 0px 1px; text-align: center;width: 60%;">
+                                                <b>
+                                                    <%= subItems.llf %>
+                                                </b>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </td>
+
                         </tr>
                         <% }) %>
                             <tr>
@@ -110,28 +214,77 @@
                                     <b>PROMEDIO</b>
                                 </td>
                                 <td
-                                    style="padding: 1px 3px;border-top: 1px solid #000;font-size: 10.4px;text-align: center ;">
-                                    <span> <b>
-                                            <%=item.pPPA %>
-                                        </b> &nbsp;&nbsp;&nbsp; </span>
+                                    style="padding: 1px 3px;border-bottom-width: 0px;border-top: 1px solid #000; text-align: center;">
+                                    <table style="width: 100%;">
+                                        <tbody>
+                                            <tr style="font-size: 10.4px;">
+                                                <td style="padding: 0px 1px; text-align: center;width: 50%;">
+                                                    <b>
+                                                        <%= item.pPPA %>
+                                                    </b>
+                                                </td>
+                                                <td style="padding: 0px 1px; text-align: center;width: 50%;">
+                                                    <b>
+                                                        <%= item.lm1 %>
+                                                    </b>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </td>
-                                <td
-                                    style="padding: 1px 3px;border-top: 1px solid #000;font-size: 10.4px;text-align: center  ;">
-                                    <span> <b>
-                                            <%=item.pPPB %>
-                                        </b> &nbsp;&nbsp;&nbsp;</span>
+                                <td style="padding: 1px 3px;border-bottom-width: 0px;border-top: 1px solid #000; text-align: center;">
+                                    <table style="width: 100%;">
+                                        <tbody>
+                                            <tr style="font-size: 10.4px;">
+                                                <td style="padding: 0px 1px; text-align: center;width: 50%;">
+                                                    <b>
+                                                        <%= item.pPPB %>
+                                                    </b>
+                                                </td>
+                                                <td style="padding: 0px 1px; text-align: center;width: 50%;">
+                                                    <b>
+                                                        <%= item.lm2 %>
+                                                    </b>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </td>
-                                <td
-                                    style="padding: 1px 3px;border-top: 1px solid #000;font-size: 10.4px;text-align: center  ;">
-                                    <span> <b>
-                                            <%=item.pPPC %>
-                                        </b> &nbsp;&nbsp;&nbsp;</span>
+                                <td style="padding: 1px 3px;border-bottom-width: 0px;border-top: 1px solid #000; text-align: center;">
+                                    <table style="width: 100%;">
+                                        <tbody>
+                                            <tr style="font-size: 10.4px;">
+                                                <td style="padding: 0px 1px; text-align: center;width: 50%;">
+                                                    <b>
+                                                        <%= item.pPPC %>
+                                                    </b>
+                                                </td>
+                                                <td style="padding: 0px 1px; text-align: center;width: 50%;">
+                                                    <b>
+                                                        <%= item.lm3 %>
+                                                    </b>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </td>
-                                <td
-                                    style="padding: 1px 3px;border-top: 1px solid #000;font-size: 10.4px;text-align: center  ;">
-                                    <span> <b>
-                                            <%=item.prAB %>
-                                        </b> &nbsp;&nbsp;&nbsp;</span>
+                                <td style="padding: 1px 3px;border-bottom-width: 0px;border-top: 1px solid #000; text-align: center;">
+                                    <table style="width: 100%;">
+                                        <tbody>
+                                            <tr style="font-size: 10.4px;">
+                                                <td style="padding: 0px 1px; text-align: center;width: 40%;">
+                                                    <b>
+                                                        <%= item.prAB %>
+                                                    </b>
+                                                </td>
+                                                <td style="padding: 0px 1px; text-align: center;width: 60%;">
+                                                    <b>
+                                                        <%= item.lmf %>
+                                                    </b>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </td>
                             </tr>
                 </tbody>
@@ -144,10 +297,10 @@
                                 style="margin-top: 8px; border-color: #000;border-style: solid;border-width: 1px 1px 1px;max-width: 100%; width: 100%; border-spacing: 0; border-collapse: separate;">
                                 <thead style="font-size: 10.4px;text-align: center;">
                                     <th></th>
-                                <th>A</th>
-                                <th>EP</th>
-                                <th>I</th>
-                                <th>NE</th>
+                                    <th>A</th>
+                                    <th>EP</th>
+                                    <th>I</th>
+                                    <th>NE</th>
                                 </thead>
                                 <% if (ops.q1) { %>
                                     <tbody>
