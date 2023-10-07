@@ -10,7 +10,7 @@ async function autoridad() {
     try {
         const reply = await client.get(`${claveOnPort}autoridades`);
         if (reply) return JSON.parse(reply);
-        const result = await Configure.find().lean();
+        const result = await Configure.findOne()
         await client.set(`${claveOnPort}autoridades`, JSON.stringify(result), { EX: 36000 });
         return result
     } catch (error) {

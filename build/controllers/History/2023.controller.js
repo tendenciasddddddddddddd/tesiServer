@@ -46,7 +46,7 @@ function _autoridad() {
     try {
       var reply = yield _rediss.client.get("".concat(_rediss.claveOnPort, "autoridades"));
       if (reply) return JSON.parse(reply);
-      var result = yield _Configure.default.find().lean();
+      var result = yield _Configure.default.findOne();
       yield _rediss.client.set("".concat(_rediss.claveOnPort, "autoridades"), JSON.stringify(result), {
         EX: 36000
       });

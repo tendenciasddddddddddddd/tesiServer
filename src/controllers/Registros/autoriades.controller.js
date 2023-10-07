@@ -7,7 +7,7 @@ export default {
     try {
       const reply = await client.get(`${claveOnPort}autoridades`);
       if (reply) return res.json(JSON.parse(reply));
-      const result = await Configure.find().lean();
+      const result = await Configure.findOne()
       await client.set(`${claveOnPort}autoridades`,JSON.stringify(result), { EX: 36000});
       return res.json(result);
     } catch (error) {
