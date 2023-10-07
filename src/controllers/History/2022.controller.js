@@ -5,7 +5,7 @@ import Configure from "../../models/Configure";
 import { client, claveOnPort } from "../../middlewares/rediss";
 const ejs = require("ejs");
 const { formatPromociones, formatMatricula, formatLibretas, formatJuntas, formatInforme, formatFinal, formatParcial,
-    formatQuimestral, formatAnual, formatJuntasIndividual, formatJuntasFinal } = promedioReportes();
+    formatQuimestral, formatAnual, formatJuntasIndividual, formatJuntasFinal, consolidado } = promedioReportes();
 async function autoridad() {
     try {
         const reply = await client.get(`${claveOnPort}autoridades`);
@@ -79,9 +79,7 @@ export default {
             var result = [];
             if (arr) {
                 const rowM = await Matriculas.findById(idMatricula)
-                
                 result = formatMatricula(rowM, estudiantes)
-                
             }
             const auth = await autoridad()
             const tema = await ejs.renderFile(__dirname + "/themes/matricula.ejs", { result: result, auth });
@@ -320,6 +318,64 @@ export default {
             }
             const auth = await autoridad()
             const tema = await ejs.renderFile(__dirname + "/themes/quimestral.ejs", { result: result, auth, ops: ops, paralelo: paralelo });
+            res.status(200).json(tema);
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json(error);
+        }
+    },
+    quimestral: async (req, res) => {
+        try {
+            const arr = req.body.data
+            const ops = req.body.ops;
+            let idMatricula = '';
+            let idCurso = '';
+            let paralelo = '';
+            const estudiantes = [];
+            for (let i = 0; i < arr.length; i++) {
+                const element = arr[i];
+                idMatricula = element.key;
+                idCurso = element.curso?._id
+                paralelo = element.paralelo
+                estudiantes.push(element._id)
+            }
+            var result = [];
+            if (arr) {
+                const rowM = await Matriculas.findById(idMatricula)
+                const rowD = await Distributivo.findOne({ fkcurso: idCurso, paralelo: paralelo });
+                result = formatQuimestral(rowM, rowD, estudiantes, ops)
+            }
+            const auth = await autoridad()
+            const tema = await ejs.renderFile(__dirname + "/themes/quimestral.ejs", { result: result, auth, ops: ops, paralelo: paralelo });
+            res.status(200).json(tema);
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json(error);
+        }
+    },
+    finConsolidado: async (req, res) => {
+        try {
+            const arr = req.body.data
+            const ops = req.body.ops;
+            let idMatricula = '';
+            let idCurso = '';
+            let paralelo = '';
+            const estudiantes = [];
+            for (let i = 0; i < arr.length; i++) {
+                const element = arr[i];
+                idMatricula = element.key;
+                idCurso = element.curso?._id
+                paralelo = element.paralelo
+                estudiantes.push(element._id)
+            }
+            var result = [];
+            if (arr) {
+                const rowM = await Matriculas.findById(idMatricula)
+                const rowD = ''
+                result = consolidado(rowM, rowD, estudiantes, ops)
+            }
+            const auth = await autoridad()
+            const tema = await ejs.renderFile(__dirname + "/themes/consolidado.ejs", { result: result, auth, ops: ops, paralelo: paralelo });
             res.status(200).json(tema);
         } catch (error) {
             console.log(error);

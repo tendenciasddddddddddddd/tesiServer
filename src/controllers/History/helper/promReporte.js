@@ -15,6 +15,8 @@ export const promedioReportes = () => {
             const element = array[i];
             if (element == '') continue;
             if (isNaN(element)) continue;
+            if (element == undefined) continue;
+            if (element == null) continue;
             contador = contador + parseFloat(element)
             aux += 1
         }
@@ -916,6 +918,67 @@ export const promedioReportes = () => {
             console.log(error)
         }
     }
+    function consolidado(rowM, rowD, estudiantes, quim) {
+        try {
+            const matriculas = rowM?.matriculas
+            const aux = []
+            const help = []
+            matriculas.sort(function (a, b) {
+                var nameA = a.estudiante.fullname.toLowerCase(), nameB = b.estudiante.fullname.toLowerCase();
+                if (nameA < nameB)
+                    return -1;
+                if (nameA > nameB)
+                    return 1;
+                return 0;
+            });
+            for (let i = 0; i < matriculas.length; i++) {
+                const computo = matriculas[i]?.computo;
+                for (let k = 0; k < computo.length; k++) {
+                    const reg = computo[k];
+                    if(reg?.materia==undefined) continue
+                    aux.push(reg?.materia)
+                    const finds = aux.filter(x => x._id ===reg.fkmateria)
+                    if(finds.length==0) aux.push(computo[i]?.materia)
+                }
+            }
+            function getUniqueListBy(arr, key) {
+                return [...new Map(arr.map(item => [item[key], item])).values()]
+            }
+            const distributivo = getUniqueListBy(aux, '_id')
+            for (let i = 0; i < matriculas.length; i++) {
+                const element = matriculas[i];
+                const computo = element.computo;
+                const notas = []
+                if (estudiantes.includes(element.fkestudiante)) {
+                    for (let h = 0; h < distributivo.length; h++) {
+                        const subarray = distributivo[h];
+                        let nota = ''
+                        for (let k = 0; k < computo.length; k++) {
+                            const reg = computo[k];
+                            if (subarray._id == reg.fkmateria) {
+                                nota = reg.resultados?.notaFinal
+                            }
+                        }
+                        notas.push(nota)
+                    }
+                }
+                const result = calcProm(notas)
+                help.push({
+                    fullname: element.estudiante?.fullname,
+                    data: notas,
+                    result: result,
+                })
+            }
+           // console.log('es', distributivo)
+            const promedios = calcPromMatriz(help, distributivo)
+            return {
+                help: help, distributivo: distributivo, promedios: promedios,
+                curso: rowM.curso?.nombre, periodo: rowM.periodo?.nombre,
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
     function formatAnual(rowM, rowD, estudiantes) {
         try {
             const matriculas = rowM?.matriculas
@@ -1043,7 +1106,7 @@ export const promedioReportes = () => {
     }
     return {
         formatPromociones, formatMatricula, formatLibretas, formatJuntas, formatInforme, formatFinal, formatParcial,
-        formatQuimestral, formatAnual, formarNomina,formatJuntasIndividual, formatJuntasFinal
+        formatQuimestral, formatAnual, formarNomina,formatJuntasIndividual, formatJuntasFinal, consolidado
     }
 };
 
@@ -1080,6 +1143,9 @@ const calcPromMatriz = (arr, array) => {
                 const elemen = res[m];
                 if (m == j) {
                     if (elemen == '') continue;
+                    if (isNaN(elemen)) continue;
+                    if (elemen == undefined) continue;
+                    if (elemen == null) continue;
                     contador = contador + parseFloat(elemen);
                     aux += 1
                 }

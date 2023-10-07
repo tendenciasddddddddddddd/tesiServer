@@ -51,10 +51,10 @@
                         style="text-align: left;padding: 1px 3px;border-bottom: 0px;font-size: 9.6px;font-weight: 700;border-bottom: 1px solid #000;">
                         APELLIDOS Y NOMBRES
                     </th>
-                    <% result.distributivo.forEach(function (items, index) {%>
+                    <% result?.distributivo?.forEach(function (items, index) {%>
                         <th
                             style="writing-mode: vertical-lr; transform: rotate(180deg);padding: 1px 3px;border-bottom: 0px;border-right: 1px solid #000;border-top: 1px solid #000;font-size: 9.6px;font-weight: 600;">
-                            <%= items.materia?.nombre %>
+                            <%= items?.nombre %>
                         </th>
                         <% }) %>
                             <th

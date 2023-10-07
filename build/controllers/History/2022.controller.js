@@ -34,7 +34,8 @@ var {
   formatQuimestral,
   formatAnual,
   formatJuntasIndividual,
-  formatJuntasFinal
+  formatJuntasFinal,
+  consolidado
 } = (0, _promReporte.promedioReportes)();
 
 function autoridad() {
@@ -583,8 +584,8 @@ var _default = {
 
     return quimestral;
   }(),
-  anual: function () {
-    var _anual = _asyncToGenerator(function* (req, res) {
+  quimestral: function () {
+    var _quimestral2 = _asyncToGenerator(function* (req, res) {
       try {
         var arr = req.body.data;
         var ops = req.body.ops;
@@ -599,6 +600,105 @@ var _default = {
           var element = arr[i];
           idMatricula = element.key;
           idCurso = (_element$curso10 = element.curso) === null || _element$curso10 === void 0 ? void 0 : _element$curso10._id;
+          paralelo = element.paralelo;
+          estudiantes.push(element._id);
+        }
+
+        var result = [];
+
+        if (arr) {
+          var rowM = yield _Respaldo.default.findById(idMatricula);
+          var rowD = yield _Dis.default.findOne({
+            fkcurso: idCurso,
+            paralelo: paralelo
+          });
+          result = formatQuimestral(rowM, rowD, estudiantes, ops);
+        }
+
+        var auth = yield autoridad();
+        var tema = yield ejs.renderFile(__dirname + "/themes/quimestral.ejs", {
+          result: result,
+          auth,
+          ops: ops,
+          paralelo: paralelo
+        });
+        res.status(200).json(tema);
+      } catch (error) {
+        console.log(error);
+        return res.status(500).json(error);
+      }
+    });
+
+    function quimestral(_x23, _x24) {
+      return _quimestral2.apply(this, arguments);
+    }
+
+    return quimestral;
+  }(),
+  finConsolidado: function () {
+    var _finConsolidado = _asyncToGenerator(function* (req, res) {
+      try {
+        var arr = req.body.data;
+        var ops = req.body.ops;
+        var idMatricula = '';
+        var idCurso = '';
+        var paralelo = '';
+        var estudiantes = [];
+
+        for (var i = 0; i < arr.length; i++) {
+          var _element$curso11;
+
+          var element = arr[i];
+          idMatricula = element.key;
+          idCurso = (_element$curso11 = element.curso) === null || _element$curso11 === void 0 ? void 0 : _element$curso11._id;
+          paralelo = element.paralelo;
+          estudiantes.push(element._id);
+        }
+
+        var result = [];
+
+        if (arr) {
+          var rowM = yield _Respaldo.default.findById(idMatricula);
+          var rowD = '';
+          result = consolidado(rowM, rowD, estudiantes, ops);
+        }
+
+        var auth = yield autoridad();
+        var tema = yield ejs.renderFile(__dirname + "/themes/consolidado.ejs", {
+          result: result,
+          auth,
+          ops: ops,
+          paralelo: paralelo
+        });
+        res.status(200).json(tema);
+      } catch (error) {
+        console.log(error);
+        return res.status(500).json(error);
+      }
+    });
+
+    function finConsolidado(_x25, _x26) {
+      return _finConsolidado.apply(this, arguments);
+    }
+
+    return finConsolidado;
+  }(),
+  anual: function () {
+    var _anual = _asyncToGenerator(function* (req, res) {
+      try {
+        var arr = req.body.data;
+        var ops = req.body.ops;
+        var idMatricula = '';
+        var idCurso = '';
+        var paralelo = '';
+        var estudiantes = [];
+
+        for (var i = 0; i < arr.length; i++) {
+          var _element$curso12;
+
+          var element = arr[i];
+          idMatricula = element.key;
+          idCurso = (_element$curso12 = element.curso) === null || _element$curso12 === void 0 ? void 0 : _element$curso12._id;
           paralelo = element.paralelo;
           estudiantes.push(element._id);
         }
@@ -627,7 +727,7 @@ var _default = {
       }
     });
 
-    function anual(_x23, _x24) {
+    function anual(_x27, _x28) {
       return _anual.apply(this, arguments);
     }
 
@@ -651,7 +751,7 @@ var _default = {
       }
     });
 
-    function Ambitos(_x25, _x26) {
+    function Ambitos(_x29, _x30) {
       return _Ambitos.apply(this, arguments);
     }
 
@@ -675,7 +775,7 @@ var _default = {
       }
     });
 
-    function Destrezas(_x27, _x28) {
+    function Destrezas(_x31, _x32) {
       return _Destrezas.apply(this, arguments);
     }
 

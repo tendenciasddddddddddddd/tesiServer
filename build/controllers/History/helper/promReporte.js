@@ -23,6 +23,8 @@ var promedioReportes = () => {
       var element = array[i];
       if (element == '') continue;
       if (isNaN(element)) continue;
+      if (element == undefined) continue;
+      if (element == null) continue;
       contador = contador + parseFloat(element);
       aux += 1;
     }
@@ -1402,6 +1404,97 @@ var promedioReportes = () => {
     }
   }
 
+  function consolidado(rowM, rowD, estudiantes, quim) {
+    try {
+      var _rowM$curso8, _rowM$periodo8;
+
+      var matriculas = rowM === null || rowM === void 0 ? void 0 : rowM.matriculas;
+      var aux = [];
+      var help = [];
+      matriculas.sort(function (a, b) {
+        var nameA = a.estudiante.fullname.toLowerCase(),
+            nameB = b.estudiante.fullname.toLowerCase();
+        if (nameA < nameB) return -1;
+        if (nameA > nameB) return 1;
+        return 0;
+      });
+
+      for (var i = 0; i < matriculas.length; i++) {
+        var _matriculas$i;
+
+        var computo = (_matriculas$i = matriculas[i]) === null || _matriculas$i === void 0 ? void 0 : _matriculas$i.computo;
+
+        var _loop = function _loop(k) {
+          var _computo$i;
+
+          var reg = computo[k];
+          if ((reg === null || reg === void 0 ? void 0 : reg.materia) == undefined) return "continue";
+          aux.push(reg === null || reg === void 0 ? void 0 : reg.materia);
+          var finds = aux.filter(x => x._id === reg.fkmateria);
+          if (finds.length == 0) aux.push((_computo$i = computo[i]) === null || _computo$i === void 0 ? void 0 : _computo$i.materia);
+        };
+
+        for (var k = 0; k < computo.length; k++) {
+          var _ret = _loop(k);
+
+          if (_ret === "continue") continue;
+        }
+      }
+
+      function getUniqueListBy(arr, key) {
+        return [...new Map(arr.map(item => [item[key], item])).values()];
+      }
+
+      var distributivo = getUniqueListBy(aux, '_id');
+
+      for (var _i3 = 0; _i3 < matriculas.length; _i3++) {
+        var _element$estudiante8;
+
+        var element = matriculas[_i3];
+        var _computo3 = element.computo;
+        var notas = [];
+
+        if (estudiantes.includes(element.fkestudiante)) {
+          for (var h = 0; h < distributivo.length; h++) {
+            var subarray = distributivo[h];
+            var nota = '';
+
+            for (var _k3 = 0; _k3 < _computo3.length; _k3++) {
+              var reg = _computo3[_k3];
+
+              if (subarray._id == reg.fkmateria) {
+                var _reg$resultados;
+
+                nota = (_reg$resultados = reg.resultados) === null || _reg$resultados === void 0 ? void 0 : _reg$resultados.notaFinal;
+              }
+            }
+
+            notas.push(nota);
+          }
+        }
+
+        var result = calcProm(notas);
+        help.push({
+          fullname: (_element$estudiante8 = element.estudiante) === null || _element$estudiante8 === void 0 ? void 0 : _element$estudiante8.fullname,
+          data: notas,
+          result: result
+        });
+      } // console.log('es', distributivo)
+
+
+      var promedios = calcPromMatriz(help, distributivo);
+      return {
+        help: help,
+        distributivo: distributivo,
+        promedios: promedios,
+        curso: (_rowM$curso8 = rowM.curso) === null || _rowM$curso8 === void 0 ? void 0 : _rowM$curso8.nombre,
+        periodo: (_rowM$periodo8 = rowM.periodo) === null || _rowM$periodo8 === void 0 ? void 0 : _rowM$periodo8.nombre
+      };
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   function formatAnual(rowM, rowD, estudiantes) {
     try {
       var matriculas = rowM === null || rowM === void 0 ? void 0 : rowM.matriculas;
@@ -1576,7 +1669,8 @@ var promedioReportes = () => {
     formatAnual,
     formarNomina,
     formatJuntasIndividual,
-    formatJuntasFinal
+    formatJuntasFinal,
+    consolidado
   };
 };
 
@@ -1626,6 +1720,9 @@ var calcPromMatriz = (arr, array) => {
 
         if (m == j) {
           if (elemen == '') continue;
+          if (isNaN(elemen)) continue;
+          if (elemen == undefined) continue;
+          if (elemen == null) continue;
           contador = contador + parseFloat(elemen);
           aux += 1;
         }
@@ -1688,8 +1785,8 @@ function contarMediaLet(array, materia) {
     var _d = 0;
     var _reg = [];
 
-    for (var _i3 = 0; _i3 < array.length; _i3++) {
-      var _element3 = array[_i3];
+    for (var _i4 = 0; _i4 < array.length; _i4++) {
+      var _element3 = array[_i4];
       var _op = _element3;
       if (_op == 'EX' || _op == 'EX Excelente') _a += 1;
       if (_op == 'MB' || _op == 'MB Muy Buena') _b += 1;

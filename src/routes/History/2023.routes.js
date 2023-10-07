@@ -32,4 +32,6 @@ router.post("/ambitos",[authJwt.verifyToken], Ctrl.Ambitos);
 
 router.post("/destrezas",[authJwt.verifyToken], Ctrl.Destrezas);
 
+router.post("/consolidado/",[ authJwt.verifyToken], Ctrl.finConsolidado);
+
 export default router;

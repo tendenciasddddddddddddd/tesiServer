@@ -19,5 +19,6 @@ router.post("/", [_middlewares.authJwt.verifyToken], _.default.promocion);
 router.post("/matricula/", [_middlewares.authJwt.verifyToken], _.default.matricula);
 router.post("/libretas/", [_middlewares.authJwt.verifyToken], _.default.libretas);
 router.post("/juntas/", [_middlewares.authJwt.verifyToken], _.default.juntas);
+router.post("/consolidado/", [_middlewares.authJwt.verifyToken], _.default.finConsolidado);
 var _default = router;
 exports.default = _default;

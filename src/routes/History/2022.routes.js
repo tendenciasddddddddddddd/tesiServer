@@ -14,4 +14,6 @@ router.post("/libretas/",[ authJwt.verifyToken], Ctrl.libretas);
 
 router.post("/juntas/",[ authJwt.verifyToken], Ctrl.juntas);
 
+router.post("/consolidado/",[ authJwt.verifyToken], Ctrl.finConsolidado);
+
 export default router;

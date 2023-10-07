@@ -28,5 +28,6 @@ router.post("/quimestral/", [_middlewares.authJwt.verifyToken], _.default.quimes
 router.post("/anual/", [_middlewares.authJwt.verifyToken], _.default.anual);
 router.post("/ambitos", [_middlewares.authJwt.verifyToken], _.default.Ambitos);
 router.post("/destrezas", [_middlewares.authJwt.verifyToken], _.default.Destrezas);
+router.post("/consolidado/", [_middlewares.authJwt.verifyToken], _.default.finConsolidado);
 var _default = router;
 exports.default = _default;
