@@ -36,6 +36,9 @@ import elementalRoutes from './routes/Notas/elemental.routes';
 import r2023Routes from './routes/History/2023.routes';
 import r2022Routes from './routes/History/2022.routes';
 
+/*  ESTADISTICA DE NOTAS Y TUTORES */
+import estadisticaRoutes from './routes/Estadistica/estadistica.routes';
+
 //---------------------AULAS VIRTUALES--------------------
 import aulasRoutes from './routes/Aulas/aulas.routes';
 import tareasRoutes from './routes/Aulas/tareas.routes';
@@ -142,6 +145,9 @@ app.use("/api/elemental",elementalRoutes)
 /* HISTORIAL REPORTES */
 app.use("/api/rep2023",r2023Routes)
 app.use("/api/rep2022",r2022Routes)
+
+/* ESTADISTICA Y TUTORES */
+app.use("/api/estadistica",estadisticaRoutes)
 
 //sitemap
 app.use("/sitemap.xml", sitemapRouter);

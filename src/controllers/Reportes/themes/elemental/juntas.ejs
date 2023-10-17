@@ -1,0 +1,644 @@
+<style>
+    .s-contenedor{
+        margin-top: 0.5rem;color: #000; font-family: Arial, Helvetica, sans-serif;background: #fff;
+    }
+    .s-centro{
+        text-align: center
+    }
+    .s-derecha{
+        text-align: right
+    }
+    .s-izquierda{
+        text-align: left
+    }
+    .sf-104{
+        font-size: 10.4px;
+    }
+    .sf-12{
+        font-size: 12px;
+    }
+    .sf-14{
+        font-size: 14px;
+    }
+    .sf-16{
+        font-size: 16px;
+    }
+    .sf-20{
+        font-size: 20px;
+    }
+    .sfz-600{
+        font-weight: 600;
+    }
+    .s-mayus{
+        text-transform: uppercase;
+    }
+    .s-parrafo{
+        text-align: justify ;line-height: 1.5;
+    }
+    .s-tabla{
+        width: 100%;
+    }
+    .s-base-tb{
+        margin-top: 5px; border-color: #000;border-style: solid;border-width: 0px 1px 1px;max-width: 100%; width: 100%; border-spacing: 0; border-collapse: separate;
+    }
+    .s-media-tb{
+        margin-top: 8px; border-color: #000;border-style: solid;border-width: 1px 1px 1px;max-width: 100%; width: 100%; border-spacing: 0; border-collapse: separate;
+    }
+    .s-first { width: 15%; }
+    .s-last { width: 70%; }
+    .s-fill { width: 15%; }
+    .s-img{
+        height: 60px
+    }
+    .s-img2{
+        width: 60px
+    }
+    .s-w-50{
+        width: 50%;
+    }
+    .s-w-25{
+        width: 25%;
+    }
+    .s-w-28{
+        width: 28%;
+    }
+    .s-w-16-6{
+        width: 16.6%;
+    }
+    .sb-button{
+        border-bottom: 1px solid #000;
+    }
+    .sb-top {
+        border-top: 1px solid #000;
+    }
+    .sb-right {
+        border-right: 1px solid #000;
+    }
+    .s-pad02{
+        padding: 0px 2px;
+    }
+    .s-pad13{
+        padding: 1px 3px;
+    }
+    .s-pad23{
+        padding: 2px 3px;
+    }
+    .s-pad01{
+        padding: 0px 1px;
+    }
+</style>
+<% result.help?.forEach(function (item) { %>
+<div class="s-hojas page s-contenedor">
+    <div class="p-4 s-centro">
+        <table class="s-tabla">
+            <tbody>
+                <tr>
+                    <td class="s-first">
+                        <img class="s-img" src="https://res.cloudinary.com/stebann/image/upload/v1681418309/logo-ministerio-educacion_fvcptq.png" alt="Logo" />
+                    </td>
+                    <td class="s-last">
+                        <div class="s-centro">
+                            <span class="sfz-600 sf-16"><%= auth.unidadeducativa %></span><br>
+                            <p class="s-centro sf-12">
+                                Dirección: <%= auth.direccion %> Teléf: <%= auth.telefono %><br> <%= auth.ubicacion %> 
+                            </p>
+                        </div>
+                    </td>
+                    <td class="s-fill s-derecha">
+                        <img class="s-img2" src="<%=auth.logo%>" alt="Logo" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <hr>
+        <table class="s-tabla">
+            <tbody>
+                <tr>
+                    <td class="sf-12 s-izquierda s-w-50">
+                        Curso : <b><%= item.curso %> / <%= item.paralelo %></b> <br>
+                        Asignatura: <b><%= item.materia %></b> <br>
+                        Profesor(a): <b><%= item.docente %></b>
+                    </td>
+                    <td class="sf-12 s-derecha s-w-50">
+                        PERIODO: <b><%= item.periodo %></b><br>
+                        FECHA: <%= item.fechaA %>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="s-base-tb">
+            <thead>
+                <tr>
+                    <th class="s-pad02 sb-top sb-right"></th>
+                    <th class="s-pad02 sb-top sb-right"></th>
+                    <th class="s-pad02 sb-top"></th>
+                    <th class="s-pad02 sb-top sf-104 sfz-600 s-mayus s-centro"> <%= ops.quimestre %></th>
+                    <th class="s-pad02 sb-top"></th>
+                </tr>
+                <tr>
+                    <th class="s-pad13 sb-right"></th>
+                    <th class="s-pad13 sb-right"></th>
+                    <th class="s-pad13"></th>
+                    <th class="s-pad13"></th>
+                    <th class="s-pad13"></th>
+                </tr>
+                <tr>
+                    <th class="s-pad13 sb-right sf-104 sfz-600 s-centro"> N°</th>
+                    <th class="s-pad13 sb-right sf-104 sfz-600 s-centro"> ESTUDIANTES</th>
+                    <th class="s-pad13 sf-104 sfz-600 s-centro"> ACT. INDIVIDUALES </th>
+                    <th class="s-pad13 sf-104 sfz-600 s-centro"> ACT. GRUPALES </th>
+                    <th class="s-pad13 sf-104 sfz-600 s-centro"> RESULTADOS</th>
+                </tr>
+                <tr>
+                    <th class="s-pad13 sb-right sb-button"></th>
+                    <th class="s-pad13 sb-right sb-button"></th>
+                    <th class="s-pad13 sb-button s-centro" style="min-width: 130px;">
+                        <table class="s-tabla">
+                            <tbody>
+                                <tr class="sf-104 sfz-600">
+                                    <td class="s-w-16-6">Ins.1</td>
+                                    <td class="s-w-16-6">Ins.2</td>
+                                    <td class="s-w-16-6">Ins.3</td>
+                                    <td class="s-w-16-6">Ins.4</td>
+                                    <td class="s-w-16-6">PR</td>
+                                    <td class="s-w-16-6"><b>CU</b></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </th>
+                    <th class="s-pad13 sb-button s-centro" style="min-width: 130px;">
+                        <table class="s-tabla">
+                            <tbody>
+                                <tr class="sf-104 sfz-600">
+                                    <td class="s-w-16-6">Ins.1</td>
+                                    <td class="s-w-16-6">Ins.2</td>
+                                    <td class="s-w-16-6">Ins.3</td>
+                                    <td class="s-w-16-6">Ins.4</td>
+                                    <td class="s-w-16-6">PR</td>
+                                    <td class="s-w-16-6"><b>CU</b></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </th>
+                    <th class="s-pad13 sb-button"
+                        style="min-width: 120px;text-transform: uppercase; text-align: center;">
+                        <table class="s-tabla">
+                            <tbody>
+                                <tr class="sf-104 sfz-600">
+                                    <td class="s-w-25">PY</td>
+                                    <td class="s-w-25">PROM</td>
+                                    <td class="s-w-50"> <b>CUALITATIVO</b> </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <% item.data.forEach(function (subItems, index) { %>
+                <tr>
+                    <td class="s-pad13 sb-right sb-button sf-104"> <%= index + 1 %></td>
+                    <td class="s-pad13 sb-right sb-button sf-104 s-izquierda"> <%= subItems.estudiante %></td>
+                    <td class="s-pad13 sb-right sb-button s-centro">
+                        <% if (ops.q1) { %>
+                        <table class="s-tabla">
+                            <tbody>
+                                <tr class="sf-104">
+                                    <td class="s-pad01 s-w-16-6"> <%= subItems.n1 %></td>
+                                    <td class="s-pad01 s-w-16-6"><%= subItems.n2%></td>
+                                    <td class="s-pad01 s-w-16-6"><%= subItems.n3%></td>
+                                    <td class="s-pad01 s-w-16-6"><%= subItems.n4%></td>
+                                    <td class="s-pad01 s-w-16-6"><b><%= subItems.ppa %></b></td>
+                                    <td class="s-pad01 s-w-16-6"> <b><%= subItems.ll1 %></b></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <% } %>
+                    </td>
+                    <td class="s-pad13 sb-right sb-button s-centro">
+                        <% if (ops.q2) { %>
+                        <table class="s-tabla">
+                            <tbody>
+                                <tr class="sf-104">
+                                    <td class="s-pad01 s-w-16-6"> <%= subItems.n6 %></td>
+                                    <td class="s-pad01 s-w-16-6"><%= subItems.n7%></td>
+                                    <td class="s-pad01 s-w-16-6"><%= subItems.n8%></td>
+                                    <td class="s-pad01 s-w-16-6"><%= subItems.n9%></td>
+                                    <td class="s-pad01 s-w-16-6"><b><%= subItems.ppb %></b></td>
+                                    <td class="s-pad01 s-w-16-6"><b><%= subItems.ll2 %></b></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <% } %>
+                    </td>
+                    <td class="s-pad13 sb-button s-centro">
+                        <% if (ops.q2 &&ops.q1) { %>
+                        <table class="s-tabla">
+                            <tbody>
+                                <tr class="sf-104">
+                                    <td class="s-pad01 s-w-25"><%=subItems.pry1 %></td>
+                                    <td class="s-pad01 s-w-25"><b><%= subItems.proAB %></b></td>
+                                    <td class="s-pad01 s-w-50"> <b> <%= subItems.letras %></b></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <% } %>
+                    </td>
+                </tr>
+                <% }) %>
+                <tr>
+                    <td class="sb-top s-pad13"></td>
+                    <td class="sb-top s-pad13 sf-104"><b>PROMEDIO</b></td>
+                    <td class="sb-top s-pad13 s-centro">
+                        <% if (ops.q1) { %> 
+                            <table class="s-tabla">
+                                <tbody>
+                                    <tr class="sf-104">
+                                        <td class="s-w-16-6"></td>
+                                        <td class="s-w-16-6"></td>
+                                        <td class="s-w-16-6"></td>
+                                        <td class="s-w-16-6"></td>
+                                        <td class="s-w-16-6"> <b><%=item.pPPA %></b> </td>
+                                        <td class="s-w-16-6"><b><%=item.lla %></b> </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        <% } %>
+                    </td>
+                    <td class="sb-top s-pad13 s-centro">
+                        <% if (ops.q2) { %> 
+                            <table class="s-tabla">
+                                <tbody>
+                                    <tr class="sf-104">
+                                        <td class="s-w-16-6"></td>
+                                        <td class="s-w-16-6"></td>
+                                        <td class="s-w-16-6"></td>
+                                        <td class="s-w-16-6"></td>
+                                        <td class="s-w-16-6"> <b><%=item.pPPB %></b> </td>
+                                        <td class="s-w-16-6"><b><%=item.llb %></b> </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        <% } %>
+                    </td>
+                    <td class="sb-top s-pad13 s-centro">
+                        <% if (ops.q2 &&ops.q1) { %>
+                        <table class="s-tabla">
+                            <tbody>
+                                <tr class="sf-104">
+                                    <td class="s-w-25"></td>
+                                    <td class="s-w-25"><b><%=item.prAB %></b></td>
+                                    <td class="s-w-50"><b><%=item.llf %></b></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <% } %>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="s-tabla">
+            <tbody>
+                <tr>
+                    <td class="s-w-28">
+                        <table class="s-media-tb">
+                            <thead class="s-centro sf-104">
+                                <th></th>
+                                <th>A</th>
+                                <th>EP</th>
+                                <th>I</th>
+                                <th>NE</th>
+                            </thead>
+                            <% if (ops.q1) { %>
+                            <tbody>
+                                <tr class="s-centro sf-104">
+                                    <td class="sb-top"> <b>Ʃ</b></td>
+                                    <td class="sb-top"><%= item.medPPA[0]%></td>
+                                    <td class="sb-top"><%= item.medPPA[1] %> </td>
+                                    <td class="sb-top"> <%=item.medPPA[2]%></td>
+                                    <td class="sb-top"> <%=item.medPPA[3]%></td>
+                                </tr>
+                                <tr class="s-centro sf-104">
+                                    <td class="sb-top"> <b>%</b></td>
+                                    <td class="sb-top"><%= Math.round((item.medPPA[0] /item.data.length) *100) %>% </td>
+                                    <td class="sb-top"><%= Math.round((item.medPPA[1] /item.data.length) *100)%>% </td>
+                                    <td class="sb-top"><%= Math.round((item.medPPA[2] /item.data.length) *100) %>% </td>
+                                    <td class="sb-top"><%= Math.round((item.medPPA[3] /item.data.length) *100)%>% </td>
+                                </tr>
+                            </tbody>
+                            <% } %>
+                        </table>
+                    </td>
+                    <td class="s-w-28">
+                        <% if (ops.q2) { %>
+                        <table class="s-media-tb">
+                            <thead class="s-centro sf-104">
+                                <th></th>
+                                <th>A</th>
+                                <th>EP</th>
+                                <th>I</th>
+                                <th>NE</th>
+                            </thead>
+                            <tbody>
+                                <tr class="s-centro sf-104">
+                                    <td class="sb-top"><b>Ʃ</b></td>
+                                    <td class="sb-top"><%=item.medPPB[0] %></td>
+                                    <td class="sb-top"><%= item.medPPB[1] %> </td>
+                                    <td class="sb-top"> <%=item.medPPB[2]%></td>
+                                    <td class="sb-top"> <%=item.medPPB[3]%></td>
+                                </tr>
+                                <tr class="s-centro sf-104">
+                                    <td class="sb-top"><b>%</b></td>
+                                    <td class="sb-top"><%= Math.round((item.medPPB[0] /item.data.length) *100) %>% </td>
+                                    <td class="sb-top"><%= Math.round((item.medPPB[1] /item.data.length) *100) %>% </td>
+                                    <td class="sb-top"><%= Math.round((item.medPPB[2] /item.data.length) *100) %>% </td>
+                                    <td class="sb-top"><%= Math.round((item.medPPB[3] /item.data.length) *100) %>% </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <% } %>
+                    </td>
+                    <td class="s-w-28">
+                        <% if (ops.q2 &&ops.q1) { %>
+                        <table class="s-media-tb">
+                            <thead class="s-centro sf-104">
+                                <th></th>
+                                <th>A</th>
+                                <th>EP</th>
+                                <th>I</th>
+                                <th>NE</th>
+                            </thead>
+                            <tbody>
+                                <tr class="s-centro sf-104">
+                                    <td class="sb-top"> <b>Ʃ</b></td>
+                                    <td class="sb-top"><%= item.medAB[0]%></td>
+                                    <td class="sb-top"><%= item.medAB[1]%> </td>
+                                    <td class="sb-top"> <%=item.medAB[2]%></td>
+                                    <td class="sb-top"> <%=item.medAB[3]%></td>
+                                </tr>
+                                <tr class="s-centro sf-104">
+                                    <td class="sb-top"><b>%</b></td>
+                                    <td class="sb-top"><%= Math.round((item.medAB[0] /item.data.length) *100) %>% </td>
+                                    <td class="sb-top"><%= Math.round((item.medAB[1] /item.data.length) *100)%>% </td>
+                                    <td class="sb-top"><%= Math.round((item.medAB[2] /item.data.length) *100) %>% </td>
+                                    <td class="sb-top"><%= Math.round((item.medAB[3] /item.data.length) *100) %>% </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <% } %>
+                    </td>
+                    <td style="width: 15%;">
+                        <br>_______________________ <br>
+                        <span class="sf-12">FIRMA TUTOR</span>
+                    </td>
+                </tr>
+                <br>
+            </tbody>
+        </table>
+    </div>
+    <div style="page-break-before:always;"></div>
+</div>
+<% }) %>
+<% result?.help2?.forEach(function (item) { %>
+    <div class="s-hojas page s-contenedor">
+        <div class="p-4 s-centro">
+            <table class="s-tabla">
+                <tbody>
+                    <tr>
+                        <td class="s-first">
+                            <img class="s-img" src="https://res.cloudinary.com/stebann/image/upload/v1681418309/logo-ministerio-educacion_fvcptq.png" alt="Logo" />
+                        </td>
+                        <td class="s-last">
+                            <div class="s-centro">
+                                <span class="sfz-600 sf-16"><%= auth.unidadeducativa %></span><br>
+                                <p class="s-centro sf-12">
+                                    Dirección: <%= auth.direccion %> Teléf: <%= auth.telefono %><br> <%= auth.ubicacion %> 
+                                </p>
+                            </div>
+                        </td>
+                        <td class="s-fill s-derecha">
+                            <img class="s-img2" src="<%=auth.logo%>" alt="Logo" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <hr>
+            <table class="s-tabla">
+                <tbody>
+                    <tr>
+                        <td class="sf-12 s-izquierda s-w-50">
+                            Curso : <b><%= item.curso %> / <%= item.paralelo %></b><br>
+                            Asignatura: <b><%= item.materia %></b> <br>
+                            Profesor(a): <b><%= item.docente %></b>
+                        </td>
+                        <td class="sf-12 s-derecha s-w-50">
+                            PERIODO: <b><%= item.periodo %></b><br>
+                            FECHA: <%= item.fechaA %>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="s-base-tb">
+                <thead>
+                    <tr>
+                        <th class="s-pad13 sb-right sb-top sfz-600 sf-104 s-centro sb-button"> N° </th>
+                        <th class="s-pad13 sb-right sb-top sfz-600 sf-104 s-centro sb-button"> ESTUDIANTES </th>
+                        <th class="s-pad13 sb-top sfz-600 sf-104 s-centro sb-button"> <%= ops.quimestre %> </th>
+                        <th class="s-pad13 sb-top sfz-600 sf-104 s-centro sb-button"> RESULTADOS </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% item?.data?.forEach(function (subItems, index) { %>
+                    <tr>
+                        <td class="s-pad13 sb-right sb-button sf-104"> <%= index + 1 %></td>
+                        <td class="s-pad13 sb-right sb-button sf-104 s-izquierda"><%= subItems.estudiante %></td>
+                        <td class="s-pad13 sb-right sb-button sf-104 s-centro"> <%=subItems.p1%></td>
+                        <td class="s-pad13 sb-button sf-104 sfz-600 s-centro"> <%=subItems.letras%></td>
+                    </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+
+            <!-- TODO MEDIA CALIFICACIONES LETRAS CUALITATIVO-->
+            <% if (item.materia!= 'COMPORTAMIENTO') { %>
+            <table class="s-tabla">
+                <tbody>
+                    <tr>
+                        <td class="s-w-28">
+                            <table class="s-media-tb">
+                                <thead class="s-centro sf-104">
+                                    <th></th>
+                                    <th>EX</th>
+                                    <th>MB </th>
+                                    <th>B</th>
+                                    <th>R</th>
+                                </thead>
+                                <% if (ops.q1) { %>
+                                <tbody>
+                                    <tr class="s-centro sf-104">
+                                        <td class="sb-top"><b>Ʃ</b></td>
+                                        <td class="sb-top"><%=item.medPPA[0] %></td>
+                                        <td class="sb-top"><%= item.medPPA[1] %> </td>
+                                        <td class="sb-top"> <%=item.medPPA[2] %></td>
+                                        <td class="sb-top"> <%=item.medPPA[3] %></td>
+                                    </tr>
+                                    <tr class="s-centro sf-104">
+                                        <td class="sb-top"><b>%</b> </td>
+                                        <td class="sb-top"><%= Math.round((item.medPPA[0] /item.data.length) *100) %>% </td>
+                                        <td class="sb-top"><%=Math.round((item.medPPA[1] /item.data.length) *100) %>% </td>
+                                        <td class="sb-top"><%= Math.round((item.medPPA[2] /item.data.length) *100) %>% </td>
+                                        <td class="sb-top"><%=Math.round((item.medPPA[3] /item.data.length) *100) %>% </td>
+                                    </tr>
+                                </tbody>
+                                <% } %>
+                            </table>
+                        </td>
+                        <td class="s-w-28">
+                            <% if (ops.q2) { %>
+                            <table class="s-media-tb">
+                                <thead class="s-centro sf-104">
+                                    <th></th>
+                                    <th>EX</th>
+                                    <th>MB </th>
+                                    <th>B</th>
+                                    <th>R</th>
+                                </thead>
+                                <tbody>
+                                    <tr class="s-centro sf-104">
+                                        <td class="sb-top"><b>Ʃ</b></td>
+                                        <td class="sb-top"><%= item.medPPB[0]%></td>
+                                        <td class="sb-top"><%= item.medPPB[1]%> </td>
+                                        <td class="sb-top"> <%=item.medPPB[2] %></td>
+                                        <td class="sb-top"> <%=item.medPPB[3]%></td>
+                                    </tr>
+                                    <tr class="s-centro sf-104">
+                                        <td class="sb-top"> <b>%</b></td>
+                                        <td class="sb-top"><%= Math.round((item.medPPB[0] /item.data.length) *100) %>% </td>
+                                        <td class="sb-top"><%=Math.round((item.medPPB[1] /item.data.length) *100) %>% </td>
+                                        <td class="sb-top"><%= Math.round((item.medPPB[2] /item.data.length) *100) %>% </td>
+                                        <td class="sb-top"><%= Math.round((item.medPPB[3] /item.data.length) *100) %>% </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <% } %>
+                        </td>
+                        <td class="s-w-28">
+                            <% if (ops.q2 &&ops.q1) { %>
+                            <table class="s-media-tb">
+                                <thead class="s-centro sf-104">
+                                    <th></th>
+                                    <th>EX</th>
+                                    <th>MB </th>
+                                    <th>B</th>
+                                    <th>R</th>
+                                </thead>
+                                <tbody>
+                                    <tr class="s-centro sf-104">
+                                        <td class="sb-top"><b>Ʃ</b> </td>
+                                        <td class="sb-top"><%= item.medAB[0] %></td>
+                                        <td class="sb-top"><%= item.medAB[1] %> </td>
+                                        <td class="sb-top"> <%=item.medAB[2]%></td>
+                                        <td class="sb-top"> <%= item.medAB[3]%></td>
+                                    </tr>
+                                    <tr class="s-centro sf-104">
+                                        <td class="sb-top"><b>%</b></td>
+                                        <td class="sb-top"><%= Math.round((item.medAB[0] /item.data.length) *100)%>% </td>
+                                        <td class="sb-top"><%=Math.round((item.medAB[1] /item.data.length) *100) %>% </td>
+                                        <td class="sb-top"><%=Math.round((item.medAB[2] /item.data.length) *100)%>% </td>
+                                        <td class="sb-top"><%= Math.round((item.medAB[3] /item.data.length) *100)%>% </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <% } %>
+                        </td>
+                        <td style="width: 15%;">
+                            <br>_______________________ <br>
+                            <span class="sf-12">FIRMA TUTOR</span>
+                        </td>
+                    </tr>
+                    <br>
+                </tbody>
+            </table>
+
+            <!-- TODO MEDIA COMPORTAMIENTO -->
+            <% } else { %>
+                <table class="s-tabla">
+                    <tbody>
+                        <tr>
+                            <td class="s-w-28">
+                                <table class="s-media-tb">
+                                    <thead class="s-centro sf-104">
+                                        <th></th>
+                                        <th>A</th>
+                                        <th>B</th>
+                                        <th>C</th>
+                                        <th>D</th>
+                                        <th>E</th>
+                                    </thead>
+                                    <% if (ops.q1) { %>
+                                    <tbody>
+                                        <tr class="s-centro sf-104">
+                                            <td class="sb-top"> <b>Ʃ</b></td>
+                                            <td class="sb-top"><%= item.medPPA[0] %></td>
+                                            <td class="sb-top"><%= item.medPPA[1] %> </td>
+                                            <td class="sb-top"> <%= item.medPPA[2] %></td>
+                                            <td class="sb-top"> <%=item.medPPA[3] %></td>
+                                            <td class="sb-top"> <%=item.medPPA[4] %></td>
+                                        </tr>
+                                        <tr class="s-centro sf-104">
+                                            <td class="sb-top"><b>%</b></td>
+                                            <td class="sb-top"><%= Math.round((item.medPPA[0] /item.data.length) *100) %>% </td>
+                                            <td class="sb-top"><%= Math.round((item.medPPA[1] /item.data.length) *100) %>% </td>
+                                            <td class="sb-top"><%= Math.round((item.medPPA[2] /item.data.length) *100) %>% </td>
+                                            <td class="sb-top"><%= Math.round((item.medPPA[3] /item.data.length) *100)%>% </td>
+                                            <td class="sb-top"><%= Math.round((item.medPPA[4] /item.data.length) *100)%>% </td>
+                                        </tr>
+                                    </tbody>
+                                    <% } %>
+                                </table>
+                            </td>
+                            <td class="s-w-28">
+                                <% if (ops.q2 &&ops.q1) { %>
+                                <table class="s-media-tb">
+                                    <thead class="s-centro sf-104">
+                                        <th></th>
+                                            <th>A</th>
+                                            <th>B</th>
+                                            <th>C</th>
+                                            <th>D</th>
+                                            <th>E</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="s-centro sf-104">
+                                            <td class="sb-top"><b>Ʃ</b></td>
+                                            <td class="sb-top"><%= item.medAB[0] %></td>
+                                            <td class="sb-top"><%= item.medAB[1] %> </td>
+                                            <td class="sb-top"> <%=item.medAB[2] %></td>
+                                            <td class="sb-top"> <%=item.medAB[3]%></td>
+                                            <td class="sb-top"> <%=item.medAB[4] %></td>
+                                        </tr>
+                                        <tr class="s-centro sf-104">
+                                            <td class="sb-top"> <b>%</b></td>
+                                            <td class="sb-top"><%= Math.round((item.medAB[0] /item.data.length) *100)%>% </td>
+                                            <td class="sb-top"><%= Math.round((item.medAB[1] /item.data.length) *100) %>% </td>
+                                            <td class="sb-top"><%= Math.round((item.medAB[2] /item.data.length) *100) %>% </td>
+                                            <td class="sb-top"><%= Math.round((item.medAB[3] /item.data.length) *100)%>% </td>
+                                            <td class="sb-top"><%= Math.round((item.medAB[4] /item.data.length) *100) %>% </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <% } %>
+                            </td>
+                            <td style="width: 15%;">
+                                <br> _______________________ <br>
+                                <span class="sf-12">FIRMA TUTOR</span>
+                            </td>
+                        </tr>
+                        <br>
+                    </tbody>
+                </table>
+            <% } %>
+        </div>
+        <div style="page-break-before:always;"></div>
+    </div>
+<% }) %>

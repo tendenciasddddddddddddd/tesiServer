@@ -57,6 +57,8 @@ var _ = _interopRequireDefault(require("./routes/History/2023.routes"));
 
 var _2 = _interopRequireDefault(require("./routes/History/2022.routes"));
 
+var _estadistica = _interopRequireDefault(require("./routes/Estadistica/estadistica.routes"));
+
 var _aulas = _interopRequireDefault(require("./routes/Aulas/aulas.routes"));
 
 var _tareas = _interopRequireDefault(require("./routes/Aulas/tareas.routes"));
@@ -119,7 +121,7 @@ var corsOptions = {
 
 };
 app.use((0, _cors.default)(corsOptions));
-//app.use((0, _morgan.default)("dev"));
+app.use((0, _morgan.default)("dev"));
 app.use(_express.default.json({
   limit: '50mb'
 }));
@@ -174,7 +176,10 @@ app.use("/api/elemental", _elemental.default);
 /* HISTORIAL REPORTES */
 
 app.use("/api/rep2023", _.default);
-app.use("/api/rep2022", _2.default); //sitemap
+app.use("/api/rep2022", _2.default);
+/* ESTADISTICA Y TUTORES */
+
+app.use("/api/estadistica", _estadistica.default); //sitemap
 
 app.use("/sitemap.xml", _sitemap.default);
 var _default = app;

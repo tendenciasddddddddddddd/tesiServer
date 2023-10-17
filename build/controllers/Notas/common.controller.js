@@ -7,7 +7,7 @@ exports.default = void 0;
 
 var _Matriculas = _interopRequireDefault(require("../../models/Matriculas"));
 
-var _promedios = require("./helper/promedios");
+var _promedios = require("./services/promedios");
 
 var _auditoria = require("./auditoria");
 
@@ -487,7 +487,9 @@ function _saveProyecto() {
       if (dto.supletorio == '') {
         notaAux = promGen;
       } else {
-        notaAux = dto.supletorio;
+        var reg = finalSupletorios(dto);
+        var regAux = reg ? ifDecimal(reg) : '';
+        notaAux = regAux;
       }
 
       dto.notaFinal = notaAux;

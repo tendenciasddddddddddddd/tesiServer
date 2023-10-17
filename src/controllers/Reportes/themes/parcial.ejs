@@ -1,0 +1,148 @@
+<style>
+    .s-contenedor{
+        margin-top: 0.5rem;color: #000; font-family: Arial, Helvetica, sans-serif;background: #fff;
+    }
+    .s-centro{
+        text-align: center
+    }
+    .s-derecha{
+        text-align: right
+    }
+    .s-izquierda{
+        text-align: left
+    }
+    .sf-96{
+        font-size: 9.6px;
+    }
+    .sf-104{
+        font-size: 10.4px;
+    }
+    .sf-12{
+        font-size: 12px;
+    }
+    .sf-14{
+        font-size: 14px;
+    }
+    .sf-16{
+        font-size: 16px;
+    }
+    .sfz-600{
+        font-weight: 600;
+    }
+    .s-parrafo{
+        text-align: justify ;line-height: 1.5;
+    }
+    .s-tabla{
+        width: 100%;
+    }
+    .s-base-tb{
+        margin-top: 10px; border-color: #000;border-style: solid;border-width: 0px 1px 1px;max-width: 100%; width: 100%; border-spacing: 0; border-collapse: separate;border-top: 1px solid #000;
+    }
+    .s-tabla-vertical{
+        writing-mode: vertical-lr; transform: rotate(180deg);
+    }
+    .s-first { width: 15%; }
+    .s-last { width: 70%; }
+    .s-fill { width: 15%; }
+    .s-img{
+        height: 60px
+    }
+    .s-img2{
+        width: 60px
+    }
+    .sb-button{
+        border-bottom: 1px solid #000;
+    }
+    .sb-top {
+        border-top: 1px solid #000;
+    }
+    .sb-right {
+        border-right: 1px solid #000;
+    }
+    .sb-left {
+        border-left: 1px solid #000;
+    }
+    .s-pd13{
+        padding: 1px 3px; 
+    }
+    .s-pd23{
+        padding: 2px 3px; 
+    }
+</style>
+<div class="s-hojas s-contenedor">
+    <div class="p-4 s-centro">
+        <table class="s-tabla">
+            <tbody>
+                <tr>
+                    <td class="s-first">
+                        <img class="s-img" src="https://res.cloudinary.com/stebann/image/upload/v1681418309/logo-ministerio-educacion_fvcptq.png" alt="Logo" />
+                    </td>
+                    <td class="s-last">
+                        <div class="s-centro">
+                            <span class="sfz-600 sf-16">
+                                <%= auth.unidadeducativa %>
+                            </span><br>
+                            <p class="s-centro sf-12">
+                                CONSOLIDADO DE CALIFICACIONES POR PARCIALES <br>
+                                <%= ops.quimestre %> - <%= ops.q1 %>
+                            </p>
+                        </div>
+                    </td>
+                    <td class="s-fill">
+                        <img class="s-img2" src="<%=auth.logo%>" alt="Logo" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="s-tabla">
+            <tbody>
+                <tr class="sf-14">
+                    <td class="s-izquierda">
+                        <b>CURSO</b> <%= result.curso %> / <%= paralelo %>
+                    </td>
+                    <td>
+                        <b>PERIODO</b> AÑO LECTIVO <%= result.periodo %>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="s-base-tb">
+            <thead>
+                <tr>
+                    <th class="sf-96 sfz-600 s-pd13 sb-right sb-button"> N°</th>
+                    <th class="sf-96 sfz-600 s-pd13 sb-button s-izquierda"> APELLIDOS Y NOMBRES</th>
+                    <% result.distributivo.forEach(function (items, index) {%>
+                    <th class="sf-96 sfz-600 s-pd13 sb-right sb-top s-tabla-vertical s-izquierda">
+                        &nbsp;  <%= items.materia?.nombre?.substring(0, 21) %>
+                    </th>
+                    <% }) %>
+                    <th class="sf-96 sfz-600 s-pd13 sb-right sb-top s-tabla-vertical s-izquierda">
+                      &nbsp;  PROMEDIOS
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <% result.help.forEach(function (items, index) {%>
+                <tr>
+                    <td class="s-pd23 sf-96 sb-right sb-button"> <%= index + 1 %> </td>
+                    <td class="s-pd23 sf-96 sb-button s-izquierda"> <%= items.fullname %></td>
+                    <% items.data.forEach(function (subItems, index) { %>
+                    <td class="s-pd23 sf-104 sb-button sb-left s-centro">
+                        <%= subItems %>
+                    </td>
+                    <% }) %>
+                    <td class="s-pd23 sf-96 sb-button sb-left s-centro sfz-600"> <%= items.result %> </td>
+                </tr>
+                <% }) %>
+                <tr>
+                    <td class="s-pd23 sf-96 sb-top"></td>
+                    <td class="s-pd23 sf-96 sb-top sfz-600">PROMEDIO </td>
+                    <% result?.promedios.forEach(function (subItems) { %>
+                    <td class="s-pd23 sf-104 sb-left sb-top s-centro sfz-600"> <%= subItems %> </td>
+                    <% }) %>
+                    <td class="sb-left" ></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

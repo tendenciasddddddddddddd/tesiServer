@@ -1,5 +1,5 @@
 import Matriculas from "../../models/Matriculas";
-import { promedio } from "./helper/promedios";
+import { promedio } from "./services/promedios";
 import { auditoria } from "./auditoria";
 
 const { promedioInsumos, sumaParciales, sumaParciales80, examen20, totalPrimerQuim, finalAnual, finalSupletorios, ifDecimal, ponderado
@@ -372,7 +372,9 @@ async function saveProyecto(idcurso, idmatricula, fkmateria, data) {
     if (dto.supletorio == '') {
       notaAux = promGen
     } else {
-      notaAux = dto.supletorio
+      const reg = finalSupletorios(dto)
+      let regAux = reg ? ifDecimal(reg) : ''
+      notaAux = regAux
     }
     dto.notaFinal = notaAux
 

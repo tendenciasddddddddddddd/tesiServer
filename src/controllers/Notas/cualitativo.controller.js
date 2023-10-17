@@ -1,5 +1,5 @@
 import Matriculas from "../../models/Matriculas";  
-import { promedioLetras } from "./helper/promedioLetras";
+import { promedioLetras } from "./services/promedioLetras";
 
 const { calcPrimerParcial} = promedioLetras()
 

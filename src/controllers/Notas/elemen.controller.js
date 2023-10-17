@@ -1,6 +1,6 @@
 import Matriculas from "../../models/Matriculas";  //CAMBIAMOS TEMPORALMENTE
 import { auditoria } from "./auditoria";
-import { promedio } from "./helper/promedios";
+import { promedio } from "./services/promedios";
 
 const { promedioInsumos, sumaParciales, sumaParciales80, examen20, totalPrimerQuim, 
   finalAnual, ponderado, ponderado90, calcDosPonderado, sumatoriaProm } = promedio();

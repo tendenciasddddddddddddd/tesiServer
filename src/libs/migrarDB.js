@@ -2,7 +2,6 @@ import Matriculas from "../models/Matriculas";
 import Mat2023 from "../models/history/Mat2023";
 import Dis2023 from "../models/history/Dis2023";
 import Temporal from "../models/Temporal";
-import Respaldo from "../models/Respaldo";
 import Distributivo from "../models/distributivos/Distributivo";
 
 export const migracionMatricula = async ()=>{

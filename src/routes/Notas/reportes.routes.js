@@ -1,7 +1,7 @@
 import { Router } from "express";
 const router = Router();
 
-import  Ctrl from "../../controllers/Notas/reportes.controller";
+import  Ctrl from "../../controllers/Reportes/reportes.controller";
 import { authJwt } from "../../middlewares";
 
 router.post("/",[ authJwt.verifyToken], Ctrl.promocion);

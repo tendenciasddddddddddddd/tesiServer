@@ -1,0 +1,453 @@
+<style>
+    .s-contenedor {
+        margin-top: 0.5rem;
+        color: #000;
+        font-family: Arial, Helvetica, sans-serif;
+        background: #fff;
+    }
+
+    .s-centro {
+        text-align: center
+    }
+
+    .s-derecha {
+        text-align: right
+    }
+
+    .s-izquierda {
+        text-align: left
+    }
+
+    .sf-12 {
+        font-size: 12px;
+    }
+
+    .sf-16 {
+        font-size: 16px;
+    }
+
+    .sf-104 {
+        font-size: 10.4px;
+    }
+
+    .sf-8 {
+        font-size: 8px;
+    }
+
+    .sfz-600 {
+        font-weight: 600;
+    }
+
+    .s-tabla {
+        width: 100%;
+    }
+
+    .s-first {
+        width: 15%;
+    }
+
+    .s-last {
+        width: 70%;
+    }
+
+    .s-fill {
+        width: 15%;
+    }
+
+    .s-img {
+        height: 60px
+    }
+
+    .s-img2 {
+        width: 60px
+    }
+
+    .s-tabla-base {
+        margin-top: 7px;
+        border-color: #000;
+        border-style: solid;
+        border-width: 0px 1px 1px;
+        max-width: 100%;
+        width: 100%;
+        border-spacing: 0;
+        border-collapse: separate;
+    }
+
+    .sb-button {
+        border-bottom: 1px solid #000;
+    }
+
+    .sb-top {
+        border-top: 1px solid #000;
+    }
+
+    .sb-right {
+        border-right: 1px solid #000;
+    }
+    .sb-left {
+        border-left: 1px solid #000;
+    }
+
+    .s-pd23 {
+        padding: 2px 3px;
+    }
+
+    .s-pd13 {
+        padding: 1px 3px;
+    }
+
+    .s-pading4 {
+        padding: 0px 2px;
+    }
+
+    .s-pd01 {
+        padding: 0px 1px;
+    }
+
+    .s-w-25 {
+        width: 25%;
+    }
+    .s-w-20 {
+        width: 20%;
+    }
+
+    .s-w-50 {
+        width: 50%;
+    }
+    .s-w-33 {
+        width: 33%;
+    }
+    .s-w-14-28 {
+        width: 14.28%;
+    }
+    .s-w-16-6 {
+        width: 16.6%;
+    }
+</style>
+<% result.forEach(function (item) { %>
+<div class="s-hojas s-contenedor">
+    <div class="p-4 s-centro">
+        <table class="s-tabla">
+            <tbody>
+                <tr>
+                    <td class="s-first">
+                        <img class="s-img"
+                            src="https://res.cloudinary.com/stebann/image/upload/v1681418309/logo-ministerio-educacion_fvcptq.png"
+                            alt="Logo" />
+                    </td>
+                    <td class="s-last">
+                        <div class="s-centro">
+                            <span class="sfz-600 sf-16">
+                                <%= auth.unidadeducativa %>
+                            </span><br>
+                            <p class="s-centro sf-12">
+                                Dirección: <%= auth.direccion %> Teléf: <%= auth.telefono %> <br>
+                                <%= auth.ubicacion %>
+                            </p>
+                        </div>
+                    </td>
+                    <td class="s-fill s-derecha">
+                        <img class="s-img2" src="<%=auth.logo%>" alt="Logo" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <hr>
+        <table class="s-tabla">
+            <tbody>
+                <tr class="s-izquierda sf-12">
+                    <td style="width: 45%;">
+                        CURSO : <b><%= item.curso %> / <%= item.paralelo %></b> <br>
+                        ESTUDIANTE: <b><%= item.nombre %></b>
+                    </td>
+                    <td class="s-centro" style="width: 10%;">
+                        CÓDIGO : <%= item.nmatricula %>
+                    </td>
+                    <td style="width: 45%;" class="s-derecha">
+                        PERIODO: <b><%= item.periodo %></b><br>
+                        FECHA: <b> <%= item.fechaA %></b>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="s-tabla-base">
+            <thead>
+                <tr>
+                    <th class="s-pd13 sf-104 sfz-600 s-centro sb-top sb-right"> ASIGNATURAS</th>
+                    <th class="s-pd13 sf-104 sfz-600 s-centro sb-top"> PRIMER TRIMESTRE</th>
+                    <th class="s-pd13 sf-104 sfz-600 s-centro sb-top"> SEGUNDO TRIMESTRE</th>
+                    <th class="s-pd13 sf-104 sfz-600 s-centro sb-top"> TERCER TRIMESTRE</th>
+                    <th class="s-pd13 sf-104 sfz-600 s-centro sb-top"> RESULTADOS</th>
+                </tr>
+                <tr>
+                    <th class="s-pd23 sb-right sb-button"></th>
+                    <th class="s-pd23 s-centro sb-button s-w-20">
+                        <table class="s-tabla">
+                            <tbody>
+                                <tr class="sf-104 sfz-600">
+                                    <td class="s-w-16-6">INS</td>
+                                    <td class="s-w-16-6">(90%)</td>
+                                    <td class="s-w-16-6">Pry</td>
+                                    <td class="s-w-16-6">Eva</td>
+                                    <td class="s-w-16-6">(10%)</td>
+                                    <td class="s-w-16-6"> <b>T1</b> </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </th>
+                    <th class="s-pd23 s-centro sb-button s-w-20">
+                        <table class="s-tabla">
+                            <tbody>
+                                <tr class="sf-104 sfz-600">
+                                    <td class="s-w-16-6">INS</td>
+                                    <td class="s-w-16-6">(90%)</td>
+                                    <td class="s-w-16-6">Pry</td>
+                                    <td class="s-w-16-6">Eva</td>
+                                    <td class="s-w-16-6">(10%)</td>
+                                    <td class="s-w-16-6"> <b>T2</b> </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </th>
+                    <th class="s-pd23 s-centro sb-button s-w-20">
+                        <table class="s-tabla">
+                            <tbody>
+                                <tr class="sf-104 sfz-600">
+                                    <td class="s-w-16-6">Ins</td>
+                                    <td class="s-w-16-6">(90%)</td>
+                                    <td class="s-w-16-6">Pry</td>
+                                    <td class="s-w-16-6">Eva</td>
+                                    <td class="s-w-16-6">(10%)</td>
+                                    <td class="s-w-16-6"> <b>T3</b> </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </th>
+                    <th class="s-pd23 s-centro sb-button">
+                        <table class="s-tabla">
+                            <tbody>
+                                <tr class="sf-104 s-centro">
+                                    <td class="s-w-25">PRY</td>
+                                    <td class="s-w-25 sfz-600">PROM</td>
+                                    <td class="s-w-25">SUP</td>
+                                    <td class="s-w-25 sfz-600"> PF</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <!--//TODO PINTAR MATERIAS CUANTITATIVAS DE NUMEROS -->
+                <% item.data.forEach(function (subItems, index) { %>
+                <% if (subItems.computo== 2) { %>
+                <tr>
+                    <td class="s-pd13 sb-right sf-104 s-izquierda"> <%= subItems.materia %></td>
+                    <td class="s-pd13 sb-right s-centro">
+                        <table class="s-tabla">
+                            <tbody>
+                                <tr class="sf-104 s-centro">
+                                    <td class="s-w-16-6 s-pd01"><%=subItems.sumAB%></td>
+                                    <td class="s-w-16-6 s-pd01"><%=subItems.sumAB90%></td>
+                                    <td class="s-w-16-6 s-pd01"><%=subItems.pry1%></td>
+                                    <td class="s-w-16-6 s-pd01"><%=subItems.exa1%></td>
+                                    <td class="s-w-16-6 s-pd01"><%=subItems.sumAB10%></td>
+                                    <td class="s-w-16-6 s-pd01"><b><%= subItems.proAB %></b>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td class="s-pd13 sb-right s-centro">
+                        <table class="s-tabla">
+                            <tbody>
+                                <tr class="sf-104 s-centro">
+                                    <td class="s-w-16-6 s-pd01"><%=subItems.sumCD%></td>
+                                    <td class="s-w-16-6 s-pd01"><%=subItems.sumCD90%></td>
+                                    <td class="s-w-16-6 s-pd01"><%=subItems.pry2%></td>
+                                    <td class="s-w-16-6 s-pd01"><%=subItems.exa2%></td>
+                                    <td class="s-w-16-6 s-pd01"><%=subItems.sumCD10%></td>
+                                    <td class="s-w-16-6 s-pd01"><b><%= subItems.proCD %></b>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td class="s-pd13 sb-right s-centro">
+                        <table class="s-tabla">
+                            <tbody>
+                                <tr class="sf-104 s-centro">
+                                    <td class="s-w-16-6 s-pd01"><%=subItems.sumEF%></td>
+                                    <td class="s-w-16-6 s-pd01"><%=subItems.sumEF90%></td>
+                                    <td class="s-w-16-6 s-pd01"><%=subItems.pry3%></td>
+                                    <td class="s-w-16-6 s-pd01"><%=subItems.exa3%></td>
+                                    <td class="s-w-16-6 s-pd01"><%=subItems.sumEF10%></td>
+                                    <td class="s-w-16-6 s-pd01"><b><%= subItems.proEF %></b>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td class="s-pd13">
+                        <table class="s-tabla">
+                            <tbody>
+                                <tr class="sf-104 s-centro">
+                                    <td class="s-w-25 s-pd01"> <%= subItems.pytf %></td>
+                                    <td class="s-w-25 s-pd01"><b><%= subItems.promGen %></b></td>
+                                    <td class="s-w-25 s-pd01"> <%= subItems.suple %></td>
+                                    <td class="s-w-25 s-pd01"><b><%= subItems.final %></b></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <% } %>
+                <% }) %>
+
+                <!--//TODO PINTAR PROMEDIOS GENERALES -->
+                <tr>
+                    <td class="s-pd13 sb-top sf-104"><b>PROMEDIO</b></td>
+                    <td class="s-pd13 sb-top">
+                        <table class="s-tabla">
+                            <tbody>
+                                <tr class="sf-104 s-centro">
+                                    <td class="s-w-16-6"><b><%= item.pAB%></b></td>
+                                    <td class="s-w-16-6"></td>
+                                    <td class="s-w-16-6"></td>
+                                    <td class="s-w-16-6"></td>
+                                    <td class="s-w-16-6"></td>
+                                    <td class="s-w-16-6"> <b><%=item.pgeneral%></b> </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td class="s-pd13 sb-top">
+                        <table class="s-tabla">
+                            <tbody>
+                                <tr class="sf-104 s-centro">
+                                    <td class="s-w-16-6"><b><%= item.pCD%></b></td>
+                                    <td class="s-w-16-6"></td>
+                                    <td class="s-w-16-6"></td>
+                                    <td class="s-w-16-6"></td>
+                                    <td class="s-w-16-6"></td>
+                                    <td class="s-w-16-6"> <b><%=item.pgeneral2%></b> </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td class="s-pd13 sb-top">
+                        <table class="s-tabla">
+                            <tbody>
+                                <tr class="sf-104 s-centro">
+                                    <td class="s-w-16-6"><b><%= item.pEF%></b></td>
+                                    <td class="s-w-16-6"></td>
+                                    <td class="s-w-16-6"></td>
+                                    <td class="s-w-16-6"></td>
+                                    <td class="s-w-16-6"></td>
+                                    <td class="s-w-16-6"> <b><%=item.pgeneral33%></b></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td class="s-pd13 sb-top">
+                        <table class="s-tabla">
+                            <tbody>
+                                <tr class="sf-104 s-centro">
+                                    <td class="s-w-25"></td>
+                                    <td class="s-w-25"></td>
+                                    <td class="s-w-25"></td>
+                                    <td class="s-w-25"><b><%= item.pgeneral3%></b></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+                <!--//TODO PINTAR MATERIAS CUALITATIVAS -->
+                <% item.data.forEach(function (subItems) { %>
+                <% if (subItems.computo!= 2) { %>
+                <tr>
+                    <td class="s-pd13 sb-top sf-104"> <%= subItems.materia %></td>
+                    <td class="s-pd13 sb-top sf-104 s-centro sb-left"><%= subItems.letras1 %></td>
+                    <td class="s-pd13 sb-top sf-104 s-centro sb-left"><%= subItems.letras2 %></td>
+                    <td class="s-pd13 sb-top sf-104 s-centro sb-left"><%= subItems.letras3 %></td>
+                    <td class="s-pd13 sb-top sf-104 s-centro sb-left"><b><%= subItems.letrasf %></b></td>
+                </tr>
+                <% } %>
+                <% }) %>
+                <% item.data2.forEach(function (subItems) { %>
+                <tr>
+                    <td class="s-pd13 sb-top sf-104"><%= subItems.materia %></td>
+                    <td class="s-pd13 sb-top sf-104 s-centro sb-left"><%= subItems.p1 %></td>
+                    <td class="s-pd13 sb-top sf-104 s-centro sb-left"><%= subItems.p2 %></td>
+                    <td class="s-pd13 sb-top sf-104 s-centro sb-left"><%= subItems.p2 %></td>
+                    <td class="s-pd13 sb-top sf-104 s-centro sb-left"><b><%= subItems.final %> </b></td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
+        <table class="s-tabla-base">
+            <tbody>
+                <tr>
+                    <td class="sb-right s-izquierda sf-8">
+                        <b>Escala de Calificaciones Art. 194, reformado, Decreto presidencial No. 366-13 (Art.9)</b>
+                        <table class="s-tabla">
+                            <tbody>
+                                <tr>
+                                    <td class="sf-8 s-izquierda">
+                                        DA = Domina Aprend.(10-9) <br>
+                                        NA = No Alcanza(&lt;=4) <br>
+                                        C = Poco Satisfactorio
+                                    </td>
+                                    <td class="sf-8 s-izquierda">
+                                        AA = Alcanza Aprend.(7-8.99) <br>
+                                        A = Muy Satisfactorio <br>
+                                        D = Mejorable
+                                    </td>
+                                    <td class="sf-8 s-izquierda">
+                                        PA = Próximo Alcanzar(4.01-6.99) <br>
+                                        B = Satisfactorio <br>
+                                        E = Insatisfactorio
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td class="sf-8 s-izquierda">
+                        <b>Evaluación Comportamiento: Art. 222- R/LOEI para sana convivencia social</b>
+                        <table class="s-tabla">
+                            <tbody>
+                                <tr>
+                                    <td class="sf-8 s-izquierda">
+                                        A = Muy Satisfactorio <br>
+                                        B = Satisfactorio <br>
+                                        C = Poco Satisfactorio <br>
+                                        D = Mejorable <br>
+                                        E = Insatisfactorio
+                                    </td>
+                                    <td class="sf-8 s-izquierda">
+                                        Lidera el cumplimiento compromisos establecidos
+                                        <br>
+                                        Cumple con los compromisos establecidos <br>
+                                        Falla ocasionalmente compromisos establecidos
+                                        <br>
+                                        Falla reiteradamente los compromisos establecidos <br>
+                                        No cumple los compromisos establecidos
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="margin-top: 2rem;">
+            <div class="s-centro sf-104">
+                <b>_____________________________</b> <br>
+                DOCENTE/TUTOR
+            </div>
+        </div>
+        <div style="page-break-before:always;"></div>
+    </div>
+</div>
+    <% }) %>

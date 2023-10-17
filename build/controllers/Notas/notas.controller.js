@@ -7,7 +7,7 @@ exports.default = void 0;
 
 var _Matriculas = _interopRequireDefault(require("../../models/Matriculas"));
 
-var _promedios = require("./helper/promedios");
+var _promedios = require("./services/promedios");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

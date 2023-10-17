@@ -13,8 +13,6 @@ var _Dis = _interopRequireDefault(require("../models/history/Dis2023"));
 
 var _Temporal = _interopRequireDefault(require("../models/Temporal"));
 
-var _Respaldo = _interopRequireDefault(require("../models/Respaldo"));
-
 var _Distributivo = _interopRequireDefault(require("../models/distributivos/Distributivo"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }

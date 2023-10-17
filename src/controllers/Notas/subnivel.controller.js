@@ -1,5 +1,5 @@
 import Matriculas from "../../models/Matriculas";
-import { promedio } from "./helper/promedios";
+import { promedio } from "./services/promedios";
 import { auditoria } from "./auditoria";
 
 const { promedioInsumos, sumaParciales, sumaParciales80, examen20, totalPrimerQuim, finalAnual, finalSupletorios, ifDecimal, ponderado
@@ -397,14 +397,17 @@ async function saveProyecto(idcurso, idmatricula, fkmateria, data) {
     const promGen = sumatoriaProm(suma10, dto.suma90)
     dto['suma10'] = suma10
     dto['promGen'] = promGen
+    
     let notaAux = ''
     if (dto.supletorio == '') {
       notaAux = promGen
     } else {
-      notaAux = dto.supletorio
+      const reg = finalSupletorios(dto)
+      let regAux = reg ? ifDecimal(reg) : ''
+      notaAux = regAux
     }
     dto.notaFinal = notaAux
-
+    //console.log(dto.notaFinal)
     await Matriculas.updateOne(
       { _id: idcurso },
       {

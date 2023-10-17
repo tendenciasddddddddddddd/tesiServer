@@ -7,7 +7,7 @@ exports.default = void 0;
 
 var _express = require("express");
 
-var _reportes = _interopRequireDefault(require("../../controllers/Notas/reportes.controller"));
+var _reportes = _interopRequireDefault(require("../../controllers/Reportes/reportes.controller"));
 
 var _middlewares = require("../../middlewares");
 
