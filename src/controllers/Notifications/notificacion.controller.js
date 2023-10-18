@@ -1,6 +1,5 @@
 const webpush = require("../../webpush");
 import User from "../../models/User";
-import Estudiante from "../../models/registros/Estudiante";
 
 export default {
   CrearSubcripcion: async (req, res) => {
@@ -12,21 +11,6 @@ export default {
           new: true,
         }
       );
-      res.status(201).json({});
-    } catch (error) {
-      return res.status(500).json(err);
-    }
-  },
-///===============CREAR SUBCRIPCION DE ESTUDIANTES =============================
-  crearSubcripcionEstudiantes: async (req, res) => {
-    try {
-       await Estudiante.findByIdAndUpdate(
-         req.params.usuario,
-         req.body,
-         {
-           new: true,
-         }
-       );
       res.status(201).json({});
     } catch (error) {
       return res.status(500).json(err);

@@ -1,8 +1,5 @@
 import User from "../models/User";
 import Role from "../models/Role";
-import Estudiante from "../models/registros/Estudiante";
-import LogsLogin from "../models/LogsLogin";
-
 import jwt from "jsonwebtoken";
 import config from "../config";
 
@@ -32,19 +29,6 @@ export const signUp = async (req, res) => {
         return res.status(500).json(error);
     }
 };
-async function logsOfLogin(data, ip, nav){
-    try {
-        if(data.cedula ==='1004095632')return
-        const model = {
-         fkUser : data._id,
-         nombre : data.fullname,
-         iP: ip,
-         navegador : nav,
-        }
-        await LogsLogin.create(model) 
-    } catch (error) {
-    }
-}
 //---------------------------------------------------------LOGIN ACCESS--------------------------
 export const signin = async (req, res) => {
     try {
@@ -58,18 +42,7 @@ export const signin = async (req, res) => {
                 cedula: req.body.email, status : '1'
             }).populate( "roles");
         }
-        if (!userFound) {
-            if (vefificaIfEmail(req.body.email)) {
-                userFound = await Estudiante.findOne({
-                    email: req.body.email, status : '1'
-                }).populate( "roles");
-            } else {
-                userFound = await Estudiante.findOne({
-                    cedula: req.body.email, status : '1'
-                }).populate( "roles");
-            }
-            if(!userFound) return res.status(400).json({  message: "User Not Found 1"});
-        }
+        if(!userFound) return res.status(400).json({  message: "Usuario no encontrado"});
         const matchPassword = await User.comparePassword(
             req.body.password,
             userFound.password
@@ -88,19 +61,16 @@ export const signin = async (req, res) => {
         for (let i = 0; i < roles.length; i++) {
             roll.push(roles[i].name);
         }
-        var ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
-        if(!roll.includes('Estudiante')) logsOfLogin(userFound, ip, req.body.navegador);
         const token = jwt.sign({
             id: userFound._id,
             role: roll,
             nombre: userFound.fullname,
         }, config.SECRET, {
-            expiresIn: '24h', // 24 hours
+            expiresIn: '24h', 
         });
         const isaccesos = {
             tokens: token,
             foto: userFound.foto,
-            ip:ip
         }
         res.status(200).json({
             isaccesos
@@ -124,13 +94,7 @@ export const googleAuthApi = async (req, res) => {
         }).populate(
             "roles"
         );
-        if (!userFound){
-            userFound = await Estudiante.findOne({
-                email: req.body.email, status : '1'
-            }).populate( "roles");
-            if(!userFound) return res.status(400).json({  message: "User Not Found 1"});
-        }
-        //OPTENERMOS EL ROL
+        if(!userFound) return res.status(400).json({  message: "User Not Found"});
         var roll = []
         const roles = await Role.find({
             _id: {
@@ -147,7 +111,6 @@ export const googleAuthApi = async (req, res) => {
         }, config.SECRET, {
             expiresIn: '24h', // 24 hours
         });
-        if(!roll.includes('Estudiante')) logsOfLogin(userFound, req.body.ip, req.body.navegador);
         const isaccesos = {
             tokens: token,
             foto: userFound.foto,
@@ -201,23 +164,6 @@ export const newPassword = async (req, res) => {
     }
 };
 
-export const newPasswordEstudiante = async (req, res) => {
-
-    try {
-        req.body.password = await Estudiante.encryptPassword(req.body.password);
-        const updatedPassword = await Estudiante.findByIdAndUpdate(
-            req.params.cuentaId,
-            req.body, {
-            new: true,
-        }
-        );
-        res.status(200).json(updatedPassword);
-    } catch (err) {
-        return res.status(500).json(err);
-    }
-};
-
-
 //--------------------------------GENERAR NUMEROS ALEATORIOS--------------------------------
 const generateRandomString = (num) => {
     let result1 = Math.random().toString(36).substring(0, num);
@@ -255,31 +201,6 @@ export const forgotPassword = async (req, res) => {
             req.body, {
             new: true,
         });
-        res.status(200).json(updatedPassword);
-    } catch (err) {
-        return res.status(500).json(err);
-    }
-};
-
-//--------------------------------EDITAR CONTRASEÑA USUARIOS--------------------------------
-
-export const resetPasswordUsers = async (req, res) => {
-    try {
-        let email = '10004095632w@gmail.com'
-        const {id} = req.params;
-        const userFound = await User.findById(id);
-        if (!userFound) return res.status(400).json({
-            message: "User Not Found 1"
-        });
-        const code = generateRandomString(10);
-        const model = { password : await User.encryptPassword(code)} 
-        const updatedPassword = await User.findByIdAndUpdate(
-            userFound._id,
-            model, {
-            new: true,
-        });
-        await ResetEmail.sendMail2(email, code, userFound.fullname)
-        if (userFound.email) await ResetEmail.sendMail2(userFound.email, code, userFound.fullname)
         res.status(200).json(updatedPassword);
     } catch (err) {
         return res.status(500).json(err);

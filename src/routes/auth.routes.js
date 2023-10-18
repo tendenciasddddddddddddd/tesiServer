@@ -31,10 +31,6 @@ router.post("/forgotPassword", authCtrl.forgotPassword);
 
 router.post("/GoogleAuthApis", authCtrl.googleAuthApi);
 
-router.post("/resetPasswordUsers/:id",[authJwt.verifyToken], authCtrl.resetPasswordUsers);
-
-router.put("/cuenta2/:cuentaId",[authJwt.verifyToken], authCtrl.newPasswordEstudiante);
-
 router.put("/cuenta/:cuentaId", authCtrl.newPassword);
 
 export default router;

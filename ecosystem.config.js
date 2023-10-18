@@ -1,6 +1,6 @@
 module.exports = {
     apps : [{
-      name : "PCEI-TULCAN",
+      name : "SYST-ARCHIVOS",
       script    : "./build/index.js",
       watch: false,
       max_memory_restart: '1G',

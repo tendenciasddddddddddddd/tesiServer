@@ -1,5 +1,4 @@
 import Repositorio from "../models/Repositorio.js";
-import Periodo from "../models/registros/Periodo.js";
 import User from "../models/User.js";
 
 async function insetFiles(id, model) {
@@ -56,20 +55,15 @@ export default {
   create: async (req, res) => {
     const { nombre, inicio, fin } = req.body;
     try {
-      const periodo = await Periodo.findOne({ estado: '1' })
-      if (periodo) {
-        const model = {
-          nombre : nombre,
-          inicio : inicio,
-          fin : fin,
-          fkperiodo: periodo._id,
-          periodo: periodo,
-        }
-        const reg = await Repositorio.create(model)
-        res.status(201).json(reg);
-      } else {
-        res.status(201).json(null);
-      } 
+      const model = {
+        nombre : nombre,
+        inicio : inicio,
+        fin : fin,
+        fkperiodo: 'periodo._id',
+        periodo: 'periodo',
+      }
+      const reg = await Repositorio.create(model)
+      res.status(201).json(reg);
     } catch (error) {
       return res.status(500).json(error);
     }
