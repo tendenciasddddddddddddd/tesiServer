@@ -5,7 +5,12 @@ import compression from "compression"
 import authRoutes from "./routes/auth.routes";
 
 //---------------------REGISTROS---------------------
-import usuarios from "./routes/user.routes"
+import usuarioRoutes from "./routes/user.routes"
+import clienteRoutes from "./routes/cliente.routes"
+
+import archivadorRoutes from "./routes/archivador.routes"
+import serviciosRoutes from "./routes/servicios.routes"
+
 import uploads from "./routes/Archivos/upload"
 import repositorioRoutes from "./routes/repositorio.routes"
 import notificacionRoutes from "./routes/Notifications/notificacion.routes"
@@ -23,16 +28,23 @@ var corsOptions = {
   optionsSuccessStatus: 200 
 }
 app.use(cors(corsOptions));
+
 app.use(morgan("dev"));
-app.use(express.json({limit: '50mb'}));
-app.use(express.urlencoded({limit: '50mb'}));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }))
+
 app.use(compression())
 
 app.use('/uploads', express.static(path.join(__dirname, '..', 'archivoss')))
 
 app.use("/api/auth", authRoutes);
 app.use("/api/upload", uploads);
-app.use("/api/users", usuarios);
+app.use("/api/users", usuarioRoutes);
+app.use("/api/cliente", clienteRoutes);
+
+app.use("/api/archivador", archivadorRoutes);
+app.use("/api/servicios", serviciosRoutes);
+
 app.use("/api/notificacion", notificacionRoutes)
 app.use("/api/repositorio",repositorioRoutes)
 

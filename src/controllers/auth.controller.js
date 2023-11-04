@@ -1,4 +1,5 @@
 import User from "../models/User";
+import Cliente from "../models/Cliente";
 import Role from "../models/Role";
 import jwt from "jsonwebtoken";
 import config from "../config";
@@ -153,6 +154,22 @@ export const newPassword = async (req, res) => {
     try {
         req.body.password = await User.encryptPassword(req.body.password);
         const updatedPassword = await User.findByIdAndUpdate(
+            req.params.cuentaId,
+            req.body, {
+            new: true,
+        }
+        );
+        res.status(200).json(updatedPassword);
+    } catch (err) {
+        return res.status(500).json(err);
+    }
+};
+
+export const newPasswordClient = async (req, res) => {
+
+    try {
+        req.body.password = await Cliente.encryptPassword(req.body.password);
+        const updatedPassword = await Cliente.findByIdAndUpdate(
             req.params.cuentaId,
             req.body, {
             new: true,

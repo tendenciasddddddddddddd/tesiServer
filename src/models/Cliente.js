@@ -16,7 +16,6 @@ const productSchema = new Schema(
     estado: Boolean,
     telefono: String,
     fullname: String,
-    visible:Boolean,
     direccion: String,
     ifPassword : String,
     roles: [
@@ -41,4 +40,4 @@ productSchema.statics.comparePassword = async (password, receivedPassword) => {
   return await bcrypt.compare(password, receivedPassword)
 }
 
-export default model("User", productSchema);
+export default model("Cliente", productSchema);

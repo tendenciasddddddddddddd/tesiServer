@@ -31,6 +31,8 @@ router.post("/forgotPassword", authCtrl.forgotPassword);
 
 router.post("/GoogleAuthApis", authCtrl.googleAuthApi);
 
-router.put("/cuenta/:cuentaId", authCtrl.newPassword);
+router.put("/newPassUser/:cuentaId", authCtrl.newPassword);
+
+router.put("/newPassClient/:cuentaId", authCtrl.newPasswordClient);
 
 export default router;

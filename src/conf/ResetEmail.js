@@ -15,9 +15,9 @@ const sendMail = async (user, code) => {
     try {
         const data = await ejs.renderFile(__dirname + "/resetTemplate.ejs", { codigo: code });
         await transporter.sendMail({
-            from: '"WYS-WEB" <weswebsystem@gmail.com>', 
+            from: '"ARCHIVADOR" <weswebsystem@gmail.com>', 
             to : `${user}`,
-            subject: "Restablece tu contraseña de plataforma", 
+            subject: "Restablece tu contraseña del gestor de archivos", 
             html : data
           });
           

@@ -10,6 +10,7 @@ export const createRoles = async () => {
     const values = await Promise.all([
       new Role({ name: "Admin" }).save(),
       new Role({ name: "Usuario" }).save(),
+      new Role({ name: "Cliente" }).save(),
     ]);
 
     console.log(values);
@@ -29,7 +30,8 @@ export const createAdmin = async () => {
       fullname: "MARTINEZ MARTINEZ ESTEBAN WLADIMIR",
       cedula: "1004095632",
       foto: "https://res.cloudinary.com/dvpp07pji/image/upload/v1678812180/avatar_def_qkmwey.webp",
-      status: "1",
+      estado: true,
+      visible : false,
       telefono: "0995283857",
     });
     console.log('Admin User Created!')
