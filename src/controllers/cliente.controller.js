@@ -30,17 +30,17 @@ export const gets = async (req, res) => {
       total: total,
     };
     return res.json(coleccion);
-  } catch (error) {
+  } catch (err) {
     return res.status(500).json(err);
   }
 };
 
 export const create = async (req, res) => {
   try {
-    const { email, password, roles, direccion, cedula, foto, fullname, ifPassword, estado, telefono } = req.body;
+    const { email, password, roles, direccion, identificacion, foto, nombres, ifPassword, estado, telefono, tipoidentificacion } = req.body;
 
     const newCliente = new Cliente({
-      email, direccion, foto, cedula, fullname, ifPassword, estado, telefono,
+      email, direccion, foto, identificacion, nombres, ifPassword, estado, telefono,tipoidentificacion,
       password: await Cliente.encryptPassword(password),
     });
 
@@ -53,6 +53,7 @@ export const create = async (req, res) => {
     await createArchivador(result)
     return res.status(200).json({});
   } catch (error) {
+    console.log(error);
     return res.status(500).json(error);
   }
 };
@@ -62,7 +63,7 @@ export const getById = async (req, res) => {
     const UsuariosId = mongoose.Types.ObjectId(req.params.id);
     const usuarios = await Cliente.findById(UsuariosId);
     res.status(200).json(usuarios);
-  } catch (error) {
+  } catch (err) {
     return res.status(500).json(err);
   }
 };

@@ -84,7 +84,7 @@ export const deletes = async (req, res) => {
 export const getRoles = async (req, res) => {
   try {
     const roless = await Role.find({
-      name: { $in: ["Admin", "Usuario"] },
+      name: { $in: ["Admin", "Empleado"] },
     });
     return res.json(roless);
   } catch (error) {
@@ -99,8 +99,10 @@ export const create = async (req, res) => {
     const user = new User({
       email, visible, foto, cedula, fullname, ifPassword, estado,direccion,telefono,
       password: await User.encryptPassword(password),
-      roles: [roles],
     });
+
+    const role = await Role.findOne({ name: "Empleado" });
+    user.roles = [role._id];
 
     user.password = await User.encryptPassword(user.password);
     await user.save();

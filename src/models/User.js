@@ -19,6 +19,7 @@ const productSchema = new Schema(
     visible:Boolean,
     direccion: String,
     ifPassword : String,
+    theme : String,
     roles: [
       {
         type: Schema.Types.ObjectId,

@@ -9,7 +9,7 @@ export const createRoles = async () => {
     if (count > 0) return;
     const values = await Promise.all([
       new Role({ name: "Admin" }).save(),
-      new Role({ name: "Usuario" }).save(),
+      new Role({ name: "Empleado" }).save(),
       new Role({ name: "Cliente" }).save(),
     ]);
 

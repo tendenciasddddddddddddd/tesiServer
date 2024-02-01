@@ -8,14 +8,15 @@ const productSchema = new Schema(
       type: String,
       required: true,
     },
-    cedula: {
+    identificacion: {
       type: String,
       unique: true,
     },
+    tipoidentificacion : String,
     foto: String,
     estado: Boolean,
     telefono: String,
-    fullname: String,
+    nombres: String,
     direccion: String,
     ifPassword : String,
     roles: [
