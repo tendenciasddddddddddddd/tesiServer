@@ -2,13 +2,9 @@ import Servicios from "../models/Servicios";
 
 export default {
   create: async (req, res) => {
-    const { nombre, estado, descripcion } = req.body;
     try {
-      const newData = new Servicios({
-        nombre, estado, descripcion
-      });
-      const dataSaved = await newData.save();
-      res.status(201).json(dataSaved);
+      await Servicios.create(req.body);
+      res.status(201).json({});
     } catch (error) {
       return res.status(500).json(error);
     }
@@ -20,12 +16,12 @@ export default {
       const skip = parseInt(req.query.page);
       const total = await Servicios.countDocuments();
       const paginas = Math.ceil(total / limit);
-      const collections = await Servicios.find()
+      const reg = await Servicios.find()
         .skip(limit * skip - limit)
         .limit(limit)
         .lean();
       const coleccion = {
-        collections: collections,
+        reg: reg,
         pagina: skip,
         paginas: paginas,
         total: total,

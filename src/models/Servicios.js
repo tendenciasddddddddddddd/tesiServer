@@ -5,6 +5,7 @@ const resSchema = new Schema(
     nombre : String,
     descripcion : String,
     estado : Boolean,
+    responsable : {},
   },
   {
     timestamps: true,

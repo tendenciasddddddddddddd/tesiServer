@@ -1,17 +1,22 @@
 import Cliente from "../models/Cliente";
-import Role from "../models/Role";
-import Archivador from "../models/Archivador";
-var mongoose = require("mongoose");
+import Drive from "../models/Drive.js";
 
 async function createArchivador(data) {
   try {
-    const { _id, email, direccion, cedula, foto, fullname, telefono } = data
-    const model = { 
-      cliente : {email, direccion, cedula, foto, fullname, telefono},
-      fkCliente : _id
+    const model = {
+      cliente : data,
+      fkCliente : data._id
     }
-    await Archivador.create(model);
+    await Drive.create(model);
   } catch (error) { }
+}
+
+async function updateDrive(id, model) {
+  try {
+    await Drive.updateOne({fkCliente:id}, { cliente: model }, { new: true, });
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 export const gets = async (req, res) => {
@@ -35,23 +40,22 @@ export const gets = async (req, res) => {
   }
 };
 
+export const list = async (req, res) => {
+  try {
+    const reg = await Cliente.find().sort({ 'createdAt': -1 });
+    res.status(200).json(reg);
+} catch (e) {
+    res.status(500).send({
+        message: 'Ocurrió un error'
+    });
+    next(e);
+}
+};
+
 export const create = async (req, res) => {
   try {
-    const { email, password, roles, direccion, identificacion, foto, nombres, ifPassword, estado, telefono, tipoidentificacion } = req.body;
-
-    const newCliente = new Cliente({
-      email, direccion, foto, identificacion, nombres, ifPassword, estado, telefono,tipoidentificacion,
-      password: await Cliente.encryptPassword(password),
-    });
-
-    const role = await Role.findOne({ name: "Cliente" });
-
-    newCliente.roles = [role._id];
-    newCliente.password = await Cliente.encryptPassword(newCliente.password);
-
-    const result =  await newCliente.save();
-    await createArchivador(result)
-    return res.status(200).json({});
+    const reg = await Cliente.create(req.body);
+    res.status(200).json({});
   } catch (error) {
     console.log(error);
     return res.status(500).json(error);
@@ -60,7 +64,7 @@ export const create = async (req, res) => {
 
 export const getById = async (req, res) => {
   try {
-    const UsuariosId = mongoose.Types.ObjectId(req.params.id);
+    const UsuariosId = req.params.id;
     const usuarios = await Cliente.findById(UsuariosId);
     res.status(200).json(usuarios);
   } catch (err) {
@@ -70,8 +74,6 @@ export const getById = async (req, res) => {
 
 export const update = async (req, res) => {
   try {
-    const { roles } = req.body
-    req.body.roles = [roles];
     const updatedUsuarios = await Cliente.findByIdAndUpdate(
       req.params.id,
       req.body,
@@ -91,6 +93,11 @@ export const deletes = async (req, res) => {
     const array = cadenaId.split(",");
     await Cliente.deleteMany({
       _id: {
+        $in: array,
+      },
+    });
+    await Drive.deleteMany({
+      fkCliente: {
         $in: array,
       },
     });

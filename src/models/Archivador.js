@@ -6,7 +6,6 @@ const resSchema = new Schema(
     fkCliente: {
         type: Schema.Types.ObjectId,
         ref: "Cliente",
-        unique: true,
     },
     documentos: [{
       servicio : {},

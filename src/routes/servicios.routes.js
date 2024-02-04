@@ -4,7 +4,7 @@ const router = Router();
 import  Ctrl from "../controllers/servicio.controller";
 import { authJwt } from "../middlewares";
 
-router.get("/lista", Ctrl.getListas);
+router.get("/list", Ctrl.getListas);
 
 router.get("/query",[authJwt.verifyToken], Ctrl.query);
 

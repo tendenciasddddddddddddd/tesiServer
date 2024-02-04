@@ -1,5 +1,6 @@
 import Role from "../models/Role";
 import User from "../models/User";
+import Agencia from "../models/Agencia.js";
 
 import bcrypt from "bcryptjs";
 
@@ -36,5 +37,22 @@ export const createAdmin = async () => {
     });
     console.log('Admin User Created!')
   }
+};
+
+export const createAgencia = async () => {
+  await Agencia.deleteMany();
+  await Agencia.create({
+    razonSocial: 'xxxxxxx',
+    nombreComercial: 'xxxxxxx',
+    ruc: 'xxxxxxx',
+    codDoc: '01',
+    establecimiento: '001',
+    ptoEmicion: '001',
+    dirMatriz: 'xxxxxxx',
+    dirEstablecimiento: 'xxxxxxx',
+    obligadoContabilidad: 'NO',
+    logo : 'https://res.cloudinary.com/dvpp07pji/image/upload/v1696976876/EMPRRSA/2_ausyc1.png'
+  });
+  console.log('Agencia creada');
 };
 

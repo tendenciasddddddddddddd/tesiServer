@@ -8,6 +8,8 @@ router.post("/", [authJwt.verifyToken], usuariosCtrl.create);
 
 router.get("/query", [authJwt.verifyToken], usuariosCtrl.query);
 
+router.get("/list", [authJwt.verifyToken], usuariosCtrl.list);
+
 router.get("/:id", [authJwt.verifyToken], usuariosCtrl.getById);
 
 router.get( "/",  [authJwt.verifyToken], usuariosCtrl.gets);

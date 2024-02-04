@@ -15,11 +15,14 @@ import uploads from "./routes/Archivos/upload"
 import repositorioRoutes from "./routes/repositorio.routes"
 import notificacionRoutes from "./routes/Notifications/notificacion.routes"
 
-import { createRoles, createAdmin, } from "./libs/initialSetup";
+import agenciaRoutes from "./routes/Registros/agencia.routes.js"
+import driveRoutes from "./routes/drive.routes.js"
+
+import { createRoles, createAdmin,createAgencia } from "./libs/initialSetup";
 const app = express();
 //createRoles();
 //createAdmin();
-
+//createAgencia()
 
 import cors from "cors";
 
@@ -47,5 +50,7 @@ app.use("/api/servicios", serviciosRoutes);
 
 app.use("/api/notificacion", notificacionRoutes)
 app.use("/api/repositorio",repositorioRoutes)
+app.use("/api/agencia", agenciaRoutes)
+app.use("/api/drive",driveRoutes)
 
 export default app;

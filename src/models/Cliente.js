@@ -4,10 +4,6 @@ import bcrypt from "bcryptjs";
 const productSchema = new Schema(
   {
     email: String,
-    password: {
-      type: String,
-      required: true,
-    },
     identificacion: {
       type: String,
       unique: true,
@@ -18,13 +14,6 @@ const productSchema = new Schema(
     telefono: String,
     nombres: String,
     direccion: String,
-    ifPassword : String,
-    roles: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Role",
-      },
-    ],
   },
   {
     timestamps: true,
