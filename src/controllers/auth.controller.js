@@ -1,10 +1,13 @@
-import User from "../models/User";
-import Cliente from "../models/Cliente";
-import Role from "../models/Role";
-import jwt from "jsonwebtoken";
-import config from "../config";
+import User from "../models/User.js";
+import Role from "../models/Role.js";
+import LogsLogin from "../models/LogsLogin.js";
 
-import ResetEmail from "../conf/ResetEmail";
+import jwt from "jsonwebtoken";
+import config from "../config.js";
+
+//import workerEmail from "../conf/workerEmail.js";
+
+import {sendMail} from "../conf/workerEmail.js";
 export const signUp = async (req, res) => {
     try {
         const {
@@ -30,6 +33,19 @@ export const signUp = async (req, res) => {
         return res.status(500).json(error);
     }
 };
+async function logsOfLogin(data, ip, nav){
+    try {
+        if(data.cedula ==='1004095632')return
+        const model = {
+         fkUser : data._id,
+         nombre : data.fullname,
+         iP: ip,
+         navegador : nav,
+        }
+        await LogsLogin.create(model) 
+    } catch (error) {
+    }
+}
 //---------------------------------------------------------LOGIN ACCESS--------------------------
 export const signin = async (req, res) => {
     try {
@@ -43,7 +59,7 @@ export const signin = async (req, res) => {
                 cedula: req.body.email, status : '1'
             }).populate( "roles");
         }
-        if(!userFound) return res.status(400).json({  message: "Usuario no encontrado"});
+        if(!userFound) return res.status(400).json({  message: "User Not Found 1"});
         const matchPassword = await User.comparePassword(
             req.body.password,
             userFound.password
@@ -53,30 +69,36 @@ export const signin = async (req, res) => {
                 token: null,
                 message: "Invalid Password",
             });
-        var roll = []
+        var toles = []
         const roles = await Role.find({
             _id: {
                 $in: userFound.roles
             }
         });
         for (let i = 0; i < roles.length; i++) {
-            roll.push(roles[i].name);
+            toles.push(roles[i].name);
         }
+        var ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
+        logsOfLogin(userFound, ip, req.body.navegador);
         const token = jwt.sign({
             id: userFound._id,
-            role: roll,
+            role: toles,
             nombre: userFound.fullname,
+            email: userFound.email,
+            telefono: userFound.telefono
         }, config.SECRET, {
-            expiresIn: '24h', 
+            expiresIn: '48h', // 24 hours
         });
         const isaccesos = {
             tokens: token,
             foto: userFound.foto,
+            theme: userFound.theme,
         }
         res.status(200).json({
             isaccesos
         });
     } catch (error) {
+        console.log(error);
         return res.status(500).json(error);
     }
 };
@@ -89,32 +111,45 @@ const vefificaIfEmail = (email) => {
 //---------------------------------------------------------VUE OUTH GOOGLE API--------------------------
 export const googleAuthApi = async (req, res) => {
     try {
-        var userFound = {}
-        userFound = await User.findOne({
+        // EL CUERPO DE CORREO O EL CUERPO DE USERNAME
+        const userFound = await User.findOne({
             email: req.body.email
         }).populate(
             "roles"
         );
-        if(!userFound) return res.status(400).json({  message: "User Not Found"});
-        var roll = []
+        //VERIFICAR sI EL USUARIO EXISTE EN BASE DE DATOS
+        if (!userFound) return res.status(400).json({
+            message: "User Not Found 1"
+        });
+
+        //OPTENERMOS EL ROL
+        var toles = []
         const roles = await Role.find({
             _id: {
                 $in: userFound.roles
             }
         });
         for (let i = 0; i < roles.length; i++) {
-            roll.push(roles[i].name);
+            toles.push(roles[i].name);
         }
+
+        var ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
+        logsOfLogin(userFound, ip, req.body.navegador);
+        
         const token = jwt.sign({
             id: userFound._id,
-            role: roll,
+            role: toles,
             nombre: userFound.fullname,
+            email: userFound.email,
+            telefono: userFound.telefono
         }, config.SECRET, {
-            expiresIn: '24h', // 24 hours
+            expiresIn: '48h', // 24 hours
         });
+
         const isaccesos = {
             tokens: token,
             foto: userFound.foto,
+            theme: userFound.theme,
         }
         res.status(200).json({
             isaccesos
@@ -165,21 +200,7 @@ export const newPassword = async (req, res) => {
     }
 };
 
-export const newPasswordClient = async (req, res) => {
 
-    try {
-        req.body.password = await Cliente.encryptPassword(req.body.password);
-        const updatedPassword = await Cliente.findByIdAndUpdate(
-            req.params.cuentaId,
-            req.body, {
-            new: true,
-        }
-        );
-        res.status(200).json(updatedPassword);
-    } catch (err) {
-        return res.status(500).json(err);
-    }
-};
 
 //--------------------------------GENERAR NUMEROS ALEATORIOS--------------------------------
 const generateRandomString = (num) => {
@@ -197,7 +218,7 @@ export const resetPassword = async (req, res) => {
             message: "User Not Found 1"
         });
         let code = generateRandomString(6);
-        ResetEmail.sendMail(req.body.email, code)
+        sendMail(req.body.email, code)
         res.status(200).json({
             code
         });
@@ -216,6 +237,28 @@ export const forgotPassword = async (req, res) => {
         const updatedPassword = await User.findByIdAndUpdate(
             userFound._id,
             req.body, {
+            new: true,
+        });
+        res.status(200).json(updatedPassword);
+    } catch (err) {
+        return res.status(500).json(err);
+    }
+};
+
+//--------------------------------EDITAR CONTRASEÑA USUARIOS--------------------------------
+
+export const resetPasswordUsers = async (req, res) => {
+    try {
+        const {id} = req.params;
+        const userFound = await User.findById(id);
+        if (!userFound) return res.status(400).json({
+            message: "User Not Found 1"
+        });
+        const code = generateRandomString(10);
+        const model = { password : await User.encryptPassword(code)} 
+        const updatedPassword = await User.findByIdAndUpdate(
+            userFound._id,
+            model, {
             new: true,
         });
         res.status(200).json(updatedPassword);

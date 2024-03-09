@@ -1,5 +1,5 @@
-import Role from "../models/Role";
-import User from "../models/User";
+import Role from "../models/Role.js";
+import User from "../models/User.js";
 import Agencia from "../models/Agencia.js";
 
 import bcrypt from "bcryptjs";
@@ -26,7 +26,7 @@ export const createAdmin = async () => {
   if (!user) {
     await User.create({
       email: "10004095632w@gmail.com",
-      password: await bcrypt.hash("Admin**", 4),
+      password: await bcrypt.hash("Medid100.**", 4),
       roles: roles.map((role) => role._id),//****APARTIR DE A1QUI LOS NUEVOS DATOS
       fullname: "MARTINEZ MARTINEZ ESTEBAN WLADIMIR",
       cedula: "1004095632",

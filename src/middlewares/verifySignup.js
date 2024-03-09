@@ -1,5 +1,6 @@
-import User from "../models/User";
-import { ROLES } from "../models/Role";
+import User from "../models/User.js";
+import Cliente from "../models/Cliente.js";
+import { ROLES } from "../models/Role.js";
 
 const checkDuplicateUsernameOrEmail = async (req, res, next) => {
   try {
@@ -9,6 +10,18 @@ const checkDuplicateUsernameOrEmail = async (req, res, next) => {
     next();
   } catch (error) {
     res.status(500).json({ message: error });
+  }
+};
+const checkDuplicateClientes = async (req, res, next) => {
+  try {
+    const user = await Cliente.findOne({identificacion: req.body.identificacion });
+    if (user)
+      return res.status(400).json({ message: "El numero de cédula ya existe" });
+    next();
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: error });
+    
   }
 };
 const checkRolesExisted = (req, res, next) => {
@@ -25,4 +38,4 @@ const checkRolesExisted = (req, res, next) => {
 };
 
 
-export { checkDuplicateUsernameOrEmail, checkRolesExisted};
+export { checkDuplicateUsernameOrEmail, checkRolesExisted, checkDuplicateClientes};

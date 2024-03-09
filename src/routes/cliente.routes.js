@@ -1,23 +1,26 @@
 import { Router } from "express";
 const router = Router();
 
-import * as usuariosCtrl from "../controllers/cliente.controller";
-import { authJwt } from "../middlewares";
+import * as usuariosCtrl from "../controllers/cliente.controller.js";
+import { verifyToken } from "../middlewares/authJwt.js";
+import { checkDuplicateClientes } from "../middlewares/verifySignup.js";
 
-router.post("/", [authJwt.verifyToken], usuariosCtrl.create);
+router.post("/", [verifyToken, checkDuplicateClientes], usuariosCtrl.create);
 
-router.get("/query", [authJwt.verifyToken], usuariosCtrl.query);
+router.get("/query", verifyToken, usuariosCtrl.query);
 
-router.get("/list", [authJwt.verifyToken], usuariosCtrl.list);
+router.get("/list", verifyToken, usuariosCtrl.list);
 
-router.get("/:id", [authJwt.verifyToken], usuariosCtrl.getById);
+router.get('/wscedula/:cedula',verifyToken,usuariosCtrl.getByCedulaWebService);
 
-router.get( "/",  [authJwt.verifyToken], usuariosCtrl.gets);
+router.get("/:id", verifyToken, usuariosCtrl.getById);
 
-router.put("/:id", [authJwt.verifyToken], usuariosCtrl.update);
+router.get( "/",  verifyToken, usuariosCtrl.gets);
 
-router.delete("/:id", [authJwt.verifyToken], usuariosCtrl.deletes);
+router.put("/:id", verifyToken, usuariosCtrl.update);
 
-router.put('/activate/:id',[authJwt.verifyToken], usuariosCtrl.activate);
+router.delete("/:id", verifyToken, usuariosCtrl.deletes);
+
+router.put('/activate/:id',verifyToken, usuariosCtrl.activate);
 
 export default router;

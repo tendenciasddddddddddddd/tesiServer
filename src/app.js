@@ -1,24 +1,27 @@
-const path = require('path');
+import path from 'path';
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+
 import express from 'express';
 import morgan from "morgan";
 import compression from "compression"
-import authRoutes from "./routes/auth.routes";
+import authRoutes from "./routes/auth.routes.js";
 
 //---------------------REGISTROS---------------------
-import usuarioRoutes from "./routes/user.routes"
-import clienteRoutes from "./routes/cliente.routes"
+import usuarioRoutes from "./routes/user.routes.js"
+import clienteRoutes from "./routes/cliente.routes.js"
 
-import archivadorRoutes from "./routes/archivador.routes"
-import serviciosRoutes from "./routes/servicios.routes"
+import archivadorRoutes from "./routes/archivador.routes.js"
+import serviciosRoutes from "./routes/servicios.routes.js"
 
-import uploads from "./routes/Archivos/upload"
-import repositorioRoutes from "./routes/repositorio.routes"
-import notificacionRoutes from "./routes/Notifications/notificacion.routes"
+import repositorioRoutes from "./routes/repositorio.routes.js"
 
 import agenciaRoutes from "./routes/Registros/agencia.routes.js"
 import driveRoutes from "./routes/drive.routes.js"
 
-import { createRoles, createAdmin,createAgencia } from "./libs/initialSetup";
+import { createRoles, createAdmin,createAgencia } from "./libs/initialSetup.js";
 const app = express();
 //createRoles();
 //createAdmin();
@@ -36,19 +39,19 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 
+app.set('view engine', 'ejs');
+
 app.use(compression())
 
-app.use('/uploads', express.static(path.join(__dirname, '..', 'archivoss')))
+app.use('/uploads/documentos_xml/', express.static(path.join(__dirname, '..', 'documentos_xml')))
 
 app.use("/api/auth", authRoutes);
-app.use("/api/upload", uploads);
 app.use("/api/users", usuarioRoutes);
 app.use("/api/cliente", clienteRoutes);
 
 app.use("/api/archivador", archivadorRoutes);
 app.use("/api/servicios", serviciosRoutes);
 
-app.use("/api/notificacion", notificacionRoutes)
 app.use("/api/repositorio",repositorioRoutes)
 app.use("/api/agencia", agenciaRoutes)
 app.use("/api/drive",driveRoutes)

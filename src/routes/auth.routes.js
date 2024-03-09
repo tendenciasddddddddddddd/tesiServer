@@ -1,9 +1,8 @@
 import { Router } from "express";
 const router = Router();
 
-import * as authCtrl from "../controllers/auth.controller";
-import { verifySignup } from "../middlewares";
-import { authJwt } from "../middlewares";
+import * as authCtrl from "../controllers/auth.controller.js";
+import { verifyToken } from "../middlewares/authJwt.js";
 
 router.use((req, res, next) => {
   res.header(
@@ -13,13 +12,7 @@ router.use((req, res, next) => {
   next();
 });
 
-router.get("/", [authJwt.verifyToken], authCtrl.veficUser);
-
-router.post(
-  "/signup",
-  [verifySignup.checkDuplicateUsernameOrEmail, verifySignup.checkRolesExisted],
-  authCtrl.signUp
-);
+router.get("/", [verifyToken], authCtrl.veficUser);
 
 
 router.post("/signin", authCtrl.signin);
@@ -34,6 +27,5 @@ router.post("/GoogleAuthApis", authCtrl.googleAuthApi);
 
 router.put("/newPassUser/:cuentaId", authCtrl.newPassword);
 
-router.put("/newPassClient/:cuentaId", authCtrl.newPasswordClient);
 
 export default router;

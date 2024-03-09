@@ -1,4 +1,4 @@
-import Servicios from "../models/Servicios";
+import Servicios from "../models/Servicios.js";
 
 export default {
   create: async (req, res) => {

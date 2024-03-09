@@ -1,25 +1,23 @@
 import { Router } from "express";
 const router = Router();
 
-import * as usuariosCtrl from "../controllers/user.controller";
-import { authJwt } from "../middlewares";
+import * as usuariosCtrl from "../controllers/user.controller.js";
+import { verifyToken } from "../middlewares/authJwt.js";
 
-router.post("/", [authJwt.verifyToken], usuariosCtrl.create);
+router.get("/buscadorusuarioss", [verifyToken], usuariosCtrl.getBuscadorUsuarios);
 
-router.get("/newrol", [authJwt.verifyToken], usuariosCtrl.getRoles);
+router.get("/newrol", [verifyToken], usuariosCtrl.getRoles);
 
-router.get("/query", [authJwt.verifyToken], usuariosCtrl.query);
+router.get("/query", [verifyToken], usuariosCtrl.query);
 
-router.get("/:id", [authJwt.verifyToken], usuariosCtrl.getById);
+router.get("/:id", [verifyToken], usuariosCtrl.getUsuariosById);
 
-router.get( "/",  [authJwt.verifyToken], usuariosCtrl.gets);
+router.get( "/",  [verifyToken], usuariosCtrl.getUsuarios);
 
-router.put("/:id", [authJwt.verifyToken], usuariosCtrl.update);
+router.put("/:usuariosId", [verifyToken], usuariosCtrl.updateUsuariosById);
 
-router.put("/perfil/:id", [authJwt.verifyToken], usuariosCtrl.updatePerfil);
+router.delete("/:id", [verifyToken], usuariosCtrl.deleteUsuariosById);
 
-router.delete("/:id", [authJwt.verifyToken], usuariosCtrl.deletes);
-
-router.put('/activate/:id',[authJwt.verifyToken], usuariosCtrl.activate);
+router.put('/activate/:id',[verifyToken], usuariosCtrl.activate);
 
 export default router;

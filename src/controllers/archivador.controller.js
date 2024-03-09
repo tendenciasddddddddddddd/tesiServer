@@ -1,4 +1,4 @@
-import Archivador from "../models/Archivador";
+import Archivador from "../models/Archivador.js";
 
 export default {
     getAll: async (req, res) => {

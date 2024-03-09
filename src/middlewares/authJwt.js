@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
-import config from "../config";
-import User from "../models/User";
-import Role from "../models/Role";
+import config from "../config.js";
+import User from "../models/User.js";
+import Role from "../models/Role.js";
 
 export const verifyToken = async (req, res, next) => {
   let token = req.headers["x-access-token"];
@@ -19,8 +19,9 @@ export const verifyToken = async (req, res, next) => {
 };
 const verifiUser = function (param){
   if (param.includes('Admin')||
-      param.includes('Empleado')||
-      param.includes('Cliente')) return true
+      param.includes('Vendedor')||
+      param.includes('Bodega')||
+      param.includes('Contador')||param.includes('Inspector')) return true
   return false
 }
 export const isSecretario = async (req, res, next) => {

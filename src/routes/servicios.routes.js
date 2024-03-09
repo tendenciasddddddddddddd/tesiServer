@@ -1,23 +1,23 @@
 import { Router } from "express";
 const router = Router();
 
-import  Ctrl from "../controllers/servicio.controller";
-import { authJwt } from "../middlewares";
+import  Ctrl from "../controllers/servicio.controller.js";
+import { verifyToken } from "../middlewares/authJwt.js";
 
 router.get("/list", Ctrl.getListas);
 
-router.get("/query",[authJwt.verifyToken], Ctrl.query);
+router.get("/query",verifyToken, Ctrl.query);
 
-router.get("/:id",[authJwt.verifyToken], Ctrl.getById);
+router.get("/:id",verifyToken, Ctrl.getById);
 
-router.get("/",[authJwt.verifyToken], Ctrl.get);
+router.get("/",verifyToken, Ctrl.get);
 
-router.put("/:paramsId",[authJwt.verifyToken], Ctrl.updateById);
+router.put("/:paramsId",verifyToken, Ctrl.updateById);
 
-router.delete("/:id",[authJwt.verifyToken], Ctrl.deleteById);
+router.delete("/:id",verifyToken, Ctrl.deleteById);
 
-router.post("/",[authJwt.verifyToken], Ctrl.create);
+router.post("/",verifyToken, Ctrl.create);
 
-router.put('/activate/:id',[authJwt.verifyToken],Ctrl.activate);
+router.put('/activate/:id',verifyToken,Ctrl.activate);
 
 export default router;

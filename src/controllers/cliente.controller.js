@@ -1,5 +1,7 @@
-import Cliente from "../models/Cliente";
+import Cliente from "../models/Cliente.js";
 import Drive from "../models/Drive.js";
+
+import fetch from 'node-fetch';
 
 async function createArchivador(data) {
   try {
@@ -16,6 +18,16 @@ async function updateDrive(id, model) {
     await Drive.updateOne({fkCliente:id}, { cliente: model }, { new: true, });
   } catch (error) {
     console.log(error);
+  }
+}
+
+async function fetchRegistroCivilJSON(cedula) {
+  try {
+      const response = await fetch(`https://saccs.acess.gob.ec/wsc/registrocivil/infopersona/${cedula}`);
+      const movies = await response.json();
+      return movies;
+  } catch (error) {
+      return false
   }
 }
 
@@ -60,6 +72,28 @@ export const create = async (req, res) => {
     console.log(error);
     return res.status(500).json(error);
   }
+};
+
+export const getByCedulaWebService = async (req, res) => {
+  try {
+    const { cedula } = req.params
+    const reg = await fetchRegistroCivilJSON(cedula)
+    if(reg.status === 0) return res.status(400).send({});
+    const {Nombre, Domicilio, FechaNacimiento, NUI, Nacionalidad, Profesion, Sexo} = reg.response
+    const model = {
+        identificacion : NUI,
+        nombres : Nombre,
+        direccion : Domicilio,
+        sexo : Sexo,
+        nacionalidad : Nacionalidad,
+        fechaNacimiento : FechaNacimiento,
+        profesion : Profesion
+    }
+    //console.log(reg);
+    res.status(200).json(model);
+} catch (e) {
+    res.status(500).send(e);
+}
 };
 
 export const getById = async (req, res) => {
