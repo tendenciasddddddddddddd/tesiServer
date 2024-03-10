@@ -1,0 +1,291 @@
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    .s-contenedor {
+        margin-top: 0.1rem;
+        color: #000;
+        font-family: Arial, Helvetica, sans-serif;
+        background: #fff;
+    }
+
+    .w100 {
+        width: 100%;
+        min-height: 10px;
+    }
+
+    .w50 {
+        width: 50%;
+        display: inline-grid;
+    }
+
+    .s-img {
+        margin: auto;
+        max-width: 100%;
+    }
+
+    .round-bordered {
+        border: 1px solid #000000;
+        border-radius: 10px;
+    }
+
+    .line-bordered {
+        border: 1px solid #000000;
+    }
+
+    .s-tabla {
+        width: 100%;
+    }
+
+    .centered {
+        text-align: center;
+    }
+
+    .p10 {
+        padding: 10px;
+    }
+
+    .h100 {
+        height: 100%;
+    }
+
+    .info-clave {
+        font-size: 12px;
+    }
+
+    .info-clave div {
+        margin-bottom: 5px;
+    }
+
+    .clave {
+        font-size: 10px;
+    }
+
+    .sf-104 {
+        font-size: 10.4px;
+    }
+
+    .sb-button {
+        border-bottom: 1px solid #000;
+    }
+
+    .sb-top {
+        border-top: 1px solid #000;
+    }
+
+    .sb-right {
+        border-right: 1px solid #000;
+    }
+
+    .s-basetb {
+        border-style: solid;
+        border-width: 0px 1px 1px;
+        max-width: 100%;
+        width: 100%;
+        border-spacing: 0;
+        border-collapse: separate;
+    }
+
+    .s-pd8-10 {
+        padding: 8px 10px;
+    }
+    .sf-12 {
+        font-size: 11px;
+    }
+    .sfz-600 {
+        font-weight: 700;
+    }
+    .sfz-500 {
+        font-weight: 600;
+    }
+    .s-centro {
+        text-align: center
+    }
+    .s-pd12{
+        padding: 1px 2px;
+    }
+    .s-tabla {
+        width: 100%;
+    }
+</style>
+<div class="s-hojas s-contenedor">
+    <div class="p-4" style="min-height: 190mm;">
+        <table class="s-tabla">
+            <tbody>
+                <tr>
+                    <td style="width: 50%;vertical-align: bottom;padding-bottom: 10px;">
+                        <div class="s-img centered">
+                            <img style="height: 140px;  width: 100%;" src="<%=agenc.logo%>" alt="">
+                        </div>
+                        <div class="round-bordered p10 bottom sf-12" style="margin-top: 10px;">
+                            <div class="centered">
+                                <b> <%= agenc.nombreComercial %></b>
+                            </div>
+                            <div>
+                                <span class="sfz-500">Dirección Matriz: </span><span> <%= agenc.dirEstablecimiento?.substring(0, 21) %></span>
+                            </div>
+                            <div>
+                                <span class="sfz-500">Teléfono:</span><span> <%= agenc.telefono %></span>
+                            </div>
+                            <div>
+                                <span class="sfz-500">Correo:</span><span> <%= agenc.email %></span>
+                            </div>
+                            <div>
+                                <span class="sfz-500">Obligado a llevar contabilidad:</span><span> <%= agenc.obligadoContabilidad %></span>
+                            </div> 
+                        </div>
+                    </td>
+                    <td style="width: 50%;vertical-align: bottom;">
+                        <div style="padding: 10px 0px 10px 7px;">
+                            <div class="round-bordered p10">
+                                <div class="info-clave sf-12">
+                                    <div>
+                                        <b>RUC: </b><span><%= agenc.ruc %></span>
+                                    </div>
+                                    <div>
+                                        <b>FACTURA:</b><span>001-<%=agenc.ptoEmicion%>-<%=result.facturaAuth%></span>
+                                    </div>
+                                    <div>
+                                        <b>FECHA:</b><span><%=result.fecha%></span>
+                                    </div>
+                                    <div>
+                                        <b>AMBIENTE:</b><span>PRODUCCION</span>
+                                    </div>
+                                    <div>
+                                        <b>EMISION:</b><span>NORMAL</span>
+                                    </div>
+                                    <div class="centered">
+                                        <b>NUMERO DE AUTORIZACION</b>
+                                    </div>
+                                </div>
+                                <div class="centered">
+                                    <span class="clave"><%= result.claveAcceso %></span>
+                                </div>
+                                <div class="centered">
+                                    <b>CLAVE DE ACCESO</b>
+                                </div>
+                                <div class="s-img">
+                                    <img width="100%" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAUEAAAAyAQMAAAD4AfupAAAABlBMVEX///8AAABVwtN+AAAAAXRSTlMAQObYZgAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAEZJREFUSIljuCQ8631+tuXMje5VeyWFEp1Oc842Usv5HiaclnN25sU1TyIe3QgWyntT2sAwqnJU5ajKUZWjKkdVjqocwSoBUiDp8BxH2EEAAAAASUVORK5CYII=">
+                      
+                                </div>
+                                <div class="centered">
+                                    <span class="clave"><%=result.claveAcceso%></span>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="line-bordered">
+            <div class="sf-12" style="display: block; width: 100%; padding: 5px 10px;">
+                <span class="sfz-500">Nombres:</span><span><%= result.cliente.nombres %></span>
+            </div>
+            <!-- <div class="p10 sf-12" style="display: block; width: 100%">
+                <span class="sfz-500">Dirección:</span><span><%= result.cliente.direccion %></span>
+            </div> -->
+            <div class="p10 sf-12" style="display: block; width: 100%;padding: 5px 10px;">
+                <span class="sfz-500">CI/RUC:</span><span><%= result.cliente.identificacion %></span>
+                <span class="sfz-500" style="margin-left: 20px;">Fecha:</span><span><%= result.fecha %></span>
+                
+                <span class="sfz-500" style="margin-left: 20px;">Teléfono:</span><span> <%= result.cliente.telefono %> </span>
+            </div>
+        </div>
+        <table class="s-basetb" style="margin-top: 10px;">
+            <% var conIva = 0 %>
+            <% var sinIva = 0 %>
+            <thead>
+                <tr>
+                    <th class="sb-top sb-right s-pd8-10 sf-12 sfz-600">Cod</th>
+                    <th class="sb-top sb-right s-pd8-10 sf-12 sfz-600">Descripcion</th>
+                    <!-- <th class="sb-top sb-right s-pd8-10 sf-12 sfz-600">Med</th> -->
+                    <th class="sb-top sb-right s-pd8-10 sf-12 sfz-600">Cantidad</th>
+                    <th class="sb-top sb-right s-pd8-10 sf-12 sfz-600">Precio Unitario</th>
+                    <th class="sb-top sb-right s-pd8-10 sf-12 sfz-600">Descuento</th>
+                    <th class="sb-top s-pd8-10 sf-12 sfz-600">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% result?.producto?.forEach(function (subItems) { %>
+                <tr class="sf-104">
+                    <% if (subItems.iva == true) { %>
+                        <% conIva = conIva + (parseFloat(subItems.cantidad) * parseFloat(subItems.preciou)) %>
+                    <% } else { %>
+                        <% sinIva = sinIva + (parseFloat(subItems.cantidad) * parseFloat(subItems.preciou)) %>
+                    <% }  %>
+                    <td class="s-pd12 sb-right s-centro sb-top"> <%= subItems.codigo?.substring(0, 10) %></td>
+                    <td class="s-pd12 sb-right sb-top s-izquierda"><%= subItems.nombres %></td>
+                    <!-- <td class="s-pd12 sb-right sb-top s-izquierda">Unidad</td> -->
+                    <td class="s-pd12 sb-right sb-top s-izquierda"><%= subItems.cantidad %></td>
+                    <td class="s-pd12 sb-right sb-top s-izquierda"><%= subItems.pvp %></td>
+                    <td class="s-pd12 sb-right sb-top s-izquierda"><%= subItems.desc %></td>
+                    <td class="s-pd12 sb-top s-izquierda"> <%= total = (parseFloat(subItems.cantidad) * parseFloat(subItems.preciou)).toFixed(2) %></td>
+                </tr>
+                <% }) %>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td class="sb-top s-derecha sf-12 sb-right" rowspan="11" colspan="3">
+                        <div class="p10">
+                            <b>Forma Pago SRI</b><br>
+                            <b>Sin utilizacion del sistema financiero&emsp;&emsp;&emsp;<%= result.total %></b><br><br>
+                            <b>INFORMACIÓN ADICIONAL</b><br>
+                            <b>Correo: </b><%= result.cliente.email %><br>
+                            <b>Direccion:</b> <%= result.cliente.direccion %><br>
+                        </div>
+                    </td>
+                    <td class="sb-top sf-12 sb-right sb-button sfz-500" colspan="2">Subtotal</td>
+                    <td class="sb-top sf-12 sb-button sfz-500">
+                        <%= (Number(result.subTotal) + Number(result.totalDesc)).toFixed(2) %>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="sf-12 sb-right sfz-500 sb-button" colspan="2">Descuento</td>
+                    <td class="sf-12 sb-button"><%= result.totalDesc %></td>
+                </tr>
+                <tr>
+                    <td class="sf-12 sb-right sfz-500 sb-button" colspan="2">Subtotal Neto:</td>
+                    <td class="sf-12 sb-button"><%= result.subTotal %></td>
+                </tr>
+                <tr>
+                    <td class="sf-12 sb-right sfz-500 sb-button" colspan="2">Subtotal Con Impuestos:</td>
+                    <td class="sf-12 sb-button"><%= Number(conIva).toFixed(2) %></td>
+                </tr>
+                <tr>
+                    <td class="sf-12 sb-right sfz-500 sb-button" colspan="2">Subtotal Impuestos 0%:</td>
+                    <td class="sf-12 sb-button"><%= Number(sinIva).toFixed(2) %></td>
+                </tr>
+                <tr>
+                    <td class="sf-12 sb-right sfz-500 sb-button" colspan="2">Subtotal No Objeto IVA:</td>
+                    <td class="sf-12 sb-button">0.00</td>
+                </tr>
+                <!-- <tr>
+                    <td class="sf-12 sb-right sfz-500 sb-button" colspan="2">Subtotal Exento IVA :</td>
+                    <td class="sf-12 sb-button">0.00</td>
+                </tr> -->
+                <!-- <tr>
+                    <td class="sf-12 sb-right sfz-500 sb-button" colspan="2">ICE:</td>
+                    <td class="sf-12 sb-button">0.00</td>
+                </tr> -->
+                <tr>
+                    <td class="sf-12 sb-right sfz-500 sb-button" colspan="2">IVA 12%:</td>
+                    <td class="sf-12 sb-button"><%= result.totalIva %></td>
+                </tr>
+                <!-- <tr>
+                    <td class="sf-12 sb-right sfz-500 sb-button" colspan="2">Propina:</td>
+                    <td class="sf-12 sb-button">0.00</td>
+                </tr> -->
+                <tr>
+                    <td class="sf-12 sb-right sfz-600" colspan="2"><b>VALOR TOTAL</b></td>
+                    <td class="sf-12 sfz-600"><%= result.total %></td>
+                </tr>
+            </tfoot>
+        </table>
+        <!-- <div class="sf-104" style="margin-top: 10px;">
+            Más información en nuestra pagina web http://symm-dev.com
+            Para la atención de reclamos.
+        </div> -->
+    </div>
+</div>
+</div>

@@ -1,0 +1,265 @@
+<style>
+    .s-contenedor {
+        margin-top: 0.5rem;
+        color: #000;
+        font-family: Arial, Helvetica, sans-serif;
+        background: #fff;
+    }
+
+    .s-centro {
+        text-align: center
+    }
+
+    .s-derecha {
+        text-align: right
+    }
+
+    .s-izquierda {
+        text-align: left
+    }
+
+    .sf-12 {
+        font-size: 11px;
+    }
+
+    .sf-14 {
+        font-size: 14px;
+    }
+
+    .sf-16 {
+        font-size: 16px;
+    }
+
+    .sf-20 {
+        font-size: 20px;
+    }
+
+    .sfz-600 {
+        font-weight: 700;
+    }
+
+    .s-parrafo {
+        text-align: justify;
+        line-height: 1.5;
+    }
+
+    .s-tabla {
+        width: 100%;
+    }
+
+    .s-p-justify {
+        width: 85%;
+        margin-right: auto;
+        margin-left: auto;
+    }
+
+    .s-first {
+        width: 15%;
+    }
+
+    .s-last {
+        width: 70%;
+    }
+
+    .s-fill {
+        width: 15%;
+    }
+
+    .s-img {
+        height: 60px
+    }
+
+    .s-img2 {
+        width: 60px
+    }
+
+    .s-w-50 {
+        width: 50%;
+    }
+    .sb-button {
+        border-bottom: 1px solid #000;
+    }
+
+    .sb-top {
+        border-top: 1px solid #000;
+    }
+
+    .sb-right {
+        border-right: 1px solid #000;
+    }
+    .s-pd8-10{
+        padding: 8px 10px;
+    }
+    .s-pd13{
+        padding: 1px 3px;
+    }
+    .s-pd12{
+        padding: 1px 2px;
+    }
+    .sf-104 {
+        font-size: 10.4px;
+    }
+    .s-basetb{
+        border-style: solid;border-width: 0px 1px 1px;max-width: 100%; width: 100%; border-spacing: 0; border-collapse: separate;
+    }
+    .s-tabla {
+        width: 100%;
+    }
+    .s-caja-client {
+        border: 1px solid #000000; border-radius: 10px; padding: 7px;margin-top: 8px;margin-bottom: 10px;
+    }
+</style>
+<div class="s-hojas s-contenedor">
+    <div class="s-centro p-4" style="min-height:170mm;">
+        <table style="width: 100%;">
+            <tbody>
+                <tr>
+                    <td style="width: 10%;">
+                        <img style="width: 100px; height: 70px; border-radius: 6px;" src="<%=agenc.logo%>" alt="logo">
+                    </td>
+                    <td style="width: 80%;">
+                        <div style="text-align: center!important;">
+                            <span style="color:#000;font-weight: 600;font-size: 1.3rem;line-height: 1.375;">
+                                FACTURA ELECTRÓNICA
+                            </span> <br>
+                            <b class="sf-14"><%= agenc.nombreComercial %></b> <br>
+                        </div>
+                    </td>
+                    <td style="width:10%;">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <hr>
+        <table style="width: 100%;margin-top: 7px;">
+            <tbody>
+                <tr class="s-izquierda sf-12">
+                    <td style="width: 65%;">
+                        
+                        <b>Dirección:</b> <%= agenc.dirEstablecimiento?.substring(0, 35) %> <br>
+                        <b>Obligado a llevar contabilidad:</b> <%= agenc.obligadoContabilidad %> <br>
+                        <b>Ambiente:</b> Producción <br>
+                        <b>Emisión:</b> NORMAL
+                    </td>
+                    <td style="width: 35%;">
+                        <b>RUC:</b> <%= agenc.ruc %> <br>
+                        <b>Ven:</b> VENTAS <br>
+                        <b>Telf:</b> <%= agenc.telefono %>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="s-caja-client">
+            <table class="s-tabla">
+                <tbody>
+                    <tr>
+                        <td style="width: 65%;">
+                            <table class="s-tabla">
+                                <tbody>
+                                    <tr class="s-izquierda">
+                                        <td class="sf-12 sfz-600" style="width: 20%;">
+                                            Factura: <br>
+                                            Cliente: <br>
+                                            Ruc/cedu: <br>
+                                            Dirección:
+                                        </td>
+                                        <td class="sf-12" style="width: 80%;">
+                                           # <%= result.ordenVenta %> <br>
+                                            <%= result.cliente.nombres %> <br>
+                                            <%= result.cliente.identificacion %> <br>
+                                            <%= result.cliente.direccion %>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td class="sf-12" style="width: 35%;">
+                            <table class="s-tabla">
+                                <tbody>
+                                    <tr class="s-izquierda">
+                                        <td class="sf-12 sfz-600" style="width: 20%;">
+                                            Fecha: <br>
+                                            Telf: 
+                                        </td>
+                                        <td class="sf-12" style="width: 80%;">
+                                            <%= result.fecha %> <br>
+                                            <%= result.cliente.telefono %> 
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <table class="s-basetb" style="margin-top: 7px;">
+            <thead>
+                <tr>
+                    <th class="sb-top sb-right s-pd8-10 sf-12 sfz-600">
+                        Cant.
+                    </th>
+                    <th class="sb-top sb-right s-pd8-10 sf-12 sfz-600">
+                        Detalle
+                    </th>
+                    <th class="sb-top sb-right s-pd8-10 sf-12 sfz-600">
+                        Pre/U
+                    </th>
+                    <th class="sb-top sb-right s-pd8-10 sf-12 sfz-600">
+                        Desc
+                    </th>
+                    <th class="sb-top s-pd8-10 sf-12 sfz-600">
+                        Total
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr class="sf-104">
+                    <td class="s-pd12 sb-right s-centro sb-top">
+                        1 </td>
+                    <td class="s-pd12 sb-right sb-top s-izquierda">
+                        <%= result.servicio?.nombre %>
+                    </td>
+                    <td class="s-pd12 sb-right s-centro sb-top">
+                        <%= result.total %>
+                    </td>
+                    <td class="s-pd12 sb-right s-centro sb-top">
+                        0.00
+                    </td>
+                    <td class="s-pd12 s-centro sb-top">
+                        <%= result.total  %>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="s-pd13 sb-top"></td>
+                    <td class="s-pd13 sb-top s-derecha"></td>
+                    <td class="s-pd13 sb-top s-derecha"></td>
+                    <td class="s-pd13 sb-top s-derecha sf-12 sb-right sfz-600">
+                        Sin Iva<br>
+                        Con Iva<br>
+                        Subtotal <br>
+                        Descuento <br>
+                        IVA 12<br>
+                        ICE <br>
+                        <b>TOTAL</b>
+                    </td>
+                    <td class="s-pd13 sb-top s-derecha sf-12 sfz-600">
+                        0.00<br>
+                        0.00<br>
+                        <%= result.total  %><br>
+                        0.00<br>
+                        0.00<br>
+                        0.00<br>
+                        $ <%= result.total  %> USD
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="sf-104 s-izquierda" style="margin-top: 10px;">
+            Más información en nuestra pagina web http://symm-dev.com
+            Para la atención de reclamos.
+        </div>
+    </div>
+</div>

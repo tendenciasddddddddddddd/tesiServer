@@ -1,0 +1,526 @@
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    .s-contenedor {
+        margin-top: 0.5rem;
+        color: #000;
+        font-family: Arial, Helvetica, sans-serif;
+        background: #fff;
+    }
+
+    .w100 {
+        width: 100%;
+        min-height: 10px;
+    }
+
+    .w50 {
+        width: 50%;
+        display: inline-grid;
+    }
+
+    .s-img {
+        margin: auto;
+        max-width: 100%;
+    }
+
+    .round-bordered {
+        border: 1px solid #000000;
+        border-radius: 10px;
+    }
+
+    .line-bordered {
+        border: 1px solid #000000;
+    }
+
+    .s-tabla {
+        width: 100%;
+    }
+
+    .centered {
+        text-align: center;
+    }
+
+    .p10 {
+        padding: 10px;
+    }
+
+    .h100 {
+        height: 100%;
+    }
+
+    .info-clave {
+        font-size: 12px;
+        font-weight: 800;
+    }
+
+    .info-clave div {
+        margin-bottom: 10px;
+    }
+
+    .clave {
+        font-size: 10px;
+    }
+
+    .sf-104 {
+        font-size: 10.4px;
+    }
+
+    .sb-button {
+        border-bottom: 1px solid #000;
+    }
+
+    .sb-top {
+        border-top: 1px solid #000;
+    }
+
+    .sb-right {
+        border-right: 1px solid #000;
+    }
+
+    .s-basetb {
+        border-style: solid;
+        border-width: 0px 1px 1px;
+        max-width: 100%;
+        width: 100%;
+        border-spacing: 0;
+        border-collapse: separate;
+    }
+
+    .s-pd8-10 {
+        padding: 8px 10px;
+    }
+
+    .sf-10-4 {
+        font-size: 10.4px;
+    }
+
+    .sf-12 {
+        font-size: 11px;
+    }
+
+    .sf-13 {
+        font-size: 12px;
+    }
+
+    .sfz-600 {
+        font-weight: 700;
+    }
+
+    .sfz-500 {
+        font-weight: 600;
+    }
+
+    .s-centro {
+        text-align: center
+    }
+
+    .s-derecha {
+        text-align: right
+    }
+
+    .s-izquierda {
+        text-align: left
+    }
+
+    .s-pd12 {
+        padding: 1px 2px;
+    }
+
+    .s-tabla {
+        width: 100%;
+    }
+    .s-fondoo2 {
+    background-color: rgb(216 216 216) !important;
+}
+ .s-verde{
+    color: green;
+ }
+ .s-rojo{
+    color: red;
+ }
+</style>
+
+<div class="s-hojas s-contenedor">
+    <div class="p-4">
+        <table class="s-tabla">
+            <tbody>
+                <tr>
+                    <td style="width: 100%;">
+                        <div class="centered">
+                            <span style="font-size: 20px;">
+                                <b>
+                                    DETALLES DE CIERRE DE CAJA
+                                </b>
+                            </span>
+                        </div>
+                        <table style="width: 100%;">
+                            <tbody>
+                                <tr class="sf-12">
+                                    <td class="centered">
+                                        <span><b>DESDE:</b>   <%= caja.createdAt?.toString("dd/MM/yyyy hh:mm:ss")?.substring(0, 21) %></span> <br>
+                                        <span><b>HASTA:</b>  <%= new Date()?.toString("dd/MM/yyyy hh:mm:ss")?.substring(0, 21) %></span><br>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <hr>
+                        <div class="s-derecha sf-10-4">
+                            <span> San Isidro <%=fecha %> </span>
+                        </div> <br>
+                        <div class="s-izquierda sf-10-4">
+                            <span> <b>FECHA DE APERTURA:</b>
+                                <%= caja.createdAt?.toString("dd/MM/yyyy hh:mm:ss")?.substring(0, 21) %>
+                            </span> <br>
+                            <span> <b>FECHA DE CIERRE:</b>
+                                <%= new Date()?.toString("dd/MM/yyyy hh:mm:ss")?.substring(0, 21) %>
+                            </span> <br>
+                            <span> <b>RESPONSABLE:</b>
+                                <%=user %> 
+                            </span>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table> <br>
+        <table class="s-tabla s-basetb">
+            <tbody>
+                <tr class="s-izquierda sf-10-4">
+                    <td style="width: 100%;" class="sb-top">
+                        <b>INGRESOS GENERALES</b> <br> <br>
+                        <% var aux = 0 %>
+                        <table class="s-tabla">
+                            <tbody>
+                                <tr class="s-izquierda sf-10-4">
+                                    <% aux = aux + Number(caja.cajaInicial) %>
+                                    <td class="sb-top sb-right" style="width: 25%;">
+                                        <b>APERTURA DE CAJA</b>
+                                    </td>
+                                    <td class="sb-top sb-right" style="width: 15%;">
+                                        <b>$ <%= Number(caja?.cajaInicial).toFixed(2) %> </b>
+                                    </td>
+                                    <td class="sb-top sb-right" style="width: 15%;">
+                                        <b class="s-verde">Efectivo</b>
+                                    </td>
+                                    <td class="sb-top" style="width: 45%;font-size: 0.74rem;">
+                                        <%= caja.createdAt?.toString("dd/MM/yyyy hh:mm:ss")?.substring(0, 21) %>
+                                    </td>
+                                </tr>
+                                <% sales?.forEach(function (subItems) { %>
+                                    <% if (subItems.formaPago == '0') { %>
+                                        <% aux = aux + Number(subItems.total) %>
+                                        <tr class="s-izquierda sf-10-4">
+                                            <td class="sb-top sb-right" style="width: 25%;">
+                                                <b>VENTA CONTADO</b>
+                                            </td>
+                                            <td class="sb-top sb-right" style="width: 15%;">
+                                                <b>$ <%= subItems.total %></b>
+                                            </td>
+                                            <td class="sb-top sb-right" style="width: 15%;">
+                                                <b class="s-verde">Efectivo</b>
+                                            </td>
+                                            <td class="sb-top" style="width: 45%;font-size: 0.74rem;">
+                                                <%= subItems.updatedAt?.toString("dd/MM/yyyy hh:mm:ss")?.substring(0, 21) %>
+                                               Num.  <%= subItems.ordenVenta %> VENTA
+                                            </td>
+                                        </tr>
+                                    <% }  %>
+                                    <% if (subItems.formaPago == '1') { %>
+                                        <% aux = aux + Number(subItems.abona) %>
+                                        <tr class="s-izquierda sf-10-4">
+                                            <td class="sb-top sb-right" style="width: 25%;">
+                                                <b>VENTA A CRÉDITO</b>
+                                            </td>
+                                            <td class="sb-top sb-right" style="width: 15%;">
+                                                <b>$ <%= subItems.total %></b> (<b class="s-verde">$ <%= subItems.abona %></b>)
+                                            </td>
+                                            <td class="sb-top sb-right" style="width: 15%;">
+                                                <b class="s-rojo">No efectivo</b>
+                                            </td>
+                                            <td class="sb-top" style="width: 45%;font-size: 0.74rem;">
+                                                <%= subItems.updatedAt?.toString("dd/MM/yyyy hh:mm:ss")?.substring(0, 21) %>
+                                               Num.  <%= subItems.ordenVenta %> VENTA
+                                            </td>
+                                        </tr>
+                                    <% }  %>
+                                    <% if (subItems.formaPago == '2') { %>
+                                        <% aux = aux + Number(subItems.abona) %>
+                                        <tr class="s-izquierda sf-10-4">
+                                            <td class="sb-top sb-right" style="width: 25%;">
+                                                <b>VENTA ABONA</b>
+                                            </td>
+                                            <td class="sb-top sb-right" style="width: 15%;">
+                                                <b>$ <%= subItems.total %></b> (<b class="s-verde">$ <%= subItems.abona %></b>)
+                                            </td>
+                                            <td class="sb-top sb-right" style="width: 15%;">
+                                                <b class="s-rojo">No efectivo</b>
+                                            </td>
+                                            <td class="sb-top" style="width: 45%;font-size: 0.74rem;">
+                                                <%= subItems.updatedAt?.toString("dd/MM/yyyy hh:mm:ss")?.substring(0, 21) %>
+                                               Num.  <%= subItems.ordenVenta %> VENTA
+                                            </td>
+                                        </tr>
+                                    <% }  %>
+                                    <% if (subItems.formaPago == '3') { %>
+                                        <tr class="s-izquierda sf-10-4">
+                                            <td class="sb-top sb-right" style="width: 25%;">
+                                                <b>CON TARJETA</b>
+                                            </td>
+                                            <td class="sb-top sb-right" style="width: 15%;">
+                                                <b>$ <%= subItems.total %></b> 
+                                            </td>
+                                            <td class="sb-top sb-right" style="width: 15%;">
+                                                <b class="s-rojo">No efectivo</b>
+                                            </td>
+                                            <td class="sb-top" style="width: 45%;font-size: 0.74rem;">
+                                                <%= subItems.updatedAt?.toString("dd/MM/yyyy hh:mm:ss")?.substring(0, 21) %>
+                                               Num.  <%= subItems.ordenVenta %> VENTA
+                                            </td>
+                                        </tr>
+                                    <% }  %>
+                                    <% if (subItems.formaPago == '4') { %>
+                                        <tr class="s-izquierda sf-10-4">
+                                            <td class="sb-top sb-right" style="width: 25%;">
+                                                <b>TRASFERENCIA BANCARIA</b>
+                                            </td>
+                                            <td class="sb-top sb-right" style="width: 15%;">
+                                                <b>$ <%= subItems.total %></b> 
+                                            </td>
+                                            <td class="sb-top sb-right" style="width: 15%;">
+                                                <b class="s-rojo">No efectivo</b>
+                                            </td>
+                                            <td class="sb-top" style="width: 45%;font-size: 0.74rem;">
+                                                <%= subItems.updatedAt?.toString("dd/MM/yyyy hh:mm:ss")?.substring(0, 21) %>
+                                               Num.  <%= subItems.ordenVenta %> VENTA
+                                            </td>
+                                        </tr>
+                                    <% }  %>
+                                    <% if (subItems.formaPago == '5') { %>
+                                        <tr class="s-izquierda sf-10-4">
+                                            <td class="sb-top sb-right" style="width: 25%;">
+                                                <b>CHEQUE</b>
+                                            </td>
+                                            <td class="sb-top sb-right" style="width: 15%;">
+                                                <b>$ <%= subItems.total %></b> 
+                                            </td>
+                                            <td class="sb-top sb-right" style="width: 15%;">
+                                                <b class="s-rojo">No efectivo</b>
+                                            </td>
+                                            <td class="sb-top" style="width: 45%;font-size: 0.74rem;">
+                                                <%= subItems.updatedAt?.toString("dd/MM/yyyy hh:mm:ss")?.substring(0, 21) %>
+                                               Num.  <%= subItems.ordenVenta %> VENTA
+                                            </td>
+                                        </tr>
+                                    <% }  %>
+                                <% }) %>
+                                <% caja?.ingresos?.forEach(function (subItems) { %>
+                                    <tr class="s-izquierda sf-10-4">
+                                        <% aux = aux + Number(subItems.monto) %>
+                                        <td class="sb-top sb-right" style="width: 25%;">
+                                            <b>EFECTIVO VARIOS</b>
+                                        </td>
+                                        <td class="sb-top sb-right" style="width: 15%;">
+                                            <b>$ <%= Number(subItems.monto).toFixed(2) %></b>
+                                        </td>
+                                        <td class="sb-top sb-right" style="width: 15%;">
+                                            <b class="s-verde">Efectivo</b>
+                                        </td>
+                                        <td class="sb-top" style="width: 45%;font-size: 0.70rem;">
+                                            <%= subItems.text %>
+                                        </td>
+                                    </tr>
+                                    <% }) %>
+                                    <tr class="s-izquierda sf-13 s-fondoo2">
+                                        <td class="sb-top" style="width: 25%;">
+                                            <b>TOTAL INGRESOS</b>
+                                        </td>
+                                        <td class="sb-top" style="width: 15%;">
+                                            <b>$ <%= (tolalIngresos + Number(caja.cajaInicial)).toFixed(2) %> </b>
+                                        </td>
+                                        <td class="sb-top" style="width: 15%;">
+                                            <b class="s-verde">$ <%= Number(aux).toFixed(2) %> </b>
+                                        </td>
+                                        <td class="sb-top" style="width: 45%;">
+                                        </td>
+                                    </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                   
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        <table class="s-tabla s-basetb">
+            <tbody>
+                <tr class="s-izquierda sf-10-4">
+                    <td style="width: 100%;" class="sb-top">
+                        <b>GASTOS GENERALES</b> <br> <br>
+                        <% var contador = 0 %>
+                        <table class="s-tabla">
+                            <tbody>
+                                <% inventario?.forEach(function (subItems) { %>
+                                    <% if (subItems.formaPago == '0') { %>
+                                        <% contador = contador + Number(subItems.total) %>
+                                        <tr class="s-izquierda sf-10-4">
+                                            <td class="sb-top sb-right" style="width: 25%;">
+                                                <b>COMPRA CONTADO</b>
+                                            </td>
+                                            <td class="sb-top sb-right" style="width: 15%;">
+                                                <b>$ <%= subItems.total %></b>
+                                            </td>
+                                            <td class="sb-top sb-right" style="width: 15%;">
+                                                <b class="s-verde">Efectivo</b>
+                                            </td>
+                                            <td class="sb-top" style="width: 45%;font-size: 0.74rem;">
+                                                <%= subItems.updatedAt?.toString("dd/MM/yyyy hh:mm:ss")?.substring(0, 21) %>
+                                               Num.  <%= subItems.ordenVenta %> COMPRA
+                                            </td>
+                                        </tr>
+                                    <% }  %>
+                                    <% if (subItems.formaPago == '1') { %>
+                                        <tr class="s-izquierda sf-10-4">
+                                            <% contador = contador + Number(subItems.abona) %>
+                                            <td class="sb-top sb-right" style="width: 25%;">
+                                                <b>COMPRA A CRÉDITO</b>
+                                            </td>
+                                            <td class="sb-top sb-right" style="width: 15%;">
+                                                <b>$ <%= subItems.total %></b> (<b class="s-verde">$ <%= subItems.abona %></b>)
+                                            </td>
+                                            <td class="sb-top sb-right" style="width: 15%;">
+                                                <b class="s-rojo">No efectivo</b>
+                                            </td>
+                                            <td class="sb-top" style="width: 45%;font-size: 0.74rem;">
+                                                <%= subItems.updatedAt?.toString("dd/MM/yyyy hh:mm:ss")?.substring(0, 21) %>
+                                               Num.  <%= subItems.ordenVenta %> COMPRA
+                                            </td>
+                                        </tr>
+                                    <% }  %>
+                                    <% if (subItems.formaPago == '2') { %>
+                                        <tr class="s-izquierda sf-10-4">
+                                            <td class="sb-top sb-right" style="width: 25%;">
+                                                <b>CON TARJETA</b>
+                                            </td>
+                                            <td class="sb-top sb-right" style="width: 15%;">
+                                                <b>$ <%= subItems.total %></b> 
+                                            </td>
+                                            <td class="sb-top sb-right" style="width: 15%;">
+                                                <b class="s-rojo">No efectivo</b>
+                                            </td>
+                                            <td class="sb-top" style="width: 45%;font-size: 0.74rem;">
+                                                <%= subItems.updatedAt?.toString("dd/MM/yyyy hh:mm:ss")?.substring(0, 21) %>
+                                               Num.  <%= subItems.ordenVenta %> COMPRA
+                                            </td>
+                                        </tr>
+                                    <% }  %>
+                                    <% if (subItems.formaPago == '3') { %>
+                                        <tr class="s-izquierda sf-10-4">
+                                            <td class="sb-top sb-right" style="width: 25%;">
+                                                <b>TRASFERENCIA BANCARIA</b>
+                                            </td>
+                                            <td class="sb-top sb-right" style="width: 15%;">
+                                                <b>$ <%= subItems.total %></b> 
+                                            </td>
+                                            <td class="sb-top sb-right" style="width: 15%;">
+                                                <b class="s-rojo">No efectivo</b>
+                                            </td>
+                                            <td class="sb-top" style="width: 45%;font-size: 0.74rem;">
+                                                <%= subItems.updatedAt?.toString("dd/MM/yyyy hh:mm:ss")?.substring(0, 21) %>
+                                               Num.  <%= subItems.ordenVenta %> COMPRA
+                                            </td>
+                                        </tr>
+                                    <% }  %>
+                                    <% if (subItems.formaPago == '4') { %>
+                                        <tr class="s-izquierda sf-10-4">
+                                            <td class="sb-top sb-right" style="width: 25%;">
+                                                <b>CHEQUE</b>
+                                            </td>
+                                            <td class="sb-top sb-right" style="width: 15%;">
+                                                <b>$ <%= subItems.total %></b> 
+                                            </td>
+                                            <td class="sb-top sb-right" style="width: 15%;">
+                                                <b class="s-rojo">No efectivo</b>
+                                            </td>
+                                            <td class="sb-top" style="width: 45%;font-size: 0.74rem;">
+                                                <%= subItems.updatedAt?.toString("dd/MM/yyyy hh:mm:ss")?.substring(0, 21) %>
+                                               Num.  <%= subItems.ordenVenta %> COMPRA
+                                            </td>
+                                        </tr>
+                                    <% }  %>
+                                <% }) %>
+                                <% caja?.gastos?.forEach(function (subItems) { %>
+                                    <tr class="s-izquierda sf-10-4">
+                                        <% contador = contador + Number(subItems.monto) %>
+                                        <td class="sb-top sb-right" style="width: 25%;">
+                                            <b>EFECTIVO VARIOS</b>
+                                        </td>
+                                        <td class="sb-top sb-right" style="width: 15%;">
+                                            <b>$ <%= Number(subItems.monto).toFixed(2) %></b>
+                                        </td>
+                                        <td class="sb-top sb-right" style="width: 15%;">
+                                            <b class="s-verde">Efectivo</b>
+                                        </td>
+                                        <td class="sb-top" style="width: 45%;font-size: 0.70rem;">
+                                            <%= subItems.text %>
+                                        </td>
+                                    </tr>
+                                    <% }) %>
+                                    <tr class="s-izquierda sf-13 s-fondoo2">
+                                        <td class="sb-top" style="width: 25%;">
+                                            <b>TOTAL GASTOS</b>
+                                        </td>
+                                        <td class="sb-top" style="width: 15%;">
+                                            <b>$ <%= Number(tolalGastos).toFixed(2) %> </b>
+                                        </td>
+                                        <td class="sb-top" style="width: 15%;">
+                                            <b class="s-verde">$ <%= Number(contador).toFixed(2) %> </b>
+                                        </td>
+                                        <td class="sb-top" style="width: 45%;">
+                                        </td>
+                                    </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                   
+                </tr>
+            </tbody>
+        </table>
+        <table class="s-tabla s-basetb" style="margin-top: 3rem;">
+            <tbody>
+                <tr class="s-izquierda sf-13">
+                    <td class="sb-top sb-right" style="width: 70%;">
+                        No efectivo
+                    </td>
+                    <td class="sb-top" style="width: 70%;">
+                        <b>$ <%= noEfe %> </b>
+                    </td>
+                </tr>
+                <tr class="s-izquierda sf-13">
+                    <td class="sb-top sb-right" style="width: 70%;">
+                        Efectivo + caja inicial
+                    </td>
+                    <td class="sb-top" style="width: 70%;">
+                        <b>$ <%= total %> </b>
+                    </td>
+                </tr>
+                <tr class="s-izquierda sf-13">
+                    <td class="sb-top sb-right" style="width: 70%;">
+                        Efectivo contado
+                    </td>
+                    <td class="sb-top" style="width: 70%;">
+                        <b>$ <%= contado %> </b>
+                    </td>
+                </tr>
+                <tr class="s-izquierda sf-13">
+                    <td class="sb-top sb-right" style="width: 70%;">
+                        Efectivo sobrante (+) Faltante (-)
+                    </td>
+                    <td class="sb-top" style="width: 70%;">
+                        <b>$ <%=Number(contado)  - Number(total)  %></b>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,343 @@
+<style>
+     .s-contenedor {
+        margin-top: 0.1rem;
+        color: #000;
+        font-family: Arial, Helvetica, sans-serif;
+        background: #fff;
+    }
+</style>
+<div class="s-hojas s-contenedor" style="background: white;">
+  <div class="p-4" style="font-family: Calibri;">
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td width="50%">
+            <div style="border: 1px solid #a4a4a4; border-radius:  10px; padding: 10px; margin: 2px;">
+              <table style="width: 100%;font-size: 13px;">
+                <tbody>
+                  <tr>
+                    <td colspan="2" style="text-align: center;">
+                      <img src="<%=agenc.logo%>" width="140px" height="auto">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" style="font-size: 16px; font-weight: bold;">
+                        <%= agenc.nombreComercial %>
+                    </td>
+                  </tr>
+                  <tr colspan="2">
+                    <td style="font-weight: bold;">Dirección</td>
+                  </tr>
+                  <tr colspan="2">
+                    <td><%= agenc.dirEstablecimiento?.substring(0, 21) %></td>
+                  </tr>
+                  <tr>
+                    <td style="font-weight: bold;">Obligado a llevar Contabilidad</td>
+                    <td><%= agenc.obligadoContabilidad %></td>
+                  </tr>
+                  <tr>
+                    <td colspan="2">
+                        <%= agenc.telefono %> </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2"><%= agenc.email %></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </td>
+          <td width="50%">
+            <div style="border: 1px solid #a4a4a4; border-radius:  10px; padding: 10px; margin: 2px;">
+              <table style="width: 100%;font-size: 13px;">
+                <tbody>
+                  <tr>
+                    <td colspan="2" style="font-size:25px; font-weight: bold;">
+                      GUIA DE REMISIÓN
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="font-weight: bold;">RUC:</td>
+                    <td style="font-size: 19px; font-weight: bold;"><%= agenc.ruc %></td>
+                  </tr>
+                  <tr>
+                    <td style="font-weight: bold;">No.</td>
+                    <td style="font-size: 15px; font-weight: bold;"><%= agenc.nombreComercial %></td>
+                  </tr>
+                  <tr>
+                    <td style="font-weight: bold;">Ambiente</td>
+                    <td>PRODUCCION</td>
+                  </tr>
+                  <tr>
+                    <td style="font-weight: bold;">Autorización</td>
+                  </tr>
+                  <tr>
+                    <td colspan="2">
+                        <%= result.claveAcceso %>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="font-weight: bold;">Fecha</td>
+                  </tr>
+                  <tr>
+                    <td colspan="2">
+                        <%= result.fecha %>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2">
+                      <img width="100%" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAUEAAAAyAQMAAAD4AfupAAAABlBMVEX///8AAABVwtN+AAAAAXRSTlMAQObYZgAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAEZJREFUSIljuCQ8631+tuXMje5VeyWFEp1Oc842Usv5HiaclnN25sU1TyIe3QgWyntT2sAwqnJU5ajKUZWjKkdVjqocwSoBUiDp8BxH2EEAAAAASUVORK5CYII=">
+                      <%= result.claveAcceso %>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td>
+            <div style="border: 1px solid #a4a4a4; border-radius:  10px; padding: 10px; margin: 2px;">
+              <table style="width: 100%">
+                <tbody>
+                  <tr>
+                  </tr>
+                  <tr>
+                    <td colspan="2" style="text-align: center; font-weight: bold;">Datos del Cliente/Destinatario</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <table style="width: 100%;font-size: 13px;">
+                        <tbody>
+                          <tr>
+                            <td style="font-weight: bold;">Razón Social/ Nombres:</td>
+                            <td><%= result.cliente.nombres %></td>
+                          </tr>
+                          <tr>
+                            <td style="font-weight: bold;">Identificación:</td>
+                            <td><%= result.cliente.identificacion %></td>
+                          </tr>
+
+
+
+                        </tbody>
+                      </table>
+                    </td>
+                    <td>
+                      <table style="width: 100%;font-size: 13px;">
+                        <tbody>
+                          <tr>
+                            <td style="font-weight: bold;">Teléfono:</td>
+                            <td><%= result.cliente.telefono %></td>
+                          </tr>
+                          <tr>
+                            <td style="font-weight: bold;">Correo:</td>
+                            <td><%= result.cliente.email %></td>
+                          </tr>
+
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td>
+            <div style="border: 1px solid #a4a4a4; border-radius:  10px; padding: 10px; margin: 2px;">
+              <table style="width: 100%">
+                <tbody>
+                  <tr>
+                  </tr>
+                  <tr>
+                    <td colspan="2" style="text-align: center; font-weight: bold;">Datos del Transportista</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <table style="width: 100%;font-size: 13px;">
+                        <tbody>
+                          <tr>
+                            <td style="font-weight: bold;">Razón Social/ Nombres:</td>
+                            <td><%= result.trasportista?.nombres %></td>
+                          </tr>
+                          <tr>
+                            <td style="font-weight: bold;">Identificación:</td>
+                            <td><%= result.trasportista?.identificacion %></td>
+                          </tr>
+
+                          <tr>
+                            <td style="font-weight: bold;">Teléfono:</td>
+                            <td><%= result.trasportista?.telefono %></td>
+                          </tr>
+
+                          <tr>
+                            <td style="font-weight: bold;">Placa:</td>
+                            <td><%= result.traslado?.placa %></td>
+                          </tr>
+
+                        </tbody>
+                      </table>
+                    </td>
+                    <td>
+                      <table style="width: 100%;font-size: 13px;">
+                        <tbody>
+                          <tr>
+                            <td style="font-weight: bold;">Punto Partida</td>
+                            <td><%= agenc.dirEstablecimiento?.substring(0, 21) %></td>
+                          </tr>
+                          <tr>
+                            <td style="font-weight: bold;">Fecha Inicio Transporte</td>
+                            <td><%= result.traslado?.fechaIniTransporte?.substring(0, 10) %></td>
+                          </tr>
+                          <tr>
+                            <td style="font-weight: bold;">Fecha Fin Transporte</td>
+                            <td><%= result.traslado?.fechaFinTransporte?.substring(0, 10) %></td>
+                          </tr>
+
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td>
+            <div style="border: 1px solid #a4a4a4; border-radius:  10px; padding: 10px; margin: 2px;">
+              <table style="width: 100%">
+                <tbody>
+                  <tr>
+                  </tr>
+                  <tr>
+                    <td colspan="2" style="text-align: center; font-weight: bold;">Datos del Traslado</td>
+                  </tr>
+                  <tr>
+                    <td style="width: 50%">
+                      <table style="width: 100%;font-size: 13px;">
+                        <tbody>
+                          <tr>
+                            <td style="font-weight: bold;">Comprobante de venta:</td>
+                            <td></td>
+                          </tr>
+                          <tr>
+                            <td style="font-weight: bold;">Número Autorización:</td>
+                            <td></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                    <td style="width: 50%">
+                      <table style="width: 100%;font-size: 13px;">
+                        <tbody>
+                          <tr>
+                            <td style="font-weight: bold;">Fecha Emisión:</td>
+                            <td></td>
+                          </tr>
+                          <tr>
+                            <td style="font-weight: bold;">Código Establecimiento Destino</td>
+                            <td></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="width: 50%">
+                      <table style="width: 100%;font-size: 13px;">
+                        <tbody>
+                          <tr>
+                            <td style="font-weight: bold;">Motivo Traslado</td>
+                            <td><%= result.traslado?.motivoTraslado %></td>
+                          </tr>
+                          <tr>
+                            <td style="font-weight: bold;">Destino Punto de Llegada</td>
+                            <td><%= result.traslado?.dirDestinatario %></td>
+                          </tr>
+                          <tr>
+                            <td style="font-weight: bold;">Ruta</td>
+                            <td></td>
+                          </tr>
+<!-- 
+                          <tr>
+                            <td style="font-weight: bold;">Documento Aduanero</td>
+                            <td></td>
+                          </tr> -->
+
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td width="100%">
+            <div style="border: 1px solid #a4a4a4; border-radius:  10px; padding: 10px; margin: 2px;">
+              <table style="width: 100%;">
+                <thead>
+                  <tr class="fondo" background="#d2d2d2" style=" background: #d2d2d2;font-size: 13px;">
+                    <th>Codigo</th>
+                    <th style="text-align: center;">Cantidad</th>
+                    <th>Nombre</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <% result?.producto?.forEach(function (subItems) { %>
+                  <tr style=" border-bottom: #b7b7b7 1px solid;font-size: 12px;">
+                    <td><%= subItems.codigo?.substring(0, 10) %></td>
+                    <td style="text-align: center;"><%= subItems.cantidad %></td>
+                    <td><%= subItems.nombres %></td>
+                  </tr>
+                  <% }) %>
+                </tbody>
+              </table>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table width="100%">
+      <tbody>
+        <tr>
+          <td width="60%">
+            <div style="border: 1px solid #a4a4a4; border-radius:  10px; padding: 10px; margin: 2px;">
+              <table style="width: 100%;">
+                <tbody>
+                  <tr>
+                    <td colspan="2" style="font-weight: bold;">
+                      Información Adicional
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </td>
+          <td width="40%">
+
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

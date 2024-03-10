@@ -15,6 +15,7 @@ import clienteRoutes from "./routes/cliente.routes.js"
 
 import archivadorRoutes from "./routes/archivador.routes.js"
 import serviciosRoutes from "./routes/servicios.routes.js"
+import reportesRoutes from "./routes/reportes.routes.js"
 
 import repositorioRoutes from "./routes/repositorio.routes.js"
 
@@ -51,6 +52,7 @@ app.use("/api/cliente", clienteRoutes);
 
 app.use("/api/archivador", archivadorRoutes);
 app.use("/api/servicios", serviciosRoutes);
+app.use("/api/reportes", reportesRoutes);
 
 app.use("/api/repositorio",repositorioRoutes)
 app.use("/api/agencia", agenciaRoutes)

@@ -1,25 +1,27 @@
 import { Router } from "express";
 const router = Router();
 
-import Ctrl from "../controllers/archivador.controller.js";
+import  Ctrl from "../controllers/Archives/archivo.controller.js";
 import { verifyToken } from "../middlewares/authJwt.js";
 
-router.post("/", verifyToken, Ctrl.create);
+router.get('/query',[verifyToken],Ctrl.query);
 
-//router.get("/query", verifyToken, Ctrl.query);
+router.get("/",[verifyToken], Ctrl.getAll);
 
-router.get("/:id", verifyToken, Ctrl.getById);
+router.get("/:id",[verifyToken], Ctrl.getById);
 
-router.get( "/",  verifyToken, Ctrl.getAll);
+router.post("/file/",[verifyToken], Ctrl.createFile);
 
-router.put("/tramite/:id", verifyToken, Ctrl.createTramite);
+router.post("/",[verifyToken], Ctrl.create);
 
-router.put("/deletetramite/:id", verifyToken, Ctrl.deleteTramite);
+router.put("/eliminar/:id",[verifyToken], Ctrl.remove);
 
-router.put("/updatetramite/:id", verifyToken, Ctrl.updateTramite);
+router.put("/abona/:id",[verifyToken], Ctrl.updateAbona);
 
-//router.delete("/:id", verifyToken, Ctrl.deletes);
+router.put("/:id",[verifyToken], Ctrl.updateById);
 
-//router.put('/activate/:id',verifyToken, Ctrl.activate);
+router.delete("/:id", [verifyToken], Ctrl.remove);
+
+router.delete("/eliminarPago/:id", [verifyToken], Ctrl.deleteAbonos);
 
 export default router;
