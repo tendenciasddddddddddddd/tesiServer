@@ -34,6 +34,18 @@ export default {
             return res.status(500).json(error);
         }
     },
+    Abonos: async (req, res) => {
+        try {
+            const result = req.body;
+            //console.log(req.body);
+            const agenc = await getAgencia()
+            const tema = await ejs.renderFile(__dirname + "/themes/Abonos.ejs", { result, agenc });
+            res.status(200).json(tema);
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json(error);
+        }
+    },
     GuiasRemision: async (req, res) => {
         try {
             const result = req.body;

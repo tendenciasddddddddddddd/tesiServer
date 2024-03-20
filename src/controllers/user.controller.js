@@ -5,9 +5,9 @@ export const getUsuarios = async (req, res) => {
   try {
     const limit = parseInt(req.query.take);
     const skip = parseInt(req.query.page);
-    const total = await User.countDocuments({ typo: { $in: ["ADMS"] } });
+    const total = await User.countDocuments({  visible: true });
     const paginas = Math.ceil(total / limit);
-    const reg = await User.find({ typo: { $in: ["ADMS"] } })
+    const reg = await User.find({ visible: true })
       .skip(limit * skip - limit)
       .limit(limit);
     const coleccion = {
@@ -24,7 +24,7 @@ export const getUsuarios = async (req, res) => {
 
 export const getBuscadorUsuarios = async (req, res) => {
   try {
-    const usuarios = await User.find({ typo: { $in: ["ADMS"] } })
+    const usuarios = await User.find({ visible: true })
       .lean()
       .select({ fullname: 1, cedula: 1, email: 1, status: 1 });
     const coleccion = {
@@ -47,7 +47,6 @@ export const getUsuariosById = async (req, res) => {
 
 export const updateUsuariosById = async (req, res) => {
   try {
-    req.body.roles = req.body.role;
     const updatedUsuarios = await User.findByIdAndUpdate(
       req.params.usuariosId,
       req.body,
@@ -87,26 +86,17 @@ export const getRoles = async (req, res) => {
 
 export const createUser = async (req, res) => {
   try {
-    const { username, email, password, roles } = req.body;
-    const rolesFound = await Role.find({ name: { $in: roles } });
-    const user = new User({
-      username,
-      email,
-      password,
-      roles: rolesFound.map((role) => role._id),
+    const rolesFound = await Role.find({ name: 'Tramitador'});
+    req.body['roles'] = rolesFound.map((role) => role._id)
+    req.body.password = await User.encryptPassword(req.body.password);
+    const reg = await User.insertMany(req.body);
+    res.status(200).json(reg);
+} catch (e) {
+    res.status(500).send({
+        message: 'Ocurrió un error'
     });
-
-    user.password = await User.encryptPassword(user.password);
-    const savedUser = await user.save();
-    return res.status(200).json({
-      _id: savedUser._id,
-      username: savedUser.username,
-      email: savedUser.email,
-      roles: savedUser.roles,
-    });
-  } catch (error) {
-    return res.status(500).json(err);
-  }
+    next(e);
+}
 };
 
 export const activate = async (req, res, next) => {

@@ -120,7 +120,7 @@
                     <td style="width: 80%;">
                         <div style="text-align: center!important;">
                             <span style="color:#000;font-weight: 600;font-size: 1.3rem;line-height: 1.375;">
-                                FACTURA ELECTRÓNICA
+                                ABONO DE FACTURA
                             </span> <br>
                             <b class="sf-14"><%= agenc.nombreComercial %></b> <br>
                         </div>
@@ -143,7 +143,7 @@
                     </td>
                     <td style="width: 35%;">
                         <b>RUC:</b> <%= agenc.ruc %> <br>
-                        <b>Ven:</b> VENTAS <br>
+                        <b>Ven:</b> SERVICIOS <br>
                         <b>Telf:</b> <%= agenc.telefono %>
                     </td>
                 </tr>
@@ -201,13 +201,13 @@
                         Cant.
                     </th>
                     <th class="sb-top sb-right s-pd8-10 sf-12 sfz-600">
-                        Detalle
+                        Pago
                     </th>
                     <th class="sb-top sb-right s-pd8-10 sf-12 sfz-600">
-                        Pre/U
+                       Tipo
                     </th>
                     <th class="sb-top sb-right s-pd8-10 sf-12 sfz-600">
-                        Desc
+                        Fecha
                     </th>
                     <th class="sb-top s-pd8-10 sf-12 sfz-600">
                         Total
@@ -220,16 +220,16 @@
                     <td class="s-pd12 sb-right s-centro sb-top">
                         1 </td>
                     <td class="s-pd12 sb-right sb-top s-izquierda">
-                        <%= result.servicio?.nombre %>
+                        <%= result.data?.tipo %>
                     </td>
                     <td class="s-pd12 sb-right s-centro sb-top">
-                        <%= result.total %>
+                        <%= result.data?.text %>
                     </td>
                     <td class="s-pd12 sb-right s-centro sb-top">
-                        0.00
+                        <%= result.data?.fecha %>
                     </td>
                     <td class="s-pd12 s-centro sb-top">
-                        <%= result.total  %>
+                        <%= result.data?.monto %>
                     </td>
                 </tr>
                 <tr>
@@ -237,28 +237,20 @@
                     <td class="s-pd13 sb-top s-derecha"></td>
                     <td class="s-pd13 sb-top s-derecha"></td>
                     <td class="s-pd13 sb-top s-derecha sf-12 sb-right sfz-600">
-                        Sin Iva<br>
-                        Con Iva<br>
-                        Subtotal <br>
-                        Descuento <br>
-                        IVA 12<br>
-                        ICE <br>
-                        <b>TOTAL</b>
+                       <b>Valor Total</b> <br>
+                        <b>Total Abonos</b><br>
+                       <b>SALDO</b>  <br>
                     </td>
                     <td class="s-pd13 sb-top s-derecha sf-12 sfz-600">
-                        0.00<br>
-                        0.00<br>
-                        <%= result.total  %><br>
-                        0.00<br>
-                        0.00<br>
-                        0.00<br>
-                        $ <%= result.total  %> USD
+                        $ <%= result.total  %> USD<br>
+                        <%= Number(result.abonos).toFixed(2)  %><br>
+                        <b><%= (Number(result.total) - Number(result.abonos)).toFixed(2)   %></b><br>
                     </td>
                 </tr>
             </tbody>
         </table>
         <div class="sf-104 s-izquierda" style="margin-top: 10px;">
-            Más información en nuestra pagina web http://atuk.construction.com
+            Más información en nuestra pagina web http://symm-dev.com
             Para la atención de reclamos.
         </div>
     </div>

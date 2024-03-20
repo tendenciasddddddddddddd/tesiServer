@@ -19,9 +19,8 @@ export const verifyToken = async (req, res, next) => {
 };
 const verifiUser = function (param){
   if (param.includes('Admin')||
-      param.includes('Vendedor')||
-      param.includes('Bodega')||
-      param.includes('Contador')||param.includes('Inspector')) return true
+      param.includes('Tramitador')||
+      param.includes('Secretaria')) return true
   return false
 }
 export const isSecretario = async (req, res, next) => {

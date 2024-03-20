@@ -13,14 +13,14 @@ import authRoutes from "./routes/auth.routes.js";
 import usuarioRoutes from "./routes/user.routes.js"
 import clienteRoutes from "./routes/cliente.routes.js"
 
+import cajasRoutes from "./routes/Cajas/cajas.routes.js"
+import HistorialRoutes from "./routes/Cajas/historial.routes.js"
+
 import archivadorRoutes from "./routes/archivador.routes.js"
 import serviciosRoutes from "./routes/servicios.routes.js"
 import reportesRoutes from "./routes/reportes.routes.js"
 
-import repositorioRoutes from "./routes/repositorio.routes.js"
-
 import agenciaRoutes from "./routes/Registros/agencia.routes.js"
-import driveRoutes from "./routes/drive.routes.js"
 
 import { createRoles, createAdmin,createAgencia } from "./libs/initialSetup.js";
 const app = express();
@@ -36,7 +36,7 @@ var corsOptions = {
 }
 app.use(cors(corsOptions));
 
-app.use(morgan("dev"));
+//app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 
@@ -54,8 +54,9 @@ app.use("/api/archivador", archivadorRoutes);
 app.use("/api/servicios", serviciosRoutes);
 app.use("/api/reportes", reportesRoutes);
 
-app.use("/api/repositorio",repositorioRoutes)
 app.use("/api/agencia", agenciaRoutes)
-app.use("/api/drive",driveRoutes)
+
+app.use("/api/cajas", cajasRoutes)
+app.use("/api/historial", HistorialRoutes)
 
 export default app;

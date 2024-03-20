@@ -4,6 +4,9 @@ const router = Router();
 import * as usuariosCtrl from "../controllers/user.controller.js";
 import { verifyToken } from "../middlewares/authJwt.js";
 
+
+router.post("/", [verifyToken], usuariosCtrl.createUser);
+
 router.get("/buscadorusuarioss", [verifyToken], usuariosCtrl.getBuscadorUsuarios);
 
 router.get("/newrol", [verifyToken], usuariosCtrl.getRoles);

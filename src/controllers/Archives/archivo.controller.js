@@ -75,7 +75,46 @@ export default {
             return res.status(500).json(err);
         }
     },
-
+    getAllFinalizado: async (req, res) => {
+        try {
+            const limit = parseInt(req.query.take);
+            const skip = parseInt(req.query.page);
+            const total = await Archivador.countDocuments({estado : 2});
+            const paginas = Math.ceil(total / limit);
+            const usuarios = await Archivador.find({estado : 2})
+                .skip(limit * skip - limit)
+                .limit(limit);
+            const coleccion = {
+                info: usuarios,
+                pagina: skip,
+                paginas: paginas,
+                total: total,
+            };
+            return res.json(coleccion);
+        } catch (error) {
+            return res.status(500).json(err);
+        }
+    },
+    getAllEntregado: async (req, res) => {
+        try {
+            const limit = parseInt(req.query.take);
+            const skip = parseInt(req.query.page);
+            const total = await Archivador.countDocuments({estado : 3});
+            const paginas = Math.ceil(total / limit);
+            const usuarios = await Archivador.find({estado : 3})
+                .skip(limit * skip - limit)
+                .limit(limit);
+            const coleccion = {
+                info: usuarios,
+                pagina: skip,
+                paginas: paginas,
+                total: total,
+            };
+            return res.json(coleccion);
+        } catch (error) {
+            return res.status(500).json(err);
+        }
+    },
     getById: async (req, res) => {
         try {
             const {id} = req.params;
@@ -144,7 +183,6 @@ export default {
     query: async (req, res, next) => {
         try {
             const querys = req.query.querys;
-            console.log(querys);
            const reg = await Archivador.find({
             $or : [
                // {fecha: { '$regex': querys, "$options": "i" }},
@@ -179,12 +217,11 @@ export default {
     removeFolder: async (req, res) => {
         try {
             const { id } = req.params;
-            const { keyFolder } = req.body
             await Archivador.updateOne(
-                { _id: id },
+                { "carpetas._id": id },
                 {
                     $pull: {
-                        "carpetas": { "_id": keyFolder }
+                        "carpetas": { "_id": id }
                     }
                 }
             )
@@ -193,20 +230,84 @@ export default {
             return res.status(500).json(error);
         }
     },
-    removeFile: async (req, res) => {
+    removeArchivo: async (req, res) => {
         try {
             const { id } = req.params;
-            const { keyFile } = req.body
-            
             await Archivador.updateOne(
-                { _id: id },
+                { "archivos._id": id },
                 {
                     $pull: {
-                        "archivos": { "_id": keyFile }
+                        "archivos": { "_id": id }
                     }
                 }
             )
             res.status(200).json();
+        } catch (error) {
+            return res.status(500).json(error);
+        }
+    },
+
+    removeSubArchivo: async (req, res) => {
+        try {
+            const { id } = req.params;
+            const { keyArchivo } = req.body
+            await Archivador.updateOne(
+                { _id: id },
+                {
+                  $pull: {
+                    "carpetas.$[].archivos": { "_id": keyArchivo }
+                  }
+                }
+              )
+            res.status(200).json();
+        } catch (error) {
+            return res.status(500).json(error);
+        }
+    },
+
+    createCarpeta: async (req, res) => {
+        try {
+            await Archivador.findByIdAndUpdate(
+                req.params.id,
+                { $push: { carpetas: req.body } },
+                {
+                    new: true,
+                }
+            );
+            res.status(200).json({});
+        } catch (e) {
+            console.log(e);
+            res.status(500).json("error del servidor");
+        }
+    },
+    createArchivos: async (req, res) => {
+        try {
+            await Archivador.findByIdAndUpdate(
+                req.params.id,
+                { $push: { archivos: req.body } },
+                {
+                    new: true,
+                }
+            );
+            res.status(200).json({});
+        } catch (e) {
+            console.log(e);
+            res.status(500).json("error del servidor");
+        }
+    },
+    createSubArchivos: async (req, res) => {
+        try {
+            const { data, keyFolder } = req.body
+            await Archivador.updateOne(
+                { "carpetas._id": keyFolder },
+                {
+                    $push: {
+                        "carpetas.$.archivos": data
+                    }
+                },
+                { new: true }
+            )
+            res.status(200).json({});
         } catch (error) {
             return res.status(500).json(error);
         }

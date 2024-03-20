@@ -10,8 +10,8 @@ export const createRoles = async () => {
     if (count > 0) return;
     const values = await Promise.all([
       new Role({ name: "Admin" }).save(),
-      new Role({ name: "Empleado" }).save(),
-      new Role({ name: "Cliente" }).save(),
+      new Role({ name: "Tramitador" }).save(),
+      new Role({ name: "Secretaria" }).save(),
     ]);
 
     console.log(values);
@@ -33,7 +33,7 @@ export const createAdmin = async () => {
       foto: "https://res.cloudinary.com/dvpp07pji/image/upload/v1678812180/avatar_def_qkmwey.webp",
       estado: true,
       visible : false,
-      telefono: "0995283857",
+      telefono: "0969721145",
     });
     console.log('Admin User Created!')
   }
