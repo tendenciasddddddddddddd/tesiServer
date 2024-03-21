@@ -3,20 +3,8 @@ import HistorialCaja from '../../models/Cajas/HistorialCaja.js';
 import Archivador from '../../models/Archivador.js';
 import fecha from '../../services/fecha.js';
 
-
-function formatDate() {
-    var d = new Date(),
-        month = '' + (d.getMonth() + 1),
-        day = '' + d.getDate(),
-        year = d.getFullYear();
-
-    if (month.length < 2) 
-        month = '0' + month;
-    if (day.length < 2) 
-        day = '0' + day;
-
-    return [year, month, day].join('-');
-}
+import moment from 'moment-timezone';
+moment().tz("America/Guayaquil").format();
 
 const getCredito = async () => {
     const reg = await Archivador.find({
@@ -27,18 +15,18 @@ const getCredito = async () => {
             ],
         },
     })
+    const fechaHoy = moment().format("DD-MM-YYYY")
     const cobros = []
-    if(reg){
+    if (reg) {
         reg.forEach((item) => {
-            const {pagos} = item
+            const { pagos } = item
             pagos.forEach((subItem) => {
-                const {fecha, monto, text, tipo} = subItem
-                const today = formatDate()
-                const formatoDate = fecha.substring(0,10)
-                if(formatoDate === today && tipo === 'EFECTIVO') {
-                 cobros.push({ id: 1000, text, monto })
+                const { fecha, monto, text, tipo } = subItem
+                const fechaMovimiento = moment(fecha).format("DD-MM-YYYY")
+                if (fechaHoy === fechaMovimiento && tipo === 'EFECTIVO') {
+                    cobros.push({ id: 1000, text, monto })
                 }
-            } )
+            })
         })
     }
     return cobros

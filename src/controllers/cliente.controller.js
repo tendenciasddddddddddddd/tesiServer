@@ -1,5 +1,5 @@
 import Cliente from "../models/Cliente.js";
-import Drive from "../models/Drive.js";
+import Archivador from "../models/Archivador.js";
 
 import fetch from 'node-fetch';
 
@@ -9,13 +9,13 @@ async function createArchivador(data) {
       cliente : data,
       fkCliente : data._id
     }
-    await Drive.create(model);
+    await Archivador.create(model);
   } catch (error) { }
 }
 
-async function updateDrive(id, model) {
+async function updateArchivador(id, model) {
   try {
-    await Drive.updateOne({fkCliente:id}, { cliente: model }, { new: true, });
+    await Archivador.updateOne({fkCliente:id}, { cliente: model }, { new: true, });
   } catch (error) {
     console.log(error);
   }
@@ -130,7 +130,7 @@ export const deletes = async (req, res) => {
         $in: array,
       },
     });
-    await Drive.deleteMany({
+    await Archivador.deleteMany({
       fkCliente: {
         $in: array,
       },
