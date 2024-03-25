@@ -22,8 +22,13 @@ const resSchema = new Schema(
       monto : Number,
       text : String
     }],
-    direccion : String,
-    mts :  Number,
+    provincia : String,
+    canton : String,
+    parroquia : String,
+    sector : String,
+    mts :  String,
+    isNota : Boolean,
+    nota : String,
     archivos: [{
         link : String,
         tipo : String,

@@ -185,12 +185,11 @@ export default {
             const querys = req.query.querys;
            const reg = await Archivador.find({
             $or : [
-               // {fecha: { '$regex': querys, "$options": "i" }},
+                {'cliente.identificacion': { '$regex': querys, "$options": "i" }},
                 {'cliente.nombres': { '$regex': querys, "$options": "i" }}
             ]
            })
            reg.reverse()
-           console.log(reg.length);
            res.status(200).json(reg);
         } catch (e) {
             res.status(500).send({
