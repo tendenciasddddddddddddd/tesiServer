@@ -4,8 +4,8 @@ import User from "../models/User.js";
 import Role from "../models/Role.js";
 
 export const verifyToken = async (req, res, next) => {
-  let token = req.headers["x-access-token"];
-
+  //let token = req.headers["Bearer"];
+  const token = req.headers.authorization.split(' ').pop()
   if (!token) return res.status(403).json({ message: "Acceso no autorizado" });
 
   try {

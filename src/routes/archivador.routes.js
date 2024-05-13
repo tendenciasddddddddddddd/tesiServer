@@ -4,6 +4,8 @@ const router = Router();
 import  Ctrl from "../controllers/Archives/archivo.controller.js";
 import { verifyToken } from "../middlewares/authJwt.js";
 
+router.get('/list',[verifyToken],Ctrl.getListas);
+
 router.get('/query',[verifyToken],Ctrl.query);
 
 router.get("/final",[verifyToken], Ctrl.getAllFinalizado);

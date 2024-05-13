@@ -11,6 +11,8 @@ router.get("/buscadorusuarioss", [verifyToken], usuariosCtrl.getBuscadorUsuarios
 
 router.get("/newrol", [verifyToken], usuariosCtrl.getRoles);
 
+router.get("/list", [verifyToken], usuariosCtrl.getLista);
+
 router.get("/query", [verifyToken], usuariosCtrl.query);
 
 router.get("/:id", [verifyToken], usuariosCtrl.getUsuariosById);

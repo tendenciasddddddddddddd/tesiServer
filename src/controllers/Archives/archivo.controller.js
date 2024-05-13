@@ -51,6 +51,15 @@ export default {
         }
     },
 
+    getListas: async (req, res) => {
+        try {
+          const result = await Archivador.find().sort({ 'createdAt': -1 });
+          return res.json(result);
+        } catch (error) {
+          return res.status(500).json(error);
+        }
+      },
+
     getAll: async (req, res) => {
         try {
             const limit = parseInt(req.query.take);

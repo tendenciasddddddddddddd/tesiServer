@@ -10,6 +10,7 @@ import config from "../config.js";
 import {sendMail} from "../conf/workerEmail.js";
 export const signUp = async (req, res) => {
     try {
+        console.log(req.body);
         const {
             username, email,password, roles, nombres, apellidos, telefono, cedula, foto, typo, fullname,
         } = req.body;
@@ -49,14 +50,15 @@ async function logsOfLogin(data, ip, nav){
 //---------------------------------------------------------LOGIN ACCESS--------------------------
 export const signin = async (req, res) => {
     try {
+        console.log(req.body);
         var userFound = {}
         if (vefificaIfEmail(req.body.email)) {
             userFound = await User.findOne({
-                email: req.body.email, status : '1'
+                email: req.body.email
             }).populate( "roles");
         } else {
             userFound = await User.findOne({
-                cedula: req.body.email, status : '1'
+                cedula: req.body.email
             }).populate( "roles");
         }
         if(!userFound) return res.status(400).json({  message: "User Not Found 1"});
@@ -78,24 +80,19 @@ export const signin = async (req, res) => {
         for (let i = 0; i < roles.length; i++) {
             toles.push(roles[i].name);
         }
-        var ip = req.header('x-forwarded-for') || req.connection.remoteAddress;
-        logsOfLogin(userFound, ip, req.body.navegador);
-        const token = jwt.sign({
-            id: userFound._id,
+        const tokenSession = jwt.sign({
+            _id: userFound._id,
             role: toles,
-            nombre: userFound.fullname,
-            email: userFound.email,
-            telefono: userFound.telefono
         }, config.SECRET, {
             expiresIn: '48h', // 24 hours
         });
         const isaccesos = {
-            tokens: token,
             foto: userFound.foto,
             theme: userFound.theme,
         }
         res.status(200).json({
-            isaccesos
+            tokenSession,
+            data :isaccesos
         });
     } catch (error) {
         console.log(error);

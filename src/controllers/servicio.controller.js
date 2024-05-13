@@ -34,9 +34,7 @@ export default {
 
   getListas: async (req, res) => {
     try {
-      const result = await Servicios.find()
-        .lean()
-        .select({ nombre: 1 , estado: 1 });
+      const result = await Servicios.find().sort({ 'createdAt': -1 });
       return res.json(result);
     } catch (error) {
       return res.status(500).json(error);

@@ -36,12 +36,21 @@ export const getBuscadorUsuarios = async (req, res) => {
   }
 };
 
+export const getLista = async (req, res) => {
+  try {
+    const usuarios = await User.find()
+    res.status(200).json(usuarios);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
+
 export const getUsuariosById = async (req, res) => {
   try {
     const usuarios = await User.findById(req.params.id);
     res.status(200).json(usuarios);
   } catch (error) {
-    return res.status(500).json(err);
+    return res.status(500).json(error);
   }
 };
 
@@ -92,10 +101,10 @@ export const createUser = async (req, res) => {
     const reg = await User.insertMany(req.body);
     res.status(200).json(reg);
 } catch (e) {
+  console.log(e);
     res.status(500).send({
         message: 'Ocurrió un error'
     });
-    next(e);
 }
 };
 
