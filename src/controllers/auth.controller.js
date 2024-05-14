@@ -10,7 +10,6 @@ import config from "../config.js";
 import {sendMail} from "../conf/workerEmail.js";
 export const signUp = async (req, res) => {
     try {
-        console.log(req.body);
         const {
             username, email,password, roles, nombres, apellidos, telefono, cedula, foto, typo, fullname,
         } = req.body;

@@ -26,7 +26,7 @@ export const createAdmin = async () => {
   if (!user) {
     await User.create({
       email: "10004095632w@gmail.com",
-      password: await bcrypt.hash("Medid100.**", 4),
+      password: await bcrypt.hash("12345678", 4),
       roles: roles.map((role) => role._id),//****APARTIR DE A1QUI LOS NUEVOS DATOS
       fullname: "MARTINEZ MARTINEZ ESTEBAN WLADIMIR",
       cedula: "1004095632",

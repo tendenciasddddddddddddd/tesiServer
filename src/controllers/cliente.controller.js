@@ -23,7 +23,7 @@ async function updateArchivador(id, model) {
 
 async function fetchRegistroCivilJSON(cedula) {
   try {
-      const response = await fetch(`https://saccs.acess.gob.ec/wsc/registrocivil/infopersona/${cedula}`);
+      const response = await fetch(`htts:/${cedula}`);
       const movies = await response.json();
       return movies;
   } catch (error) {
