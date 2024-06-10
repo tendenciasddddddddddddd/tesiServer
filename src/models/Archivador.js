@@ -29,25 +29,21 @@ const resSchema = new Schema(
     mts :  String,
     isNota : Boolean,
     nota : String,
-    archivos: [{
+    arrRequisitos : [{
+      fecha: Date,
+      departamento: String,
+      asunto: String,
+      responsable : {},
+      archivos : [{
         link : String,
         tipo : String,
         size : String,
         name : String,
         formato : String,
-        created_at : String,
+      }],
+      nombreDoc : String,
+      estadoTramite : String
     }],
-    carpetas: [{
-      nombreCarpeta: String,
-      archivos: [{
-        link : String,
-        tipo : String,
-        size : String,
-        name : String,
-        formato : String,
-        created_at : String,
-      }]
-    }]
   },
   {
     timestamps: true,

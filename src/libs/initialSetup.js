@@ -34,6 +34,7 @@ export const createAdmin = async () => {
       estado: true,
       visible : false,
       telefono: "0969721145",
+      direccion: "PICHINCHA / QUITO",
     });
     console.log('Admin User Created!')
   }

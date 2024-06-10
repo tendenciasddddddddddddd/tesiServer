@@ -49,7 +49,6 @@ async function logsOfLogin(data, ip, nav){
 //---------------------------------------------------------LOGIN ACCESS--------------------------
 export const signin = async (req, res) => {
     try {
-        console.log(req.body);
         var userFound = {}
         if (vefificaIfEmail(req.body.email)) {
             userFound = await User.findOne({
@@ -85,13 +84,14 @@ export const signin = async (req, res) => {
         }, config.SECRET, {
             expiresIn: '48h', // 24 hours
         });
-        const isaccesos = {
-            foto: userFound.foto,
-            theme: userFound.theme,
-        }
         res.status(200).json({
             tokenSession,
-            data :isaccesos
+            user:{
+                nombre:userFound?.fullname,
+                cedula : userFound?.cedula,
+                id : userFound?._id,
+                role : toles
+            }
         });
     } catch (error) {
         console.log(error);

@@ -24,6 +24,7 @@ import agenciaRoutes from "./routes/Registros/agencia.routes.js"
 
 import { createRoles, createAdmin,createAgencia } from "./libs/initialSetup.js";
 const app = express();
+
 //createRoles();
 //createAdmin();
 //createAgencia()

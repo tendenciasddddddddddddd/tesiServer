@@ -1,28 +1,5 @@
 import Archivador from "../../models/Archivador.js";
 
-async function insetFolder(id, data) {
-    try {
-        await Archivador.findByIdAndUpdate(
-            id,
-            { $push: { 'carpetas': data } },
-            { new: true }
-        )
-    } catch (error) {
-        return res.status(500).json(error);
-    }
-}
-async function insetFile(id, data) {
-    try {
-        await Archivador.findByIdAndUpdate(
-            id,
-            { $push: { 'archivos': data } },
-            { new: true }
-        )
-    } catch (error) {
-        return res.status(500).json(error);
-    }
-}
-
 export default {
     create: async (req, res) => {
         try {
@@ -34,22 +11,7 @@ export default {
             return res.status(500).json(error);
         }
     },
-    createFile: async (req, res) => {
-        try {
-            const { fkdocente } = req.body
-            const findUser = await Archivador.findOne({ fkdocente })
-            if (findUser) {
-                await insetFile(findUser._id, req.body.archivos)
-                return res.status(201).json({});
-            }
-            await Archivador.create(req.body)
-            res.status(201).json({});
-
-        } catch (error) {
-            console.log(error)
-            return res.status(500).json(error);
-        }
-    },
+  
 
     getListas: async (req, res) => {
         try {
@@ -222,48 +184,16 @@ export default {
             return res.status(500).json(error);
         }
     },
-    removeFolder: async (req, res) => {
-        try {
-            const { id } = req.params;
-            await Archivador.updateOne(
-                { "carpetas._id": id },
-                {
-                    $pull: {
-                        "carpetas": { "_id": id }
-                    }
-                }
-            )
-            res.status(200).json();
-        } catch (error) {
-            return res.status(500).json(error);
-        }
-    },
-    removeArchivo: async (req, res) => {
-        try {
-            const { id } = req.params;
-            await Archivador.updateOne(
-                { "archivos._id": id },
-                {
-                    $pull: {
-                        "archivos": { "_id": id }
-                    }
-                }
-            )
-            res.status(200).json();
-        } catch (error) {
-            return res.status(500).json(error);
-        }
-    },
 
-    removeSubArchivo: async (req, res) => {
+    removeRequerimiento: async (req, res) => {
         try {
             const { id } = req.params;
-            const { keyArchivo } = req.body
+            const { keyReqm } = req.body
             await Archivador.updateOne(
                 { _id: id },
                 {
                   $pull: {
-                    "carpetas.$[].archivos": { "_id": keyArchivo }
+                    "arrRequisitos": { "_id": keyReqm }
                   }
                 }
               )
@@ -272,12 +202,11 @@ export default {
             return res.status(500).json(error);
         }
     },
-
-    createCarpeta: async (req, res) => {
+    createRequerimiento: async (req, res) => {
         try {
             await Archivador.findByIdAndUpdate(
                 req.params.id,
-                { $push: { carpetas: req.body } },
+                { $push: { arrRequisitos: req.body } },
                 {
                     new: true,
                 }
@@ -288,32 +217,27 @@ export default {
             res.status(500).json("error del servidor");
         }
     },
-    createArchivos: async (req, res) => {
+    updateRequerimiento: async (req, res) => {
         try {
-            await Archivador.findByIdAndUpdate(
-                req.params.id,
-                { $push: { archivos: req.body } },
-                {
-                    new: true,
-                }
-            );
-            res.status(200).json({});
-        } catch (e) {
-            console.log(e);
-            res.status(500).json("error del servidor");
-        }
-    },
-    createSubArchivos: async (req, res) => {
-        try {
-            const { data, keyFolder } = req.body
+            const { data, keyReqm } = req.body
             await Archivador.updateOne(
-                { "carpetas._id": keyFolder },
+                { _id: req.params.id },
                 {
-                    $push: {
-                        "carpetas.$.archivos": data
+                    $set: {
+                        "arrRequisitos.$[perf].departamento": data.departamento,
+                        "arrRequisitos.$[perf].asunto": data.asunto,
+                        "arrRequisitos.$[perf].archivos": data.archivos,
+                        "arrRequisitos.$[perf].nombreDoc": data.nombreDoc,
+                        "arrRequisitos.$[perf].estadoTramite": data.estadoTramite,
+                        "arrRequisitos.$[perf].fecha": data.fecha,
                     }
                 },
-                { new: true }
+                { 
+                    arrayFilters: [{
+                        "perf._id": { $eq: keyReqm }
+                    }],
+                    new: true 
+                }
             )
             res.status(200).json({});
         } catch (error) {
