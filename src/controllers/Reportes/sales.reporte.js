@@ -32,7 +32,6 @@ export default {
     OrdenVenta: async (req, res) => {
         try {
             const result = req.body;
-            const {facturaAuth} = req.body
             const agenc = await getAgencia()
             const tema = await ejs.renderFile(__dirname + "/themes/OrdenVenta.ejs", { result, agenc });
             res.status(200).json(tema);
@@ -43,10 +42,11 @@ export default {
     },
     Abonos: async (req, res) => {
         try {
-            const result = req.body;
-            //console.log(req.body);
+            const result = req.body.info;
+            const data = req.body.data
+            const abonos = req.body.abonos
             const agenc = await getAgencia()
-            const tema = await ejs.renderFile(__dirname + "/themes/Abonos.ejs", { result, agenc });
+            const tema = await ejs.renderFile(__dirname + "/themes/Abonos.ejs", { result, agenc, data, abonos });
             res.status(200).json(tema);
         } catch (error) {
             console.log(error);
@@ -58,6 +58,20 @@ export default {
             const result = req.body;
             const agenc = await getAgencia()
             const tema = await ejs.renderFile(__dirname + "/themes/OrdenVenta.ejs", { result, agenc });
+            const link = await convertPdf(tema, 3)
+            res.status(200).json(link);
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json(error);
+        }
+    },
+    buildPdfAbonos: async (req, res) => {
+        try {
+            const result = req.body.info;
+            const data = req.body.data
+            const abonos = req.body.abonos
+            const agenc = await getAgencia()
+            const tema = await ejs.renderFile(__dirname + "/themes/Abonos.ejs", { result, agenc, data, abonos });
             const link = await convertPdf(tema, 3)
             res.status(200).json(link);
         } catch (error) {

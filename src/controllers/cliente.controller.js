@@ -1,52 +1,13 @@
 import Cliente from "../models/Cliente.js";
 import Archivador from "../models/Archivador.js";
+import Servicios from "../models/Servicios.js";
 
-import fetch from 'node-fetch';
-
-async function createArchivador(data) {
+export const tracks = async (req, res) => {
   try {
-    const model = {
-      cliente : data,
-      fkCliente : data._id
-    }
-    await Archivador.create(model);
-  } catch (error) { }
-}
-
-async function updateArchivador(id, model) {
-  try {
-    await Archivador.updateOne({fkCliente:id}, { cliente: model }, { new: true, });
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-async function fetchRegistroCivilJSON(cedula) {
-  try {
-      const response = await fetch(`htts:/${cedula}`);
-      const movies = await response.json();
-      return movies;
-  } catch (error) {
-      return false
-  }
-}
-
-export const gets = async (req, res) => {
-  try {
-    const limit = parseInt(req.query.take);
-    const skip = parseInt(req.query.page);
-    const total = await Cliente.countDocuments();
-    const paginas = Math.ceil(total / limit);
-    const usuarios = await Cliente.find()
-      .skip(limit * skip - limit)
-      .limit(limit);
-    const coleccion = {
-      usuarios: usuarios,
-      pagina: skip,
-      paginas: paginas,
-      total: total,
-    };
-    return res.json(coleccion);
+    const clientes = await Cliente.countDocuments();
+    const servicios = await Servicios.countDocuments();
+    const archivador = await Archivador.countDocuments();
+    return res.json({servicios, clientes, archivador});
   } catch (err) {
     return res.status(500).json(err);
   }
@@ -75,27 +36,6 @@ export const create = async (req, res) => {
   }
 };
 
-export const getByCedulaWebService = async (req, res) => {
-  try {
-    const { cedula } = req.params
-    const reg = await fetchRegistroCivilJSON(cedula)
-    if(reg.status === 0) return res.status(400).send({});
-    const {Nombre, Domicilio, FechaNacimiento, NUI, Nacionalidad, Profesion, Sexo} = reg.response
-    const model = {
-        identificacion : NUI,
-        nombres : Nombre,
-        direccion : Domicilio,
-        sexo : Sexo,
-        nacionalidad : Nacionalidad,
-        fechaNacimiento : FechaNacimiento,
-        profesion : Profesion
-    }
-    //console.log(reg);
-    res.status(200).json(model);
-} catch (e) {
-    res.status(500).send(e);
-}
-};
 
 export const getById = async (req, res) => {
   try {

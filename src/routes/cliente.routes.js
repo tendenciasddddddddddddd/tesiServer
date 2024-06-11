@@ -11,11 +11,9 @@ router.get("/query", verifyToken, usuariosCtrl.query);
 
 router.get("/list", verifyToken, usuariosCtrl.list);
 
-router.get('/wscedula/:cedula',verifyToken,usuariosCtrl.getByCedulaWebService);
-
 router.get("/:id", verifyToken, usuariosCtrl.getById);
 
-router.get( "/",  verifyToken, usuariosCtrl.gets);
+router.get( "/",  verifyToken, usuariosCtrl.tracks);
 
 router.put("/:id", verifyToken, usuariosCtrl.update);
 

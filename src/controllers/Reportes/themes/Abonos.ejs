@@ -19,7 +19,7 @@
     }
 
     .sf-12 {
-        font-size: 11px;
+        font-size: 12px;
     }
 
     .sf-14 {
@@ -97,7 +97,7 @@
         padding: 1px 2px;
     }
     .sf-104 {
-        font-size: 10.4px;
+        font-size: 11px;
     }
     .s-basetb{
         border-style: solid;border-width: 0px 1px 1px;max-width: 100%; width: 100%; border-spacing: 0; border-collapse: separate;
@@ -108,42 +108,72 @@
     .s-caja-client {
         border: 1px solid #000000; border-radius: 10px; padding: 7px;margin-top: 8px;margin-bottom: 10px;
     }
+    .s-logo{
+        width: 100px; height: 70px; border-radius: 6px;
+    }
+    .s-titulo{
+        color:#000;font-weight: 600;font-size: 1.3rem;line-height: 1.375;
+    }
+    .s-text-center{
+        text-align: center!important;
+    }
+    .s-width10{
+        width: 10%; 
+    }
+    .s-width80{
+        width: 80%; 
+    }
+    .s-width20{
+        width: 20%; 
+    }
+    .s-width100{
+        width: 100%; 
+    }
+    .s-width65{
+        width: 65%; 
+    }
+    .s-width35{
+        width: 35%; 
+    }
+    .s-top7{
+        margin-top: 7px;
+    }
 </style>
 <div class="s-hojas s-contenedor">
     <div class="s-centro p-4" style="min-height:170mm;">
-        <table style="width: 100%;">
+        <table class="s-width100">
             <tbody>
                 <tr>
-                    <td style="width: 10%;">
-                        <img style="width: 100px; height: 70px; border-radius: 6px;" src="<%=agenc.logo%>" alt="logo">
+                    <td class="s-width10">
+                        <img class="s-logo" src="<%=agenc.logo%>" alt="logo">
                     </td>
-                    <td style="width: 80%;">
-                        <div style="text-align: center!important;">
-                            <span style="color:#000;font-weight: 600;font-size: 1.3rem;line-height: 1.375;">
-                                ABONO DE FACTURA
+                    <td class="s-width80">
+                        <div class="s-text-center">
+                            <span class="s-titulo">
+                                COMPROBANTE DE PAGOS
                             </span> <br>
                             <b class="sf-14"><%= agenc.nombreComercial %></b> <br>
                         </div>
                     </td>
-                    <td style="width:10%;">
+                    <td class="s-width10">
                     </td>
                 </tr>
             </tbody>
         </table>
         <hr>
-        <table style="width: 100%;margin-top: 7px;">
+        <table class="s-width100 s-top7">
             <tbody>
                 <tr class="s-izquierda sf-12">
-                    <td style="width: 65%;">
+                    <td class="s-width65">
                         
                         <b>Dirección:</b> <%= agenc.dirEstablecimiento?.substring(0, 35) %> <br>
                         <b>Obligado a llevar contabilidad:</b> <%= agenc.obligadoContabilidad %> <br>
                         <b>Ambiente:</b> Producción <br>
                         <b>Emisión:</b> NORMAL
                     </td>
-                    <td style="width: 35%;">
+                    <td class="s-width35">
                         <b>RUC:</b> <%= agenc.ruc %> <br>
-                        <b>Ven:</b> SERVICIOS <br>
+                        <b>Ven:</b> VENTAS <br>
                         <b>Telf:</b> <%= agenc.telefono %>
                     </td>
                 </tr>
@@ -153,18 +183,16 @@
             <table class="s-tabla">
                 <tbody>
                     <tr>
-                        <td style="width: 65%;">
+                        <td class="s-width65">
                             <table class="s-tabla">
                                 <tbody>
                                     <tr class="s-izquierda">
-                                        <td class="sf-12 sfz-600" style="width: 20%;">
-                                            Factura: <br>
+                                        <td class="sf-12 sfz-600 s-width20">
                                             Cliente: <br>
                                             Ruc/cedu: <br>
                                             Dirección:
                                         </td>
-                                        <td class="sf-12" style="width: 80%;">
-                                           # <%= result.ordenVenta %> <br>
+                                        <td class="sf-12 s-width80">
                                             <%= result.cliente.nombres %> <br>
                                             <%= result.cliente.identificacion %> <br>
                                             <%= result.cliente.direccion %>
@@ -173,16 +201,16 @@
                                 </tbody>
                             </table>
                         </td>
-                        <td class="sf-12" style="width: 35%;">
+                        <td class="sf-12 s-width35">
                             <table class="s-tabla">
                                 <tbody>
                                     <tr class="s-izquierda">
-                                        <td class="sf-12 sfz-600" style="width: 20%;">
+                                        <td class="sf-12 sfz-600 s-width20">
                                             Fecha: <br>
                                             Telf: 
                                         </td>
-                                        <td class="sf-12" style="width: 80%;">
-                                            <%= result.fecha %> <br>
+                                        <td class="sf-12 s-width80">
+                                            <%= data?.fecha?.substring(0, 10) %> <br>
                                             <%= result.cliente.telefono %> 
                                         </td>
                                     </tr>
@@ -220,16 +248,16 @@
                     <td class="s-pd12 sb-right s-centro sb-top">
                         1 </td>
                     <td class="s-pd12 sb-right sb-top s-izquierda">
-                        <%= result.data?.tipo %>
+                        <%= data?.tipo %>
                     </td>
                     <td class="s-pd12 sb-right s-centro sb-top">
-                        <%= result.data?.text %>
+                        <%= data?.text %>
                     </td>
                     <td class="s-pd12 sb-right s-centro sb-top">
-                        <%= result.data?.fecha %>
+                        <%= data?.fecha %>
                     </td>
                     <td class="s-pd12 s-centro sb-top">
-                        <%= result.data?.monto %>
+                        <%= data?.monto %>
                     </td>
                 </tr>
                 <tr>
@@ -243,8 +271,8 @@
                     </td>
                     <td class="s-pd13 sb-top s-derecha sf-12 sfz-600">
                         $ <%= result.total  %> USD<br>
-                        <%= Number(result.abonos).toFixed(2)  %><br>
-                        <b><%= (Number(result.total) - Number(result.abonos)).toFixed(2)   %></b><br>
+                        <%= Number(abonos).toFixed(2)  %><br>
+                        <b><%= (Number(result.total) - Number(abonos)).toFixed(2)   %></b><br>
                     </td>
                 </tr>
             </tbody>

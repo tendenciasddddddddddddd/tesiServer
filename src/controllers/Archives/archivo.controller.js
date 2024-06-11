@@ -36,12 +36,8 @@ export default {
                 element = result[i];
                 element['search1'] = result[i]?.cliente?.nombres
                 element['search2'] = result[i]?.servicio?.nombre
-                const procesos = element.arrRequisitos
-                for (let j = 0; j < procesos.length; j++) {
-                    const subElement = procesos[j];
-                    if(subElement?.estadoTramite ==='CERRADO'){
-                        info.push(element)
-                    }
+                if(result[i]?.estado === true){
+                    info.push(element)
                 }
             }
             return res.json(info);

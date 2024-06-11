@@ -12,8 +12,7 @@ const resSchema = new Schema(
       ref: "Servicios",
     },
     servicio: {},
-    estado : Number,
-    ofIndex :Number,
+    estado : Boolean,
     total : Number,
     abona : Number,
     pagos : [{
