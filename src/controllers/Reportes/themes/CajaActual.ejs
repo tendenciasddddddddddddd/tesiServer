@@ -49,6 +49,19 @@
     .h100 {
         height: 100%;
     }
+    .t7{
+        margin-top: 3rem;
+    }
+
+    .w25 {
+        height: 25%;
+    }
+    .w15 {
+        height: 15%;
+    }
+    .w45 {
+        height: 45%;
+    }
 
     .info-clave {
         font-size: 12px;
@@ -147,7 +160,7 @@
         <table class="s-tabla">
             <tbody>
                 <tr>
-                    <td style="width: 100%;">
+                    <td class="s-tabla">
                         <div class="centered">
                             <span style="font-size: 20px;">
                                 <b>
@@ -155,7 +168,7 @@
                                 </b>
                             </span>
                         </div>
-                        <table style="width: 100%;">
+                        <table class="s-tabla">
                             <tbody>
                                 <tr class="sf-12">
                                     <td class="centered">
@@ -167,7 +180,7 @@
                         </table>
                         <hr>
                         <div class="s-derecha sf-10-4">
-                            <span> San Isidro <%=fecha %> </span>
+                            <span> <%=fecha %> </span>
                         </div> <br>
                         <div class="s-izquierda sf-10-4">
                             <span> <b>FECHA DE APERTURA:</b>
@@ -187,54 +200,54 @@
         <table class="s-tabla s-basetb">
             <tbody>
                 <tr class="s-izquierda sf-10-4">
-                    <td style="width: 100%;" class="sb-top">
+                    <td class="sb-top s-tabla">
                         <b>INGRESOS GENERALES</b> <br> <br>
                         <% var aux = 0 %>
                         <table class="s-tabla">
                             <tbody>
                                 <tr class="s-izquierda sf-10-4">
                                     <% aux = aux + Number(caja.cajaInicial) %>
-                                    <td class="sb-top sb-right" style="width: 25%;">
+                                    <td class="sb-top sb-right w25">
                                         <b>APERTURA DE CAJA</b>
                                     </td>
-                                    <td class="sb-top sb-right" style="width: 15%;">
+                                    <td class="sb-top sb-right w15">
                                         <b>$ <%= Number(caja?.cajaInicial).toFixed(2) %> </b>
                                     </td>
-                                    <td class="sb-top sb-right" style="width: 15%;">
+                                    <td class="sb-top sb-right w15">
                                         <b class="s-verde">Efectivo</b>
                                     </td>
-                                    <td class="sb-top" style="width: 45%;font-size: 0.74rem;">
+                                    <td class="sb-top w45" style="font-size: 0.74rem;">
                                         <%= caja.createdAt?.toString("dd/MM/yyyy hh:mm:ss")?.substring(0, 21) %>
                                     </td>
                                 </tr>
                                 <% caja?.ingresos?.forEach(function (subItems) { %>
                                     <tr class="s-izquierda sf-10-4">
                                         <% aux = aux + Number(subItems.monto) %>
-                                        <td class="sb-top sb-right" style="width: 25%;">
+                                        <td class="sb-top sb-right w25">
                                             <b>EFECTIVO VARIOS</b>
                                         </td>
-                                        <td class="sb-top sb-right" style="width: 15%;">
+                                        <td class="sb-top sb-right w15">
                                             <b>$ <%= Number(subItems.monto).toFixed(2) %></b>
                                         </td>
-                                        <td class="sb-top sb-right" style="width: 15%;">
+                                        <td class="sb-top sb-right w15">
                                             <b class="s-verde">Efectivo</b>
                                         </td>
-                                        <td class="sb-top" style="width: 45%;font-size: 0.70rem;">
+                                        <td class="sb-top w45" style="font-size: 0.70rem;">
                                             <%= subItems.text %>
                                         </td>
                                     </tr>
                                     <% }) %>
                                     <tr class="s-izquierda sf-13 s-fondoo2">
-                                        <td class="sb-top" style="width: 25%;">
+                                        <td class="sb-top w25">
                                             <b>TOTAL INGRESOS</b>
                                         </td>
-                                        <td class="sb-top" style="width: 15%;">
+                                        <td class="sb-top w15">
                                             <b>$ <%= (tolalIngresos + Number(caja.cajaInicial)).toFixed(2) %> </b>
                                         </td>
-                                        <td class="sb-top" style="width: 15%;">
+                                        <td class="sb-top w15">
                                             <b class="s-verde">$ <%= Number(aux).toFixed(2) %> </b>
                                         </td>
-                                        <td class="sb-top" style="width: 45%;">
+                                        <td class="sb-top w45">
                                         </td>
                                     </tr>
                             </tbody>
@@ -248,7 +261,7 @@
         <table class="s-tabla s-basetb">
             <tbody>
                 <tr class="s-izquierda sf-10-4">
-                    <td style="width: 100%;" class="sb-top">
+                    <td class="sb-top s-tabla">
                         <b>GASTOS GENERALES</b> <br> <br>
                         <% var contador = 0 %>
                         <table class="s-tabla">
@@ -256,31 +269,31 @@
                                 <% caja?.gastos?.forEach(function (subItems) { %>
                                     <tr class="s-izquierda sf-10-4">
                                         <% contador = contador + Number(subItems.monto) %>
-                                        <td class="sb-top sb-right" style="width: 25%;">
+                                        <td class="sb-top sb-right w25">
                                             <b>EFECTIVO VARIOS</b>
                                         </td>
-                                        <td class="sb-top sb-right" style="width: 15%;">
+                                        <td class="sb-top sb-right w15">
                                             <b>$ <%= Number(subItems.monto).toFixed(2) %></b>
                                         </td>
-                                        <td class="sb-top sb-right" style="width: 15%;">
+                                        <td class="sb-top sb-right w15">
                                             <b class="s-verde">Efectivo</b>
                                         </td>
-                                        <td class="sb-top" style="width: 45%;font-size: 0.70rem;">
+                                        <td class="sb-top w45" style="font-size: 0.70rem;">
                                             <%= subItems.text %>
                                         </td>
                                     </tr>
                                     <% }) %>
                                     <tr class="s-izquierda sf-13 s-fondoo2">
-                                        <td class="sb-top" style="width: 25%;">
+                                        <td class="sb-top w25">
                                             <b>TOTAL GASTOS</b>
                                         </td>
-                                        <td class="sb-top" style="width: 15%;">
+                                        <td class="sb-top w15">
                                             <b>$ <%= Number(tolalGastos).toFixed(2) %> </b>
                                         </td>
-                                        <td class="sb-top" style="width: 15%;">
+                                        <td class="sb-top w15">
                                             <b class="s-verde">$ <%= Number(contador).toFixed(2) %> </b>
                                         </td>
-                                        <td class="sb-top" style="width: 45%;">
+                                        <td class="sb-top w45">
                                         </td>
                                     </tr>
                             </tbody>
@@ -290,38 +303,14 @@
                 </tr>
             </tbody>
         </table>
-        <table class="s-tabla s-basetb" style="margin-top: 3rem;">
+        <table class="s-tabla s-basetb t7">
             <tbody>
-                <tr class="s-izquierda sf-13">
-                    <td class="sb-top sb-right" style="width: 70%;">
-                        No efectivo
-                    </td>
-                    <td class="sb-top" style="width: 70%;">
-                        <b>$ <%= noEfe %> </b>
-                    </td>
-                </tr>
                 <tr class="s-izquierda sf-13">
                     <td class="sb-top sb-right" style="width: 70%;">
                         Efectivo + caja inicial
                     </td>
                     <td class="sb-top" style="width: 70%;">
                         <b>$ <%= total %> </b>
-                    </td>
-                </tr>
-                <tr class="s-izquierda sf-13">
-                    <td class="sb-top sb-right" style="width: 70%;">
-                        Efectivo contado
-                    </td>
-                    <td class="sb-top" style="width: 70%;">
-                        <b>$ <%= contado %> </b>
-                    </td>
-                </tr>
-                <tr class="s-izquierda sf-13">
-                    <td class="sb-top sb-right" style="width: 70%;">
-                        Efectivo sobrante (+) Faltante (-)
-                    </td>
-                    <td class="sb-top" style="width: 70%;">
-                        <b>$ <%=Number(contado)  - Number(total)  %></b>
                     </td>
                 </tr>
             </tbody>

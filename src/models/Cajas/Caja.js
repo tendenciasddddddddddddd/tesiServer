@@ -2,7 +2,7 @@ import { Schema, model } from "mongoose";
 
 const cajasSchema = new Schema(
     {
-      cajaInicial : String,
+      cajaInicial : Number,
       ingresos: [{}],
       gastos: [{}],
     },

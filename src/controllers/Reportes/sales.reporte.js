@@ -1,6 +1,5 @@
 import agencia from "../../models/Agencia.js";
-//const ejs = require("ejs");
-//const barcode = require('barcode');
+import fetch from 'node-fetch';
 
 import path from 'path';
 import ejs from 'ejs'
@@ -16,6 +15,18 @@ async function getAgencia() {
         console.log(error);
     }
 }
+const convertPdf = async (params, size) => {
+    try {
+        const datax = JSON.stringify({ name: size, content: params }) /*num, 3 is media hoja */
+        const requestOptions = { method: 'POST', headers: { 'Content-Type': 'application/json', }, body: datax };
+        const response = await fetch('http://wls.guibis.com/?op=Insert', requestOptions);
+        const data = await response.json();
+        const link = `http://wls.guibis.com/pdf/${data}.pdf`
+        return link;
+    } catch (error) {
+        return false
+    }
+}
 
 export default {
     OrdenVenta: async (req, res) => {
@@ -23,10 +34,6 @@ export default {
             const result = req.body;
             const {facturaAuth} = req.body
             const agenc = await getAgencia()
-            // if(facturaAuth === undefined) {
-            //     const tema = await ejs.renderFile(__dirname + "/themes/OrdenVentaImpre.ejs", { result, agenc });
-            //     return  res.status(200).json(tema);
-            // }
             const tema = await ejs.renderFile(__dirname + "/themes/OrdenVenta.ejs", { result, agenc });
             res.status(200).json(tema);
         } catch (error) {
@@ -46,12 +53,13 @@ export default {
             return res.status(500).json(error);
         }
     },
-    GuiasRemision: async (req, res) => {
+    buildPdf: async (req, res) => {
         try {
             const result = req.body;
             const agenc = await getAgencia()
-            const tema = await ejs.renderFile(__dirname + "/themes/Guias.ejs", { result, agenc });
-            res.status(200).json(tema);
+            const tema = await ejs.renderFile(__dirname + "/themes/OrdenVenta.ejs", { result, agenc });
+            const link = await convertPdf(tema, 3)
+            res.status(200).json(link);
         } catch (error) {
             console.log(error);
             return res.status(500).json(error);

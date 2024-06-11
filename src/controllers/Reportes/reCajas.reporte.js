@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 import moment from 'moment-timezone';
 moment().tz("America/Guayaquil").format();
 
-const getCredito = async () => {
+const getServicios = async () => {
     const reg = await Archivador.find({
         $expr: {
             $eq: [
@@ -42,11 +42,9 @@ export default {
             const caja = await Caja.findOne()
             const user = req.query.user;
             const total = req.query.total;
-            const noEfe = req.query.noEfe
-            const contado = req.query.contado
             const fecha = fechaActual()
             if (caja) {
-                const cobros = await getCredito()
+                const cobros = await getServicios()
                 if (cobros.length > 0) {
                     for (let i = 0; i < cobros.length; i++) {
                         caja.ingresos.push(cobros[i])
@@ -63,7 +61,7 @@ export default {
                 let tolalGastos = sumCompras + gastos
                 const tema = await ejs.renderFile(__dirname + "/themes/CajaActual.ejs", {
                     sales: [], fecha, caja, inventario: [],
-                    tolalIngresos, tolalGastos, user, total, noEfe, contado
+                    tolalIngresos, tolalGastos, user, total
                 });
                 return res.status(200).json(tema);
             }

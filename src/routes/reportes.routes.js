@@ -7,9 +7,9 @@ import  rCaj from "../controllers/Reportes/reCajas.reporte.js";
 
 router.post("/",[ verifyToken], Ctrl.OrdenVenta);
 
-router.post("/abonos",[ verifyToken], Ctrl.Abonos);
+router.post("/buildpdf/",[ verifyToken], Ctrl.buildPdf);
 
-router.post("/guias/",[ verifyToken], Ctrl.GuiasRemision);
+router.post("/abonos",[ verifyToken], Ctrl.Abonos);
 
 router.get("/cierrecaja/",[ verifyToken], rCaj.cajaAbierta);
 

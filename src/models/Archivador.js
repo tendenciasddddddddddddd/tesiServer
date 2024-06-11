@@ -29,6 +29,8 @@ const resSchema = new Schema(
     mts :  String,
     isNota : Boolean,
     nota : String,
+    search1 : String,
+    search2 : String,
     arrRequisitos : [{
       fecha: Date,
       departamento: String,

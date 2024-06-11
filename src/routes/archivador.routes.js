@@ -6,13 +6,7 @@ import { verifyToken } from "../middlewares/authJwt.js";
 
 router.get('/list',[verifyToken],Ctrl.getListas);
 
-router.get('/query',[verifyToken],Ctrl.query);
-
-router.get("/final",[verifyToken], Ctrl.getAllFinalizado);
-
-router.get("/entrega",[verifyToken], Ctrl.getAllEntregado);
-
-router.get("/",[verifyToken], Ctrl.getAll);
+router.get('/listFin',[verifyToken],Ctrl.getListasFinalizados);
 
 router.get("/:id",[verifyToken], Ctrl.getById);
 
@@ -30,8 +24,8 @@ router.put("/:id",[verifyToken], Ctrl.updateById);
 
 router.delete("/:id", [verifyToken], Ctrl.remove);
 
-router.delete("/eliminarPago/:id", [verifyToken], Ctrl.deleteAbonos);
-
 router.put("/removeRequerimiento/:id",[verifyToken], Ctrl.removeRequerimiento);
+
+router.put("/removePagos/:id",[verifyToken], Ctrl.deleteAbonos);
 
 export default router;

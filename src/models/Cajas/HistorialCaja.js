@@ -4,8 +4,6 @@ const cajasSchema = new Schema(
     {
       cajaInicial : String,
       fecha : String,
-      sales: [{}],
-      inventario: [{}],
       ingresos: [{}],
       gastos: [{}],
       detalles : {},

@@ -6,30 +6,35 @@ import fecha from '../../services/fecha.js';
 import moment from 'moment-timezone';
 moment().tz("America/Guayaquil").format();
 
-const getCredito = async () => {
-    const reg = await Archivador.find({
-        $expr: {
-            $eq: [
-                { $dateToString: { format: '%Y-%m-%d', date: '$$NOW', timezone: "America/Guayaquil" } },
-                { $dateToString: { format: '%Y-%m-%d', date: '$updatedAt', timezone: "America/Guayaquil" } },
-            ],
-        },
-    })
-    const fechaHoy = moment().format("DD-MM-YYYY")
-    const cobros = []
-    if (reg) {
-        reg.forEach((item) => {
-            const { pagos } = item
-            pagos.forEach((subItem) => {
-                const { fecha, monto, text, tipo } = subItem
-                const fechaMovimiento = moment(fecha).format("DD-MM-YYYY")
-                if (fechaHoy === fechaMovimiento && tipo === 'EFECTIVO') {
-                    cobros.push({ id: 1000, text, monto })
-                }
-            })
+const getServicios = async () => {
+    try {
+        const reg = await Archivador.find({
+            $expr: {
+                $eq: [
+                    { $dateToString: { format: '%Y-%m-%d', date: '$$NOW', timezone: "America/Guayaquil" } },
+                    { $dateToString: { format: '%Y-%m-%d', date: '$updatedAt', timezone: "America/Guayaquil" } },
+                ],
+            },
         })
+        const fechaHoy = moment().format("DD-MM-YYYY")
+        const cobros = []
+        if (reg) {
+            reg.forEach((item) => {
+                const { pagos } = item
+                pagos.forEach((subItem) => {
+                    const { fecha, monto, text, tipo } = subItem
+                    const fechaMovimiento = moment(fecha).format("DD-MM-YYYY")
+                    if (fechaHoy === fechaMovimiento && tipo === 'EFECTIVO') {
+                        cobros.push({ id: 1000, text, monto })
+                    }
+                })
+            })
+        }
+        return cobros
+    } catch (error) {
+        console.log(error);
     }
-    return cobros
+    
 }
 
 export default {
@@ -50,16 +55,12 @@ export default {
         try {
             const caja = await Caja.findOne()
             if (caja) {
-                const cobros = await getCredito()
+                const cobros = await getServicios()
                 if(cobros.length > 0){
                     for (let i = 0; i < cobros.length; i++) {
                         caja.ingresos.push(cobros[i])
                     }
                 }
-
-                let totalInventarioContado = 0
-                let totalInventarioCredito = 0
-                let totalInventarioAbona = 0
 
                 let ingresos = 0
                 caja.ingresos?.forEach(item => ingresos += Number(item.monto))
@@ -67,12 +68,12 @@ export default {
                 let gastos = 0
                 caja.gastos?.forEach(item => gastos += Number(item.monto))
 
-                const total = ((Number(caja.cajaInicial)  +  ingresos) - (totalInventarioContado + gastos + totalInventarioAbona)).toFixed(2)
-                return res.status(200).json({caja, total, ingresos, gastos, 
-                    totalInventarioContado, totalInventarioCredito, totalInventarioAbona});
+                const total = ((Number(caja.cajaInicial)  +  ingresos) - ( gastos )).toFixed(2)
+                return res.status(200).json({caja, total, ingresos, gastos,});
             }
             res.status(200).json(null);
         } catch (e) {
+            console.log(e);
             res.status(500).send({
                 message: 'Ocurrió un error'
             });
@@ -83,14 +84,14 @@ export default {
         try {
             const caja = await Caja.findById(req.params.paramsId);
             if (caja) {
-                const cobros = await getCredito()
+                const cobros = await getServicios()
                 if(cobros.length > 0){
                     for (let i = 0; i < cobros.length; i++) {
                         caja.ingresos.push(cobros[i])
                     }
                 }
                 const model = {
-                    sales:0, inventario:0,
+                    sales:0,
                     detalles : req.body,
                     cajaInicial : req.body.cajaInicial,
                     ingresos : caja.ingresos,
