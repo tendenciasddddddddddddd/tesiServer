@@ -1,5 +1,6 @@
 import Caja from '../../models/Cajas/Caja.js';
 import Archivador from '../../models/Archivador.js';
+import fetch from 'node-fetch';
 
 import path from 'path';
 import ejs from 'ejs'
@@ -9,6 +10,19 @@ const __dirname = path.dirname(__filename);
 
 import moment from 'moment-timezone';
 moment().tz("America/Guayaquil").format();
+
+const convertPdf = async (params, size) => {
+    try {
+        const datax = JSON.stringify({ name: size, content: params }) /*num, 3 is media hoja */
+        const requestOptions = { method: 'POST', headers: { 'Content-Type': 'application/json', }, body: datax };
+        const response = await fetch('https://reportes.chullmooecutkd.com/?op=Insert', requestOptions);
+        const data = await response.json();
+        const link = `https://reportes.chullmooecutkd.com/pdf/${data}.pdf`
+        return link;
+    } catch (error) {
+        return false
+    }
+}
 
 const getServicios = async () => {
     const reg = await Archivador.find({
@@ -75,8 +89,8 @@ export default {
     cajaHistorial: async (req, res) => {
         try {
             const fecha = fechaActual()
-            const caja = req.body?.data[0]
-            const { sales, inventario, detalles } = req.body?.data[0]
+            const caja = req.body
+            const { sales, inventario, detalles } = req.body
 
             let sumVentas = 0
             let ingresos = 0
@@ -98,6 +112,16 @@ export default {
                 contado: detalles.contado,
             });
             res.status(200).json(tema);
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json(error);
+        }
+    },
+    builfPdf: async (req, res) => {
+        try {
+            const box = req.body
+            const link = await convertPdf(box?.info, 3)
+            res.status(200).json(link);
         } catch (error) {
             console.log(error);
             return res.status(500).json(error);

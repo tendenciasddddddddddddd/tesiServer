@@ -3,9 +3,9 @@ const router = Router();
 
 import * as usuariosCtrl from "../controllers/cliente.controller.js";
 import { verifyToken } from "../middlewares/authJwt.js";
-import { checkDuplicateClientes } from "../middlewares/verifySignup.js";
+import { checkClientesCedula, checkClientesEmail } from "../middlewares/verifySignup.js";
 
-router.post("/", [verifyToken, checkDuplicateClientes], usuariosCtrl.create);
+router.post("/", [verifyToken, checkClientesCedula, checkClientesEmail], usuariosCtrl.create);
 
 router.get("/query", verifyToken, usuariosCtrl.query);
 

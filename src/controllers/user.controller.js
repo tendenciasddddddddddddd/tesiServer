@@ -1,26 +1,6 @@
 import User from "../models/User.js";
 import Role from "../models/Role.js";
 
-export const getUsuarios = async (req, res) => {
-  try {
-    const limit = parseInt(req.query.take);
-    const skip = parseInt(req.query.page);
-    const total = await User.countDocuments({  visible: true });
-    const paginas = Math.ceil(total / limit);
-    const reg = await User.find({ visible: true })
-      .skip(limit * skip - limit)
-      .limit(limit);
-    const coleccion = {
-      reg: reg,
-      pagina: skip,
-      paginas: paginas,
-      total: total,
-    };
-    return res.json(coleccion);
-  } catch (error) {
-    return res.status(500).json(err);
-  }
-};
 
 export const getBuscadorUsuarios = async (req, res) => {
   try {
@@ -55,6 +35,25 @@ export const getUsuariosById = async (req, res) => {
 };
 
 export const updateUsuariosById = async (req, res) => {
+  try {
+    const rolesFound = await Role.find({ name: 'Tramitador'});
+    req.body['roles'] = rolesFound.map((role) => role._id)
+    req.body.password = await User.encryptPassword(req.body.password);
+    
+    const updatedUsuarios = await User.findByIdAndUpdate(
+      req.params.usuariosId,
+      req.body,
+      {
+        new: true,
+      }
+    );
+    res.status(200).json(updatedUsuarios);
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+};
+
+export const updateRole = async (req, res) => {
   try {
     const updatedUsuarios = await User.findByIdAndUpdate(
       req.params.usuariosId,

@@ -40,6 +40,14 @@ export default {
       return res.status(500).json(error);
     }
   },
+  getSelectListas: async (req, res) => {
+    try {
+      const result = await Servicios.find({estado:1})
+      return res.json(result);
+    } catch (error) {
+      return res.status(500).json(error);
+    }
+  },
   getById: async (req, res) => {
     try {
       const { id } = req.params;

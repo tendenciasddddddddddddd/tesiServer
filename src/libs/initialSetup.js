@@ -21,20 +21,20 @@ export const createRoles = async () => {
 };
 
 export const createAdmin = async () => {
-  const user = await User.findOne({ email: "10004095632w@gmailcom" });
+  const user = await User.findOne({ email: "admin@gmailcom" });
   const roles = await Role.find({ name: { $in: ["Admin"] } });
   if (!user) {
     await User.create({
-      email: "10004095632w@gmail.com",
+      email: "admin@gmailcom",
       password: await bcrypt.hash("12345678", 4),
       roles: roles.map((role) => role._id),//****APARTIR DE A1QUI LOS NUEVOS DATOS
-      fullname: "MARTINEZ MARTINEZ ESTEBAN WLADIMIR",
-      cedula: "1004095632",
+      fullname: "ATUK",
+      cedula: "9999999999",
       foto: "https://res.cloudinary.com/dvpp07pji/image/upload/v1678812180/avatar_def_qkmwey.webp",
       estado: true,
       visible : false,
       telefono: "0969721145",
-      direccion: "PICHINCHA / QUITO",
+      direccion: "ECUADOR",
     });
     console.log('Admin User Created!')
   }

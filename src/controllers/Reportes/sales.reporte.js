@@ -19,9 +19,9 @@ const convertPdf = async (params, size) => {
     try {
         const datax = JSON.stringify({ name: size, content: params }) /*num, 3 is media hoja */
         const requestOptions = { method: 'POST', headers: { 'Content-Type': 'application/json', }, body: datax };
-        const response = await fetch('http://wls.guibis.com/?op=Insert', requestOptions);
+        const response = await fetch('https://reportes.chullmooecutkd.com/?op=Insert', requestOptions);
         const data = await response.json();
-        const link = `http://wls.guibis.com/pdf/${data}.pdf`
+        const link = `https://reportes.chullmooecutkd.com/pdf/${data}.pdf`
         return link;
     } catch (error) {
         return false

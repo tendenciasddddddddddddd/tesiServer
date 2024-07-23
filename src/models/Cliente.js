@@ -3,8 +3,11 @@ import bcrypt from "bcryptjs";
 
 const productSchema = new Schema(
   {
-    email: String,
     identificacion: {
+      type: String,
+      unique: true,
+    },
+    email: {
       type: String,
       unique: true,
     },

@@ -18,10 +18,13 @@ export default {
             for (let i = 0; i < result.length; i++) {
                 let element = {}
                 element = result[i];
-                element['search1'] = result[i]?.cliente?.nombres
-                element['search2'] = result[i]?.servicio?.nombre
+                element.search1 = result[i]?.cliente?.nombres
+                element.search3 = result[i]?.cliente?.identificacion
+                element.search2 = result[i]?.servicio?.nombre
+                element.abono = result[i]?.pagos.reduce((n, {monto}) => n + monto, 0)
                 info.push(element)
             }
+           // console.log(info);
             return res.json(info);
         } catch (error) {
             return res.status(500).json(error);
@@ -34,8 +37,10 @@ export default {
             for (let i = 0; i < result.length; i++) {
                 let element = {}
                 element = result[i];
-                element['search1'] = result[i]?.cliente?.nombres
-                element['search2'] = result[i]?.servicio?.nombre
+                element.search1 = result[i]?.cliente?.nombres
+                element.search3 = result[i]?.cliente?.identificacion
+                element.search2 = result[i]?.servicio?.nombre
+                element.abono = result[i]?.pagos.reduce((n, {monto}) => n + monto, 0)
                 if(result[i]?.estado === true){
                     info.push(element)
                 }

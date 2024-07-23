@@ -45,8 +45,6 @@ app.set('view engine', 'ejs');
 
 app.use(compression())
 
-app.use('/uploads/documentos_xml/', express.static(path.join(__dirname, '..', 'documentos_xml')))
-
 app.use("/api/auth", authRoutes);
 app.use("/api/users", usuarioRoutes);
 app.use("/api/cliente", clienteRoutes);

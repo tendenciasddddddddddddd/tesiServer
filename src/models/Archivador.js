@@ -30,6 +30,9 @@ const resSchema = new Schema(
     nota : String,
     search1 : String,
     search2 : String,
+    search3 : String,
+    abono : String,
+    entrega : Boolean,
     arrRequisitos : [{
       fecha: Date,
       departamento: String,

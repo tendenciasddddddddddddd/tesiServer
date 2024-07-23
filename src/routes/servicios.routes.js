@@ -6,6 +6,8 @@ import { verifyToken } from "../middlewares/authJwt.js";
 
 router.get("/list", Ctrl.getListas);
 
+router.get("/select", Ctrl.getSelectListas);
+
 router.get("/query",verifyToken, Ctrl.query);
 
 router.get("/:id",verifyToken, Ctrl.getById);

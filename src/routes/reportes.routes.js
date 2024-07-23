@@ -11,6 +11,8 @@ router.post("/buildpdf/",[ verifyToken], Ctrl.buildPdf);
 
 router.post("/buildpdfabonos/",[ verifyToken], Ctrl.buildPdfAbonos);
 
+router.post("/buildcaja/",[ verifyToken], rCaj.builfPdf);
+
 router.post("/abonos",[ verifyToken], Ctrl.Abonos);
 
 router.get("/cierrecaja/",[ verifyToken], rCaj.cajaAbierta);
